@@ -4,8 +4,6 @@
  * Abstract class with commin synchronisation functions
  */
 abstract class ATSync {
-  public $address_person = 'person/';
-  public $address_tracker = 'tracker/';
   public $entity;
   public $entity_type;
   public $id = FALSE;
@@ -133,6 +131,10 @@ abstract class ATSync {
         watchdog('at_core_sync', $message, array(), WATCHDOG_WARNING);
         break;
     }
+    // Debug.
+    $full_request = $method . ' ' . at_core_sync_get_api_url() . ':' . at_core_sync_get_port() . '/' . $address;
+    _asd($data, $full_request , $response);
+
     return json_decode($response);
   }
 
@@ -150,6 +152,9 @@ abstract class ATSync {
   public function delete() {
     if ($this->core_id) {
       return ATSync::requestToCore($this->address . '/' . $this->core_id, array(), 'DELETE');
+    }
+    if ($this->day_dmy) {
+      return ATSync::requestToCore($this->address, array(), 'DELETE');
     }
   }
 
@@ -206,9 +211,6 @@ class ATSyncContest extends ATSync {
       $response = $this->request($data);
       $this->updateCoreID($response->id);
     }
-
-    _asd($data, $this->address, $response);
-
     return !empty($response->id) ? $response->id : FALSE;
   }
 }
@@ -223,13 +225,16 @@ abstract class ATSyncNestedInContest extends ATSync {
 
   public function __construct($entity_type, $entity) {
     parent::__construct($entity_type, $entity);
-    $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
     $this->contest = get_contest_for_entity($entity);
     $this->contest_core_id = get_core_id_from_entity('node', $this->contest);
     if (!$this->contest_core_id) {
       // Synchronize contest if not synchronized
       $sync = _get_class_by_entity('node', $this->contest);
       $this->contest_core_id = $sync->synchronize();
+      if (!$this->contest_core_id) {
+        ATSync::setMessage(t('Core API: Contest synchronize error.'));
+        return FALSE;
+      }
     }
     $this->address_contest .= $this->contest_core_id . '/';
   }
@@ -254,11 +259,10 @@ class ATSyncCustom extends ATSyncNestedInContest {
     $ogm_wrapper = entity_metadata_wrapper('og_membership', $og_membership);
     // Get values.
     $this->name = $entity->title;
-    $phone = $og_membership->field_phone[LANGUAGE_NONE][0]['full_number'];
     $tracker = $ogm_wrapper->field_tracker->value();
     // todo check phone & tracker for empty valies
     $this->tracker = $tracker ? $tracker : '-';
-    $this->phone = $phone ? $phone : '+000000';
+    $this->phone = ($phone = get_phone($og_membership)) ? $phone : '+000000';
     $this->type = $entity_wrapper->field_customobject_type->value();
     $description = $entity_wrapper->field_plain_body->value();
     $this->description = $description ? $description['value'] : '';
@@ -282,7 +286,6 @@ class ATSyncCustom extends ATSyncNestedInContest {
       $response = $this->request($data);
       $this->updateCoreID($response->id);
     }
-    _asd($data, $this->address, $response);
     return !empty($response->id) ? $response->id : FALSE;
   }
 }
@@ -307,126 +310,82 @@ class ATSyncTrackedObject extends ATSyncNestedInContest {
 }
 
 /**
- * Class for synchronization person
+ * Class for synchronization user
  */
-class ATSyncPerson extends ATSync {
-  public $address = 'person';
-
+class ATSyncUser extends ATSync {
   public function synchronize() {
-    $profile2 = profile2_load_by_user($this->entity);
-    if (!isset($profile2['pilot'])) {
-      ATSync::setMessage('Core API: User is not a pilot, no need to synchronize');
+    $profile = profile2_load_by_user($this->entity);
+    $user_wrapper = entity_metadata_wrapper('user', $this->entity);
+    if (empty($profile['main']) || empty($profile['pilot'])) {
+      ATSync::setMessage('Core API: User has no profiles.');
       return FALSE;
     }
-
-    $data = array(
-      'name' => $profile2['main']->field_full_name[LANGUAGE_NONE][0]['given'],
-      'surname' => $profile2['main']->field_full_name[LANGUAGE_NONE][0]['family'],
-      'country' => $profile2['pilot']->field_address[LANGUAGE_NONE][0]['country'],
-      'email' => $this->entity->mail,
-      'reg_date' => date('Y,m,d', $this->entity->created),
-    );
-
-    if (!empty($this->entity->field_phone[LANGUAGE_NONE][0]['number'])) {
-      $full_number = '';
-      $number = $this->entity->field_phone[LANGUAGE_NONE][0]['number'];
-      $countrycode = $this->entity->field_phone[LANGUAGE_NONE][0]['country_codes'];
-      $cc = cck_phone_countrycodes();
-      $full_number = '';
-      if ($countrycode && isset($cc[$countrycode])) {
-        $full_number = $cc[$countrycode]['code'] . $number;
-      }
-      $data['phone'] = $full_number;
-    }
     if ($this->core_id) {
-      $this->address .= '/' . $this->core_id;
-      $response = $this->request($data, "PUT");
+      return $this->core_id;
     }
     else {
-      $response = $this->request($data);
-      $this->updateCoreID($response->id);
+      // Generate new person id, and save user.
+      // During saving user will be synced with LDAP.
+      $person_id = generate_person_id();
+      // Save field values without saving user entity. This need to avoid recursion on hook_entity_update().
+      $this->entity->field_core_id[LANGUAGE_NONE][0]['value'] = $person_id;
+      field_attach_update('user', $this->entity);
+      // Save entity, this is needed to run syncing user with LDAP. Function ATSyncUser->sync will be called one
+      // more time, but in next time we already have core_id in entity, so no problems with recursion.
+      $user_wrapper->save();
+      return $person_id;
     }
-
-    _asd($data, $this->address, $response);
-
-    return !empty($response->id) ? $response->id : FALSE;
   }
 }
 
 /**
  * Class for synchronization pilot
  */
-class ATSyncPilot extends ATSync {
-  public $address = 'contest/';
-  public $person_core_id = '';
-  public $contest = NULL;
-  public $contest_core_id = '';
+abstract class ATSyncPilot extends ATSyncNestedInContest {
+  public $core_id = '';
   public $tracker = NULL;
   public $person = NULL;
+  public $phone = NULL;
+  public $country = NULL;
+  public $pilot = NULL;
 
   public function __construct($entity_type, $entity) {
     parent::__construct($entity_type, $entity);
-    $this->contest = node_load($this->entity->gid, NULL, TRUE);
-    $this->contest_core_id = get_core_id_from_entity('node', $this->contest);
     $this->person = user_load($this->entity->etid, TRUE);
-    $this->tracked_core_id = get_core_id_from_entity('user', $this->person);
+    $this->profile = profile2_load_by_user($this->person);
+    $this->core_id = get_core_id_from_entity('user', $this->person);
     $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
+    $this->pilot = $entity_wrapper;
     $this->tracker = $entity_wrapper->field_tracker->value();
+    $this->address = $this->address_contest . $this->address;
   }
 
   public function synchronize() {
+    // Do not write to Core API, if status is not confirmed / winddummy.
+    if (!in_array(
+      $this->pilot->field_pg_contestant_status->value(),
+      array(AIRTRIBUNE_PG_CONTESTANT_CONFIRMED, AIRTRIBUNE_PILOT_STATUS_WINDDUMMY)
+    )) {
+      return FALSE;
+    }
     $entity_wrapper = entity_metadata_wrapper('og_membership', $this->entity);
-    // Send only if status is confirmed
-    if ($entity_wrapper->field_pg_contestant_status->value() != AIRTRIBUNE_PG_CONTESTANT_CONFIRMED) {
-      // todo remove from cores if not conf
-        return FALSE;
-    }
-    if (!$this->contest_core_id) {
-      // Synchronize contest if not synchronized
-      $sync = _get_class_by_entity('node', $this->contest);
-      $this->contest_core_id = $sync->synchronize();
-    }
-    $this->person->field_phone = $this->entity->field_phone;
-    if (!$this->tracked_core_id) {
+    $pilot_wrapper = entity_metadata_wrapper('profile2', $this->profile['pilot']);
+    if (!$this->core_id) {
       // Synchronize person if not synchronized
       $sync = _get_class_by_entity('user', $this->person);
-      $this->tracked_core_id = $sync->synchronize();
+      $this->core_id = $sync->synchronize();
     }
-    else {
-      $resp = ATSync::requestToCore('person/' . $this->tracked_core_id, '', 'GET');
-      if (isset($resp->error)) {
-        ATSync::setMessage($resp->error . '. ' . $resp->message, 'error');
-        return FALSE;
-      }
-      // Synchronize person for save phone
-      $sync = _get_class_by_entity('user', $this->person);
-      $this->tracked_core_id = $sync->synchronize();
-    }
-    $this->address = implode('/', array('contest', $this->contest_core_id, 'paraglider'));
     $data = array(
-      'person_id' => $this->tracked_core_id,
+      'id' => $this->core_id,
+      'name' => get_full_name($this->person),
       'glider' => $entity_wrapper->field_paraglider_manufacturer->value(),
       'contest_number' => $entity_wrapper->field_contestant_number->value(),
+      'phone' => get_phone($this->entity),
+      'country' => $pilot_wrapper->field_address->country->value(),
     );
 
-    $this->core_id = FALSE;
-    // Check paraglider resource
-    /*
-    $resp = ATSync::requestToCore($this->address . '/' . $this->person_core_id, '', 'GET');
-    if (isset($resp->id)) {
-      $this->core_id = $resp->id;
-    }
-    */
-    if ($this->core_id) {
-      $this->address .= '/' . $this->core_id;
-      $response = $this->request($data, "PUT");
-    }
-    else {
-      $response = $this->request($data);
-    }
-
-    _asd($data, $this->address, $response);
-
+    $this->address .= '/' . $this->core_id;
+    $response = $this->request($data, "PUT");
     return !empty($response->id) ? $response->id : FALSE;
   }
 }
@@ -434,73 +393,17 @@ class ATSyncPilot extends ATSync {
 /**
  * Class for synchronization winddummy
  */
-class ATSyncWindDummy extends ATSync {
-  public $address = 'contest/';
-  public $person_core_id = '';
-  public $contest = NULL;
-  public $contest_core_id = '';
-  public $tracker = NULL;
-  public $person = NULL;
-
-  public function __construct($entity_type, $entity) {
-    parent::__construct($entity_type, $entity);
-    $this->contest = node_load($this->entity->gid, NULL, TRUE);
-    $this->contest_core_id = get_core_id_from_entity('node', $this->contest);
-    $this->person = user_load($this->entity->etid, TRUE);
-    $this->tracked_core_id = get_core_id_from_entity('user', $this->person);
-    $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
-    $this->tracker = $entity_wrapper->field_tracker->value();
-  }
-
-  public function synchronize() {
-    // Send only if status is confirmed
-    if ($this->entity->field_pg_contestant_status[LANGUAGE_NONE][0]['value'] != 4) {
-      return FALSE;
-    }
-    if (!$this->contest_core_id) {
-      // Synchronize contest if not synchronized
-      $sync = _get_class_by_entity('node', $this->contest);
-      $this->contest_core_id = $sync->synchronize();
-    }
-    $this->person->field_phone = $this->entity->field_phone;
-    if (!$this->tracked_core_id) {
-      // Synchronize person if not synchronized
-      $sync = _get_class_by_entity('user', $this->person);
-      $this->tracked_core_id = $sync->synchronize();
-    }
-    else {
-      $resp = ATSync::requestToCore('person/' . $this->tracked_core_id, '', 'GET');
-      if (isset($resp->error)) {
-        ATSync::setMessage($resp->error . '. ' . $resp->message, 'error');
-        return FALSE;
-      }
-      // Synchronize person for save phone
-      $sync = _get_class_by_entity('user', $this->person);
-      $this->tracked_core_id = $sync->synchronize();
-    }
-    $this->address = implode('/', array('contest', $this->contest_core_id, 'winddummy'));
-    $data = array(
-      'person_id' => $this->tracked_core_id,
-      'glider' => $this->entity->field_paraglider_manufacturer[LANGUAGE_NONE][0]['value'],
-      'contest_number' => $this->entity->field_contestant_number[LANGUAGE_NONE][0]['value'],
-    );
-
-    $this->core_id = FALSE;
-    if ($this->core_id) {
-      $this->address .= '/' . $this->core_id;
-      $response = $this->request($data, "PUT");
-    }
-    else {
-      $response = $this->request($data);
-    }
-
-    _asd($data, $this->address, $response);
-
-    return !empty($response->id) ? $response->id : FALSE;
-  }
+class ATSyncWindDummy extends ATSyncPilot {
+  public $address = 'winddummy';
 }
 
-// todo day delete
+/**
+ * Class for synchronization glider
+ */
+class ATSyncGlider extends ATSyncPilot {
+  public $address = 'paraglider';
+}
+
 /**
  * Class for synchronization day
  */
@@ -530,7 +433,6 @@ class ATSyncDay extends ATSyncNestedInContest {
       'status' => $this->day_status,
     );
     $response = $this->request($data, "PUT");
-    _asd($data, $this->address, $response);
     return !empty($response->id) ? $response->id : FALSE;
   }
 }
@@ -538,101 +440,89 @@ class ATSyncDay extends ATSyncNestedInContest {
 /**
  * Class for synchronization race
  */
-class ATSyncRace extends ATSync {
-  public $address = 'contest/';
+class ATSyncRace extends ATSyncNestedInContest {
+  public $address = 'race';
 
   public function __construct($entity_type, $entity) {
     parent::__construct($entity_type, $entity);
-    $gid = _airtribune_get_gid($entity_type, $entity);
-    $this->contest = node_load($gid, NULL, TRUE);
-    $this->contest_core_id = get_core_id_from_entity('node', $this->contest);
+    $this->address = $this->address_contest . $this->address;
   }
 
   public function synchronize() {
     geophp_load();
-    $day_id = $this->entity->field_day_ref[LANGUAGE_NONE][0]['target_id'];
-    if (!isset($this->contest)) {
-      ATSync::setMessage(t('ATSyncRace: Unable to load contest'));
-      return FALSE;
-    }
     $time_zone = $this->contest->field_time_zone[LANGUAGE_NONE][0]['value'];
-
-    if (!$this->contest_core_id) {
-      ATSync::setMessage(t('Core API: Contest not synchronized yet.'));
+    $race_wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $this->entity);
+    $racetype = $race_wrapper->field_pg_racetype_ref->value();
+    if (!$racetype) {
+      ATSync::setMessage('Race type is not specified, the race sync is stopped.', 'error');
       return FALSE;
     }
+    $racetype_wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACETYPE_ENTITY_TYPE, $racetype);
+    $title = 'Task ' . $race_wrapper->field_race_number->value();
 
-    $this->address = implode('/', array('contest', $this->contest_core_id, 'race'));
-    $title = 'Task ' . $this->entity->field_race_number[LANGUAGE_NONE][0]['value'];
-    $data = array(
-      //'title' => $this->entity->title,
-      'title' => $title,
+    $race_time = $race_wrapper->field_race_start_end->value();
+    $window_time = $race_wrapper->field_pg_race_window_open_close->value();
+    $data['properties'] = array(
+      'start_time' => strtotime($race_time['value'] . ' ' . $time_zone),
+      'deadline' => strtotime($race_time['value2'] . ' ' . $time_zone),
+      'window_open' => strtotime($window_time['value'] . ' ' . $time_zone),
+      'window_close' => strtotime($window_time['value2'] . ' ' . $time_zone),
     );
-    $data['start_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value'] . ' ' . $time_zone);
-    $data['end_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value2'] . ' ' . $time_zone);
-    $window_time['open_time'] = strtotime($this->entity->field_pg_race_window_open_close[LANGUAGE_NONE][0]['value'] . ' ' . $time_zone);
-    $window_time['close_time'] = strtotime($this->entity->field_pg_race_window_open_close[LANGUAGE_NONE][0]['value2'] . ' ' . $time_zone);
-    $racetype_ref = $this->entity->field_pg_racetype_ref[LANGUAGE_NONE][0]['target_id'];
-    $racetype = array_pop(entity_load(AIRTRIBUNE_RACETYPE_ENTITY_TYPE, array($racetype_ref), array(), TRUE));
     switch ($racetype->type) {
       case 'pg_racetype_rtg':
-        $data['race_type'] = 'racetogoal';
+        $data['type'] = 'racetogoal';
+        $data['properties'] += array(
+          'gates_number' => $racetype_wrapper->field_pg_race_gates_number->value(),
+          'gates_interval' => $racetype_wrapper->field_pg_race_gates_interval->value(),
+        );
         break;
 
       case 'pg_racetype_od':
-        $data['race_type'] = 'opendistance';
-        if (isset($racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value']) && is_numeric($racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value'])) {
-          $data['bearing'] = $racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value'];
+        $data['type'] = 'opendistance';
+        if (isset($racetype_wrapper->field_pg_race_azimuth)) {
+          $data['properties']['bearing'] = (int) $racetype_wrapper->field_pg_race_azimuth->value();
         }
         break;
 
       case 'pg_racetype_sr':
-        $data['race_type'] = 'speedrun';
+        $data['type'] = 'speedrun';
         break;
     }
-    $point_ref = array();
-    foreach ($racetype->field_pg_race_points[LANGUAGE_NONE] as $pref) {
-      $point_ref[] = $pref['target_id'];
-    }
-    $points = entity_load(AIRTRIBUNE_POINT_ENTITY_TYPE, $point_ref, array(), TRUE);
-    $checkpoints = array();
+    // Prepare checkpoints.
+    $points = $racetype_wrapper->field_pg_race_points->value();
     $checkpoints['type'] = 'FeatureCollection';
     $checkpoints['features'] = array();
     $delta = 0;
     foreach ($points as $point) {
-      $point_data = array();
-      $point_data['type'] = 'Feature';
-      $point_data['geometry'] = array();
-      $contest_point_ref = $point->field_point_ref[LANGUAGE_NONE][0]['target_id'];
-      $contest_point = array_pop(entity_load(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, array($contest_point_ref), array(), TRUE));
+      $contest_point = entity_load_single(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, $point->field_point_ref[LANGUAGE_NONE][0]['target_id']);
       $wkt = $contest_point->field_point_location[LANGUAGE_NONE][0]['geom'];
       $geom = geoPHP::load($wkt);
       $coordinates = json_decode($geom->out('json'), TRUE);
-
-      $point_data['geometry'] = $coordinates;
-      $point_data['properties'] = array();
-      $point_data['properties']['radius'] = $point->field_point_radius[LANGUAGE_NONE][0]['value'];
-      $point_data['properties']['name'] = $contest_point->title;
-
-      if ($point->field_point_type[LANGUAGE_NONE][0]['value'] == 'exit') {
-        $point_data['properties']['checked_on'] = $point->field_point_type[LANGUAGE_NONE][0]['value'];
-      }
-
-      $point_data['properties']['checkpoint_type'] = 'ordinal';
+      $point_data = array(
+        'type' => 'Feature',
+        'geometry' => $coordinates,
+        'properties' => array(
+          'name' => $contest_point->title,
+          'radius' => (int) $point->field_point_radius[LANGUAGE_NONE][0]['value'],
+          'checked_on' => $point->field_point_type[LANGUAGE_NONE][0]['value'],
+          'checkpoint_type' => 'ordinal',
+        )
+      );
       if (!empty($point->field_point_ss_es[LANGUAGE_NONE][0]['value'])) {
         $point_data['properties']['checkpoint_type'] = $point->field_point_ss_es[LANGUAGE_NONE][0]['value'];
       }
       if ($delta == 0) {
-        $point_data['properties']['checkpoint_type'] = 'to';
-        $point_data['properties']['open_time'] = $window_time['open_time'];
-        $point_data['properties']['close_time'] = $window_time['close_time'];
+        $point_data['properties'] += array(
+          'checkpoint_type' => 'to',
+          'open_time' => $data['properties']['window_open'],
+          'close_time' => $data['properties']['window_close'],
+        );
       }
-      switch ($data['race_type']) {
+      switch ($data['type']) {
         case 'speedrun':
         case 'racetogoal':
           if ($delta == count($points) - 1) {
             $point_data['properties']['checkpoint_type'] = 'goal';
-
             // Goal as Line
             if ($point->field_point_type[LANGUAGE_NONE][0]['value'] == 'line') {
               $point_data['geometry']['type'] = 'LineString';
@@ -641,74 +531,51 @@ class ATSyncRace extends ATSync {
             }
           }
           if (in_array($point_data['properties']['checkpoint_type'], array('ss', 'es', 'goal'))) {
-            $point_data['properties']['open_time'] = $data['start_time'];
-            $point_data['properties']['close_time'] = $data['end_time'];
+            $point_data['properties']['open_time'] = $data['properties']['start_time'];
+            $point_data['properties']['close_time'] = $data['properties']['deadline'];
           }
-
           break;
-
         case 'opendistance':
           if (($delta == count($points) - 1) || in_array($point_data['properties']['checkpoint_type'], array('ss'))) {
-            $point_data['properties']['open_time'] = $data['start_time'];
-            $point_data['properties']['close_time'] = $data['end_time'];
+            $point_data['properties']['open_time'] = $data['properties']['start_time'];
+            $point_data['properties']['close_time'] = $data['properties']['deadline'];
           }
           break;
       }
       $delta++;
       $checkpoints['features'][] = $point_data;
     }
-    $data_url = $data;
-    $data_url .= '&checkpoints=' . json_encode($checkpoints);
+    // Request
+    $data += array(
+      'checkpoints' => $checkpoints,
+      'title' => $title,
+    );
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
-      $edit = array(
-        'title' => $title,
-        'checkpoints' => $checkpoints,
-      );
-      $response = $this->request(json_encode($edit), "PUT");
+      $response = $this->request($data, "PUT");
     }
     else {
-      $response = $this->request($data_url);
+      $response = $this->request($data);
       if (!empty($response->id)) {
         $this->updateCoreID($response->id);
       }
     }
-
-    _asd(json_encode($data_url), $this->address, $response);
-
-    if (!empty($response->id)) {
-      return $response->id;
+    // Write optimal distance to race.
+    if (!empty($response->optdistance)) {
+      $this->entity->field_optdistance[LANGUAGE_NONE][0]['value'] = $response->optdistance;
+      field_attach_update($this->entity_type, $this->entity);
     }
-    else {
-      return FALSE;
-    }
+    return !empty($response->id) ? $response->id : FALSE;
   }
 
   public function pushTracks() {
-    $fid = !empty($this->entity->field_pg_race_tracks[LANGUAGE_NONE][0]['fid']) ? $this->entity->field_pg_race_tracks[LANGUAGE_NONE][0]['fid'] : FALSE;
-    if ($fid) {
-      if (!$this->contest) {
-        ATSync::setMessage(t('ATSyncRace: Unable to load contest'));
-        return FALSE;
-      }
-      $time_zone = $this->contest->field_time_zone[LANGUAGE_NONE][0]['value'];
-      if (!$this->contest_core_id) {
-        ATSync::setMessage(t('Core API: Contest not synchronized yet.'));
-        return FALSE;
-      }
-
-      $this->address = implode('/', array('contest', $this->contest_core_id, 'race'));
+    $race_wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $this->entity);
+    if ($tracks = $race_wrapper->field_pg_race_tracks) {
       if ($this->core_id) {
-        $this->address = implode('/', array(
-          'contest',
-          $this->contest_core_id,
-          'race',
-          $this->core_id,
-          'track_archive'
-        ));
-        $url = 'url=' . file_create_url(file_load($fid)->uri);
-        $response = $this->request($url);
-        _asd($url, $this->address, $response);
+        $this->address .= $this->core_id . '/track_archive';
+        $file = $tracks->value();
+        $data = array('url' => file_create_url($file['uri']));
+        $response = $this->request($data);
       }
       else {
         ATSync::setMessage(t('Core API: Unable to send tracks. Race not synchronized yet.'));
@@ -723,43 +590,46 @@ class ATSyncRace extends ATSync {
  */
 class ATSyncTracker extends ATSync {
   public $address = 'tracker';
+  public $device_id = '';
+  public $tracker_type = '';
 
-  public function synchronize() {
-    $wrapper = entity_metadata_wrapper(AIRTRIBUNE_TRACKER_TYPE, $this->entity);
+  public function __construct($entity_type, $entity) {
+    parent::__construct($entity_type, $entity);
+    $wrapper = entity_metadata_wrapper(AIRTRIBUNE_TRACKER_TYPE, $entity);
     $field_tracker_type = $wrapper->field_tracker_type->value();
-    $field_device_id = $wrapper->field_device_id->value();
-    $device_type = $field_tracker_type->title;
+    $this->device_id = $wrapper->field_device_id->value();
+    $this->device_type = $field_tracker_type->title;
+  }
+  public function synchronize() {
     $data = array(
-      'device_id' => $field_device_id,
-      'device_type' => $device_type,
+      'device_id' => $this->device_id,
+      'device_type' => $this->device_type,
       'name' => $this->entity->title,
     );
 
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
-      $data_update['name'] = $data['name'];
-      $response = $this->request($data_update, 'PUT');
+      $response = $this->request($data, 'PUT');
     }
     else {
       $response = $this->request($data);
       $this->updateCoreID($response->id);
     }
-    _asd($data, $this->address, $response);
     return !empty($response->id) ? $response->id : FALSE;
   }
 
-  public function assignee($person_id = '', $contest_id = '') {
-    $response = FALSE;
+  public function assignee($person_id = '') {
     $data = array(
-      'name' => $this->entity->title,
-      'assignee' => $person_id,
-      'contest_id' => $contest_id,
+      'owner' => $person_id,
     );
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
-      $response = $this->request($data, 'PUT');
-      _asd($data, $this->address, $response);
+      $response = $this->request($data, 'PATCH');
+      return $response;
     }
-    return $response;
+    else {
+      ATSync::setMessage(t('Core API: This tracker not synchronized yet.'));
+      return FALSE;
+    }
   }
 }

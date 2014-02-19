@@ -71,6 +71,10 @@ function ldap_servers_token_replace($resource, $text, $resource_type = 'ldap_ent
     break;
   }
 
+  // Add alter tokens hook
+  // See https://drupal.org/node/2198137
+  drupal_alter('ldap_servers_token_replace', $tokens, $resource, $text, $resource_type);
+
   // add lowercase tokens to avoid case sensitivity
   foreach ($tokens as $attribute => $value) {
     $tokens[drupal_strtolower($attribute)] = $value;
