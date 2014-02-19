@@ -231,6 +231,10 @@ abstract class ATSyncNestedInContest extends ATSync {
       // Synchronize contest if not synchronized
       $sync = _get_class_by_entity('node', $this->contest);
       $this->contest_core_id = $sync->synchronize();
+      if (!$this->contest_core_id) {
+        ATSync::setMessage(t('Core API: Contest synchronize error.'));
+        return FALSE;
+      }
     }
     $this->address_contest .= $this->contest_core_id . '/';
   }
@@ -358,11 +362,6 @@ class ATSyncPilot extends ATSyncNestedInContest {
   public function synchronize() {
     $entity_wrapper = entity_metadata_wrapper('og_membership', $this->entity);
     $pilot_wrapper = entity_metadata_wrapper('profile2', $this->profile['pilot']);
-    // Send only if status is confirmed
-    if ($entity_wrapper->field_pg_contestant_status->value() != AIRTRIBUNE_PG_CONTESTANT_CONFIRMED) {
-      // todo remove from cores if not conf
-        return FALSE;
-    }
     if (!$this->core_id) {
       // Synchronize person if not synchronized
       $sync = _get_class_by_entity('user', $this->person);
@@ -615,29 +614,13 @@ class ATSyncRace extends ATSyncNestedInContest {
   }
 
   public function pushTracks() {
-    $fid = !empty($this->entity->field_pg_race_tracks[LANGUAGE_NONE][0]['fid']) ? $this->entity->field_pg_race_tracks[LANGUAGE_NONE][0]['fid'] : FALSE;
-    if ($fid) {
-      if (!$this->contest) {
-        ATSync::setMessage(t('ATSyncRace: Unable to load contest'));
-        return FALSE;
-      }
-      $time_zone = $this->contest->field_time_zone[LANGUAGE_NONE][0]['value'];
-      if (!$this->contest_core_id) {
-        ATSync::setMessage(t('Core API: Contest not synchronized yet.'));
-        return FALSE;
-      }
-
-      $this->address = implode('/', array('contest', $this->contest_core_id, 'race'));
+    $race_wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $this->entity);
+    if ($tracks = $race_wrapper->field_pg_race_tracks) {
       if ($this->core_id) {
-        $this->address = implode('/', array(
-          'contest',
-          $this->contest_core_id,
-          'race',
-          $this->core_id,
-          'track_archive'
-        ));
-        $url = 'url=' . file_create_url(file_load($fid)->uri);
-        $response = $this->request($url);
+        $this->address .= $this->core_id . '/track_archive';
+        $file = $tracks->value();
+        $data = array('url' => file_create_url($file['uri']));
+        $response = $this->request($data);
       }
       else {
         ATSync::setMessage(t('Core API: Unable to send tracks. Race not synchronized yet.'));
