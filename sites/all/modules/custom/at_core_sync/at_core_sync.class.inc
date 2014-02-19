@@ -131,7 +131,10 @@ abstract class ATSync {
         watchdog('at_core_sync', $message, array(), WATCHDOG_WARNING);
         break;
     }
-    _asd($data, $address, $response);
+    // Debug.
+    $full_request = $method . ' ' . at_core_sync_get_api_url() . ':' . at_core_sync_get_port() . '/' . $address;
+    _asd($data, $full_request , $response);
+
     return json_decode($response);
   }
 

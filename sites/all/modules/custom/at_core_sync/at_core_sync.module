@@ -45,20 +45,19 @@ function _get_class_by_entity($entity_type, $entity) {
 }
 
 /**
- * Implements hook_entity_update().
- */
-function at_core_sync_entity_update($entity, $type) {
-  at_core_sync_entity_sync($type, $entity);
-  at_core_sync_other_sync($type, $entity);
-}
-
-/**
  * Implements hook_entity_delete().
  */
 function at_core_sync_entity_delete($entity, $type) {
   at_core_sync_entity_sync($type, $entity, 'delete');
 }
 
+/**
+ * Implements hook_entity_update().
+ */
+function at_core_sync_entity_update($entity, $type) {
+  at_core_sync_entity_sync($type, $entity);
+  at_core_sync_other_sync($type, $entity);
+}
 
 /**
  * Implements hook_entity_insert().
@@ -176,19 +175,19 @@ function _d($var) {
  * _at_sync_debug function
  *
  * @param $var - variable for debug
- * @param $url - Core API url for debug
+ * @param $request - string, contains: method, url, port to Core API
  * @param $response - response from Core API
  */
-function _asd($var, $url = NULL, $response = NULL) {
+function _asd($var, $request = NULL, $response = NULL) {
   $debug = variable_get('at_core_sync_debug_mode', 0);
   if ($debug) {
     // ATSync::setMessage(t('<strong>Core API sync:</strong>&nbsp;Debug mode is ON.'), 'warning');
     $message = '';
-    if (isset($url)) {
-      $message_url = '<b>URL:</b> ' . at_core_sync_get_api_url() . '/' . $url;
+    if (isset($request)) {
+      $message_url = "<b>$request</b>";
       $message = $message_url . '<br />';
     }
-    $message .= '<b>Request:</b> <pre>' . $var . '</pre>';
+    $message .= '<b>Data:</b> <pre>' . $var . '</pre>';
     ATSync::setMessage($message, 'warning');
     if (isset($response)) {
       $message_response = '<b>Response:</b> <pre>' . print_r($response, TRUE)  . '</pre>';
