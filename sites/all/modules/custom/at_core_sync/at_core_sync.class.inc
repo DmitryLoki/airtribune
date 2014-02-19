@@ -153,6 +153,9 @@ abstract class ATSync {
     if ($this->core_id) {
       return ATSync::requestToCore($this->address . '/' . $this->core_id, array(), 'DELETE');
     }
+    if ($this->day_dmy) {
+      return ATSync::requestToCore($this->address, array(), 'DELETE');
+    }
   }
 
   public function updateCoreID($id) {
