@@ -115,8 +115,7 @@ function approve_team_leader_ajax_callback($form, &$form_state) {
   $team_leader_set = $form_state['complete form']['approve_team_leader']['#checked'];
   $team_country = $form_state['complete form']['approve_team_leader']['#attributes']['data-country'][0];
   $team_entity = $form_state['complete form']['team_entity']['#value'];
-  $event_nid = _airtribune_get_gid($team_entity->entityType(), $team_entity);
-  $event = node_load($event_nid);
+  $contest = get_contest_for_entity($team_entity);
   if (!$team_leader_set) {
     // Set uid=1 as default empty value
     // @todo use another value by default
@@ -128,8 +127,8 @@ function approve_team_leader_ajax_callback($form, &$form_state) {
     $country = country_load($team_country);
     $options['replacements'] = array(
       '@fullname' => $fullname,
-      '@event_name' => trim($event->title),
-      '@event_manage_team_link' => url('event/' . $event_nid . '/pilots/manage/teams/' . $team_entity->id, array('absolute' => TRUE)),
+      '@event_name' => trim($contest->title),
+      '@event_manage_team_link' => url('event/' . $contest->nid . '/pilots/manage/teams/' . $team_entity->id, array('absolute' => TRUE)),
       '@country' => $country->name,
     );
 
