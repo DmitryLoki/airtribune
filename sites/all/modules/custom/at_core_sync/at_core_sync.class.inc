@@ -274,29 +274,32 @@ abstract class ATSyncNestedInContest extends ATSync {
 /**
  * Class for synchronization custom object
  */
-class ATSyncCustom extends ATSyncNestedInContest {
-  public $address = 'staff';
+abstract class ATSyncCustom extends ATSyncNestedInContest {
   public $name = '';
   public $type = '';
   public $phone = '';
+  public $email = '';
   public $description = '';
 
   public function __construct($entity_type, $entity) {
+    $og_membership = $entity;
+    // We get membership, so load referenced entity.
+    $entity_type = $entity->entity_type;
+    $entity = entity_load_single($entity_type, $entity->etid);
     parent::__construct($entity_type, $entity);
     $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
-    // Load membership.
-    $og_group_ref = $entity_wrapper->{OG_AUDIENCE_FIELD}[0]->raw();
-    $og_membership = og_get_membership('node', $og_group_ref, AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->entity->id);
-    $ogm_wrapper = entity_metadata_wrapper('og_membership', $og_membership);
     // Get values.
-    $this->name = $entity->title;
-    // todo check phone & tracker for empty valies
-    $this->tracker = get_tracker($this->entity_type, $this->entity);
+    if ($entity_type == 'ent_customobject')
+      $this->name = $entity->title;
+    elseif ($entity_type == 'user') {
+      $this->name = get_full_name($entity);
+      $this->email = $entity->mail;
+    }
+    $this->tracker = get_tracker('og_membership', $og_membership);
     $this->phone = ($phone = get_phone($og_membership)) ? $phone : '+000000';
     $this->type = $entity_wrapper->field_customobject_type->value();
     $description = $entity_wrapper->field_plain_body->value();
     $this->description = $description ? $description['value'] : '';
-
   }
 
   public function synchronize() {
@@ -304,6 +307,7 @@ class ATSyncCustom extends ATSyncNestedInContest {
       'name' => $this->name,
       'type' => $this->type,
       'phone' => $this->phone,
+      'email' => $this->email,
       'tracker' => $this->tracker,
       'description' => $this->description,
     );
@@ -317,6 +321,20 @@ class ATSyncCustom extends ATSyncNestedInContest {
     }
     return !empty($response->id) ? $response->id : FALSE;
   }
+}
+
+/**
+ * Class for synchronization staff
+ */
+class ATSyncStaff extends ATSyncCustom {
+  public $address = 'staff';
+}
+
+/**
+ * Class for synchronization staff
+ */
+class ATSyncOrganizer extends ATSyncCustom {
+  public $address = 'organizer';
 }
 
 class ATSyncTrackedObject extends ATSyncNestedInContest {

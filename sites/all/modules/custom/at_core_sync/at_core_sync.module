@@ -29,10 +29,10 @@ function _get_class_by_entity($entity_type, $entity) {
     'og_membership:pg_contestant' => 'ATSyncGlider',
     'og_membership:hg_contestant' => 'ATSyncGlider',
     'og_membership:pg_winddummy' => 'ATSyncWindDummy',
-    'og_membership:tracked_object' => 'ATSyncTrackedObject',
+    'og_membership:pg_organizer' => 'ATSyncOrganizer',
+    'og_membership:tracked_object' => 'ATSyncStaff',
     'ent_race:pg_race' => 'ATSyncRace',
     'ent_tracker:device' => 'ATSyncTracker',
-    'ent_customobject:customobject' => 'ATSyncCustom',
   );
 
   if (!empty($classes[$tmp])) {
