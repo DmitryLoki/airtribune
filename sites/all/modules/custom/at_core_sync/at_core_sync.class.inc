@@ -389,12 +389,12 @@ abstract class ATSyncPilot extends ATSyncNestedInContest {
   }
 
   public function synchronize() {
-    // Delete from Core API, if status is not confirmed / winddummy.
+    // Do not write to Core API, if status is not confirmed / winddummy.
     if (!in_array(
       $this->pilot->field_pg_contestant_status->value(),
       array(AIRTRIBUNE_PG_CONTESTANT_CONFIRMED, AIRTRIBUNE_PILOT_STATUS_WINDDUMMY)
     )) {
-      return $this->delete();
+      return FALSE;
     }
     $entity_wrapper = entity_metadata_wrapper('og_membership', $this->entity);
     $pilot_wrapper = entity_metadata_wrapper('profile2', $this->profile['pilot']);

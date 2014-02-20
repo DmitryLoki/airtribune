@@ -1728,8 +1728,6 @@ function _airtribune_pg_race_online_state($etid) {
 
 /**
  * Implements hook_og_membership_presave().
- *
- * @see #3444 #3446
  */
 function airtribune_og_membership_presave(OgMembership $og_membership) {
   // we can't know, what is it - usual pg_contestant, which register on contest,
@@ -1742,6 +1740,27 @@ function airtribune_og_membership_presave(OgMembership $og_membership) {
     $og_membership->type = $change_membership;
   }
 
+  // Update membership type on payment status change (Contestant <-> Wind Dummy).
+  // @see #3959
+  $now_status = entity_metadata_wrapper('og_membership', $og_membership)->{AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD}->value();
+  $old_status = entity_metadata_wrapper('og_membership', $og_membership->original)->{AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD}->value();
+
+  if ($now_status != $old_status) {
+    // Because pilots & winddummy has different resources in Core API - we must delete current before sync.
+    $sync = _get_class_by_entity('og_membership', $og_membership);
+    $res = $sync->delete();
+    // WindDummy -> Contestant (waiting list / waiting payment / in progress / confirmed).
+    // @see #4205
+    if ($old_status == AIRTRIBUNE_PILOT_STATUS_WINDDUMMY) {
+      $og_membership->type = AIRTRIBUNE_MEMBERSHIP_CONTESTANT;
+    }
+    // Contestant -> WindDummy.
+    if ($now_status == AIRTRIBUNE_PILOT_STATUS_WINDDUMMY) {
+      $og_membership->type = AIRTRIBUNE_MEMBERSHIP_WINDDUMMY;
+    }
+  }
+
+  // @see #3444 #3446
   switch ($og_membership->entity_type) {
     case AIRTRIBUNE_CUSTOMOBJECT_TYPE:
       $og_membership->type = AIRTRIBUNE_MEMBERSHIP_TRACKEDOBJECT;
@@ -1939,35 +1958,6 @@ function _add_metatag_opengraph_image($url, $key) {
     )
   );
   drupal_add_html_head($meta_images, 'meta_images_' . $key);
-}
-
-/**
- * Update membership type on payment status change (Contestant <-> Wind Dummy).
- * @see #3959
- */
-function airtribune_og_membership_update($og_membership) {
-  if ($og_membership->already_updated_by_paymentstatus == TRUE) {
-    return;
-  }
-
-  $status_field_allowed_values = list_allowed_values(field_info_field(AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD));
-  $wind_dummy_status = array_search("Wind dummy", $status_field_allowed_values);
-  $now_status = entity_metadata_wrapper('og_membership', $og_membership)->{AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD}->value();
-  $old_status = entity_metadata_wrapper('og_membership', $og_membership->original)->{AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD}->value();
-
-  if ($now_status != $old_status) {
-    // WindDummy -> Contestant (waiting list / waiting payment / in progress / confirmed).
-    if ($old_status == $wind_dummy_status) {
-      $og_membership->type = AIRTRIBUNE_MEMBERSHIP_CONTESTANT;
-    }
-    // Contestant -> WindDummy.
-    if ($now_status == $wind_dummy_status) {
-      $og_membership->type = AIRTRIBUNE_MEMBERSHIP_WINDDUMMY;
-    }
-    // Avoid recursion by hook_og_membership_update & hook_og_membership_save.
-    $og_membership->already_updated_by_paymentstatus = TRUE;
-    og_membership_save($og_membership);
-  }
 }
 
 /**
