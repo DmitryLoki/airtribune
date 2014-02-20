@@ -17,7 +17,7 @@ abstract class ATSync {
     $this->core_id = get_core_id_from_entity($entity_type, $entity);
     $this->contest = get_contest_for_entity($entity_type, $entity);
     $this->contest_core_id = get_core_id_from_entity('node', $this->contest);
-    if (!empty($this->core_id)) {
+    if (!empty($this->contest_core_id)) {
       $this->address_contest .= $this->contest_core_id;
     }
   }
