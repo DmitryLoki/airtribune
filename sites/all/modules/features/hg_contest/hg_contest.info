@@ -62,6 +62,7 @@ features[field][] = node-hg_contest-field_headquarter_info
 features[field][] = node-hg_contest-field_hq_location
 features[field][] = node-hg_contest-field_info
 features[field][] = node-hg_contest-field_is_offline
+features[field][] = node-hg_contest-field_landing_zones
 features[field][] = node-hg_contest-field_logo
 features[field][] = node-hg_contest-field_max_number_contestants
 features[field][] = node-hg_contest-field_open_class

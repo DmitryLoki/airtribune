@@ -336,7 +336,11 @@ function at_user_registrationpassword_confirm_account($form, &$form_state, $uid,
         // we must know, at which event pilot registered
         $event_nid = db_select('og_membership', 'm')
           ->fields('m', array('gid'))
-          ->condition('m.type', 'pg_contestant')
+          ->condition(
+            db_or()
+              ->condition('m.type', 'pg_contestant')
+              ->condition('m.type', 'hg_contestant')
+          )
           ->condition('m.etid', $user->uid)
           ->execute()
           ->fetchField();
@@ -437,7 +441,11 @@ function at_user_get_full_name($user) {
 function at_user_get_contestant_number($uid, $event_nid) {
   $og_id = db_select('og_membership', 'm')
     ->fields('m', array('id'))
-    ->condition('m.type', 'pg_contestant')
+    ->condition(
+      db_or()
+        ->condition('m.type', 'pg_contestant')
+        ->condition('m.type', 'hg_contestant')
+    )
     ->condition('m.etid', $uid)
     ->condition('m.gid', $event_nid)
     ->condition('m.state', 1)
@@ -446,7 +454,11 @@ function at_user_get_contestant_number($uid, $event_nid) {
 
   $number = db_select('field_data_field_contestant_number', 'n')
     ->fields('n', array('field_contestant_number_value'))
-    ->condition('n.bundle', 'pg_contestant')
+    ->condition(
+      db_or()
+        ->condition('n.bundle', 'pg_contestant')
+        ->condition('n.bundle', 'hg_contestant')
+    )
     ->condition('n.entity_id', $og_id)
     ->condition('n.deleted', 0)
     ->execute()
