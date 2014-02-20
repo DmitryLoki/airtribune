@@ -275,6 +275,7 @@ function at_core_sync_other_sync($entity_type, $entity) {
           break;
         case 'tracked_object':
         case 'og_membership':
+          /*
           $tracker_entity = $sync->tracker;
           $tracked_core_id = $sync->core_id;
 
@@ -287,10 +288,12 @@ function at_core_sync_other_sync($entity_type, $entity) {
             }
           }
           // Assignee tracker to person
+
           if ($tracker_entity) {
             $tracker = _get_class_by_entity('ent_tracker', $tracker_entity);
             return $tracker->assignee($tracked_core_id);
           }
+           */
           break;
       }
     }
@@ -298,17 +301,28 @@ function at_core_sync_other_sync($entity_type, $entity) {
   return FALSE;
 }
 
-function at_core_sync_entity_sync($entity_type, $entity, $action='') {
+function at_core_sync_entity_sync($entity_type, $entity, $action='', $fields = array()) {
   // Exit, if synchronization disabled
   if (variable_get('at_core_sync_enabled', 0) == 0) {
     return FALSE;
   }
   if ($sync = _get_class_by_entity($entity_type, $entity)) {
-    if ($action == 'delete') {
-      return $sync->delete();
-    }
-    else {
-      return $sync->synchronize();
+    switch ($action) {
+      case 'delete' :
+        return $sync->delete();
+        break;
+      case 'patch':
+        if (!empty($fields) && is_array($fields)) {
+          $data = array();
+          foreach($fields as $property => $field_name) {
+            $data[$property] = $entity->{$field_name}[LANGUAGE_NONE][0]['value'];
+          }
+          return $sync->synchronizePatch($data);
+        }
+        break;
+      default :
+        return $sync->synchronize();
+        break;
     }
   }
 }

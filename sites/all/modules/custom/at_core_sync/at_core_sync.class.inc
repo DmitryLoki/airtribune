@@ -9,11 +9,17 @@ abstract class ATSync {
   public $id = FALSE;
   public $address = FALSE;
   public $core_id = FALSE;
+  public $address_contest = 'contest/';
 
   public function __construct($entity_type, $entity) {
     $this->entity = $entity;
     $this->entity_type = $entity_type;
     $this->core_id = get_core_id_from_entity($entity_type, $entity);
+    $this->contest = get_contest_for_entity($entity_type, $entity);
+    $this->contest_core_id = get_core_id_from_entity('node', $this->contest);
+    if (!empty($this->core_id)) {
+      $this->address_contest .= $this->contest_core_id;
+    }
   }
 
   public static function requestToCore($address, $data = array(), $method = "POST") {
@@ -176,8 +182,36 @@ abstract class ATSync {
     }
   }
 
-  abstract public function synchronize();
+  /**
+   * Synchronize one or several fields of object.
+   *
+   * @param array $data - associative array, where key - name of field, value - new value for field.
+   * @return string - Core ID
+   */
+  public function synchronizePatch($data = array()) {
+    if (empty($this->core_id)) {
+      $this->synchronize();
+    }
+    $this->address .= '/' . $this->core_id;
+    $response = $this->request($data, "PATCH");
+    return !empty($response->id) ? $response->id : FALSE;
+  }
 
+  /**
+   * Get object stored in Core.
+   *
+   * @return stdClass
+   */
+  public function getFromCore() {
+    $response = NULL;
+    if (!empty($this->core_id)) {
+      $this->address .= '/' . $this->core_id;
+      $response = $this->request(NULL, "GET");
+    }
+    return $response;
+  }
+
+  abstract public function synchronize();
 }
 
 /**
@@ -219,14 +253,9 @@ class ATSyncContest extends ATSync {
  * Intermediate class for all nested entities in contest by Core API entities ( by path http://api/contest/{id}/* )
  */
 abstract class ATSyncNestedInContest extends ATSync {
-  public $contest = NULL;
-  public $contest_core_id = '';
-  public $address_contest = 'contest/';
 
   public function __construct($entity_type, $entity) {
     parent::__construct($entity_type, $entity);
-    $this->contest = get_contest_for_entity($entity);
-    $this->contest_core_id = get_core_id_from_entity('node', $this->contest);
     if (!$this->contest_core_id) {
       // Synchronize contest if not synchronized
       $sync = _get_class_by_entity('node', $this->contest);
@@ -236,7 +265,9 @@ abstract class ATSyncNestedInContest extends ATSync {
         return FALSE;
       }
     }
-    $this->address_contest .= $this->contest_core_id . '/';
+    $this->address_contest .= '/';
+    // Change address.
+    $this->address = $this->address_contest . $this->address;
   }
 }
 
@@ -259,15 +290,13 @@ class ATSyncCustom extends ATSyncNestedInContest {
     $ogm_wrapper = entity_metadata_wrapper('og_membership', $og_membership);
     // Get values.
     $this->name = $entity->title;
-    $tracker = $ogm_wrapper->field_tracker->value();
     // todo check phone & tracker for empty valies
-    $this->tracker = $tracker ? $tracker : '-';
+    $this->tracker = get_tracker($this->entity_type, $this->entity);
     $this->phone = ($phone = get_phone($og_membership)) ? $phone : '+000000';
     $this->type = $entity_wrapper->field_customobject_type->value();
     $description = $entity_wrapper->field_plain_body->value();
     $this->description = $description ? $description['value'] : '';
-    // Change address.
-    $this->address = $this->address_contest . $this->address;
+
   }
 
   public function synchronize() {
@@ -356,8 +385,7 @@ abstract class ATSyncPilot extends ATSyncNestedInContest {
     $this->core_id = get_core_id_from_entity('user', $this->person);
     $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
     $this->pilot = $entity_wrapper;
-    $this->tracker = $entity_wrapper->field_tracker->value();
-    $this->address = $this->address_contest . $this->address;
+    $this->tracker = get_tracker($this->entity_type, $this->entity);
   }
 
   public function synchronize() {
@@ -381,6 +409,7 @@ abstract class ATSyncPilot extends ATSyncNestedInContest {
       'glider' => $entity_wrapper->field_paraglider_manufacturer->value(),
       'contest_number' => $entity_wrapper->field_contestant_number->value(),
       'phone' => get_phone($this->entity),
+      'tracker' => $this->tracker,
       'country' => $pilot_wrapper->field_address->country->value(),
     );
 
@@ -423,7 +452,7 @@ class ATSyncDay extends ATSyncNestedInContest {
     // Change address.
     $this->day_dmy = date("ymd", $day_created_time);
     $this->day_status = $day_wrapper->field_day_status->value();
-    $this->address = $this->address_contest . $this->address . '/' . $this->day_dmy;
+    $this->address .= '/' . $this->day_dmy;
   }
 
   public function synchronize() {
@@ -445,7 +474,6 @@ class ATSyncRace extends ATSyncNestedInContest {
 
   public function __construct($entity_type, $entity) {
     parent::__construct($entity_type, $entity);
-    $this->address = $this->address_contest . $this->address;
   }
 
   public function synchronize() {

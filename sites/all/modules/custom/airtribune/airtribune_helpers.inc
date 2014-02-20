@@ -86,6 +86,29 @@ function get_phone($entity) {
   }
 }
 
+function get_tracker($entity_type, $entity) {
+  $core_id = NULL;
+  if (module_exists('at_tracker')) {
+    $entity_fields = field_info_instances($entity_type, $entity->type);
+    foreach ($entity_fields as $field_name => $field_instance) {
+      $field_info = field_info_field($field_name);
+      $type = $field_info['type'];
+      if ($type == 'at_tracker') {
+        if (!empty($entity->field_at_tracker[LANGUAGE_NONE][0]['value'])) {
+          $core_id = $entity->field_at_tracker[LANGUAGE_NONE][0]['value'];
+        }
+      }
+    }
+  } 
+
+  if (empty($core_id)) {
+    $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
+    $core_id = $entity_wrapper->field_tracker->value();
+  }
+
+  return $core_id;
+}
+
 /**
  * Alias for at_user_get_full_name()
  * @param $user
@@ -97,9 +120,11 @@ function get_full_name($user) {
 /**
  * Returns Contest for entity
  */
-function get_contest_for_entity($entity) {
+function get_contest_for_entity($entity_type, $entity) {
   if (get_class($entity) == 'OgMembership') {
     return node_load($entity->gid);
+  } else if (og_is_group_type($entity_type, $entity)){
+    return $entity;
   }
   return node_load($entity->og_group_ref[LANGUAGE_NONE][0]['target_id']);
 }
