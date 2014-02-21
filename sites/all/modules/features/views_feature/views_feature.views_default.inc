@@ -312,6 +312,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['type']['table'] = 'og_membership';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
+    'hg_contestant' => 'hg_contestant',
     'pg_contestant' => 'pg_contestant',
   );
 
