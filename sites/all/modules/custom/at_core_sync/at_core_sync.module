@@ -117,7 +117,9 @@ function at_core_sync_get_api_version() {
  * @author Vyacheslav Malchik <info@vkey.biz>
  */
 function at_core_sync_get_api_domain() {
-  $result = variable_get('at_core_sync_address', 'http://api.airtribune.com');
+  $port = variable_get('at_core_sync_port', '80');
+  $port = $port == '80' ? '' : ':' . $port;
+  $result = variable_get('at_core_sync_address', 'http://api.airtribune.com') . $port;
   return $result;
 }
 
