@@ -364,7 +364,7 @@ function at_user_registrationpassword_confirm_account($form, &$form_state, $uid,
             unlink($mail_dir . '/' . $user->uid . '_to_org.mail');
           }
           else {
-            watchdog(WATCHDOG_ERROR, 'cant load & send confirm email about pilot registration for uid: !uid', array('!uid' => $user->uid));
+            watchdog('mail', 'cant load & send confirm email about pilot registration for uid: !uid', array('!uid' => $user->uid), WATCHDOG_ERROR);
           }
 //        dpm($mail_dir, 'mail_dir');
 //        dpm($event, 'event');
