@@ -123,7 +123,7 @@ function get_full_name($user) {
 function get_contest_for_entity($entity_type, $entity) {
   if (get_class($entity) == 'OgMembership') {
     return node_load($entity->gid);
-  } else if (og_is_group_type($entity_type, $entity)){
+  } else if (isset($entity->group_group) && $entity->group_group['und'][0]['value'] == 1){
     return $entity;
   }
   return node_load($entity->og_group_ref[LANGUAGE_NONE][0]['target_id']);
@@ -139,7 +139,7 @@ function get_core_id_from_entity($entity_type, $entity) {
     $entity = entity_load_single($entity->entity_type, $entity->etid);
   }
   // Get core ID from entity
-  if (isset($entity->{AIRTRIBUNE_CORE_ID_FIELD})) {
+  if (!empty($entity->{AIRTRIBUNE_CORE_ID_FIELD})) {
     $wrapper = entity_metadata_wrapper($entity_type, $entity);
     return $wrapper->{AIRTRIBUNE_CORE_ID_FIELD}->value();
   }
