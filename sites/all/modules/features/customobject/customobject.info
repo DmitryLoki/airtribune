@@ -10,6 +10,7 @@ dependencies[] = list
 dependencies[] = og
 dependencies[] = og_ui
 dependencies[] = options
+dependencies[] = simple_phone_number_widget
 features[eck_bundle][] = ent_customobject_customobject
 features[features_api][] = api:1
 features[field][] = ent_customobject-customobject-field_core_id

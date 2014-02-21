@@ -80,7 +80,7 @@ function customobject_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'text_textfield',
-        'weight' => 4,
+        'weight' => '4',
       ),
     ),
   );
@@ -189,7 +189,7 @@ function customobject_field_default_fields() {
         'entity_translation_sync' => FALSE,
         'profile2_private' => FALSE,
       ),
-      'translatable' => '1',
+      'translatable' => '0',
       'type' => 'text_long',
     ),
     'field_instance' => array(
@@ -256,7 +256,7 @@ function customobject_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '1',
+        'weight' => '2',
       ),
     ),
   );
@@ -386,7 +386,7 @@ function customobject_field_default_fields() {
         'module' => 'og',
         'settings' => array(),
         'type' => 'og_complex',
-        'weight' => '2',
+        'weight' => '3',
       ),
     ),
   );

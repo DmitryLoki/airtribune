@@ -48,16 +48,8 @@ function pg_race_entity_presave($entity, $type) {
   }
 }
 
-function pg_race_entity_insert($entity, $type) {
-  if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
-    get_opt_distance_from_core($entity, 'insert');
-  }
-}
-
 function pg_race_entity_update($entity, $type) {
   if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
-    get_opt_distance_from_core($entity, 'update');
-
     $race_id = $entity->id;
     $files_path = variable_get('file_public_path', conf_path() . '/files');
     $files_path .= '/pg_race_preview';
@@ -168,41 +160,6 @@ function get_last_day_number_in_contest($contest_node) {
   return $day_number;
 }
 
-function get_opt_distance_from_core($entity, $action) {
-  $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
-  // load contest (og node)
-  $contest = reset($wrapper->og_group_ref->value());
-  // load core id for this contest
-  $contest_core_id = !empty($contest->field_core_id['und']['0']['value']) ? $contest->field_core_id['und']['0']['value'] : NULL;
-
-  $ch = curl_init();
-
-  // if race have not filled field with optimum distance, then try to get from CoreAPI
-  if (empty($entity->field_optdistance['und']['0']['value'])) {
-    // try to load core id for current race
-    $race_core_id = !empty($entity->field_core_id['und']['0']['value']) ? $entity->field_core_id['und']['0']['value'] : NULL;
-    // connect to CoreAPI & get info for current race (race start time, optimum distance, checkpoints, etc)
-    curl_setopt_array($ch, array(
-      CURLOPT_URL => at_core_sync_get_api_url() . "/contest/" . $contest_core_id . "/race/" . $race_core_id,
-      CURLOPT_RETURNTRANSFER => TRUE,
-      CURLOPT_TIMEOUT => 10,
-    ));
-    $ch_exec = curl_exec($ch);
-    // if we get correct data from CoreAPI
-    if ($ch_exec && $core_race_data = drupal_json_decode($ch_exec)) {
-      if ($optdistance = $core_race_data['optdistance']) {
-        // write the optimum distance to field_optdistance & save(update) race entity
-        $entity->field_optdistance['und']['0']['value'] = $optdistance;
-      }
-    }
-  }
-  // save changed fields for race
-  field_attach_presave(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
-  field_attach_update(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
-
-  curl_close($ch);
-}
-
 function pg_race_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'eck__entity__form_add_ent_race_pg_race' ||
     $form_id == 'eck__entity__form_edit_ent_race_pg_race'
@@ -245,8 +202,11 @@ function pg_race_form_validate(&$form, &$form_state) {
   $race = $values['entity'];
   $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $race);
 
-  // Load contest (og node).
+  // Load contest (og node). Skip validation, if contest not specified.
   $contest = reset($wrapper->og_group_ref->value());
+  if (!$contest) {
+    return;
+  }
   // Get id of entity. If id = null, then its new created entity.
   $id = $wrapper->id->value();
 

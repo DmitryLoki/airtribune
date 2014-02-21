@@ -36,8 +36,8 @@ function at_ldap_configuration_default_ldap_servers() {
   $ldap_servers_conf->unique_persistent_attr_binary = FALSE;
   $ldap_servers_conf->user_dn_expression = '';
   $ldap_servers_conf->ldap_to_drupal_user = '';
-  $ldap_servers_conf->testing_drupal_username = 'admin';
-  $ldap_servers_conf->testing_drupal_user_dn = 'cn=admin,ou=person,dc=airtribune,dc=com';
+  $ldap_servers_conf->testing_drupal_username = '';
+  $ldap_servers_conf->testing_drupal_user_dn = '';
   $ldap_servers_conf->grp_unused = FALSE;
   $ldap_servers_conf->grp_object_cat = 'group';
   $ldap_servers_conf->grp_nested = FALSE;

@@ -70,6 +70,45 @@ function get_main_profile($user) {
   return profile2_load_by_user($user, AIRTRIBUNE_USER_MAIN_PROFILE);
 }
 
+function get_phone($entity) {
+  if (!empty($entity->field_phone)) {
+    $field = $entity->field_phone[LANGUAGE_NONE][0];
+  } else {
+    return NULL;
+  }
+
+  if (isset($field['full_number'])) {
+    return $field['full_number'];
+  }
+  else {
+    $country_code = cck_phone_countrycodes($field['country_codes']);
+    return $country_code['code'] . $field['number'];
+  }
+}
+
+function get_tracker($entity_type, $entity) {
+  $core_id = NULL;
+  if (module_exists('at_tracker')) {
+    $entity_fields = field_info_instances($entity_type, $entity->type);
+    foreach ($entity_fields as $field_name => $field_instance) {
+      $field_info = field_info_field($field_name);
+      $type = $field_info['type'];
+      if ($type == 'at_tracker') {
+        if (!empty($entity->field_at_tracker[LANGUAGE_NONE][0]['value'])) {
+          $core_id = $entity->field_at_tracker[LANGUAGE_NONE][0]['value'];
+        }
+      }
+    }
+  } 
+
+  if (empty($core_id)) {
+    $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
+    $core_id = $entity_wrapper->field_tracker->value();
+  }
+
+  return $core_id;
+}
+
 /**
  * Alias for at_user_get_full_name()
  * @param $user
@@ -79,18 +118,32 @@ function get_full_name($user) {
 }
 
 /**
- * Returns Contest Core ID from race entity
+ * Returns Contest for entity
  */
-function get_contest_id_for_entity($entity) {
-  $contest_id = $entity->og_group_ref[LANGUAGE_NONE][0]['target_id'];
-  $contest = node_load($contest_id);
-  $field_core_id = field_get_items('node', $contest, AIRTRIBUNE_CORE_ID_FIELD);
-  if (!empty($field_core_id[0]['value'])) {
-    return $field_core_id[0]['value'];
+function get_contest_for_entity($entity_type, $entity) {
+  if (get_class($entity) == 'OgMembership') {
+    return node_load($entity->gid);
+  } else if (isset($entity->group_group) && $entity->group_group['und'][0]['value'] == 1){
+    return $entity;
   }
-  else {
-    return FALSE;
+  return node_load($entity->og_group_ref[LANGUAGE_NONE][0]['target_id']);
+}
+
+/**
+ * Returns Core ID from entity.
+ * Returns Core ID of referenced entity for og_membership.
+ */
+function get_core_id_from_entity($entity_type, $entity) {
+  if ($entity_type == 'og_membership') {
+    $entity_type = $entity->entity_type;
+    $entity = entity_load_single($entity->entity_type, $entity->etid);
   }
+  // Get core ID from entity
+  if (!empty($entity->{AIRTRIBUNE_CORE_ID_FIELD})) {
+    $wrapper = entity_metadata_wrapper($entity_type, $entity);
+    return $wrapper->{AIRTRIBUNE_CORE_ID_FIELD}->value();
+  }
+  return FALSE;
 }
 
 function get_contest_trackers($contest_id = NULL, $contestant_id = NULL) {
@@ -104,4 +157,9 @@ function get_contest_trackers($contest_id = NULL, $contestant_id = NULL) {
     $ids[] = $tracker->id;
   }
   return implode('+', $ids);
+}
+
+function generate_person_id() {
+  // pers-YYMMDD-random, random = first 32bits from UUID4
+  return 'pers-' . date('ymd') . '-' . sprintf('%d%d', mt_rand(0, 0xffff), mt_rand(0, 0xffff));
 }

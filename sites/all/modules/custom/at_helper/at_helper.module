@@ -231,7 +231,7 @@ function at_helper_form_alter(&$form, &$form_state, $form_id) {
       
       // Fix clientside validation for editablefields_as_link.
       // @see #3485
-      $langcode = $form['#langcode'];
+      $langcode = isset($form['#langcode']) ? $form['#langcode'] : LANGUAGE_NONE;
       $name = key($form_state['field']);
       if ($name == 'field_phone') {
         // We use custom widget to output phone number, which combine 2 fields: country code & number in one at client.
