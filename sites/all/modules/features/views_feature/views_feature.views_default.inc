@@ -9453,7 +9453,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['relationship'] = 'profile';
   $handler->display->display_options['fields']['field_full_name']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_full_name']['alter']['text'] = '[field_full_name] <a class=\'pilot-card\' href=\'/event/!1/pilots/export/card/print/[user]\'>&nbsp;</a>';
+  $handler->display->display_options['fields']['field_full_name']['alter']['text'] = '[field_full_name]<a class=\'pilot-card\' href=\'/event/!1/pilots/export/card/print/[user]\'>&nbsp;</a>';
   $handler->display->display_options['fields']['field_full_name']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['field_full_name']['alter']['path'] = 'group-membership/[id]/edit';
   $handler->display->display_options['fields']['field_full_name']['click_sort_column'] = 'title';
