@@ -302,6 +302,13 @@ function _at_helper_race_time_after_build($element, $form_state) {
 function at_helper_og_form_validate($form, &$form_state) {
   $values = $form_state['values'];
   $number_not_changed = FALSE;
+  // Fix NULL value, to avoid SQL PDOException
+  // @see #4306
+  if (!empty($form['#form_id']) && ($form['#entity_type'] == 'og_membership')) {
+    if ($values['field_tracker']['und'][0]['target_id'] === NULL) {
+      $form_state['values']['field_tracker']['und'] = array();
+    }
+  }
   // Contest pilots manage page.
   if (!empty($form['#form_id']) && !empty($form_state['triggering_element']['#array_parents']) &&
       $form['#form_id'] == 'views_form_paragliding_pilots_list_manage' &&
