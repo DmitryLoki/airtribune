@@ -138,7 +138,7 @@ abstract class ATSync {
         break;
     }
     // Debug.
-    $full_request = $method . ' ' . at_core_sync_get_api_url() . ':' . at_core_sync_get_port() . '/' . $address;
+    $full_request = $method . ' ' . at_core_sync_get_api_url() . '/' . $address;
     _asd($data, $full_request , $response);
 
     return json_decode($response);
