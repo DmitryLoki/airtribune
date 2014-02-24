@@ -15,7 +15,7 @@ function at_helper__frontpage_live_event_footer__renderer(array $components, arr
   }
 
   //~ dsm($components); dsm($tokens);
-  dsm($values);
+  //~ dsm($values);
 
   $watch_timer = $values['watch_timer'];
   $watch_status = $values['watch_status'];
@@ -26,64 +26,52 @@ function at_helper__frontpage_live_event_footer__renderer(array $components, arr
   $day_status_name = $values['day_status_name'];
   $day_number = $values['day_number'];
 
+
+
+
   // Prepare output for "nothing_extended" handler.
 
-
-  switch ($watch_status) {
-    case PG_RACE_WATCH_STATUS_IS_LIVE :
-      $timer_label = t('Race is on:');
-      break;
-    case PG_RACE_WATCH_STATUS_FINISHED :
-      break;
-    case PG_RACE_WATCH_STATUS_AWAITING :
-      $timer_label = t('Race starts in:');
-      break;
-    case PG_RACE_WATCH_STATUS_EMPTY :
-    default :
-      break;
+  if (!empty($task_title))  {
+    $title = $task_title;
+  }
+  else {
+    // @todo: Use globals.
+    $day_title = '';
+    switch ($day_status_value) {
+      case 0 :  // Ok
+        $day_title = t('Day') . " {$day_number}";
+        break;
+      case 1 :  // Stopped
+      case 2 :  // Cancelled
+      case 3 :  // Rest day
+        $day_title = t('Day') . " {$day_number} ({$day_status_name})";
+        break;
+      case 4 :  // Registration day
+      case 5 :  // Training day
+        $day_title =  $day_status_name;
+        break;
+    }
+    $title = $day_title;
   }
 
 
 
 
-  // @todo: Use globals.
-  $day_title = '';
-  switch ($day_status_value) {
-    case 0 :  // Ok
-      $day_title = t('Day') . " {$day_number}";
-      break;
-    case 1 :  // Stopped
-    case 2 :  // Cancelled
-    case 3 :  // Rest day
-      $day_title = t('Day') . " {$day_number} ({$day_status_name})";
-      break;
-    case 4 :  // Registration day
-    case 5 :  // Training day
-      $day_title =  $day_status_name;
-      break;
+
+  $output = "<span class='title'>{$title}</span>";
+  if (!empty($watch_timer)) {
+    $output .= "<span class='task-timer'>{$watch_timer}</span>";
+  }
+  elseif (!empty($day_blog)) {
+    $output .= "{$day_blog}";
   }
 
-
-  if (!empty($timer_label) && !empty($watch_timer)) {
-    $timer_output = "<span class='help-text'>{$timer_label}</span><span class='time'>{$watch_timer}</span>";
-  }
-
-  $title = !empty($task_title) ? $task_title : $day_title;
-  //~ $output = $day_title . $timer_output . $task_title . $day_blog;
-
-  if (!empty($timer_output)) {
-    $day_blog = '';  // Hide dayblog if there is task watch info.
-  }
-
-
-  $class = !empty($day_blog) ? 'day-blog' : 'day-blog no-blog';
-  $output = !empty($day_blog) ? "<span class='title'>{$title}</span>{$day_blog}" : "<span class='title'>{$title}</span>";
-  $output .= !empty($timer_output) ? "<span class='task-timer race-online'>{$timer_output}</span>" : "";
-
+  // dayblog is not rendered if there is task watch info
+  $class = !empty($day_blog) && empty($watch_timer) ? 'day-blog' : 'day-blog no-blog';
   $output = "<span class='{$class}'>{$output}</span>";
-  $url = url("event/{$event_nid}/blog") . "#!day_{$day_number}";
 
   // Wrap output into url tag.
+  $url = url("event/{$event_nid}/blog") . "#!day_{$day_number}";
   $output = "<a href='{$url}'>{$output}</a>";
 
   return $output;

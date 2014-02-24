@@ -82,10 +82,41 @@ function _pg_race_watch_links_results($items, $type) {
     foreach ($items as $item) {
       $l = l($item['category'], $item['path'], array('attributes' => array('target' => '_blank')));
       $links .= "<li>{$l}</li>";
-      //~ $list[]
     }
     $output = "<span class='task-result'>{$label}<ul>{$links}</ul></span>";
   }
+
+  return $output;
+}
+
+
+
+
+function theme_live_event_watch_timer($variables) {
+  $race_status = $variables['race_status'];
+  $timerInfo = $variables['timer_info'];
+  $output = '';
+
+  switch ($race_status) {
+    case PG_RACE_WATCH_STATUS_AWAITING :
+      $timer_label = t('Race starts in:');
+      $timer_time = date('H:i:s', $timerInfo['timer']);
+      break;
+    case PG_RACE_WATCH_STATUS_STARTING :
+      $timer_label = t('Race starts in:');
+      $timer_time = date('H:i:s', $timerInfo['timer']);
+      break;
+    case PG_RACE_WATCH_STATUS_IS_LIVE :
+      $timer_label = t('Race is on:');
+      $timer_time = date('H:i:s', $timerInfo['timer']);
+      break;
+  }
+
+  if (!empty($timer_label) && !empty($timer_time)) {
+    $timer_output = "<span class='help-text'>{$timer_label}</span><span class='time'>{$timer_time}</span>";
+  }
+
+  $output = !empty($timer_output) ? "<span class='race-online'>{$timer_output}</span>" : "";
 
   return $output;
 }

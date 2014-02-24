@@ -109,20 +109,20 @@ class  RaceWatch {
       // @todo: consider offset for start/end and open/close
 
       if ($now_local < $open_close['value']) {
-        dsm('awaiting');
+        //~ dsm('awaiting');
         $status = PG_RACE_WATCH_STATUS_AWAITING;
       }
       elseif ($now_local >= $open_close['value'] && $now_local < $start_end['value']) {
-        dsm('starting');
+        //~ dsm('starting');
         $status = PG_RACE_WATCH_STATUS_STARTING;
       }
       // @todo: check second part of the condition
       elseif ($now_local >= $start_end['value'] && $now_local < $start_end['value2']) {
-        dsm('is life');
+        //~ dsm('is life');
         $status = PG_RACE_WATCH_STATUS_IS_LIVE;
       }
       else {
-        dsm('finished');
+        //~ dsm('finished');
         $status = PG_RACE_WATCH_STATUS_FINISHED;
       }
 
@@ -174,6 +174,11 @@ class  RaceWatch {
 
     return $raceLinksInfo;
   }
+
+  //~ function raceTimerInfo() {
+    //~ $raceTimerInfo = array();
+    //~ return $raceTimerInfo;
+  //~ }
 
   /**
    * Return absolute value for time to/after race start

@@ -101,23 +101,13 @@ class pg_race_handler_watch_task extends views_handler_field_entity {
           drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/pg_race.watch.js', 'file');
           drupal_add_css(drupal_get_path('module', 'pg_race') .'/css/pg_race.watch.css', 'file');
 
-          switch ($raceStatus) {
-            case PG_RACE_WATCH_STATUS_AWAITING :
-              $raceStartTime = $raceWatch->raceStartTime();
-              $output = date('H:i:s', $raceStartTime);
-              break;
-            case PG_RACE_WATCH_STATUS_STARTING :
-              $raceTimer = $raceWatch->raceTimer();
-              $output = date('H:i:s', $raceTimer);
-              break;
-            case PG_RACE_WATCH_STATUS_IS_LIVE :
-              $raceTimer = $raceWatch->raceTimer();
-              $output = date('H:i:s', $raceTimer);
-              break;
-            //~ case PG_RACE_WATCH_STATUS_FINISHED :
-              //~ break;
-          }
 
+          //~ $timerInfo = $raceWatch->raceTimerInfo();
+          //~ $timerInfo = $raceWatch->getTimeInfo();
+          $timerInfo = array('timer' => $raceWatch->raceTimer());
+
+
+          $output = theme('live_event_watch_timer', array('timer_info' => $timerInfo, 'race_status' => $raceStatus));
           break;
       }
     }
