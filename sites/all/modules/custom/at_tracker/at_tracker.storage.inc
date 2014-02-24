@@ -41,3 +41,17 @@ function at_tracker_field_storage_load($entity_type, $entities, $age, $fields, $
     }
   }
 }
+
+/**
+ * Implements hook_field_storage_write().
+ */
+function at_tracker_field_storage_field_storage_write($entity_type, $entity, $op, $fields, $entity_write = FALSE) {
+
+}
+
+/**
+ * Implement hook_field_storage_delete().
+ */
+function at_tracker_field_storage_field_storage_delete($entity_type, $entity, $fields) {
+
+}
