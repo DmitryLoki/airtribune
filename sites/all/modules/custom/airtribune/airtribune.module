@@ -1421,14 +1421,13 @@ function airtribune_extract_time_from_race($entity, $offset) {
     $entity = entity_load(AIRTRIBUNE_RACE_ENTITY_TYPE, array($entity));
     $entity = array_shift($entity);
   }
-  if (!($entity) || empty($offset)) {
+  if (!($entity) || (empty($offset) && $offset !== 0)) {
     return FALSE;
   }
 
   $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
   $start_end = $wrapper->{AIRTRIBUNE_RACE_START_END_FIELD}->value();
   $window_open_close = $wrapper->{AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD}->value();
-
   date_default_timezone_set('UTC');
   $result['start'] = strtotime($start_end['value']);
   $result['deadline'] = strtotime($start_end['value2']);
