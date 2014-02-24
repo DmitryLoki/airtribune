@@ -103,7 +103,8 @@ function get_tracker($entity_type, $entity) {
 
   if (empty($core_id)) {
     $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
-    $core_id = $entity_wrapper->field_tracker->value();
+    $tracker = $entity_wrapper->field_tracker->value();
+    $core_id = get_core_id_from_entity(AIRTRIBUNE_TRACKER_TYPE, $tracker);
   }
 
   return $core_id;
@@ -143,7 +144,7 @@ function get_core_id_from_entity($entity_type, $entity) {
     $wrapper = entity_metadata_wrapper($entity_type, $entity);
     return $wrapper->{AIRTRIBUNE_CORE_ID_FIELD}->value();
   }
-  return FALSE;
+  return NULL;
 }
 
 function get_contest_trackers($contest_id = NULL, $contestant_id = NULL) {
