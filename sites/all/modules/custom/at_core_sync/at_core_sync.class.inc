@@ -243,7 +243,9 @@ class ATSyncContest extends ATSync {
     }
     else {
       $response = $this->request($data);
-      $this->updateCoreID($response->id);
+      if (!empty($response->id)) {
+        $this->updateCoreID($response->id);
+      }
     }
     return !empty($response->id) ? $response->id : FALSE;
   }
