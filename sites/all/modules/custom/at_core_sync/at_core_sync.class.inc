@@ -289,16 +289,17 @@ abstract class ATSyncCustom extends ATSyncNestedInContest {
     $entity = entity_load_single($entity_type, $entity->etid);
     $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
     // Get values.
-    if ($entity_type == 'ent_customobject')
+    if ($entity_type == 'ent_customobject') {
       $this->name = $entity->title;
+      $this->type = $entity_wrapper->field_customobject_type->value();
+      $description = $entity_wrapper->field_plain_body->value();
+    }
     elseif ($entity_type == 'user') {
       $this->name = get_full_name($entity);
       $this->email = $entity->mail;
     }
     $this->tracker = get_tracker('og_membership', $og_membership);
     $this->phone = ($phone = get_phone($og_membership)) ? $phone : '+000000';
-    $this->type = $entity_wrapper->field_customobject_type->value();
-    $description = $entity_wrapper->field_plain_body->value();
     $this->description = $description ? $description['value'] : '';
   }
 
