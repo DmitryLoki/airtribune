@@ -3365,6 +3365,19 @@ function at_core_sync_views_default_views() {
       'link' => 0,
     ),
   );
+  /* Field: Field: Mobile phone number */
+  $handler->display->display_options['fields']['field_phone']['id'] = 'field_phone';
+  $handler->display->display_options['fields']['field_phone']['table'] = 'field_data_field_phone';
+  $handler->display->display_options['fields']['field_phone']['field'] = 'field_phone';
+  $handler->display->display_options['fields']['field_phone']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['field_phone']['click_sort_column'] = 'number';
+  $handler->display->display_options['fields']['field_phone']['type'] = 'editable';
+  $handler->display->display_options['fields']['field_phone']['settings'] = array(
+    'click_to_edit' => 1,
+    'click_to_edit_style' => 'button',
+    'empty_text' => '',
+    'fallback_format' => 'global_phone_number',
+  );
   /* Field: Global: Custom text */
   $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
@@ -3422,6 +3435,7 @@ function at_core_sync_views_default_views() {
     t('Description'),
     t('Core status'),
     t('Tracker'),
+    t('Mobile phone number'),
     t('Operations'),
     t('<ul>
 <li>[edit_link]</li>
