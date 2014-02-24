@@ -94,8 +94,8 @@ function get_tracker($entity_type, $entity) {
       $field_info = field_info_field($field_name);
       $type = $field_info['type'];
       if ($type == 'at_tracker') {
-        if (!empty($entity->field_at_tracker[LANGUAGE_NONE][0]['value'])) {
-          $core_id = $entity->field_at_tracker[LANGUAGE_NONE][0]['value'];
+        if (!empty($entity->{$field_name}[LANGUAGE_NONE][0]['value'])) {
+          $core_id = $entity->{$field_name}[LANGUAGE_NONE][0]['value'];
         }
       }
     }
