@@ -31,6 +31,7 @@ features[field][] = og_membership-pg_contestant-field_pg_contestant_status
 features[field][] = og_membership-pg_contestant-field_phone
 features[field][] = og_membership-pg_contestant-field_team
 features[field][] = og_membership-pg_contestant-field_tracker
+features[field][] = og_membership-pg_organizer-field_phone
 features[field][] = og_membership-pg_organizer-field_tracker
 features[field][] = og_membership-pg_winddummy-field_accom_during_comp
 features[field][] = og_membership-pg_winddummy-field_contestant_number
