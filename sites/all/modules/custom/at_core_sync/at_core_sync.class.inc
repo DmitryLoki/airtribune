@@ -165,14 +165,20 @@ abstract class ATSync {
   }
 
   public function updateCoreID($id) {
-    $this->entity->field_core_id = array(
+    $entity = $this->entity;
+    $entity_type = $this->entity_type;
+    if ($entity_type == 'og_membership') {
+      $entity = entity_load_single($entity->entity_type, $entity->etid);
+      $entity_type = $entity->entity_type;
+    }
+        $entity->field_core_id = array(
       LANGUAGE_NONE => array(
         array(
           'value' => $id,
         ),
       ),
     );
-    field_attach_update($this->entity_type, $this->entity);
+    entity_save($entity_type, $entity);
     $this->core_id = $id;
   }
 
