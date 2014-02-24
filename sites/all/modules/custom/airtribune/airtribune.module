@@ -1727,7 +1727,7 @@ function airtribune_og_membership_presave(OgMembership $og_membership) {
 
   // Update membership type on payment status change (Contestant <-> Wind Dummy).
   // @see #3959
-  if (isset($og_membership->original)) {
+  if (isset($og_membership->original) && is_membership_contestant($og_membership)) {
     $now_status = entity_metadata_wrapper('og_membership', $og_membership)->{AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD}->value();
     $old_status = entity_metadata_wrapper('og_membership', $og_membership->original)->{AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD}->value();
 
