@@ -101,8 +101,8 @@ function get_tracker($entity_type, $entity) {
       $field_info = field_info_field($field_name);
       $type = $field_info['type'];
       if ($type == 'at_tracker') {
-        if (!empty($entity->field_at_tracker[LANGUAGE_NONE][0]['value'])) {
-          $core_id = $entity->field_at_tracker[LANGUAGE_NONE][0]['value'];
+        if (!empty($entity->{$field_name}[LANGUAGE_NONE][0]['value'])) {
+          $core_id = $entity->{$field_name}[LANGUAGE_NONE][0]['value'];
         }
       }
     }
@@ -134,6 +134,7 @@ function get_contest_for_entity($entity_type, $entity) {
   } else if (isset($entity->group_group) && $entity->group_group['und'][0]['value'] == 1){
     return $entity;
   }
+  dpm($entity);
   return node_load($entity->og_group_ref[LANGUAGE_NONE][0]['target_id']);
 }
 

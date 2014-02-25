@@ -1,0 +1,37 @@
+<?php
+
+include_once 'at_tracker.field.inc';
+include_once 'at_tracker.storage.inc';
+
+/**
+* Implements hook_field_create_field().
+*/
+function at_tracker_field_create_field($field) {
+  if ($field['type'] == 'at_tracker') {
+    $field['storage'] = array(
+        'type' => 'at_tracker_field_storage',
+        'settings' => array(),
+        'module' => 'at_tracker',
+        'active' => 1,
+    );
+
+    // Build record to update.
+    $record = array(
+      'id' => $field['id'],
+      'storage_type' => $field['storage']['type'],
+      'storage_module' => $field['storage']['module'],
+      'storage_active' => $field['storage']['active'],
+    );
+
+    // Update the field storage.
+    $primary_key = array('id');
+    drupal_write_record('field_config', $record, $primary_key);
+  }
+}
+
+/**
+* Implements hook_field_update_field().
+*/
+function at_tracker_field_update_field($field) {
+  at_tracker_field_create_field($field);
+}
