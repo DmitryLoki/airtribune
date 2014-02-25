@@ -134,6 +134,7 @@ function get_contest_for_entity($entity_type, $entity) {
   } else if (isset($entity->group_group) && $entity->group_group['und'][0]['value'] == 1){
     return $entity;
   }
+  dpm($entity);
   return node_load($entity->og_group_ref[LANGUAGE_NONE][0]['target_id']);
 }
 
