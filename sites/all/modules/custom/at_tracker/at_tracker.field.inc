@@ -73,7 +73,7 @@ function at_tracker_field_widget_form(&$form, &$form_state, $field, $instance, $
     $element = array(
       '#type' => 'select',
       '#title' => t('Tracker'),
-      '#options' => _at_tracker_trackers_options(),
+      '#options' => _at_tracker_trackers_options($entity, $field),
       '#empty_option' => t('-- None selected --'),
       '#empty_value' => 'none',
       '#default_value' => $value,
@@ -100,7 +100,7 @@ function at_tracker_field_widget_form(&$form, &$form_state, $field, $instance, $
 function _ajax_at_tracker_widget_callback($form, $form_state) {
   $field_name = $form_state['at']['tracker_field'];
   $delta = $form_state['at']['field_delta'];
-  $form[$field_name][LANGUAGE_NONE][0]['#options'] = array('none' => t('-- None selected --')) + _at_tracker_trackers_options();
+  $form[$field_name][LANGUAGE_NONE][0]['#options'] = array('none' => t('-- None selected --')) + _at_tracker_trackers_options($form['#entity']);
   $form[$field_name][LANGUAGE_NONE][0]['#default_value'] = $form_state['values'][$field_name][LANGUAGE_NONE][0];
   $commands[] = ajax_command_insert('#at_tracker-wrapper-' . $delta, drupal_render($form[$field_name]));
   $commands[] = ajax_command_invoke(NULL,'changeBindTrackerField',array($field_name));
@@ -122,11 +122,10 @@ function at_tracker_field_is_empty($item, $field) {
  * Implements hook_field_prepare_view().
  */
 function at_tracker_field_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items) {
-  $trackers = _at_tracker_trackers_options();
   foreach ($entities as $id => $entity) {
     foreach ($items[$id] as $delta => $item) {
       $tracker_id = $items[$id][$delta]['value'];
-      $items[$id][$delta]['value'] = $trackers[$tracker_id];
+      $items[$id][$delta]['value'] = $items[$id][$delta]['name'];
       $items[$id][$delta]['safe_value'] = $trackers[$tracker_id];
       $items[$id][$delta]['safe'] = $items[$id][$delta]['safe_value'];
     }
@@ -144,24 +143,35 @@ function at_tracker_field_load($entity_type, $entities, $field, $instances, $lan
  * Implements hook_field_insert().
  */
 function at_tracker_field_insert($entity_type, $entity, $field, $instance, $langcode, &$items) {
-  $result = at_core_sync_entity_sync($entity_type, $entity, 'patch', array('tracker' => $field['field_name']));
+
 }
 
 /**
  * Implements hook_field_update().
  */
 function at_tracker_field_update($entity_type, $entity, $field, $instance, $langcode, &$items) {
-  $result = at_core_sync_entity_sync($entity_type, $entity, 'patch', array('tracker' => $field['field_name']));
+
 }
 
 /**
  * 
  * @return $options array - trackers from core storage. Key is tracker id, value - tracker name.
  */
-function _at_tracker_trackers_options() {
+function _at_tracker_trackers_options($entity = NULL, $field = NULL) {
+  $contest_core_id = NULL;
+  if (!empty($entity)) {
+    $entity_type = $entity->entityType();
+    $contest_core_id = get_core_id_from_entity('node', get_contest_for_entity($entity_type, $entity));
+  }
   $options = array();
+  if (!empty($contest_core_id)) {
+    $contest_core_id = '&not_registered_at=' . $contest_core_id;
+  }
+  if (isset($field) && !empty($entity->{$field['field_name']}[LANGUAGE_NONE][0]['value'])) {
+    $options[$entity->{$field['field_name']}[LANGUAGE_NONE][0]['value']] = $entity->{$field['field_name']}[LANGUAGE_NONE][0]['name'];
+  }
   // Request only hardvare trackers
-  $response = ATSync::requestToCore('tracker?device_type=tr203&device_type=telt_gh3000', array(), 'GET');
+  $response = ATSync::requestToCore('tracker?device_type=tr203&device_type=telt_gh3000'. $contest_core_id, array(), 'GET');
   foreach($response as $key => $tracker) {
     $options[$tracker->id] = $tracker->name;
   }
