@@ -22,25 +22,31 @@ function at_tracker_field_storage_load($entity_type, $entities, $age, $fields, $
     $field_name = $field['field_name'];
     $delta_count = array();
     foreach ($entities as $entity) {
-      $sync = _get_class_by_entity($entity_type, $entity);
-      $result = $sync->getFromCore();
-      if (!empty($result->tracker)) {
-        $tracker = ATSync::requestToCore('tracker/'. $result->tracker, array(), 'GET');
+      $cid = _at_tracker_get_cid($entity_type, $entity);
+      $item = NULL;
+      if($cached = cache_get($cid, 'cache'))  {
+        $item = $cached->data;
+      } else {
+        $sync = _get_class_by_entity($entity_type, $entity);
+        $result = $sync->getFromCore();
+        if (!empty($result->tracker)) {
+          $tracker = ATSync::requestToCore('tracker/'. $result->tracker, array(), 'GET');
+        }
+          $item = array();
+          $item['value'] = $tracker->id;
+          $item['name'] = $tracker->name;
+        cache_set($cid, $item, 'cache', 60*60); //1 hour
       }
-      if (!isset($delta_count[$entity->id][LANGUAGE_NONE])) {
-        $delta_count[$entity->id][LANGUAGE_NONE] = 0;
-      }
+      if (!empty($tracker)) {
+        if (!isset($delta_count[$entity->id][LANGUAGE_NONE])) {
+          $delta_count[$entity->id][LANGUAGE_NONE] = 0;
+        }
 
-      if ($field['cardinality'] == FIELD_CARDINALITY_UNLIMITED || $delta_count[$entity->id][LANGUAGE_NONE] < $field['cardinality']) {
-        $item = array();
-        $column_name1 = 'value';
-        $column_name2 = 'name';
-        $item[$column_name1] = $tracker->id;
-        $item[$column_name2] = $tracker->name;
-
-        // Add the item to the field values for the entity.
-        $entities[$entity->id]->{$field_name}[LANGUAGE_NONE][] = $item;
-        $delta_count[$entity->id][LANGUAGE_NONE]++;
+        if ($field['cardinality'] == FIELD_CARDINALITY_UNLIMITED || $delta_count[$entity->id][LANGUAGE_NONE] < $field['cardinality']) {
+          // Add the item to the field values for the entity.
+          $entities[$entity->id]->{$field_name}[LANGUAGE_NONE][] = $item;
+          $delta_count[$entity->id][LANGUAGE_NONE]++;
+        }
       }
     }
   }
@@ -54,7 +60,13 @@ function at_tracker_field_storage_write($entity_type, $entity, $op, $fields, $en
     $field = field_info_field_by_id($field_id);
     $field_name = $field['field_name'];
     at_core_sync_entity_sync($entity_type, $entity, 'patch', array('tracker' => $field_name));
+    cache_clear_all(_at_tracker_get_cid($entity_type, $entity), 'cache');
   }
+}
+
+function _at_tracker_get_cid($entity_type, $entity) {
+  list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+  return "at_tracker:{$bundle}:{$id}";
 }
 
 /**
