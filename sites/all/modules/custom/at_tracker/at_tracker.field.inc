@@ -160,7 +160,8 @@ function at_tracker_field_update($entity_type, $entity, $field, $instance, $lang
  */
 function _at_tracker_trackers_options() {
   $options = array();
-  $response = ATSync::requestToCore('tracker', array(), 'GET');
+  // Request only hardvare trackers
+  $response = ATSync::requestToCore('tracker?device_type=tr203&device_type=telt_gh3000', array(), 'GET');
   foreach($response as $key => $tracker) {
     $options[$tracker->id] = $tracker->name;
   }
