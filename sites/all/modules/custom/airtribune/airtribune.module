@@ -1421,14 +1421,13 @@ function airtribune_extract_time_from_race($entity, $offset) {
     $entity = entity_load(AIRTRIBUNE_RACE_ENTITY_TYPE, array($entity));
     $entity = array_shift($entity);
   }
-  if (!($entity) || empty($offset)) {
+  if (!($entity) || (empty($offset) && $offset !== 0)) {
     return FALSE;
   }
 
   $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
   $start_end = $wrapper->{AIRTRIBUNE_RACE_START_END_FIELD}->value();
   $window_open_close = $wrapper->{AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD}->value();
-
   date_default_timezone_set('UTC');
   $result['start'] = strtotime($start_end['value']);
   $result['deadline'] = strtotime($start_end['value2']);
@@ -1727,7 +1726,7 @@ function airtribune_og_membership_presave(OgMembership $og_membership) {
 
   // Update membership type on payment status change (Contestant <-> Wind Dummy).
   // @see #3959
-  if (isset($og_membership->original)) {
+  if (isset($og_membership->original) && is_membership_contestant($og_membership)) {
     $now_status = entity_metadata_wrapper('og_membership', $og_membership)->{AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD}->value();
     $old_status = entity_metadata_wrapper('og_membership', $og_membership->original)->{AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD}->value();
 

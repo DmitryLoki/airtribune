@@ -56,6 +56,13 @@ function is_solutions(){
   return FALSE;
 }
 
+function is_membership_contestant($og_membership) {
+  $contestants = array(
+    AIRTRIBUNE_MEMBERSHIP_CONTESTANT,
+    AIRTRIBUNE_MEMBERSHIP_WINDDUMMY,
+  );
+  return in_array($og_membership->type, $contestants);
+}
 
 function get_country_name($iso2) {
   $country = country_load($iso2);

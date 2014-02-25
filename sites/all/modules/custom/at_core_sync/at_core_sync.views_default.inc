@@ -540,7 +540,7 @@ function at_core_sync_views_default_views() {
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/scoring_category">Manage scoring categories</a></li>
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/featured-headers">Manage headers</a></li>
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/points">Manage points</a></li>
-<li><a href="/admin/config/administration/at_manage/contest/[nid]/custom_object">Manage tracked objects</a></li>
+<li><a href="/admin/config/administration/at_manage/contest/[nid]/staff">Manage staff</a></li>
 </ul>';
   /* Sort criterion: Content: Published */
   $handler->display->display_options['sorts']['status']['id'] = 'status';
@@ -841,7 +841,7 @@ function at_core_sync_views_default_views() {
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/scoring_category">Manage scoring categories</a></li>
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/featured-headers">Manage headers</a></li>
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/points">Manage points</a></li>
-<li><a href="/admin/config/administration/at_manage/contest/[nid]/custom_object">Manage tracked objects</a></li>
+<li><a href="/admin/config/administration/at_manage/contest/[nid]/staff">Manage staff</a></li>
 </ul>'),
     t('Page'),
     t('Manage contest'),
@@ -937,7 +937,6 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
   $handler->display->display_options['arguments']['gid']['title'] = 'Ad for visualisations of %1';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
@@ -1323,7 +1322,7 @@ function at_core_sync_views_default_views() {
       'title' => 'Not confirmed',
       'operator' => 'not',
       'value' => array(
-        50 => '50'
+        50 => '50',
       ),
     ),
   );
@@ -2355,7 +2354,6 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
   $handler->display->display_options['arguments']['gid']['title'] = 'Days of %1';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
@@ -2579,7 +2577,6 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'empty';
-  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
   $handler->display->display_options['arguments']['gid']['title'] = 'Headers of %1';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
@@ -2948,7 +2945,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['field_city']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_city']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_city']['alter']['text'] = ', [field_city]';
-  /* Field: Content: Country */
+  /* Field: Field: Country */
   $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
   $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
   $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
@@ -3132,7 +3129,6 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
   $handler->display->display_options['arguments']['gid']['title'] = 'Points of %1';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
@@ -3179,259 +3175,6 @@ function at_core_sync_views_default_views() {
     t('Page'),
   );
   $export['manage_contest_points'] = $view;
-
-  $view = new view();
-  $view->name = 'manage_custom_object';
-  $view->description = '';
-  $view->tag = 'Airtribune manage';
-  $view->base_table = 'eck_ent_customobject';
-  $view->human_name = 'Manage custom object';
-  $view->core = 7;
-  $view->api_version = '3.0';
-  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
-
-  /* Display: Master */
-  $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Manage tracked objects';
-  $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'perm';
-  $handler->display->display_options['access']['perm'] = 'bypass node access';
-  $handler->display->display_options['cache']['type'] = 'none';
-  $handler->display->display_options['query']['type'] = 'views_query';
-  $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['style_plugin'] = 'table';
-  /* Header: Global: Text area */
-  $handler->display->display_options['header']['area']['id'] = 'area';
-  $handler->display->display_options['header']['area']['table'] = 'views';
-  $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_customobject/customobject/add?og_group_ref=!1&destination=admin/config/administration/at_manage/contest/!1/custom_object">Add object</a></li></ul>';
-  $handler->display->display_options['header']['area']['format'] = 'filtered_html';
-  $handler->display->display_options['header']['area']['tokenize'] = TRUE;
-  /* Relationship: OG membership: OG membership from Custom object */
-  $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
-  $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'eck_ent_customobject';
-  $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
-  /* Field: ID (exclude) */
-  $handler->display->display_options['fields']['id']['id'] = 'id';
-  $handler->display->display_options['fields']['id']['table'] = 'eck_ent_customobject';
-  $handler->display->display_options['fields']['id']['field'] = 'id';
-  $handler->display->display_options['fields']['id']['ui_name'] = 'ID (exclude)';
-  $handler->display->display_options['fields']['id']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['id']['separator'] = '';
-  /* Field: Delete link (exclude) */
-  $handler->display->display_options['fields']['delete_link']['id'] = 'delete_link';
-  $handler->display->display_options['fields']['delete_link']['table'] = 'eck_ent_customobject';
-  $handler->display->display_options['fields']['delete_link']['field'] = 'delete_link';
-  $handler->display->display_options['fields']['delete_link']['ui_name'] = 'Delete link (exclude)';
-  $handler->display->display_options['fields']['delete_link']['exclude'] = TRUE;
-  /* Field: Edit link (exclude) */
-  $handler->display->display_options['fields']['edit_link']['id'] = 'edit_link';
-  $handler->display->display_options['fields']['edit_link']['table'] = 'eck_ent_customobject';
-  $handler->display->display_options['fields']['edit_link']['field'] = 'edit_link';
-  $handler->display->display_options['fields']['edit_link']['ui_name'] = 'Edit link (exclude)';
-  $handler->display->display_options['fields']['edit_link']['exclude'] = TRUE;
-  /* Field: Bulk operations: OG membership */
-  $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
-  $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'og_membership';
-  $handler->display->display_options['fields']['views_bulk_operations']['field'] = 'views_bulk_operations';
-  $handler->display->display_options['fields']['views_bulk_operations']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['views_bulk_operations']['label'] = '';
-  $handler->display->display_options['fields']['views_bulk_operations']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['display_type'] = '0';
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['enable_select_all_pages'] = 1;
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['force_single'] = 0;
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['entity_load_capacity'] = '10';
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo_operations'] = array(
-    'action::at_core_sync_contestants_action' => array(
-      'selected' => 0,
-      'postpone_processing' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-    ),
-    'action::at_core_sync_tracked_objects_action' => array(
-      'selected' => 1,
-      'postpone_processing' => 0,
-      'skip_confirmation' => 1,
-      'override_label' => 0,
-      'label' => '',
-    ),
-    'action::views_bulk_operations_delete_item' => array(
-      'selected' => 0,
-      'postpone_processing' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-    ),
-    'action::views_bulk_operations_script_action' => array(
-      'selected' => 0,
-      'postpone_processing' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-    ),
-    'action::views_bulk_operations_modify_action' => array(
-      'selected' => 0,
-      'postpone_processing' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-      'settings' => array(
-        'show_all_tokens' => 1,
-        'display_values' => array(
-          '_all_' => '_all_',
-        ),
-      ),
-    ),
-    'action::og_set_state_action' => array(
-      'selected' => 0,
-      'postpone_processing' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-    ),
-    'action::og_user_roles_action' => array(
-      'selected' => 0,
-      'postpone_processing' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-    ),
-    'action::views_bulk_operations_argument_selector_action' => array(
-      'selected' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-      'settings' => array(
-        'url' => '',
-      ),
-    ),
-    'action::og_membership_delete_action' => array(
-      'selected' => 0,
-      'postpone_processing' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-    ),
-    'action::system_send_email_action' => array(
-      'selected' => 0,
-      'postpone_processing' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-    ),
-  );
-  /* Field: Global: View result counter */
-  $handler->display->display_options['fields']['counter']['id'] = 'counter';
-  $handler->display->display_options['fields']['counter']['table'] = 'views';
-  $handler->display->display_options['fields']['counter']['field'] = 'counter';
-  $handler->display->display_options['fields']['counter']['label'] = '#';
-  $handler->display->display_options['fields']['counter']['counter_start'] = '1';
-  /* Field: Custom object: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'eck_ent_customobject';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  /* Field: Description */
-  $handler->display->display_options['fields']['field_plain_body']['id'] = 'field_plain_body';
-  $handler->display->display_options['fields']['field_plain_body']['table'] = 'field_data_field_plain_body';
-  $handler->display->display_options['fields']['field_plain_body']['field'] = 'field_plain_body';
-  $handler->display->display_options['fields']['field_plain_body']['ui_name'] = 'Description';
-  $handler->display->display_options['fields']['field_plain_body']['label'] = 'Description';
-  $handler->display->display_options['fields']['field_plain_body']['type'] = 'editable';
-  $handler->display->display_options['fields']['field_plain_body']['settings'] = array(
-    'click_to_edit' => 1,
-    'click_to_edit_style' => 'button',
-    'empty_text' => '',
-    'fallback_format' => 'text_default',
-  );
-  /* Field: Field: Core ID */
-  $handler->display->display_options['fields']['field_core_id']['id'] = 'field_core_id';
-  $handler->display->display_options['fields']['field_core_id']['table'] = 'field_data_field_core_id';
-  $handler->display->display_options['fields']['field_core_id']['field'] = 'field_core_id';
-  $handler->display->display_options['fields']['field_core_id']['label'] = 'Core status';
-  /* Field: OG membership: Tracker */
-  $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
-  $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
-  $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
-  $handler->display->display_options['fields']['field_tracker']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_tracker']['type'] = 'editable';
-  $handler->display->display_options['fields']['field_tracker']['settings'] = array(
-    'click_to_edit' => 1,
-    'empty_text' => '',
-    'fallback_format' => 'entityreference_label',
-    'fallback_settings' => array(
-      'link' => 0,
-    ),
-  );
-  /* Field: Global: Custom text */
-  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['table'] = 'views';
-  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['label'] = 'Operations';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<ul>
-<li>[edit_link]</li>
-<li>[delete_link]</li>
-</ul>';
-  /* Contextual filter: OG membership: Group ID */
-  $handler->display->display_options['arguments']['gid']['id'] = 'gid';
-  $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
-  $handler->display->display_options['arguments']['gid']['field'] = 'gid';
-  $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
-  $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
-  $handler->display->display_options['arguments']['gid']['title'] = 'Tracked objects of %1';
-  $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
-  $handler->display->display_options['arguments']['gid']['validate']['type'] = 'node';
-  $handler->display->display_options['arguments']['gid']['validate_options']['types'] = array(
-    'hg_contest' => 'hg_contest',
-    'pg_contest' => 'pg_contest',
-  );
-
-  /* Display: Page */
-  $handler = $view->new_display('page', 'Page', 'manage_list_tracked_objects');
-  $handler->display->display_options['path'] = 'admin/config/administration/at_manage/contest/%/custom_object';
-  $handler->display->display_options['menu']['type'] = 'tab';
-  $handler->display->display_options['menu']['title'] = 'Manage custom objects';
-  $handler->display->display_options['menu']['weight'] = '0';
-  $handler->display->display_options['menu']['context'] = 0;
-  $handler->display->display_options['menu']['context_only_inline'] = 0;
-  $translatables['manage_custom_object'] = array(
-    t('Master'),
-    t('Manage tracked objects'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_customobject/customobject/add?og_group_ref=!1&destination=admin/config/administration/at_manage/contest/!1/custom_object">Add object</a></li></ul>'),
-    t('OG membership from ent_customobject'),
-    t('Id'),
-    t('.'),
-    t('Delete link'),
-    t('Edit link'),
-    t('#'),
-    t('Title'),
-    t('Description'),
-    t('Core status'),
-    t('Tracker'),
-    t('Operations'),
-    t('<ul>
-<li>[edit_link]</li>
-<li>[delete_link]</li>
-</ul>'),
-    t('All'),
-    t('Tracked objects of %1'),
-    t('Page'),
-  );
-  $export['manage_custom_object'] = $view;
 
   $view = new view();
   $view->name = 'manage_day_blog';
@@ -3488,7 +3231,6 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['null']['id'] = 'null';
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
-  $handler->display->display_options['arguments']['null']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -3552,7 +3294,6 @@ function at_core_sync_views_default_views() {
     t('Title'),
     t('Date'),
     t('[title]'),
-    t('All'),
     t('All'),
     t('%1: Dayblog of %2'),
     t('Page'),
@@ -3767,7 +3508,6 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
   $handler->display->display_options['arguments']['gid']['title'] = 'Scoring categories of %1';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
@@ -3822,6 +3562,509 @@ function at_core_sync_views_default_views() {
     t('Page'),
   );
   $export['pg_scoring_categories'] = $view;
+
+  $view = new view();
+  $view->name = 'staff_manage';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'og_membership';
+  $view->human_name = 'Staff manage';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Staff manage';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['perm'] = 'bypass node access';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_options']['columns'] = array(
+    'id' => 'id',
+    'field_core_id_1' => 'field_core_id_1',
+    'field_full_name' => 'field_full_name',
+    'type' => 'type',
+    'edit_membership' => 'edit_membership',
+    'edit_og_membership' => 'edit_og_membership',
+    'delete_membership' => 'delete_membership',
+    'edit_node' => 'edit_node',
+    'edit_link' => 'edit_link',
+    'delete_link' => 'delete_link',
+    'views_bulk_operations' => 'views_bulk_operations',
+    'counter' => 'counter',
+    'title' => 'title',
+    'field_core_id' => 'field_core_id',
+    'field_phone' => 'field_phone',
+    'field_tracker' => 'field_tracker',
+    'nothing' => 'nothing',
+  );
+  $handler->display->display_options['style_options']['default'] = 'type';
+  $handler->display->display_options['style_options']['info'] = array(
+    'id' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_core_id_1' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_full_name' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'type' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'edit_membership' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'edit_og_membership' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'delete_membership' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'edit_node' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'edit_link' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'delete_link' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'views_bulk_operations' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'counter' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'title' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_core_id' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_phone' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_tracker' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'nothing' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+  );
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['empty'] = TRUE;
+  $handler->display->display_options['header']['area']['content'] = '<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_customobject/customobject/add?og_group_ref=!1&destination=admin/config/administration/at_manage/contest/!1/custom_object">Add object</a></li></ul>';
+  $handler->display->display_options['header']['area']['format'] = 'full_html';
+  $handler->display->display_options['header']['area']['tokenize'] = TRUE;
+  /* Relationship: OG membership: Custom object from OG membership */
+  $handler->display->display_options['relationships']['og_membership_related_ent_customobject']['id'] = 'og_membership_related_ent_customobject';
+  $handler->display->display_options['relationships']['og_membership_related_ent_customobject']['table'] = 'og_membership';
+  $handler->display->display_options['relationships']['og_membership_related_ent_customobject']['field'] = 'og_membership_related_ent_customobject';
+  /* Relationship: OG membership: User from OG membership */
+  $handler->display->display_options['relationships']['og_membership_related_user']['id'] = 'og_membership_related_user';
+  $handler->display->display_options['relationships']['og_membership_related_user']['table'] = 'og_membership';
+  $handler->display->display_options['relationships']['og_membership_related_user']['field'] = 'og_membership_related_user';
+  /* Relationship: User: Profile */
+  $handler->display->display_options['relationships']['profile']['id'] = 'profile';
+  $handler->display->display_options['relationships']['profile']['table'] = 'users';
+  $handler->display->display_options['relationships']['profile']['field'] = 'profile';
+  $handler->display->display_options['relationships']['profile']['relationship'] = 'og_membership_related_user';
+  $handler->display->display_options['relationships']['profile']['bundle_types'] = array(
+    'main' => 'main',
+    'organizer_profile' => 'organizer_profile',
+  );
+  /* Field: OG Membership: ID (excluded) */
+  $handler->display->display_options['fields']['id']['id'] = 'id';
+  $handler->display->display_options['fields']['id']['table'] = 'og_membership';
+  $handler->display->display_options['fields']['id']['field'] = 'id';
+  $handler->display->display_options['fields']['id']['ui_name'] = 'OG Membership: ID (excluded)';
+  $handler->display->display_options['fields']['id']['label'] = '';
+  $handler->display->display_options['fields']['id']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['id']['separator'] = '';
+  /* Field: Field: Core ID (excluded) */
+  $handler->display->display_options['fields']['field_core_id_1']['id'] = 'field_core_id_1';
+  $handler->display->display_options['fields']['field_core_id_1']['table'] = 'field_data_field_core_id';
+  $handler->display->display_options['fields']['field_core_id_1']['field'] = 'field_core_id';
+  $handler->display->display_options['fields']['field_core_id_1']['relationship'] = 'og_membership_related_user';
+  $handler->display->display_options['fields']['field_core_id_1']['ui_name'] = 'Field: Core ID (excluded)';
+  $handler->display->display_options['fields']['field_core_id_1']['label'] = '';
+  $handler->display->display_options['fields']['field_core_id_1']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_core_id_1']['element_label_colon'] = FALSE;
+  /* Field: Name (excluded) */
+  $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
+  $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
+  $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
+  $handler->display->display_options['fields']['field_full_name']['relationship'] = 'profile';
+  $handler->display->display_options['fields']['field_full_name']['ui_name'] = 'Name (excluded)';
+  $handler->display->display_options['fields']['field_full_name']['label'] = '';
+  $handler->display->display_options['fields']['field_full_name']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_full_name']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_full_name']['click_sort_column'] = 'title';
+  $handler->display->display_options['fields']['field_full_name']['settings'] = array(
+    'format' => 'default',
+    'markup' => 0,
+    'output' => 'default',
+    'multiple' => 'default',
+    'multiple_delimiter' => ', ',
+    'multiple_and' => 'text',
+    'multiple_delimiter_precedes_last' => 'never',
+    'multiple_el_al_min' => '3',
+    'multiple_el_al_first' => '1',
+  );
+  /* Field: OG membership: Type (exclude) */
+  $handler->display->display_options['fields']['type']['id'] = 'type';
+  $handler->display->display_options['fields']['type']['table'] = 'og_membership';
+  $handler->display->display_options['fields']['type']['field'] = 'type';
+  $handler->display->display_options['fields']['type']['ui_name'] = 'OG membership: Type (exclude)';
+  $handler->display->display_options['fields']['type']['label'] = '';
+  $handler->display->display_options['fields']['type']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['type']['element_label_colon'] = FALSE;
+  /* Field: OG membership: Edit link (excluded) */
+  $handler->display->display_options['fields']['edit_membership']['id'] = 'edit_membership';
+  $handler->display->display_options['fields']['edit_membership']['table'] = 'og_membership';
+  $handler->display->display_options['fields']['edit_membership']['field'] = 'edit_membership';
+  $handler->display->display_options['fields']['edit_membership']['ui_name'] = 'OG membership: Edit link (excluded)';
+  $handler->display->display_options['fields']['edit_membership']['label'] = '';
+  $handler->display->display_options['fields']['edit_membership']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['edit_membership']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['edit_membership']['text'] = 'Edit membership';
+  $handler->display->display_options['fields']['edit_membership']['destination'] = TRUE;
+  /* Field: OG membership: OG membership edit link (excluded) */
+  $handler->display->display_options['fields']['edit_og_membership']['id'] = 'edit_og_membership';
+  $handler->display->display_options['fields']['edit_og_membership']['table'] = 'views_entity_og_membership';
+  $handler->display->display_options['fields']['edit_og_membership']['field'] = 'edit_og_membership';
+  $handler->display->display_options['fields']['edit_og_membership']['ui_name'] = 'OG membership: OG membership edit link (excluded)';
+  $handler->display->display_options['fields']['edit_og_membership']['label'] = '';
+  $handler->display->display_options['fields']['edit_og_membership']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['edit_og_membership']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['edit_og_membership']['alter']['text'] = 'Edit';
+  $handler->display->display_options['fields']['edit_og_membership']['element_label_colon'] = FALSE;
+  /* Field: OG membership: Delete link (excluded) */
+  $handler->display->display_options['fields']['delete_membership']['id'] = 'delete_membership';
+  $handler->display->display_options['fields']['delete_membership']['table'] = 'og_membership';
+  $handler->display->display_options['fields']['delete_membership']['field'] = 'delete_membership';
+  $handler->display->display_options['fields']['delete_membership']['ui_name'] = 'OG membership: Delete link (excluded)';
+  $handler->display->display_options['fields']['delete_membership']['label'] = '';
+  $handler->display->display_options['fields']['delete_membership']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['delete_membership']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['delete_membership']['text'] = 'Delete';
+  /* Field: User: Edit link (excluded) */
+  $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
+  $handler->display->display_options['fields']['edit_node']['table'] = 'users';
+  $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
+  $handler->display->display_options['fields']['edit_node']['relationship'] = 'og_membership_related_user';
+  $handler->display->display_options['fields']['edit_node']['ui_name'] = 'User: Edit link (excluded)';
+  $handler->display->display_options['fields']['edit_node']['label'] = '';
+  $handler->display->display_options['fields']['edit_node']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['edit_node']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['edit_node']['hide_alter_empty'] = FALSE;
+  $handler->display->display_options['fields']['edit_node']['text'] = 'Edit user';
+  /* Field: Custom object: Edit link (exclided) */
+  $handler->display->display_options['fields']['edit_link']['id'] = 'edit_link';
+  $handler->display->display_options['fields']['edit_link']['table'] = 'eck_ent_customobject';
+  $handler->display->display_options['fields']['edit_link']['field'] = 'edit_link';
+  $handler->display->display_options['fields']['edit_link']['relationship'] = 'og_membership_related_ent_customobject';
+  $handler->display->display_options['fields']['edit_link']['ui_name'] = 'Custom object: Edit link (exclided)';
+  $handler->display->display_options['fields']['edit_link']['label'] = '';
+  $handler->display->display_options['fields']['edit_link']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['edit_link']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['edit_link']['empty'] = '[edit_node]';
+  $handler->display->display_options['fields']['edit_link']['hide_alter_empty'] = FALSE;
+  $handler->display->display_options['fields']['edit_link']['text'] = 'Edit object';
+  /* Field: Custom object: Delete link (excluded) */
+  $handler->display->display_options['fields']['delete_link']['id'] = 'delete_link';
+  $handler->display->display_options['fields']['delete_link']['table'] = 'eck_ent_customobject';
+  $handler->display->display_options['fields']['delete_link']['field'] = 'delete_link';
+  $handler->display->display_options['fields']['delete_link']['relationship'] = 'og_membership_related_ent_customobject';
+  $handler->display->display_options['fields']['delete_link']['ui_name'] = 'Custom object: Delete link (excluded)';
+  $handler->display->display_options['fields']['delete_link']['label'] = '';
+  $handler->display->display_options['fields']['delete_link']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['delete_link']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['delete_link']['empty'] = '[delete_membership]';
+  $handler->display->display_options['fields']['delete_link']['hide_alter_empty'] = FALSE;
+  $handler->display->display_options['fields']['delete_link']['text'] = 'Delete';
+  /* Field: Bulk operations: OG membership */
+  $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
+  $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'og_membership';
+  $handler->display->display_options['fields']['views_bulk_operations']['field'] = 'views_bulk_operations';
+  $handler->display->display_options['fields']['views_bulk_operations']['label'] = '';
+  $handler->display->display_options['fields']['views_bulk_operations']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['display_type'] = '0';
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['enable_select_all_pages'] = 1;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['force_single'] = 0;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['entity_load_capacity'] = '10';
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_operations'] = array(
+    'action::at_core_sync_contestants_action' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 1,
+      'label' => '[Core API] Sync staff',
+    ),
+    'action::at_core_sync_tracked_objects_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::views_bulk_operations_delete_item' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::views_bulk_operations_script_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::views_bulk_operations_modify_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+      'settings' => array(
+        'show_all_tokens' => 1,
+        'display_values' => array(
+          '_all_' => '_all_',
+        ),
+      ),
+    ),
+    'action::og_set_state_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::og_user_roles_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::views_bulk_operations_argument_selector_action' => array(
+      'selected' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+      'settings' => array(
+        'url' => '',
+      ),
+    ),
+    'action::og_membership_delete_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::system_send_email_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+  );
+  /* Field: Global: View result counter */
+  $handler->display->display_options['fields']['counter']['id'] = 'counter';
+  $handler->display->display_options['fields']['counter']['table'] = 'views';
+  $handler->display->display_options['fields']['counter']['field'] = 'counter';
+  $handler->display->display_options['fields']['counter']['label'] = '#';
+  $handler->display->display_options['fields']['counter']['counter_start'] = '1';
+  /* Field: Custom object: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'eck_ent_customobject';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['relationship'] = 'og_membership_related_ent_customobject';
+  $handler->display->display_options['fields']['title']['empty'] = '[field_full_name]';
+  $handler->display->display_options['fields']['title']['hide_alter_empty'] = FALSE;
+  /* Field: Field: Core ID */
+  $handler->display->display_options['fields']['field_core_id']['id'] = 'field_core_id';
+  $handler->display->display_options['fields']['field_core_id']['table'] = 'field_data_field_core_id';
+  $handler->display->display_options['fields']['field_core_id']['field'] = 'field_core_id';
+  $handler->display->display_options['fields']['field_core_id']['relationship'] = 'og_membership_related_ent_customobject';
+  $handler->display->display_options['fields']['field_core_id']['empty'] = '[field_core_id_1]';
+  $handler->display->display_options['fields']['field_core_id']['hide_alter_empty'] = FALSE;
+  /* Field: Field: Mobile phone number */
+  $handler->display->display_options['fields']['field_phone']['id'] = 'field_phone';
+  $handler->display->display_options['fields']['field_phone']['table'] = 'field_data_field_phone';
+  $handler->display->display_options['fields']['field_phone']['field'] = 'field_phone';
+  $handler->display->display_options['fields']['field_phone']['label'] = 'Phone number';
+  $handler->display->display_options['fields']['field_phone']['click_sort_column'] = 'number';
+  $handler->display->display_options['fields']['field_phone']['type'] = 'editable_as_link';
+  $handler->display->display_options['fields']['field_phone']['settings'] = array(
+    'click_to_edit' => TRUE,
+    'click_to_edit_style' => '',
+    'empty_text' => '',
+    'fallback_format' => 'global_phone_number',
+    'link_text' => 'Edit',
+    'link_position' => 0,
+  );
+  /* Field: OG membership: Tracker */
+  $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
+  $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
+  $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
+  $handler->display->display_options['fields']['field_tracker']['type'] = 'editable_as_link';
+  $handler->display->display_options['fields']['field_tracker']['settings'] = array(
+    'click_to_edit' => TRUE,
+    'click_to_edit_style' => 'button',
+    'empty_text' => '',
+    'fallback_format' => 'entityreference_label',
+    'fallback_settings' => array(
+      'link' => 0,
+    ),
+    'link_text' => 'Edit',
+    'link_position' => '1',
+  );
+  /* Field: Global: Custom text */
+  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['label'] = 'Operations';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<ul>
+<li>[edit_membership]</li>
+<li>[edit_link]</li>
+<li>[delete_link]</li>
+</ul>';
+  /* Contextual filter: OG membership: Group ID */
+  $handler->display->display_options['arguments']['gid']['id'] = 'gid';
+  $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
+  $handler->display->display_options['arguments']['gid']['field'] = 'gid';
+  $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
+  $handler->display->display_options['arguments']['gid']['title'] = 'Staff of %1';
+  $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['gid']['validate']['type'] = 'node';
+  /* Filter criterion: OG membership: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'og_membership';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'pg_organizer' => 'pg_organizer',
+    'pg_winddummy' => 'pg_winddummy',
+    'tracked_object' => 'tracked_object',
+  );
+
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'manage_list_staff');
+  $handler->display->display_options['path'] = 'admin/config/administration/at_manage/contest/%/staff';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'Manage staff';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
+  $translatables['staff_manage'] = array(
+    t('Master'),
+    t('Staff manage'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_customobject/customobject/add?og_group_ref=!1&destination=admin/config/administration/at_manage/contest/!1/custom_object">Add object</a></li></ul>'),
+    t('ent_customobject from OG membership'),
+    t('user from OG membership'),
+    t('Profile'),
+    t('.'),
+    t('Edit membership'),
+    t('Edit'),
+    t('Delete'),
+    t('Edit user'),
+    t('[edit_node]'),
+    t('Edit object'),
+    t('[delete_membership]'),
+    t('#'),
+    t('Title'),
+    t('[field_full_name]'),
+    t('Core ID'),
+    t('[field_core_id_1]'),
+    t('Phone number'),
+    t('Tracker'),
+    t('Operations'),
+    t('<ul>
+<li>[edit_membership]</li>
+<li>[edit_link]</li>
+<li>[delete_link]</li>
+</ul>'),
+    t('All'),
+    t('Staff of %1'),
+    t('Page'),
+  );
+  $export['staff_manage'] = $view;
 
   return $export;
 }
