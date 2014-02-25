@@ -3713,7 +3713,10 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_customobject/customobject/add?og_group_ref=!1&destination=admin/config/administration/at_manage/contest/!1/custom_object">Add object</a></li></ul>';
+  $handler->display->display_options['header']['area']['content'] = '<ul class="action-links">
+<li><a href="/admin/structure/entity-type/ent_customobject/customobject/add?og_group_ref=!1&destination=admin/config/administration/at_manage/contest/!1/staff">Add object</a></li>
+<li><a href="/group/node/!1/admin/people/add-user?type=pg_organizer&destination=admin/config/administration/at_manage/contest/!1/staff">Add organizer</a></li>
+</ul>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['header']['area']['tokenize'] = TRUE;
   /* Relationship: OG membership: Custom object from OG membership */
@@ -4035,7 +4038,10 @@ function at_core_sync_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
-    t('<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_customobject/customobject/add?og_group_ref=!1&destination=admin/config/administration/at_manage/contest/!1/custom_object">Add object</a></li></ul>'),
+    t('<ul class="action-links">
+<li><a href="/admin/structure/entity-type/ent_customobject/customobject/add?og_group_ref=!1&destination=admin/config/administration/at_manage/contest/!1/staff">Add object</a></li>
+<li><a href="/group/node/!1/admin/people/add-user?type=pg_organizer&destination=admin/config/administration/at_manage/contest/!1/staff">Add organizer</a></li>
+</ul>'),
     t('ent_customobject from OG membership'),
     t('user from OG membership'),
     t('Profile'),
