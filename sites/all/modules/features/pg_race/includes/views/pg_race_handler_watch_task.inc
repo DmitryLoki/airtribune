@@ -104,7 +104,8 @@ class pg_race_handler_watch_task extends views_handler_field_entity {
 
           //~ $timerInfo = $raceWatch->raceTimerInfo();
           //~ $timerInfo = $raceWatch->getTimeInfo();
-          $timerInfo = array('timer' => $raceWatch->raceTimer());
+          $race_id = $entity->id;
+          $timerInfo = array('timer' => $raceWatch->raceTimer(), 'race_id' => $race_id);
 
 
           $output = theme('live_event_watch_timer', array('timer_info' => $timerInfo, 'race_status' => $raceStatus));

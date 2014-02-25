@@ -112,8 +112,9 @@ function theme_live_event_watch_timer($variables) {
       break;
   }
 
+  $race_id = $timerInfo['race_id'];
   if (!empty($timer_label) && !empty($timer_time)) {
-    $timer_output = "<span class='help-text'>{$timer_label}</span><span class='time'>{$timer_time}</span>";
+    $timer_output = "<span class='help-text'>{$timer_label}</span><span class='time race-id-{$race_id}'>{$timer_time}</span>";
   }
 
   $output = !empty($timer_output) ? "<span class='race-online'>{$timer_output}</span>" : "";
