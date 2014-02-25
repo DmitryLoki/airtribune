@@ -168,8 +168,8 @@ abstract class ATSync {
     $entity = $this->entity;
     $entity_type = $this->entity_type;
     if ($entity_type == 'og_membership') {
-      $entity = entity_load_single($entity->entity_type, $entity->etid);
       $entity_type = $entity->entity_type;
+      $entity = entity_load_single($entity->entity_type, $entity->etid);
     }
         $entity->field_core_id = array(
       LANGUAGE_NONE => array(
@@ -178,7 +178,9 @@ abstract class ATSync {
         ),
       ),
     );
-    entity_save($entity_type, $entity);
+    list($entity_id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+    field_attach_update($entity_type, $entity);
+    entity_get_controller($entity_type)->resetCache(array($entity_id));
     $this->core_id = $id;
   }
 
