@@ -102,6 +102,7 @@ function at_tracker_field_widget_form(&$form, &$form_state, $field, $instance, $
  */
 function _ajax_at_tracker_widget_callback($form, $form_state) {
   $field_name = $form_state['at']['tracker_field'];
+  $field = field_info_field($field_name);
   $delta = $form_state['at']['field_delta'];
   $field_js = $field_name;
   if (isset($form[$field_name])) {
@@ -112,11 +113,11 @@ function _ajax_at_tracker_widget_callback($form, $form_state) {
     $field_js = 'membership_fields[field_tracker_at_]';
   }
 
-  $form_field[LANGUAGE_NONE][0]['#options'] = array('none' => t('-- None selected --')) + _at_tracker_trackers_options($form['#entity']);
+  $form_field[LANGUAGE_NONE][0]['#options'] = array('none' => t('-- None selected --')) + _at_tracker_trackers_options($form['#entity'], $field);
   $form_field[LANGUAGE_NONE][0]['#default_value'] = $form_state['values'][$field_name][LANGUAGE_NONE][0];
 
   $commands[] = ajax_command_insert('#at_tracker-wrapper-' . $delta, drupal_render($form_field));
-  $commands[] = ajax_command_invoke(NULL,'changeBindTrackerField',array($field_js));
+  $commands[] = ajax_command_invoke(NULL,'changeBindTrackerField',array($field_js, '#at_tracker-wrapper-' . $delta));
   $commands[] = ajax_command_invoke('#at_tracker-wrapper-' . $delta . ' select','attr',array('size', 5));
   return array('#type' => 'ajax', '#commands' => $commands);
 }
@@ -171,25 +172,28 @@ function at_tracker_field_update($entity_type, $entity, $field, $instance, $lang
  * @return $options array - trackers from core storage. Key is tracker id, value - tracker name.
  */
 function _at_tracker_trackers_options($entity = NULL, $field = NULL) {
-  if($cached = cache_get('at_tracker:trackers_options', 'cache'))  {
+  $contest_core_id = NULL;
+  if (!empty($entity)) {
+    $entity_type = $entity->entityType();
+    $contest_core_id = get_core_id_from_entity('node', get_contest_for_entity($entity_type, $entity));
+  }
+  $cid_part = !empty($contest_core_id) ? ':' . $contest_core_id : '';
+  if ($cached = cache_get('at_tracker:trackers_options:' . $cid_part, 'cache'))  {
     $options = $cached->data;
-    dpm($cached->data);
   } else {
-    $contest_core_id = NULL;
-    if (!empty($entity)) {
-      $entity_type = $entity->entityType();
-      $contest_core_id = get_core_id_from_entity('node', get_contest_for_entity($entity_type, $entity));
-    }
+
+
     $options = array();
     if (!empty($contest_core_id)) {
-      $contest_core_id = '&not_registered_at=' . $contest_core_id;
+      $url_part = '&not_registered_at=' . $contest_core_id;
     }
     // Request only hardvare trackers
-    $response = ATSync::requestToCore('tracker?device_type=tr203&device_type=telt_gh3000'. $contest_core_id, array(), 'GET');
+    $response = ATSync::requestToCore('tracker?device_type=tr203&device_type=telt_gh3000'. $url_part, array(), 'GET');
     foreach($response as $key => $tracker) {
       $options[$tracker->id] = $tracker->name;
     }
-    cache_set('at_tracker:trackers_options', $options, 'cache', 5); //5 seconds
+
+    cache_set('at_tracker:trackers_options:' . $cid_part, $options, 'cache', 5); //5 seconds
   }
   if (isset($field) && !empty($entity->{$field['field_name']}[LANGUAGE_NONE][0]['value'])) {
     $options[$entity->{$field['field_name']}[LANGUAGE_NONE][0]['value']] = $entity->{$field['field_name']}[LANGUAGE_NONE][0]['name'];

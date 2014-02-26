@@ -53,7 +53,6 @@ function at_tracker_editable_widget_form($form, &$form_state, $entity_type, $ent
   $items = $entity->{$field['field_name']};
   $items = isset($items[$langcode]) ? $items[$langcode] : array();
   $form['#row_index'] = $row_index;
-  $form += field_default_form($entity_type, $entity, $field, $instance, $langcode, $items, $form, $form_state, $delta);
 
   // Wrap the whole form into a wrapper, and prepare AJAX settings.
   $wrapper_id = drupal_html_id('at-tracker-editable-' . $field['field_name']);
@@ -73,6 +72,8 @@ function at_tracker_editable_widget_form($form, &$form_state, $entity_type, $ent
       'message' => t('Please wait'),
     ),
   );
+  // Add field widget into form
+  $form += field_default_form($entity_type, $entity, $field, $instance, $langcode, $items, $form, $form_state, $delta);
 
   // Submit
   $form['submit'] = array(
@@ -80,6 +81,7 @@ function at_tracker_editable_widget_form($form, &$form_state, $entity_type, $ent
     '#value' => t('Save'),
     '#ajax' => $ajax,
     '#submit' => array('at_tracker_editable_widget_form_submit'),
+    '#weight' => 99,
   );
   return $form;
 }
@@ -136,8 +138,9 @@ function at_tracker_editable_widget_form_submit(&$form, &$form_state) {
     entity_save($element['#entity_type'], $entity);
     $form_state['rebuild'] = TRUE;
   }
-dpm($entity);
+
   // Re-load the entity so that fields can act on the new value.
   $entity = entity_load_single($element['#entity_type'], $element['#entity_id']);
   $form_state['#entity'] = $entity;
+  $form['#entity'] = $entity;
 }

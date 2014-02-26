@@ -61,6 +61,7 @@ function at_tracker_field_storage_write($entity_type, $entity, $op, $fields, $en
     $field_name = $field['field_name'];
     at_core_sync_entity_sync($entity_type, $entity, 'patch', array('tracker' => $field_name));
     cache_clear_all(_at_tracker_get_cid($entity_type, $entity), 'cache');
+    cache_clear_all('at_tracker:trackers_options', 'cache');
   }
 }
 
