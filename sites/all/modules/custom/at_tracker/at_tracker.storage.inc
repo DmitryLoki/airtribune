@@ -32,9 +32,9 @@ function at_tracker_field_storage_load($entity_type, $entities, $age, $fields, $
         if (!empty($result->tracker)) {
           $tracker = ATSync::requestToCore('tracker/'. $result->tracker, array(), 'GET');
         }
-          $item = array();
-          $item['value'] = $tracker->id;
-          $item['name'] = $tracker->name;
+        $item = array();
+        $item['value'] = $tracker->id;
+        $item['name'] = $tracker->name;
         cache_set($cid, $item, 'cache', 60*60); //1 hour
       }
       if (!empty($tracker)) {
