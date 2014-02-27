@@ -134,7 +134,8 @@ class  RaceWatch {
 
 
       $this->race_status = $status;
-      $this->race_status = PG_RACE_WATCH_STATUS_IS_LIVE;
+      //~ $this->race_status = PG_RACE_WATCH_STATUS_IS_LIVE;
+      $this->race_status = PG_RACE_WATCH_STATUS_AWAITING;
     }
     return $this->race_status;
   }

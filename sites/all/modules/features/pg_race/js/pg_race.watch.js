@@ -1,6 +1,7 @@
 (function ($) {
 
   // @todo: maybe use window.crontab instead
+  // @todo: consider time of pageload in crontab_currentTime
 
   // Table for scheduled operations.
   // 'timestamp' => array('actions' => array('action', 'parameters' => array()))
@@ -65,6 +66,8 @@
             function_name = pg_race_watch_setting.function_name;
             if (!raceWatchRegistry.hasOwnProperty(raceId)) {
 
+              pg_race_watch_setting['start'] = pg_race_watch_setting['now_local'] - 10;
+
               status = pg_race_watch_setting.status;
               raceWatch = {'settings' : pg_race_watch_setting, 'functions' : [function_name], 'status' : { 'current' : status, 'old' : 'init' }};
               raceWatchRegistry[raceId] = raceWatch;
@@ -78,31 +81,14 @@
         });
       }
 
-
-
-
-
-      // Add event listeners to raceWatch elements.
+      // trigger "raceStateChange" event to initialize all raceWatch objects from [init --> current] state
       $.each (raceWatchRegistry, function(race_id, raceWatch) {
         if (typeof raceWatch != 'undefined') {  // @todo: This is because of assoc arrays iterating problem. Find another solution.
           state_current = raceWatch['status']['current'];
           state_old = raceWatch['status']['old'];
-
-          // Initialize watch objects (same as statechage() in init phase).
-          // Trigger statechange() event.
           $(document).trigger('raceStateChange', { "raceWatch" : raceWatch , "state_current" : state_current , "state_old" : state_old } );
         }
       });
-
-      //~ console.log(raceWatchRegistry);
-      //~ console.log(crontab);
-
-      // @todo: set initial value for "scheduled_timemark" based on "crontab" (scheduled) data
-      timemarks = Object.keys(crontab);
-      if (timemarks.length > 0) {
-        scheduled_timemark = Math.min.apply(Math, timemarks);
-      }
-
 
       // start crontab timer
       crontabTimer();
@@ -163,6 +149,7 @@
 
   // Temporary function instead of statechage() event.
   function tmpOnStateChange(raceWatch, state_current, state_old) {
+    //~ console.log(raceWatch);
     $.each (raceWatch['functions'], function(i, function_name) {
       // Function name that would react to raceWatch object status changes.
       window[function_name](raceWatch, state_current, state_old);
@@ -175,7 +162,7 @@
 
 
 
-  // ------------- STATE CHANGE PROCESSORS ---------------------------
+  // ------------- RACE STATE CHANGE FUNCTIONS MAPPER ---------------------------
 
   // @todo:
 
@@ -184,19 +171,27 @@
     var raceId;
     raceId = raceWatch.settings.race_id;
 
-    // Add checkCoreDataAvailable into crontab if necessary.
+    // init --> is_live
     if (state_old == 'init' && state_current == 'is_live' ) {
-      // Actually this is timemark.
-      timestamp = 0;
+      // add checkCoreDataAvailable into crontab
+      timemark = 0;
       action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId } };
-      if (crontab.hasOwnProperty(timestamp)) {
-        // @todo: maybe key should be raceId but not just autoincrement
-        crontab[timestamp].push(action);
-      }
-      else {
-        crontab[timestamp] = [ action ];
-      }
+      pgRaceCrontabAdd (timemark, action);
 
+      // add regular operations (timer update when crontab_currentTime is incremented)
+      action = { 'action' : 'changeRaceTimerRendered' , 'parameters' : { 'raceId' : raceId } }
+      crontab_regular.push(action);
+    }
+
+    // awaiting --> is_live
+    else if (state_old == 'awaiting' && state_current == 'is_live' ) {
+      timemark = crontab_currentTime + 1;
+      action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId } };
+      pgRaceCrontabAdd (timemark, action);
+    }
+
+    // init --> awaiting
+    else if (state_old == 'init' && state_current == 'awaiting' ) {
       // Add regular operations (timer update when crontab_currentTime is incremented)
       action = { 'action' : 'changeRaceTimerRendered' , 'parameters' : { 'raceId' : raceId } }
       crontab_regular.push(action);
@@ -204,47 +199,58 @@
   }
 
 
-
   // ------------- SCHEDULED AND REGULAR OPERATIONS ---------------------------
 
   // @todo
-  window.checkCoreDataAvailable = function checkCoreDataAvailable(timemark, parameters) {
-    // @todo: Check if date is available for given raceId
-    // and set another timemark action if required.
 
+  // Check if data is available for given raceId and set another timemark action if required.
+  window.checkCoreDataAvailable = function checkCoreDataAvailable(timemark, parameters) {
     // If there is problem with data retrieval, bind this action to another timemark.
     var period = 10;
     var new_timemark = crontab_currentTime + period;
     var raceId = parameters['raceId'];
     action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId } };
-    // @todo: move this part (binding) into separate function.
-    if (crontab.hasOwnProperty(new_timemark)) {
-      // @todo: maybe key should be raceId but not just autoincrement
-      crontab[new_timemark].push(action);
-    }
-    else {
-      crontab[new_timemark] = [ action ];
-    }
-
-    // @todo: use update scheduled_timemark function
-    // to check if new_timemark is really minimum amongst already existing timemarks (scheduled actions)
-    scheduled_timemark = new_timemark;
+    pgRaceCrontabAdd (new_timemark, action);
   }
 
 
 
 
+  // Render and replace race timer html
   window.changeRaceTimerRendered = function changeRaceTimerRendered(index, parameters) {
     raceId = parameters.raceId;
     raceWatch = raceWatchRegistry[raceId];
 
     now_local = raceWatch['settings']['now_local'];
     start = raceWatch['settings']['start'];
-    diff = now_local - start;
+
+    status = raceWatch['settings']['status'];
+
+    if (status == 'is_live') {
+      diff = now_local - start;
+    }
+    else if (status == 'awaiting') {
+      diff = start - now_local;
+
+    }
+
 
     timer = diff + crontab_currentTime;
     timerRendered = renderRaceTimer(timer);
     $(".time.race-id-" + raceId).html(timerRendered);
+
+    // Change status from Awaiting to Is_live
+    if (status == 'awaiting' && timer == 0) {
+      // @todo: move into separate function like raceChangeStatus
+      raceWatchRegistry[raceId]['status']['current'] = 'is_live';
+      raceWatchRegistry[raceId]['status']['old'] = 'awaiting';
+      raceWatch = raceWatchRegistry[raceId];
+
+      state_current = raceWatch['status']['current'];
+      state_old = raceWatch['status']['old'];
+
+      $(document).trigger('raceStateChange', { "raceWatch" : raceWatch , "state_current" : state_current , "state_old" : state_old } );
+    }
   }
 
 
@@ -262,6 +268,35 @@
     m = Math.abs(m);
     s = Math.abs(s);
     return (h < 10 ? "0" : "") + h + ":" + (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+  }
+
+
+  // Add action into crontab
+  function pgRaceCrontabAdd (timemark, action) {
+    if (crontab.hasOwnProperty(timemark)) {
+      // @todo: maybe key should be raceId but not just autoincrement
+      crontab[timemark].push(action);
+    }
+    else {
+      crontab[timemark] = [ action ];
+    }
+
+    // @todo: set initial value for "scheduled_timemark" based on "crontab" (scheduled) data
+    // and also all previous timemarks must be removed or not considered
+
+    // Set scheduled_timemark as  minimum valid timemark
+    timemarks = Object.keys(crontab);
+    if (timemarks.length > 0) {
+
+      valid_timemarks = jQuery.grep(timemarks, function( n, i ) {
+        return (n > crontab_currentTime );
+      });
+      if (valid_timemarks.length > 0) {
+        scheduled_timemark = Math.min.apply(Math, valid_timemarks);
+        console.log(scheduled_timemark);
+      }
+    }
+    //~ scheduled_timemark = timemark;
   }
 
 })(jQuery);
