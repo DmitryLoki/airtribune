@@ -58,7 +58,7 @@
       // ------------- SETTINGS PROCESSING ---------------------------
 
       // @todo
-      if (Drupal.settings.pg_race.task_watch != 'undefined') {
+      if (typeof Drupal.settings.pg_race != 'undefined' && typeof Drupal.settings.pg_race.task_watch != 'undefined' && Drupal.settings.pg_race.task_watch) {
         $.each(Drupal.settings.pg_race.task_watch, function(watch_obj_type, pg_race_watch_settings) {
           $.each(pg_race_watch_settings, function(i, pg_race_watch_setting) {
             // Collect settings for all types of watch objects (be it timer or links, etc.).
