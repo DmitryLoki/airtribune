@@ -75,6 +75,8 @@ class pg_race_handler_watch_task extends views_handler_field_entity {
             case PG_RACE_WATCH_STATUS_AWAITING :
             case PG_RACE_WATCH_STATUS_IS_LIVE :
               $timeInfo = $raceWatch->getTimeInfo();
+              $coreRequestIds = $raceWatch->getCoreRequestIds();
+
               $settings[$race_id] = array(
                 'status' => $js_status[$raceStatus],
                 'race_id' => $race_id,
@@ -86,6 +88,10 @@ class pg_race_handler_watch_task extends views_handler_field_entity {
                 'now_utc' => $timeInfo['now_utc'],
                 'offset' => $timeInfo['offset'],
                 'function_name' => 'pg_race_frontpage_live_events_links',  // js function name to process this item
+
+                'contest_cid' => $coreRequestIds['contest_cid'],
+                'race_cid' => $coreRequestIds['race_cid'],
+                'core_api_address' => at_core_sync_get_api_url(),  // @todo: maybe this option should be also set in getCoreRequestIds()
               );
               break;
           }

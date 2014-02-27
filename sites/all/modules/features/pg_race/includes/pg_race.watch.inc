@@ -344,4 +344,25 @@ class  RaceWatch {
     }
     return $data;
   }
+
+  /**
+   * Return core request ids for the race
+   *
+   * @todo
+   */
+  function getCoreRequestIds() {
+    $contest = $this->getEventEntity();
+    $wrapper = entity_metadata_wrapper('node', $contest);
+    $contest_cid = $wrapper->{AIRTRIBUNE_CORE_ID_FIELD}->value();
+
+    $entity_race = $this->entity_race;
+    $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity_race);
+    $race_cid = $wrapper->{AIRTRIBUNE_CORE_ID_FIELD}->value();
+
+    return array(
+      'contest_cid' => !empty($contest_cid) ? $contest_cid : '',
+      'race_cid' => !empty($race_cid) ? $race_cid : '',
+      //~ 'race_eid' => $entity_race->id,
+    );
+  }
 }
