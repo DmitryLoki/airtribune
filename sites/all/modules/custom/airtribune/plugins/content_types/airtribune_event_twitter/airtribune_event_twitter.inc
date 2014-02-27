@@ -30,7 +30,7 @@ function airtribune_event_tw_fb_content_type_render(&$subtype, $conf, $panel_arg
 
   // Event node.
   $node = $context->data;
-  $twitter_widget_code = field_get_items('node', $node, AIRTRIBUNE_TWITTER_WIDGET_CODE_FIELD);
+  $twitter_widget_code = field_get_items('node', $node, 'field_twitter_widget_code');
 
   if (empty($twitter_widget_code[0]['value'])) {
     return;

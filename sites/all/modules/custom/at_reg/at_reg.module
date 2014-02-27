@@ -564,7 +564,7 @@ function at_reg_name_dateofbirth_element_validate($element, &$form_state) {
     }
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'profile2');
-    $query->entityCondition('bundle', MAIN_PROFILE_TYPE);
+    $query->entityCondition('bundle', AIRTRIBUNE_MEMBERSHIP_CONTESTANT);
     // Add case-insensitive conditions.
     $query->fieldCondition('field_full_name', 'given', db_like($given), 'LIKE');
     $query->fieldCondition('field_full_name', 'family', db_like($family), 'LIKE');
