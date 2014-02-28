@@ -59,11 +59,22 @@ function _at_alias_update_single_conjugate_node($node, $events) {
   $clear_title = _at_alias_clear_string($node->title);
   $placeholders = array(':clear_title' => $clear_title, ':nid' => $node->nid);
   if ($node->type == AIRTRIBUNE_DAY_TYPE) {
-    $placeholders[':day_suffix'] = isset($node->field_day_number[LANGUAGE_NONE]['0']['value'])
-      ? $node->field_day_number[LANGUAGE_NONE]['0']['value']
-      : _at_alias_clear_string($node->title);
+    switch($node->field_day_status[LANGUAGE_NONE][0]['value']) {
+      case 4:
+        $placeholders[':day_suffix'] = 'registration';
+        break;
+      case 5:
+        $placeholders[':day_suffix'] = 'training';
+        break;
+      default:
+        $placeholders[':day_suffix'] = isset($node->field_day_number[LANGUAGE_NONE]['0']['value'])
+          ? $node->field_day_number[LANGUAGE_NONE]['0']['value']
+          : _at_alias_clear_string($node->title);
+        break;
+    }
+
   }
-  
+
   // Go through events.
   foreach ($events as $event) {
     $alias_base = _at_alias_get_event_alias_base($event);
