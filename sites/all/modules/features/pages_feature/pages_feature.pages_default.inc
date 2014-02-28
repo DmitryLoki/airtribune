@@ -8002,7 +8002,7 @@ window.fbAsyncInit = function() {
 <link rel="stylesheet" href="http://vis.airtribune.com/leaderboard/build/table.css">
 <script type="text/javascript" src="http://vis.airtribune.com/leaderboard/build/airvis-table.min.js"></script>
 <div class="container" id="container" data-options=\'{"contestId":"[airtribune:contest-core-id]","raceId":"[airtribune:race-core-id]","isOnline":[airtribune:race-online],"apiDomain":"[variable:core-api-domain]","apiVersion":"[variable:core-api-version]"}\'></div>',
-        'format' => 'full_html',
+        'format' => 'php_code',
       ),
       'widget_type' => '_none',
       'widget_height' => '380',
