@@ -137,18 +137,9 @@
       });
     }
 
-    // @todo: remove triggered actions from array. we don't need them any more.
+    // @todo: remove triggered (processed) actions from array. we don't need them any more.
   }
 
-  function setRaceState() {
-    //
-  }
-  function getRaceState() {
-    //
-  }
-  function removeRaceState() {
-    //
-  }
 
   // Temporary function instead of statechage() event.
   function tmpOnStateChange(raceWatch, state_current, state_old) {
@@ -295,9 +286,6 @@
     $.ajax({
       url: raceData.coreApiAddress + '/contest/' + raceData.contestCid + '/race/' + raceData.raceCid + '/tracks?type=' + raceData.requestType,
       //url: raceData.coreApiAddress + '/contest/' + raceData.contestCid + '/race/' + raceData.raceCid + '/tracks?type=competition_aftertask',
-
-      //~ url: Drupal.settings.pgRace.coreApiAddress + '/contest/' + raceData.contestId + '/race/' + raceData.raceId + '/tracks?type=' + raceData.requestType,
-      //~ //url: Drupal.settings.pgRace.coreApiAddress + '/contest/' + raceData.contestId + '/race/' + raceData.raceId + '/tracks?type=competition_aftertask',
       dataType:"json",
       success: responseCallback,
       error: function () {
@@ -382,44 +370,28 @@
 
     // Change status from Awaiting / Starting to Is_live
     if ((status == 'awaiting' || status == 'starting') && timer == 0) {
-      // @todo: move into separate function like raceChangeStatus
-      raceWatchRegistry[raceId]['status']['current'] = 'is_live';
-      raceWatchRegistry[raceId]['status']['old'] = status;
-      raceWatch = raceWatchRegistry[raceId];
-
-      state_current = raceWatch['status']['current'];
-      state_old = raceWatch['status']['old'];
-
-      $(document).trigger('raceStateChange', { "raceWatch" : raceWatch , "state_current" : state_current , "state_old" : state_old } );
+      raceChangeStatus(raceId, 'is_live', status);
     }
 
     else if (status == 'awaiting' && (now_local  + crontab_currentTime) >= open) {
-      // @todo: move into separate function like raceChangeStatus
-      raceWatchRegistry[raceId]['status']['current'] = 'starting';
-      raceWatchRegistry[raceId]['status']['old'] = status;
-      raceWatch = raceWatchRegistry[raceId];
-
-      state_current = raceWatch['status']['current'];
-      state_old = raceWatch['status']['old'];
-
-      $(document).trigger('raceStateChange', { "raceWatch" : raceWatch , "state_current" : state_current , "state_old" : state_old } );
+      raceChangeStatus(raceId, 'starting', 'awaiting');
     }
 
     else if (status == 'is_live' && (now_local  + crontab_currentTime) >= end) {
-      // @todo: move into separate function like raceChangeStatus
-      raceWatchRegistry[raceId]['status']['current'] = 'finished';
-      raceWatchRegistry[raceId]['status']['old'] = status;
-      raceWatch = raceWatchRegistry[raceId];
-
-      state_current = raceWatch['status']['current'];
-      state_old = raceWatch['status']['old'];
-
-      $(document).trigger('raceStateChange', { "raceWatch" : raceWatch , "state_current" : state_current , "state_old" : state_old } );
+      raceChangeStatus(raceId, 'finished', 'is_live');
     }
   }
 
 
   // ------------- HELPER FUNCTIONS ---------------------------
+
+  // Change raceWatch status and trigger "raceStateChange" event.
+  function raceChangeStatus(raceId, status_current, status_old) {
+    raceWatchRegistry[raceId]['status']['current'] = status_current;
+    raceWatchRegistry[raceId]['status']['old'] = status_old;
+    raceWatch = raceWatchRegistry[raceId];
+    $(document).trigger('raceStateChange', { "raceWatch" : raceWatch , "state_current" : status_current , "state_old" : status_old } );
+  }
 
   // convert time into H:i:s format
   function renderRaceTimer(timer) {
