@@ -73,24 +73,29 @@ function at_tracker_field_widget_form(&$form, &$form_state, $field, $instance, $
       $d = $form['#row_index'];
     }
 
+    $entity_type = $entity->entityType();
+    list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+
     $element = array(
+      '#element_id' => $id,
+      '#row_index' => $d,
       '#type' => 'select',
       '#title' => t('Tracker'),
       '#options' => _at_tracker_trackers_options($entity, $field),
       '#empty_option' => t('-- None selected --'),
       '#empty_value' => 'none',
       '#default_value' => $value,
-      '#prefix' => "<div id='at_tracker-wrapper-{$d}'>",
+      '#prefix' => "<div id='at_tracker-wrapper-{$id}'>",
       '#suffix' => '</div>',
       '#attached' => array('js' => array(drupal_get_path('module', 'at_tracker') . '/js/at_tracker.js')),
       '#ajax' => array(
         'callback' => '_ajax_at_tracker_widget_callback',
-        'wrapper' => 'at_tracker-wrapper-' . $d,
-        'method' => 'replace',
-        'event' => 'mousedown',
+        'wrapper' => 'at_tracker-wrapper-' . $id,
+
+        'event' => 'change',
       ),
     );
-    $form_state['at'] = array('tracker_field' => $field['field_name'], 'field_delta' => $d);
+    $form_state['at'] = array('tracker_field' => $field['field_name'], );
 
   }
 
@@ -101,9 +106,11 @@ function at_tracker_field_widget_form(&$form, &$form_state, $field, $instance, $
  * Returns the tracker element filtered by continent via AJAX.
  */
 function _ajax_at_tracker_widget_callback($form, $form_state) {
+  $current = $form_state['triggering_element'];
   $field_name = $form_state['at']['tracker_field'];
   $field = field_info_field($field_name);
-  $delta = $form_state['at']['field_delta'];
+  $row_index = $current['#row_index'];
+  $id = $current['#element_id'];
   $field_js = $field_name;
   if (isset($form[$field_name])) {
     $form_field = $form[$field_name];
@@ -115,10 +122,9 @@ function _ajax_at_tracker_widget_callback($form, $form_state) {
 
   $form_field[LANGUAGE_NONE][0]['#options'] = array('none' => t('-- None selected --')) + _at_tracker_trackers_options($form['#entity'], $field);
   $form_field[LANGUAGE_NONE][0]['#default_value'] = $form_state['values'][$field_name][LANGUAGE_NONE][0];
-
-  $commands[] = ajax_command_insert('#at_tracker-wrapper-' . $delta, drupal_render($form_field));
-  $commands[] = ajax_command_invoke(NULL,'changeBindTrackerField',array($field_js, '#at_tracker-wrapper-' . $delta));
-  $commands[] = ajax_command_invoke('#at_tracker-wrapper-' . $delta . ' select','attr',array('size', 5));
+  $wrapper = '#at_tracker-wrapper-'.$id;
+  $commands[] = ajax_command_invoke(NULL,'changeBindTrackerField',array($field_js, $wrapper));
+  $commands[] = ajax_command_invoke($wrapper . ' select','attr',array('size', 5));
   return array('#type' => 'ajax', '#commands' => $commands);
 }
 
@@ -173,6 +179,7 @@ function at_tracker_field_update($entity_type, $entity, $field, $instance, $lang
  */
 function _at_tracker_trackers_options($entity = NULL, $field = NULL) {
   $contest_core_id = NULL;
+  cache_clear_all(NULL,'cache');
   if (!empty($entity)) {
     $entity_type = $entity->entityType();
     $contest_core_id = get_core_id_from_entity('node', get_contest_for_entity($entity_type, $entity));

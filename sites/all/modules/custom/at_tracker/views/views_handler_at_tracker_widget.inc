@@ -29,8 +29,11 @@ class views_handler_at_tracker_widget extends views_handler_field_entity {
     $entity_type = $entity->entityType();
     $instances = field_info_instances($entity_type, $entity->type);
     foreach ($instances as $field_name => $instance) {
+      $item = array();
       if ($instance['widget']['type'] == 'at_tracker') {
-        $item = $entity->{$field_name}[LANGUAGE_NONE][0];
+        if (isset($entity->{$field_name}[LANGUAGE_NONE][0])) {
+          $item = $entity->{$field_name}[LANGUAGE_NONE][0];
+        }
         //$output = field_view_value($entity_type, $entity, $field_name, $item);
         $field = field_info_field($field_name);
         $output = drupal_get_form('at_tracker_editable_widget_form', $entity_type, $entity, $field, $instance, LANGUAGE_NONE, 0, $row_index);

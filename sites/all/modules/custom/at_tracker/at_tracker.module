@@ -55,7 +55,7 @@ function at_tracker_editable_widget_form($form, &$form_state, $entity_type, $ent
   $form['#row_index'] = $row_index;
 
   // Wrap the whole form into a wrapper, and prepare AJAX settings.
-  $wrapper_id = drupal_html_id('at-tracker-editable-' . $field['field_name']);
+  $wrapper_id = drupal_html_id('at-tracker-editable-' . $field['field_name'] . '-' . $row_index);
   $form['#prefix'] = '<div id="' . $wrapper_id . '" class="editable-' . $field['type'] . ' editable-item">';
   $form['#suffix'] = '</div>';
   $form['#entity_type'] = $entity_type;

@@ -24,9 +24,12 @@ function at_tracker_field_storage_load($entity_type, $entities, $age, $fields, $
     foreach ($entities as $entity) {
       $cid = _at_tracker_get_cid($entity_type, $entity);
       $item = NULL;
-      if($cached = cache_get($cid, 'cache'))  {
+      $tracker = NULL;
+      list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+      if ($cached = cache_get($cid, 'cache')) {
         $item = $cached->data;
       } else {
+        cache_clear_all("field:$entity_type:$id", 'cache_field');
         $sync = _get_class_by_entity($entity_type, $entity);
         $result = $sync->getFromCore();
         if (!empty($result->tracker)) {
