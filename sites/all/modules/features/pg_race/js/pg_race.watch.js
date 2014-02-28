@@ -95,9 +95,9 @@
 
       // start crontab timer
       crontabTimer();
+
     }
   }
-
 
 
 
@@ -257,18 +257,53 @@
     var contestCid = parameters['contestCid'];
     var raceCid = parameters['raceCid'];
 
-    //~ console.log(coreApiAddress);
-    //~ console.log(contestCid);
-    //~ console.log(raceCid);
+    var raceData = {
+      coreApiAddress: parameters['coreApiAddress'],
+      raceId: parameters['raceId'],
+      raceCid: parameters['raceCid'],
+      contestCid: parameters['contestCid'],
+      requestType: 'online',
+    };
+    //~ raceData.requestType = raceData.isOnline || !hasTracksLoaded($raceBlock) ? 'online' : 'competition_aftertask';
 
-    // Show links if core is available
-    $(".watch-links-race-id-"+raceId+" .task-live").show();
 
-    // If there is problem with data retrieval, bind this action to another timemark.
-    var period = 10;
-    var new_timemark = crontab_currentTime + period;
-    action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
-    pgRaceCrontabAdd (new_timemark, action);
+
+    _requestRaceState(raceData, function response(raceInfo) {
+      if (raceInfo && raceInfo.length > 0 && !$.isEmptyObject(raceInfo)) {
+        // Show links if core is available
+        $(".watch-links-race-id-"+raceData.raceId+" .task-live").show();
+      } else {
+        // If there is problem with data retrieval, bind this action to another timemark.
+        var raceId = raceData.raceId;
+        var coreApiAddress = raceData.coreApiAddress;
+        var contestCid = raceData.contestCid;
+        var raceCid = raceData.raceCid;
+
+        // Time period and Timemark
+        var period = 10;
+        var new_timemark = crontab_currentTime + period;
+
+        // add action to crontab
+        action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+        pgRaceCrontabAdd (new_timemark, action);
+      }
+    });
+  }
+
+  // This is clone of requestRaceState() from pg_race_play_link.js
+  function _requestRaceState(raceData, responseCallback) {
+    /*'http://api.airtribune.com/v0.1.4/contest/cnts-130607-2736547863/race/r-23be3210-f0f7-49c3-b071-63da6cd56e61/tracks'*/
+    $.ajax({
+      url: raceData.coreApiAddress + '/contest/' + raceData.contestCid + '/race/' + raceData.raceCid + '/tracks?type=' + raceData.requestType,
+      //url: raceData.coreApiAddress + '/contest/' + raceData.contestCid + '/race/' + raceData.raceCid + '/tracks?type=competition_aftertask',
+
+      //~ url: Drupal.settings.pgRace.coreApiAddress + '/contest/' + raceData.contestId + '/race/' + raceData.raceId + '/tracks?type=' + raceData.requestType,
+      //~ //url: Drupal.settings.pgRace.coreApiAddress + '/contest/' + raceData.contestId + '/race/' + raceData.raceId + '/tracks?type=competition_aftertask',
+      dataType:"json",
+      success: responseCallback,
+      error: function () {
+        responseCallback(null);
+      }});
   }
 
   // Check if data is available for given raceId and set another timemark action if required.
