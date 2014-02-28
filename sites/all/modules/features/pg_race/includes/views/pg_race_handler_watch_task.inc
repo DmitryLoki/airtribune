@@ -70,9 +70,10 @@ class pg_race_handler_watch_task extends views_handler_field_entity {
           // Add js settings for links
           $settings = array();
           $race_id = $entity->id;
-          $js_status = array(PG_RACE_WATCH_STATUS_AWAITING => 'awaiting', PG_RACE_WATCH_STATUS_IS_LIVE => 'is_live');
+          $js_status = array(PG_RACE_WATCH_STATUS_AWAITING => 'awaiting', PG_RACE_WATCH_STATUS_STARTING => 'starting', PG_RACE_WATCH_STATUS_IS_LIVE => 'is_live', PG_RACE_WATCH_STATUS_FINISHED => 'finished');
           switch ($raceStatus) {
             case PG_RACE_WATCH_STATUS_AWAITING :
+            case PG_RACE_WATCH_STATUS_STARTING :
             case PG_RACE_WATCH_STATUS_IS_LIVE :
               $timeInfo = $raceWatch->getTimeInfo();
               $coreRequestIds = $raceWatch->getCoreRequestIds();

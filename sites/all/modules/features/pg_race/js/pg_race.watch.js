@@ -184,7 +184,15 @@
     }
 
     // awaiting --> is_live
+    // @todo: seems, that this option isn't required
     else if (state_old == 'awaiting' && state_current == 'is_live' ) {
+      timemark = crontab_currentTime + 1;
+      action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId } };
+      pgRaceCrontabAdd (timemark, action);
+    }
+
+    // starting --> is_live
+    else if (state_old == 'starting' && state_current == 'is_live' ) {
       timemark = crontab_currentTime + 1;
       action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId } };
       pgRaceCrontabAdd (timemark, action);
@@ -192,6 +200,13 @@
 
     // init --> awaiting
     else if (state_old == 'init' && state_current == 'awaiting' ) {
+      // Add regular operations (timer update when crontab_currentTime is incremented)
+      action = { 'action' : 'changeRaceTimerRendered' , 'parameters' : { 'raceId' : raceId } }
+      crontab_regular.push(action);
+    }
+
+    // init --> starting
+    else if (state_old == 'init' && state_current == 'starting' ) {
       // Add regular operations (timer update when crontab_currentTime is incremented)
       action = { 'action' : 'changeRaceTimerRendered' , 'parameters' : { 'raceId' : raceId } }
       crontab_regular.push(action);
@@ -226,12 +241,15 @@
 
     status = raceWatch['settings']['status'];
 
+    // @todo: use switch-case
     if (status == 'is_live') {
       diff = now_local - start;
     }
     else if (status == 'awaiting') {
       diff = start - now_local;
-
+    }
+    else if (status == 'starting') {
+      diff = start - now_local;
     }
 
 
@@ -239,11 +257,11 @@
     timerRendered = renderRaceTimer(timer);
     $(".time.race-id-" + raceId).html(timerRendered);
 
-    // Change status from Awaiting to Is_live
-    if (status == 'awaiting' && timer == 0) {
+    // Change status from Awaiting / Starting to Is_live
+    if ((status == 'awaiting' || status == 'starting') && timer == 0) {
       // @todo: move into separate function like raceChangeStatus
       raceWatchRegistry[raceId]['status']['current'] = 'is_live';
-      raceWatchRegistry[raceId]['status']['old'] = 'awaiting';
+      raceWatchRegistry[raceId]['status']['old'] = status;
       raceWatch = raceWatchRegistry[raceId];
 
       state_current = raceWatch['status']['current'];
