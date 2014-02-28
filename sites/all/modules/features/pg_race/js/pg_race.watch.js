@@ -66,7 +66,10 @@
             function_name = pg_race_watch_setting.function_name;
             if (!raceWatchRegistry.hasOwnProperty(raceId)) {
 
-              pg_race_watch_setting['start'] = pg_race_watch_setting['now_local'] - 10;
+
+              pg_race_watch_setting['open'] = pg_race_watch_setting['now_local'] + 5;
+              pg_race_watch_setting['start'] = pg_race_watch_setting['now_local'] + 10;
+              //~ pg_race_watch_setting['end'] = pg_race_watch_setting['now_local'] + 20;
 
               status = pg_race_watch_setting.status;
               raceWatch = {'settings' : pg_race_watch_setting, 'functions' : [function_name], 'status' : { 'current' : status, 'old' : 'init' }};
@@ -191,6 +194,9 @@
       pgRaceCrontabAdd (timemark, action);
     }
 
+    // awaiting --> starting
+    // @todo: change html if required
+
     // starting --> is_live
     else if (state_old == 'starting' && state_current == 'is_live' ) {
       timemark = crontab_currentTime + 1;
@@ -238,18 +244,23 @@
 
     now_local = raceWatch['settings']['now_local'];
     start = raceWatch['settings']['start'];
+    open = raceWatch['settings']['open'];
+    //~ end = raceWatch['settings']['end'];
 
-    status = raceWatch['settings']['status'];
+
+    status = raceWatch['status']['current'];
 
     // @todo: use switch-case
     if (status == 'is_live') {
       diff = now_local - start;
     }
     else if (status == 'awaiting') {
-      diff = start - now_local;
+      //~ diff = start - now_local;
+      diff = now_local - start;
     }
     else if (status == 'starting') {
-      diff = start - now_local;
+      //~ diff = start - now_local;
+      diff = now_local - start;
     }
 
 
@@ -269,6 +280,22 @@
 
       $(document).trigger('raceStateChange', { "raceWatch" : raceWatch , "state_current" : state_current , "state_old" : state_old } );
     }
+
+    else if (status == 'awaiting' && (now_local  + crontab_currentTime) >= open) {
+      // @todo: move into separate function like raceChangeStatus
+      raceWatchRegistry[raceId]['status']['current'] = 'starting';
+      raceWatchRegistry[raceId]['status']['old'] = status;
+      raceWatch = raceWatchRegistry[raceId];
+
+      state_current = raceWatch['status']['current'];
+      state_old = raceWatch['status']['old'];
+
+      $(document).trigger('raceStateChange', { "raceWatch" : raceWatch , "state_current" : state_current , "state_old" : state_old } );
+    }
+
+    //~ else if (status == 'is_live' && (now_local  + crontab_currentTime) >= end) {
+      //~ //
+    //~ }
   }
 
 
