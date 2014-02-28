@@ -45,7 +45,7 @@ function airtribune_airtribune_event_links_content_type_render($subtype, $conf, 
     'fragment' => 'rules',
   );
 
-  $rules_items = field_get_items('node', $node, AIRTRIBUNE_RULES_FIELD);
+  $rules_items = field_get_items('node', $node, 'field_contest_rules');
   if (!empty($rules_items[0])) {
     $links['event-rules-file'] = array(
       'href' => file_create_url($rules_items[0]['uri']),
@@ -54,7 +54,7 @@ function airtribune_airtribune_event_links_content_type_render($subtype, $conf, 
   }
 
 
-  $open_class_items = field_get_items('node', $node, AIRTRIBUNE_OPENCLASS_FIELD);
+  $open_class_items = field_get_items('node', $node, 'field_open_class');
   // Open class actually is not a link.
   if (empty($open_class_items[0]['value'])) {
     $links[] = array(

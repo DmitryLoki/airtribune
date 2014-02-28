@@ -206,7 +206,7 @@ function _at_alias_create_event_pages_alias($node, $alias_base) {
     }
 
     // Save tiny aliases.
-    $tiny_path_items = field_get_items('node', $node, AIRTRIBUNE_TINY_PATH_FIELD);
+    $tiny_path_items = field_get_items('node', $node, 'field_tiny_path');
     // Check that $tiny_path_items is not empty
     if (!empty($tiny_path_items) && is_array($tiny_path_items)) {
       foreach ($tiny_path_items as $tiny_path) {

@@ -1,7 +1,4 @@
 <?php
-define('DEFAULT_USER_PICTURE_PATH', 'pictures/default_user_picture.png');
-define('SOLUTIONS_REGEXT_PATTERN', '/[^\/]{2,}[^\/]/');
-
 
 /**
  * Preprocess html.tpl.php

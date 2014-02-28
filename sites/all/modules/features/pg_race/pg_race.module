@@ -4,9 +4,6 @@
  * Code for the Paragliding Race feature.
  */
 
-define('PG_RACE_RETREIVE_URL', 'http://retrieve.airtribune.com/table/index.html');
-define('PG_RACE_NO_TRACKS_TEXT',"We haven't got any data from pilots' live trackers yet. Please, try again later.");
-
 include_once 'pg_race.features.inc';
 
 
