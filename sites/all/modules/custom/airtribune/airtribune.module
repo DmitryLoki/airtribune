@@ -480,7 +480,7 @@ function airtribune_token_info() {
     'name' => t('Core ID: Race'),
     'description' => t('Race ID in Core.'),
   );
-  $info['tokens']['airtribune']['race-online]'] = array(
+  $info['tokens']['airtribune']['race-online'] = array(
     'name' => t('Race state'),
     'description' => t('Race state ("online"/false).'),
   );
