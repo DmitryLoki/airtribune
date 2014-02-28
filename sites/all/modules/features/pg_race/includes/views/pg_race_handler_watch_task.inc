@@ -79,6 +79,7 @@ class pg_race_handler_watch_task extends views_handler_field_entity {
             case PG_RACE_WATCH_STATUS_AWAITING :
             case PG_RACE_WATCH_STATUS_STARTING :
             case PG_RACE_WATCH_STATUS_IS_LIVE :
+            case PG_RACE_WATCH_STATUS_FINISHED :
               $timeInfo = $raceWatch->getTimeInfo();
               $coreRequestIds = $raceWatch->getCoreRequestIds();
 

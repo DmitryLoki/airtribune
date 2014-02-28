@@ -225,6 +225,14 @@
       action = { 'action' : 'changeRaceTimerRendered' , 'parameters' : { 'raceId' : raceId } }
       crontab_regular.push(action);
     }
+
+    // init --> finished
+    else if (state_old == 'init' && state_current == 'finished' ) {
+      // Add regular operations (timer update when crontab_currentTime is incremented)
+      timemark = crontab_currentTime + 1;
+      action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+      pgRaceCrontabAdd (timemark, action);
+    }
   }
 
 
@@ -251,6 +259,28 @@
     var period = 10;
     var new_timemark = crontab_currentTime + period;
     action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+    pgRaceCrontabAdd (new_timemark, action);
+  }
+
+  // Check if data is available for given raceId and set another timemark action if required.
+  window.checkCoreDataAvailableFinished = function checkCoreDataAvailableFinished(timemark, parameters) {
+
+    var raceId = parameters['raceId'];
+    var coreApiAddress = parameters['coreApiAddress'];
+    var contestCid = parameters['contestCid'];
+    var raceCid = parameters['raceCid'];
+
+    //~ console.log(coreApiAddress);
+    //~ console.log(contestCid);
+    //~ console.log(raceCid);
+
+    // Show links if core is available
+    //~ $(".watch-links-race-id-"+raceId).show();
+
+    // If there is problem with data retrieval, bind this action to another timemark.
+    var period = 10;
+    var new_timemark = crontab_currentTime + period;
+    action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
     pgRaceCrontabAdd (new_timemark, action);
   }
 
