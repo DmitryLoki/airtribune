@@ -236,12 +236,13 @@
 
     // is_live --> finished
     else if (state_old == 'is_live' && state_current == 'finished' ) {
-      //~ console.log('is_live -> finished');
-      //~ // Add regular operations (timer update when crontab_currentTime is incremented)
-      //~ timemark = crontab_currentTime + 1;
-      //~ action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
-      //~ pgRaceCrontabAdd (timemark, action);
+      // Add regular operations (timer update when crontab_currentTime is incremented)
+      timemark = crontab_currentTime + 1;
+      action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+      pgRaceCrontabAdd (timemark, action);
     }
+
+    // @todo: Remove regular operation on status change if required. E.g. timer doesn't need to be updated if status == "current"
   }
 
 
@@ -264,10 +265,8 @@
       contestCid: parameters['contestCid'],
       requestType: 'online',
     };
-    //~ raceData.requestType = raceData.isOnline || !hasTracksLoaded($raceBlock) ? 'online' : 'competition_aftertask';
 
-
-
+    // @todo: Check that status is still is_live. Otherwise don't add checks to crontab any more.
     _requestRaceState(raceData, function response(raceInfo) {
       if (raceInfo && raceInfo.length > 0 && !$.isEmptyObject(raceInfo)) {
         // Show links if core is available
@@ -306,6 +305,7 @@
       }});
   }
 
+  // @todo: Move into single function. This is almost the same as checkCoreDataAvailable()
   // Check if data is available for given raceId and set another timemark action if required.
   window.checkCoreDataAvailableFinished = function checkCoreDataAvailableFinished(timemark, parameters) {
 
@@ -314,19 +314,35 @@
     var contestCid = parameters['contestCid'];
     var raceCid = parameters['raceCid'];
 
-    //~ console.log(coreApiAddress);
-    //~ console.log(contestCid);
-    //~ console.log(raceCid);
+    var raceData = {
+      coreApiAddress: parameters['coreApiAddress'],
+      raceId: parameters['raceId'],
+      raceCid: parameters['raceCid'],
+      contestCid: parameters['contestCid'],
+      requestType: 'competition_aftertask',
+    };
 
-    // Show links if core is available
-    $(".watch-links-race-id-"+raceId+" .task-leaderboard").show();
-    //~ setTimeout(function() {$(".watch-links-race-id-"+raceId+" .task-leaderboard").show();}, 5000);
+    _requestRaceState(raceData, function response(raceInfo) {
+      if (raceInfo && raceInfo.length > 0 && !$.isEmptyObject(raceInfo)) {
+        // Show links if core is available
+        $(".watch-links-race-id-"+raceData.raceId+" .task-leaderboard").show();
+        // setTimeout(function() {$(".watch-links-race-id-"+raceData.raceId+" .task-leaderboard").show();}, 5000);
+      } else {
+        // If there is problem with data retrieval, bind this action to another timemark.
+        var raceId = raceData.raceId;
+        var coreApiAddress = raceData.coreApiAddress;
+        var contestCid = raceData.contestCid;
+        var raceCid = raceData.raceCid;
 
-    // If there is problem with data retrieval, bind this action to another timemark.
-    var period = 10;
-    var new_timemark = crontab_currentTime + period;
-    action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
-    pgRaceCrontabAdd (new_timemark, action);
+        // Time period and Timemark
+        var period = 10;
+        var new_timemark = crontab_currentTime + period;
+
+        // add action to crontab
+        action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+        pgRaceCrontabAdd (new_timemark, action);
+      }
+    });
   }
 
 
