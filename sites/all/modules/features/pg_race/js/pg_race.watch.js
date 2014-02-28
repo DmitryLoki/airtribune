@@ -69,7 +69,7 @@
 
               pg_race_watch_setting['open'] = pg_race_watch_setting['now_local'] + 5;
               pg_race_watch_setting['start'] = pg_race_watch_setting['now_local'] + 10;
-              //~ pg_race_watch_setting['end'] = pg_race_watch_setting['now_local'] + 20;
+              pg_race_watch_setting['end'] = pg_race_watch_setting['now_local'] + 20;
 
               status = pg_race_watch_setting.status;
               raceWatch = {'settings' : pg_race_watch_setting, 'functions' : [function_name], 'status' : { 'current' : status, 'old' : 'init' }};
@@ -208,7 +208,7 @@
       action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
       pgRaceCrontabAdd (timemark, action);
 
-      action = { 'action' : 'actionSetTimerHelpText' , 'parameters' : { 'raceId' : raceId } };
+      action = { 'action' : 'actionSetTimerHelpText' , 'parameters' : { 'raceId' : raceId, 'state_old' : state_old, 'state_current' : state_current } };
       pgRaceCrontabAdd (timemark, action);
     }
 
@@ -233,6 +233,15 @@
       action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
       pgRaceCrontabAdd (timemark, action);
     }
+
+    // is_live --> finished
+    else if (state_old == 'is_live' && state_current == 'finished' ) {
+      //~ console.log('is_live -> finished');
+      //~ // Add regular operations (timer update when crontab_currentTime is incremented)
+      //~ timemark = crontab_currentTime + 1;
+      //~ action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+      //~ pgRaceCrontabAdd (timemark, action);
+    }
   }
 
 
@@ -253,7 +262,7 @@
     //~ console.log(raceCid);
 
     // Show links if core is available
-    $(".watch-links-race-id-"+raceId).show();
+    $(".watch-links-race-id-"+raceId+" .task-live").show();
 
     // If there is problem with data retrieval, bind this action to another timemark.
     var period = 10;
@@ -275,7 +284,8 @@
     //~ console.log(raceCid);
 
     // Show links if core is available
-    //~ $(".watch-links-race-id-"+raceId).show();
+    $(".watch-links-race-id-"+raceId+" .task-leaderboard").show();
+    //~ setTimeout(function() {$(".watch-links-race-id-"+raceId+" .task-leaderboard").show();}, 5000);
 
     // If there is problem with data retrieval, bind this action to another timemark.
     var period = 10;
@@ -288,8 +298,11 @@
   // Replace timer help text.
   window.actionSetTimerHelpText = function actionSetTimerHelpText(timemark, parameters) {
     var raceId = parameters['raceId'];
-    // @todo: use translated string
-    $(".timer-race-id-" + raceId + " .help-text").html("Race is on:");
+
+    if (state_old == 'starting' && state_current == 'is_live' ) {
+      // @todo: use translated string
+      $(".timer-race-id-" + raceId + " .help-text").html("Race is on:");
+    }
   }
 
 
@@ -303,24 +316,14 @@
     now_local = raceWatch['settings']['now_local'];
     start = raceWatch['settings']['start'];
     open = raceWatch['settings']['open'];
-    //~ end = raceWatch['settings']['end'];
+    end = raceWatch['settings']['end'];
 
 
+    // current race status
     status = raceWatch['status']['current'];
 
-    // @todo: use switch-case
-    if (status == 'is_live') {
-      diff = now_local - start;
-    }
-    else if (status == 'awaiting') {
-      //~ diff = start - now_local;
-      diff = now_local - start;
-    }
-    else if (status == 'starting') {
-      //~ diff = start - now_local;
-      diff = now_local - start;
-    }
-
+    // seconds passed since race start (can be negative)
+    diff = now_local - start;
 
     timer = diff + crontab_currentTime;
     timerRendered = renderRaceTimer(timer);
@@ -351,9 +354,17 @@
       $(document).trigger('raceStateChange', { "raceWatch" : raceWatch , "state_current" : state_current , "state_old" : state_old } );
     }
 
-    //~ else if (status == 'is_live' && (now_local  + crontab_currentTime) >= end) {
-      //~ //
-    //~ }
+    else if (status == 'is_live' && (now_local  + crontab_currentTime) >= end) {
+      // @todo: move into separate function like raceChangeStatus
+      raceWatchRegistry[raceId]['status']['current'] = 'finished';
+      raceWatchRegistry[raceId]['status']['old'] = status;
+      raceWatch = raceWatchRegistry[raceId];
+
+      state_current = raceWatch['status']['current'];
+      state_old = raceWatch['status']['old'];
+
+      $(document).trigger('raceStateChange', { "raceWatch" : raceWatch , "state_current" : state_current , "state_old" : state_old } );
+    }
   }
 
 

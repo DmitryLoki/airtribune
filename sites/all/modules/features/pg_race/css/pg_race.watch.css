@@ -15,7 +15,6 @@
 .task-replay .links-content { display: none; }
 .task-live .links-content { display: none; }
 
-.watch-links.awaiting,
-.watch-links.starting,
-.watch-links.is_live { display:none; }
+.watch-links .task-live,
+.watch-links .task-leaderboard { display:none; }
 /* <- temporary styles -> */
