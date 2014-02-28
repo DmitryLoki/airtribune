@@ -7,10 +7,10 @@ function theme_live_event_watch_links($variables) {
 
   switch ($race_status) {
     case PG_RACE_WATCH_STATUS_AWAITING :
-      break;
+      //~ break;
     case PG_RACE_WATCH_STATUS_STARTING :
       // @
-      break;
+      //~ break;
     case PG_RACE_WATCH_STATUS_IS_LIVE :
       if (!empty($linksInfo['links']['live']['2d']) || !empty($linksInfo['links']['live']['3d'])) {
         $label = t('Watch live'); $label = "<a href='#'>{$label}</a>";

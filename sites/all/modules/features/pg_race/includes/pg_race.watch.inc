@@ -135,8 +135,8 @@ class  RaceWatch {
 
       $this->race_status = $status;
       //~ $this->race_status = PG_RACE_WATCH_STATUS_EMPTY;
-      //~ $this->race_status = PG_RACE_WATCH_STATUS_AWAITING;
-      $this->race_status = PG_RACE_WATCH_STATUS_STARTING;
+      $this->race_status = PG_RACE_WATCH_STATUS_AWAITING;
+      //~ $this->race_status = PG_RACE_WATCH_STATUS_STARTING;
       //~ $this->race_status = PG_RACE_WATCH_STATUS_IS_LIVE;
       //~ $this->race_status = PG_RACE_WATCH_STATUS_FINISHED;
     }
@@ -154,6 +154,8 @@ class  RaceWatch {
     $raceLinksInfo = array();
 
     switch ($status) {
+      case PG_RACE_WATCH_STATUS_AWAITING :
+      case PG_RACE_WATCH_STATUS_STARTING :
       case PG_RACE_WATCH_STATUS_IS_LIVE :
         //~ $raceLinksInfo['links']['live_2d'] = array();
 

@@ -59,17 +59,21 @@ class pg_race_handler_watch_task extends views_handler_field_entity {
           drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/pg_race.watch.js', 'file');
           drupal_add_css(drupal_get_path('module', 'pg_race') .'/css/pg_race.watch.css', 'file');
 
+          $race_id = $entity->id;
           $linksInfo = $raceWatch->raceLinksInfo();
           //~ dsm_once($linksInfo, 'handler links');
           $output = theme('live_event_watch_links', array('links_info' => $linksInfo, 'race_status' => $raceStatus));
 
-          $classes = 'watch-links';
+
+          $css_status = array(PG_RACE_WATCH_STATUS_AWAITING => 'awaiting', PG_RACE_WATCH_STATUS_STARTING => 'starting', PG_RACE_WATCH_STATUS_IS_LIVE => 'is_live', PG_RACE_WATCH_STATUS_FINISHED => 'finished');
+          $classes = "watch-links watch-links-race-id-{$race_id}";
+          $classes = isset($css_status[$raceStatus]) ? "{$classes} {$css_status[$raceStatus]}" : $classes;
+
           $output = !empty($output) ? "<span class='{$classes}'>{$output}</span>" : "";
 
 
           // Add js settings for links
           $settings = array();
-          $race_id = $entity->id;
           $js_status = array(PG_RACE_WATCH_STATUS_AWAITING => 'awaiting', PG_RACE_WATCH_STATUS_STARTING => 'starting', PG_RACE_WATCH_STATUS_IS_LIVE => 'is_live', PG_RACE_WATCH_STATUS_FINISHED => 'finished');
           switch ($raceStatus) {
             case PG_RACE_WATCH_STATUS_AWAITING :

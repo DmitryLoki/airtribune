@@ -174,11 +174,16 @@
     var raceId;
     raceId = raceWatch.settings.race_id;
 
+    coreApiAddress = raceWatch.settings.core_api_address;
+    contestCid = raceWatch.settings.contest_cid;
+    raceCid = raceWatch.settings.race_cid;
+
+
     // init --> is_live
     if (state_old == 'init' && state_current == 'is_live' ) {
       // add checkCoreDataAvailable into crontab
       timemark = 0;
-      action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId } };
+      action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
       pgRaceCrontabAdd (timemark, action);
 
       // add regular operations (timer update when crontab_currentTime is incremented)
@@ -200,7 +205,7 @@
     // starting --> is_live
     else if (state_old == 'starting' && state_current == 'is_live' ) {
       timemark = crontab_currentTime + 1;
-      action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId } };
+      action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
       pgRaceCrontabAdd (timemark, action);
 
       action = { 'action' : 'actionSetTimerHelpText' , 'parameters' : { 'raceId' : raceId } };
@@ -229,11 +234,23 @@
 
   // Check if data is available for given raceId and set another timemark action if required.
   window.checkCoreDataAvailable = function checkCoreDataAvailable(timemark, parameters) {
+
+    var raceId = parameters['raceId'];
+    var coreApiAddress = parameters['coreApiAddress'];
+    var contestCid = parameters['contestCid'];
+    var raceCid = parameters['raceCid'];
+
+    //~ console.log(coreApiAddress);
+    //~ console.log(contestCid);
+    //~ console.log(raceCid);
+
+    // Show links if core is available
+    $(".watch-links-race-id-"+raceId).show();
+
     // If there is problem with data retrieval, bind this action to another timemark.
     var period = 10;
     var new_timemark = crontab_currentTime + period;
-    var raceId = parameters['raceId'];
-    action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId } };
+    action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
     pgRaceCrontabAdd (new_timemark, action);
   }
 
@@ -351,7 +368,7 @@
       });
       if (valid_timemarks.length > 0) {
         scheduled_timemark = Math.min.apply(Math, valid_timemarks);
-        console.log(scheduled_timemark);
+        //~ console.log(scheduled_timemark);
       }
     }
     //~ scheduled_timemark = timemark;
