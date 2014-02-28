@@ -202,6 +202,9 @@
       timemark = crontab_currentTime + 1;
       action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId } };
       pgRaceCrontabAdd (timemark, action);
+
+      action = { 'action' : 'actionSetTimerHelpText' , 'parameters' : { 'raceId' : raceId } };
+      pgRaceCrontabAdd (timemark, action);
     }
 
     // init --> awaiting
@@ -232,6 +235,14 @@
     var raceId = parameters['raceId'];
     action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId } };
     pgRaceCrontabAdd (new_timemark, action);
+  }
+
+
+  // Replace timer help text.
+  window.actionSetTimerHelpText = function actionSetTimerHelpText(timemark, parameters) {
+    var raceId = parameters['raceId'];
+    // @todo: use translated string
+    $(".timer-race-id-" + raceId + " .help-text").html("Race is on:");
   }
 
 
@@ -266,7 +277,7 @@
 
     timer = diff + crontab_currentTime;
     timerRendered = renderRaceTimer(timer);
-    $(".time.race-id-" + raceId).html(timerRendered);
+    $(".timer-race-id-" + raceId + " .time").html(timerRendered);
 
     // Change status from Awaiting / Starting to Is_live
     if ((status == 'awaiting' || status == 'starting') && timer == 0) {
@@ -301,6 +312,7 @@
 
   // ------------- HELPER FUNCTIONS ---------------------------
 
+  // convert time into H:i:s format
   function renderRaceTimer(timer) {
     var absD = Math.abs(timer);
     timerRendered = (timer < 0 ? "-" : "") + _getTimeStr(Math.floor(absD / 3600), Math.floor(absD % 3600 / 60), absD % 60);
@@ -317,6 +329,7 @@
 
 
   // Add action into crontab
+  // @todo: transform to be able to pass multiple actions
   function pgRaceCrontabAdd (timemark, action) {
     if (crontab.hasOwnProperty(timemark)) {
       // @todo: maybe key should be raceId but not just autoincrement
