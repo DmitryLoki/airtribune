@@ -179,7 +179,7 @@
     if (state_old == 'init' && state_current == 'is_live' ) {
       // add checkCoreDataAvailable into crontab
       // @todo: use crontab_currentTime insead of 0 (because of delay)
-      timemark = 0;
+      timemark = crontab_currentTime;  // = 0 or 0 + pageload delay
       action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
       pgRaceCrontabAdd (timemark, action);
 
