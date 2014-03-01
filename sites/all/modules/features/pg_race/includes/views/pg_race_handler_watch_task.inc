@@ -103,6 +103,7 @@ class pg_race_handler_watch_task extends views_handler_field_entity {
           }
           if (!empty($settings)) {
             drupal_add_js(array('pg_race' => array('task_watch' => array('frontpage_live_events_links' => $settings))), 'setting');
+            //~ drupal_add_js('var pageLoadStart = new Date();', 'inline');
           }
 
           break;

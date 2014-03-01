@@ -1,7 +1,6 @@
 (function ($) {
 
   // @todo: maybe use window.crontab instead
-  // @todo: consider time of pageload in crontab_currentTime
 
   // Table for scheduled operations.
   // 'timestamp' => array('actions' => array('action', 'parameters' => array()))
@@ -11,12 +10,18 @@
   var crontab_regular = [];
   var raceWatchRegistry = [];
 
+
   var crontab_currentTime = 0;
   // Nearest timemark in schedule. Used in crontabWatcher().
   var scheduled_timemark = -1;
 
   Drupal.behaviors.pg_race_watch = {
     attach: function (context) {
+      // @todo: consider time of pageload in crontab_currentTime
+      // also, consider case timer == 0 for status change
+      //~ pageLoadDelay = Math.floor((new Date().getTime() - pageLoadStart.getTime())  / 1000);
+      //~ alert(pageLoadDelay);
+
       $(".task-results .links-label a").click(function(event){
         event.preventDefault();
         $(this).closest(".task-results").children(".links-content").toggle();
@@ -173,6 +178,7 @@
     // init --> is_live
     if (state_old == 'init' && state_current == 'is_live' ) {
       // add checkCoreDataAvailable into crontab
+      // @todo: use crontab_currentTime insead of 0 (because of delay)
       timemark = 0;
       action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
       pgRaceCrontabAdd (timemark, action);
@@ -295,6 +301,7 @@
 
   // @todo: Move into single function. This is almost the same as checkCoreDataAvailable()
   // Check if data is available for given raceId and set another timemark action if required.
+  // @todo: This check seems to be required only for "Leader board" links case.
   window.checkCoreDataAvailableFinished = function checkCoreDataAvailableFinished(timemark, parameters) {
 
     var raceId = parameters['raceId'];
@@ -369,6 +376,7 @@
     $(".timer-race-id-" + raceId + " .time").html(timerRendered);
 
     // Change status from Awaiting / Starting to Is_live
+    // @todo: maybe timer >= 0 because of possible page load delay (if it will be considered)
     if ((status == 'awaiting' || status == 'starting') && timer == 0) {
       raceChangeStatus(raceId, 'is_live', status);
     }
