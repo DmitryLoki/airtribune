@@ -36,13 +36,10 @@ function at_core_sync_admin_settings() {
   );
 
   $form['at_core_sync_custom_settings']['at_core_sync_port'] = array(
-    '#type' => 'select',
+    '#type' => 'textfield',
     '#title' => t('Core API port'),
     '#multiple' => FALSE,
-    '#options' => array(
-      '80' => '80',
-      '8000' => '8000',
-    ),
+    '#size' => 5,
     '#default_value' => variable_get('at_core_sync_port', '80'),
     '#description' => t('For example: 80'),
   );
