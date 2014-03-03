@@ -51,6 +51,12 @@ function at_reg_team_form($form, $form_state) {
     '#default_value' => ($user_country = _at_reg_team_user_country_default($user)) ? $user_country : '',
     '#required' => TRUE,
   );
+  $form['confirm_letter'] = array(
+    '#type' => 'file',
+    '#title' => t('Confirm letter scan'),
+    '#description' => t('Pdf, jpeg, png file formats are allowed'),
+    '#size' => 20,
+  );
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' =>  t('Send request'),
@@ -60,6 +66,21 @@ function at_reg_team_form($form, $form_state) {
   return $form;
 }
 
+function at_reg_team_form_validate($form, &$form_state) {
+  $file = file_save_upload('confirm_letter', array(
+      'file_validate_extensions' => array('png pdf jpg jpeg'),
+  ));
+  if ($file) {
+    // If the file passed validation, move into the Drupal file system.
+    if ($file = file_move($file, 'public://')) {
+      // Add file to form_state.
+      $form_state['storage']['file'] = $file;
+    }
+  }
+  else {
+    form_set_error('file', t('Confirm letter scan is required.'));
+  }
+}
 // @todo
 function at_reg_team_form_submit($form, &$form_state) {
   global $user;
@@ -68,7 +89,7 @@ function at_reg_team_form_submit($form, &$form_state) {
   $gid = $node->nid;
   $country_code = $form_state['values']['county'];
   $country = country_load($country_code);
-  $entity = _at_reg_team_get_team_entity($gid, $country_code);
+  $entity = _at_reg_team_get_team_entity($gid, $country_code, $form_state['storage']['file']);
   drupal_set_message(t('Your application as a team leader was sent. After you are approved by organizer you will be able to continue with team registration.'));
   $form_state['redirect'] = "event/{$node->nid}/register";
 
@@ -98,9 +119,9 @@ function at_reg_team_form_submit($form, &$form_state) {
  * else create a new one.
  * Add current user as candidate if not yet.
  */
-function _at_reg_team_get_team_entity($gid, $country_code) {
+function _at_reg_team_get_team_entity($gid, $country_code, $confirm_letter_file=NULL) {
   global $user;
-  
+  // @todo refactor with get_team()
   // Search team entitiy
   $query = db_select("og_membership", "ogm");
   $query->condition("ogm.gid", $gid, "=");
@@ -144,12 +165,19 @@ function _at_reg_team_get_team_entity($gid, $country_code) {
     $countries = countries_get_countries('name');
     $country_name = isset($countries[$country_code]) ? $countries[$country_code] : '';
     $title = strtr('Team :country_name', array(':country_name' => $country_name));
-    
+
     $entity = entity_create(AIRTRIBUNE_TEAM_TYPE, array('type' => AIRTRIBUNE_PG_NATION_TEAM_TYPE));
     $wrapper = entity_metadata_wrapper(AIRTRIBUNE_TEAM_TYPE, $entity);
     //~ $wrapper->uid = $user->uid;
     $wrapper->uid = 1;
     $wrapper->title = $title;
+    // cast file object to array, to correct write, using wrapper.
+    $file = (array) $confirm_letter_file;
+    // add needed Drupal properties to file, otherwise we got PDO error on saving.
+    $file['display'] = 1;
+    $file['description'] = '';
+
+    $wrapper->field_single_download->set($file);
     $wrapper->{OG_AUDIENCE_FIELD}->set(array('target_id' => $gid));
     $wrapper->{AIRTRIBUNE_COUNTRY_FIELD}->set(array('iso2' => $country_code));
     //~ $wrapper->{AIRTRIBUNE_TEAM_MEMBER_FIELD}[0]->set($user);
