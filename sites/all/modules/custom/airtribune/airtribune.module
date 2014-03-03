@@ -1724,7 +1724,11 @@ function airtribune_user_pass_validate($form, &$form_state) {
 
 
 function airtribune_cron() {
-  _create_day_for_contest();
+  // lock for 3 minutes, @see #4499
+  if (lock_acquire('airtribune_create_day_lock', 180)) {
+    _create_day_for_contest();
+    lock_release('airtribune_create_day_lock');
+  }
 }
 
 /**
