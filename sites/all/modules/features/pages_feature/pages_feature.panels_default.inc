@@ -64,6 +64,9 @@ function pages_feature_default_panels_mini() {
       'admin_title' => 'Contacts',
       'title' => '',
       'body' => '<div class="logo"><img src="/sites/all/themes/airtribune2/images/logo_footer.png" alt="" /></div>
+
+Moscow, Russia
+
 <p>Ph.: +7 (985) 762-72-38<br />
 e-mail: info@airtribune.com</p>',
       'format' => 'full_html',
