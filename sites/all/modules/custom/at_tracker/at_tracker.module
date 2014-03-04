@@ -62,8 +62,10 @@ function at_tracker_editable_widget_form($form, &$form_state, $entity_type, $ent
   $form['#entity'] = $entity;
   list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
   $form['#entity_id'] = $id;
+  $widget_form = field_default_form($entity_type, $entity, $field, $instance, $langcode, $items, $form, $form_state, $delta);
+  unset($widget_form[$field['field_name']][LANGUAGE_NONE][0]['value']['#title']);
   // Add field widget into form
-  $form += field_default_form($entity_type, $entity, $field, $instance, $langcode, $items, $form, $form_state, $delta);
+  $form += $widget_form;
 
   return $form;
 }
