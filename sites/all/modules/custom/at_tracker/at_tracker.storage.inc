@@ -59,16 +59,19 @@ function at_tracker_field_storage_load($entity_type, $entities, $age, $fields, $
  * Implements hook_field_storage_write().
  */
 function at_tracker_field_storage_write($entity_type, $entity, $op, $fields, $entity_write = FALSE) {
+   $results = array();
   foreach ($fields as $field_id) {
     $field = field_info_field_by_id($field_id);
     $field_name = $field['field_name'];
     $result = at_core_sync_entity_sync($entity_type, $entity, 'patch', array('tracker' => $field_name));
-    dpm($result);
+    $results[$field_id] = $result;
     cache_clear_all(_at_tracker_get_cid($entity_type, $entity), 'cache');
     cache_clear_all('at_tracker:trackers_options', 'cache');
     list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
     cache_clear_all("field:$entity_type:$id", 'cache_field');
   }
+  // Return results of save fields
+  return $results;
 }
 
 function _at_tracker_get_cid($entity_type, $entity) {

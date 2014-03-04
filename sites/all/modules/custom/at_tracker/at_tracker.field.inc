@@ -100,6 +100,7 @@ function at_tracker_field_widget_form(&$form, &$form_state, $field, $instance, $
         'wrapper' => 'at_tracker-wrapper-' . $id,
         'method' => 'replace',
         'event' => 'change',
+        'effect' => 'fade',
       ),
     );
   }
@@ -114,6 +115,8 @@ function _ajax_at_tracker_widget_callback($form, $form_state) {
   $field_name = $form_state['triggering_element']['#field_name'];
   $entity = $form_state['triggering_element']['#entity'];
   $entity_type = $entity->entityType();
+  $previous_value = $entity->{$field_name}[LANGUAGE_NONE][0]['value'];
+  $id =  $form_state['triggering_element']['#element_id'];
   $entity->{$field_name}[LANGUAGE_NONE][0]['value'] = $form_state['triggering_element']['#value'];
 
   // Get the numeric id of your field by passing field name
@@ -121,7 +124,26 @@ function _ajax_at_tracker_widget_callback($form, $form_state) {
   $fields = array($info['id']);
 
   // Execute the storage function
-  at_tracker_field_storage_write($entity_type, $entity, 'update', $fields);
+  $results = at_tracker_field_storage_write($entity_type, $entity, 'update', $fields);
+  $errors = FALSE;
+  if (empty($results[$info['id']])) {
+    $form[$field_name][LANGUAGE_NONE][0]['value']['#value'] = $previous_value;
+    $errors = TRUE;
+  }
+  $commands[] = ajax_command_insert("#at_tracker-wrapper-{$id}" , drupal_render($form[$field_name]));
+  if ($errors) {
+    $commands[] = ajax_command_append("#at_tracker-wrapper-{$id}" , '<div class="messages error">
+      <h2 class="element-invisible">Error message</h2>'.
+      t('Unable to attach tracker.')
+      .'</div>');
+  } else {
+    $commands[] = ajax_command_append("#at_tracker-wrapper-{$id}" , '<div class="messages status">
+      <h2 class="element-invisible">Status message</h2>'.
+      t('Tracker has been saved.')
+      .'</div>');
+  }
+  $commands[] = ajax_command_invoke("#at_tracker-wrapper-{$id} .messages", 'fadeOut', array(2000));
+  return array('#type' => 'ajax', '#commands' => $commands);
 }
 
 /**
