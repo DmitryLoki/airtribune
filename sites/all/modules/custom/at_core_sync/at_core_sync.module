@@ -10,6 +10,20 @@ define('AIRTRIBUNE_CORE_ID_FIELD', 'field_core_id');
  */
 
 /**
+ * Implements hook_init().
+ */
+function at_core_sync_init() {
+  // Add global variables for Core API access
+  drupal_add_js(array(
+      'at_core_sync' => array(
+        'apiVersion' => at_core_sync_get_api_version(),
+        'apiDomain' => at_core_sync_get_api_domain(),
+        'apiUrl' => at_core_sync_get_api_url(),
+      )
+    ), 'setting');
+}
+
+/**
  * Returns synchronization class
  */
 function _get_class_by_entity($entity_type, $entity) {
@@ -318,6 +332,7 @@ function at_core_sync_entity_sync($entity_type, $entity, $action='', $fields = a
           $data = array();
           foreach($fields as $property => $field_name) {
             if (isset($entity->{$field_name})) {
+              // No use wrapper for at_tracker fields
               $data[$property] = $entity->{$field_name}[LANGUAGE_NONE][0]['value'];
             }
           }
