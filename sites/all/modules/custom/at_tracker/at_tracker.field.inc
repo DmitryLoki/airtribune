@@ -66,17 +66,20 @@ function at_tracker_field_widget_form(&$form, &$form_state, $field, $instance, $
   if ($instance['widget']['type'] == 'at_tracker') {
     $field_name = $field['field_name'];
     $settings = $field['settings'];
-    $entity = $form['#entity'];
     $d = $delta;
-    if (isset($form['#row_index'])) {
-      $d = $form['#row_index'];
+    $entity = NULL;
+    if (isset($form['#entity'])) {
+      $entity = $form['#entity'];
+
+      if (isset($form['#row_index'])) {
+        $d = $form['#row_index'];
+      }
+
+      $entity_type = $entity->entityType();
+      list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+      $contest = get_contest_for_entity($entity_type, $entity);
+      $contest_core_id = get_core_id_from_entity('node', $contest);
     }
-
-    $entity_type = $entity->entityType();
-    list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
-    $contest = get_contest_for_entity($entity_type, $entity);
-    $contest_core_id = get_core_id_from_entity('node', $contest);
-
     $element = array(
       '#attributes' => array(
         'class' => array('form-select-at_tracker'),
