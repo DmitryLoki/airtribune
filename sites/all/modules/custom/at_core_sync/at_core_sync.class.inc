@@ -618,7 +618,8 @@ class ATSyncRace extends ATSyncNestedInContest {
       }
     }
     // Write optimal distance to race.
-    if (!empty(floatval($response->optdistance))) {
+    $optdistance = floatval($response->optdistance);
+    if (!empty($optdistance)) {
       $this->entity->field_optdistance[LANGUAGE_NONE][0]['value'] = $response->optdistance;
     } else {
       $this->entity->field_optdistance[LANGUAGE_NONE][0]['value'] = '';
