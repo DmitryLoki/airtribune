@@ -1525,9 +1525,8 @@ event/*/day/*',
     );
     $pane->configuration = array(
       'widget_code' => array(
-        'value' => '<link rel="stylesheet" href="http://vis.airtribune.com/css/airvis.css"/>
-<script  src="/sites/all/modules/custom/airtribune/js/day-blog-airvis-controller.js"></script>
-<script src="http://vis.airtribune.com/airvis.min.js"></script>
+        'value' => '<link rel="stylesheet" href="http://vis.airtribune.com/airvis.min.css">
+            <script src="http://vis.airtribune.com/airvis.min.js"></script>
 <div role="main" class="airvis-container">
 <!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/img/", contestId: "", raceId: "", width: "[airtribune:widget-width]px", height: "[airtribune:widget-height]px", callback: window.airvisPageLoadedCallback, mode: "simple", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", mapOptions: {activateScrollWheelOnClick:true,panControl:false,streetViewControl:false,scrollwheel:false,zoomControl:true,mapTypeControl:false,zoomControlOptions:{style:google.maps.ZoomControlStyle.LARGE} } } --><!-- /ko -->
 </div>',
@@ -7867,10 +7866,8 @@ window.fbAsyncInit = function() {
     $pane->access = array();
     $pane->configuration = array(
       'widget_code' => array(
-        'value' => '<link rel="stylesheet" href="http://vis.airtribune.com/css/airvis.css"/>
-    <link rel="stylesheet" href="http://vis.airtribune.com/css/checkbox.css"/>
-    <link rel="stylesheet" href="http://vis.airtribune.com/css/shiny-sprite.css">
-    <script src="http://vis.airtribune.com/airvis.min.js"></script>
+        'value' => '<link rel="stylesheet" href="http://vis.airtribune.com/airvis.min.css">
+     <script src="http://vis.airtribune.com/airvis.min.js"></script>
     <div role="main" class="airvis-container"[airtribune:ge-css:airvis-container:style]>
       <div class="airvis-loading-container">
         <div class="airvis-loading[airtribune:ge-css:airvis-loading:class]">&nbsp;</div>
