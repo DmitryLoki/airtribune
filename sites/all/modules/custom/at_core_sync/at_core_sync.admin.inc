@@ -61,6 +61,14 @@ function at_core_sync_admin_settings() {
     '#description' => t('For example: v0.1, v0.1.2'),
   );
 
+  $form['at_core_sync_custom_settings']['at_core_vis_address'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Visualization hosting URL'),
+    '#default_value' => variable_get('at_core_vis_address', 'http://vis.airtribune.com'),
+    '#size' => 30,
+    '#description' => t('For example: http://vis.airtribune.com'),
+  );
+
   $form['at_core_sync_custom_settings']['at_core_sync_debug_mode'] = array(
     '#type' => 'checkbox',
     '#title' => t('Debug mode'),
