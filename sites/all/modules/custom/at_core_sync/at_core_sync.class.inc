@@ -298,6 +298,7 @@ abstract class ATSyncCustom extends ATSyncNestedInContest {
     $entity = entity_load_single($entity_type, $entity->etid);
     $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
     // Get values.
+    $description = '';
     if ($entity_type == 'ent_customobject') {
       $this->name = $entity->title;
       $this->type = $entity_wrapper->field_customobject_type->value();

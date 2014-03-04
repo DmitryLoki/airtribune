@@ -1173,27 +1173,29 @@ function airtribune_modify_event_date_include_last_day(&$node) {
 function airtribune_entity_insert($entity, $type) {
   // change membership for user to organizer, whom create contest node
   // @see airtribune_og_membership_presave()
-  if (og_is_group_type($type, $entity->type)) {
-    $account = user_load($entity->uid);
+  if (isset($entity->type)) {
+    if (og_is_group_type($type, $entity->type)) {
+      $account = user_load($entity->uid);
 
-    if (og_is_member($type, $entity->nid, 'user', $account)) {
-      global $change_membership;
-      $change_membership = AIRTRIBUNE_MEMBERSHIP_ORGANIZER;
-    } else {
-      // Add the user to the group
-      og_group($type, $entity->nid, array(
-        'entity type' => 'user',
-        'entity' => $account,
-        'membership type' => AIRTRIBUNE_MEMBERSHIP_ORGANIZER,
-      ));
-    }
-    $roles = og_roles($type, $entity->type, $entity->nid, FALSE, FALSE);
-    // Get rid for group admin role
-    $admin_member_rid = array_search('administrator member', $roles);
+      if (og_is_member($type, $entity->nid, 'user', $account)) {
+        global $change_membership;
+        $change_membership = AIRTRIBUNE_MEMBERSHIP_ORGANIZER;
+      } else {
+        // Add the user to the group
+        og_group($type, $entity->nid, array(
+          'entity type' => 'user',
+          'entity' => $account,
+          'membership type' => AIRTRIBUNE_MEMBERSHIP_ORGANIZER,
+        ));
+      }
+      $roles = og_roles($type, $entity->type, $entity->nid, FALSE, FALSE);
+      // Get rid for group admin role
+      $admin_member_rid = array_search('administrator member', $roles);
 
-    if (!empty($admin_member_rid)) {
-      // Changes the users role in the group
-      og_role_grant($type, $entity->nid, $account->uid, $admin_member_rid);
+      if (!empty($admin_member_rid)) {
+        // Changes the users role in the group
+        og_role_grant($type, $entity->nid, $account->uid, $admin_member_rid);
+      }
     }
   }
 }
