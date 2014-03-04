@@ -67,7 +67,6 @@ function at_tracker_field_widget_form(&$form, &$form_state, $field, $instance, $
     $field_name = $field['field_name'];
     $settings = $field['settings'];
     $entity = $form['#entity'];
-    //$d = $form['#parents'][1];
     $d = $delta;
     if (isset($form['#row_index'])) {
       $d = $form['#row_index'];
@@ -75,8 +74,16 @@ function at_tracker_field_widget_form(&$form, &$form_state, $field, $instance, $
 
     $entity_type = $entity->entityType();
     list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+    $contest = get_contest_for_entity($entity_type, $entity);
+    $contest_core_id = get_core_id_from_entity('node', $contest);
 
     $element = array(
+      '#attributes' => array(
+        'class' => array('form-select-at_tracker'),
+        'data-contestid' => array($contest_core_id),
+      ),
+      '#entity' => $entity,
+      '#field_name' => $field['field_name'],
       '#element_id' => $id,
       '#row_index' => $d,
       '#type' => 'select',
@@ -91,41 +98,30 @@ function at_tracker_field_widget_form(&$form, &$form_state, $field, $instance, $
       '#ajax' => array(
         'callback' => '_ajax_at_tracker_widget_callback',
         'wrapper' => 'at_tracker-wrapper-' . $id,
-
+        'method' => 'replace',
         'event' => 'change',
       ),
     );
-    $form_state['at'] = array('tracker_field' => $field['field_name'], );
-
   }
 
   return array('value' => $element);
 }
 
 /**
- * Returns the tracker element filtered by continent via AJAX.
+ * Save selected value of tracker.
  */
 function _ajax_at_tracker_widget_callback($form, $form_state) {
-  $current = $form_state['triggering_element'];
-  $field_name = $form_state['at']['tracker_field'];
-  $field = field_info_field($field_name);
-  $row_index = $current['#row_index'];
-  $id = $current['#element_id'];
-  $field_js = $field_name;
-  if (isset($form[$field_name])) {
-    $form_field = $form[$field_name];
-    $field_js = $field_name;
-  } elseif (isset($form['membership_fields'][$field_name])) {
-    $form_field = $form['membership_fields'][$field_name];
-    $field_js = 'membership_fields[field_tracker_at_]';
-  }
+  $field_name = $form_state['triggering_element']['#field_name'];
+  $entity = $form_state['triggering_element']['#entity'];
+  $entity_type = $entity->entityType();
+  $entity->{$field_name}[LANGUAGE_NONE][0]['value'] = $form_state['triggering_element']['#value'];
 
-  $form_field[LANGUAGE_NONE][0]['#options'] = array('none' => t('-- None selected --')) + _at_tracker_trackers_options($form['#entity'], $field);
-  $form_field[LANGUAGE_NONE][0]['#default_value'] = $form_state['values'][$field_name][LANGUAGE_NONE][0];
-  $wrapper = '#at_tracker-wrapper-'.$id;
-  $commands[] = ajax_command_invoke(NULL,'changeBindTrackerField',array($field_js, $wrapper));
-  $commands[] = ajax_command_invoke($wrapper . ' select','attr',array('size', 5));
-  return array('#type' => 'ajax', '#commands' => $commands);
+  // Get the numeric id of your field by passing field name
+  $info = field_info_field($field_name);
+  $fields = array($info['id']);
+
+  // Execute the storage function
+  at_tracker_field_storage_write($entity_type, $entity, 'update', $fields);
 }
 
 /**
