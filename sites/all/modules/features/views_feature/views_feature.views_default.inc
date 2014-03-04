@@ -9244,7 +9244,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['field'] = 'field_name_in_national_alphabet';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['relationship'] = 'profile_1';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['label'] = 'Name in national alphabet';
-  /* Field: Field: Person to contact in case of emergency */
+  /* Field: Field: NAC contact person full name */
   $handler->display->display_options['fields']['field_person_name']['id'] = 'field_person_name';
   $handler->display->display_options['fields']['field_person_name']['table'] = 'field_data_field_person_name';
   $handler->display->display_options['fields']['field_person_name']['field'] = 'field_person_name';
@@ -10327,13 +10327,13 @@ return array($event_id);';
     t('Insurance company'),
     t('Insurance policy number'),
     t('Name in national alphabet'),
-    t('Person to contact in case of emergency'),
+    t('NAC contact person full name'),
     t('Contact phone number in case of emergency'),
     t('Blood type'),
     t('[field_tracker-target_id]'),
     t('Manage (All)'),
     t('User uid'),
-    t('[field_full_name] <a class=\'pilot-card\' href=\'/event/!1/pilots/export/card/print/[user]\'>&nbsp;</a>'),
+    t('[field_full_name]<a class=\'pilot-card\' href=\'/event/!1/pilots/export/card/print/[user]\'>&nbsp;</a>'),
     t('Manage event pilots (all)'),
     t('Manage (Confirmed)'),
     t('<script type="text/javascript" src="/sites/all/modules/custom/airtribune/js/trackers.js"></script>'),
@@ -10624,17 +10624,20 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['relationship'] = 'profile_1';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['label'] = 'Name in national alphabet';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['element_label_colon'] = FALSE;
-  /* Field: Field: Person to contact in case of emergency */
+  /* Field: Field: NAC contact person full name */
   $handler->display->display_options['fields']['field_person_name']['id'] = 'field_person_name';
   $handler->display->display_options['fields']['field_person_name']['table'] = 'field_data_field_person_name';
   $handler->display->display_options['fields']['field_person_name']['field'] = 'field_person_name';
   $handler->display->display_options['fields']['field_person_name']['relationship'] = 'profile_1';
+  $handler->display->display_options['fields']['field_person_name']['label'] = 'Person to contact in case of emergency';
   $handler->display->display_options['fields']['field_person_name']['element_label_colon'] = FALSE;
   /* Field: Profile: Contact phone number in case of emergency */
   $handler->display->display_options['fields']['field_person_phone']['id'] = 'field_person_phone';
   $handler->display->display_options['fields']['field_person_phone']['table'] = 'field_data_field_person_phone';
   $handler->display->display_options['fields']['field_person_phone']['field'] = 'field_person_phone';
   $handler->display->display_options['fields']['field_person_phone']['relationship'] = 'profile_1';
+  $handler->display->display_options['fields']['field_person_phone']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_person_phone']['alter']['text'] = '="[field_person_phone]"';
   $handler->display->display_options['fields']['field_person_phone']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_person_phone']['click_sort_column'] = 'number';
   /* Field: Profile: Blood type */
@@ -10972,7 +10975,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['relationship'] = 'profile_1';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['label'] = 'Name in national alphabet';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['element_label_colon'] = FALSE;
-  /* Field: Field: Person to contact in case of emergency */
+  /* Field: Field: NAC contact person full name */
   $handler->display->display_options['fields']['field_person_name']['id'] = 'field_person_name';
   $handler->display->display_options['fields']['field_person_name']['table'] = 'field_data_field_person_name';
   $handler->display->display_options['fields']['field_person_name']['field'] = 'field_person_name';
@@ -11190,7 +11193,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['field'] = 'field_pg_contestant_status_value';
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['value'] = array(
-    4 => '4',
+    50 => '50',
   );
   $handler->display->display_options['path'] = 'event/%/pilots/export/confirmed/csv';
   $translatables['paragliding_pilots_list_export'] = array(
@@ -11236,6 +11239,7 @@ return array($event_id);';
     t('Name in national alphabet'),
     t('Person to contact in case of emergency'),
     t('Contact phone number in case of emergency'),
+    t('="[field_person_phone]"'),
     t('Blood type'),
     t('Payment status'),
     t('Accomodation during competition'),
@@ -11243,6 +11247,7 @@ return array($event_id);';
     t('%1 members'),
     t('All pilots export (csv)'),
     t('Pilot card export (print)'),
+    t('NAC contact person full name'),
     t('Confirmed pilots export (csv)'),
     t('Model'),
     t('IMEI'),
@@ -11375,11 +11380,10 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_single_download']['settings'] = array(
     'text' => 'Download [file:name]',
   );
-  /* Field: Field: Person to contact in case of emergency */
+  /* Field: Field: NAC contact person full name */
   $handler->display->display_options['fields']['field_person_name']['id'] = 'field_person_name';
   $handler->display->display_options['fields']['field_person_name']['table'] = 'field_data_field_person_name';
   $handler->display->display_options['fields']['field_person_name']['field'] = 'field_person_name';
-  $handler->display->display_options['fields']['field_person_name']['label'] = 'NAC contact person full name';
   /* Field: Team: NAC contact person email */
   $handler->display->display_options['fields']['field_single_email']['id'] = 'field_single_email';
   $handler->display->display_options['fields']['field_single_email']['table'] = 'field_data_field_single_email';
@@ -11459,11 +11463,10 @@ return array($event_id);';
     'link_text' => 'Edit',
     'link_position' => '0',
   );
-  /* Field: Field: Person to contact in case of emergency */
+  /* Field: Field: NAC contact person full name */
   $handler->display->display_options['fields']['field_person_name']['id'] = 'field_person_name';
   $handler->display->display_options['fields']['field_person_name']['table'] = 'field_data_field_person_name';
   $handler->display->display_options['fields']['field_person_name']['field'] = 'field_person_name';
-  $handler->display->display_options['fields']['field_person_name']['label'] = 'NAC contact person full name';
   $handler->display->display_options['fields']['field_person_name']['type'] = 'editable_as_link';
   $handler->display->display_options['fields']['field_person_name']['settings'] = array(
     'click_to_edit' => TRUE,
