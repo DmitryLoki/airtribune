@@ -195,9 +195,19 @@ function _at_alias_update_event_conjugate_nodes_alias($event, $nodes, $type) {
     $placeholders = array(':alias_base' => $alias_base, ':event_id' => $event->nid, ':nid' => $node->nid);
     $placeholders[':clear_title'] = _at_alias_clear_string($node->title);
     if ($node->type == AIRTRIBUNE_DAY_TYPE) {
-      $placeholders[':day_suffix'] = isset($node->field_day_number[LANGUAGE_NONE]['0']['value'])
-        ? $node->field_day_number[LANGUAGE_NONE]['0']['value']
-        : _at_alias_clear_string($node->title);
+      switch($node->field_day_status[LANGUAGE_NONE][0]['value']) {
+        case 4:
+          $placeholders[':day_suffix'] = 'registration';
+          break;
+        case 5:
+          $placeholders[':day_suffix'] = 'training';
+          break;
+        default:
+          $placeholders[':day_suffix'] = isset($node->field_day_number[LANGUAGE_NONE]['0']['value'])
+            ? $node->field_day_number[LANGUAGE_NONE]['0']['value']
+            : _at_alias_clear_string($node->title);
+          break;
+      }
     }
 
     $path = array(
