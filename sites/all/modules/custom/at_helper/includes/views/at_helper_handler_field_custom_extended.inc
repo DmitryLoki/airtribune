@@ -56,14 +56,16 @@ class at_helper_handler_field_custom_extended extends views_handler_field {
 
   function render($values) {
 
-    static $alter_text;
+    // @todo: This is temporary solution
+    static $alter_texts;
 
-    if (!isset($alter_text)) {
-      $alter_text = $this->options['alter']['text'];
+    $plugin_name = $this->options['renderer_plugin'];
+
+    if (empty($alter_texts[$plugin_name])) {
+      $alter_texts[$plugin_name] = $this->options['alter']['text'];
     }
 
-    //~ $text = $this->options['alter']['text'];
-    $text = $alter_text;
+    $text = $alter_texts[$plugin_name];
 
     $components = at_helper_handler_field_custom_extended_get_components($text);
     $tokens = $this->get_render_tokens($this->options['alter']);
