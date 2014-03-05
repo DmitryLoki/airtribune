@@ -46,9 +46,9 @@ function theme_live_event_watch_links($variables) {
       if (!empty($linksInfo['links']['replay']['2d']) || !empty($linksInfo['links']['replay']['3d'])) {
         $label = t('Replay'); $label = "<a href='#'>{$label}</a>";
 
-        $link_2d = !empty($linksInfo['links']['replay']['2d']) ? l(t('2D'), $path_2d = $linksInfo['links']['replay']['2d']['path']) : '';
+        $link_2d = !empty($linksInfo['links']['replay']['2d']) ? l(t('2D'), $path_2d = $linksInfo['links']['replay']['2d']['path'], array('attributes' => array('target' => '_blank'))) : '';
         $link_2d = !empty($link_2d) ? "<li>{$link_2d}</li>" : "";
-        $link_3d = !empty($linksInfo['links']['replay']['3d']) ? l(t('3D Google Earch'), $path_3d = $linksInfo['links']['replay']['3d']['path']) : '';
+        $link_3d = !empty($linksInfo['links']['replay']['3d']) ? l(t('3D Google Earch'), $path_3d = $linksInfo['links']['replay']['3d']['path'], array('attributes' => array('target' => '_blank'))) : '';
         $link_3d = !empty($link_3d) ? "<li>{$link_3d}</li>" : "";
 
         $_output = "<span class='links-label'>{$label}</span>";

@@ -25,6 +25,7 @@ function at_helper__frontpage_live_event_footer__renderer(array $components, arr
   $day_status_value = $values['day_status_value'];
   $day_status_name = $values['day_status_name'];
   $day_number = $values['day_number'];
+  $race_id = $values['race_id'];
 
 
 
@@ -62,12 +63,23 @@ function at_helper__frontpage_live_event_footer__renderer(array $components, arr
   if (!empty($watch_timer)) {
     $output .= "<span class='task-timer'>{$watch_timer}</span>";
   }
-  elseif (!empty($day_blog)) {
-    $output .= "{$day_blog}";
+  //~ elseif (!empty($day_blog)) {
+  if (!empty($day_blog)) {
+    //~ $output .= !empty($watch_timer) ? "<span class='day-blog-wrapper' style='display:none;'>{$day_blog}</span>" : "<span class='day-blog-wrapper'>{$day_blog}</span>";
+    $output .= !empty($watch_timer) ? "<span class='day-blog-wrapper dayblog-hidden' style='display:none;'>{$day_blog}</span>" : "<span class='day-blog-wrapper'>{$day_blog}</span>";
   }
 
   // dayblog is not rendered if there is task watch info
   $class = !empty($day_blog) && empty($watch_timer) ? 'day-blog' : 'day-blog no-blog';
+  if (!empty($race_id)) {
+    $class .= " day-blog-race-id-{$race_id}";
+  }
+  // Add status class
+  $css_status = array(PG_RACE_WATCH_STATUS_AWAITING => 'awaiting', PG_RACE_WATCH_STATUS_STARTING => 'starting', PG_RACE_WATCH_STATUS_IS_LIVE => 'is_live', PG_RACE_WATCH_STATUS_FINISHED => 'finished');
+  if (!empty($watch_status) && isset($css_status[$watch_status])) {
+    $class .= " {$css_status[$watch_status]}";
+  }
+
   $output = "<span class='{$class}'>{$output}</span>";
 
   // Wrap output into url tag.

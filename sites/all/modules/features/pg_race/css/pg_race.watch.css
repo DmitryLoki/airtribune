@@ -17,4 +17,6 @@
 
 .watch-links .task-live,
 .watch-links .task-leaderboard { display:none; }
+
+.front_live_events .dayblog-hidden { display:none; }
 /* <- temporary styles -> */
