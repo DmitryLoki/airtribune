@@ -7284,6 +7284,15 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_day_number']['label'] = '';
   $handler->display->display_options['fields']['field_day_number']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_day_number']['element_label_colon'] = FALSE;
+  /* Field: Race: Id */
+  $handler->display->display_options['fields']['id']['id'] = 'id';
+  $handler->display->display_options['fields']['id']['table'] = 'eck_ent_race';
+  $handler->display->display_options['fields']['id']['field'] = 'id';
+  $handler->display->display_options['fields']['id']['relationship'] = 'reverse_field_day_ref_ent_race';
+  $handler->display->display_options['fields']['id']['label'] = '';
+  $handler->display->display_options['fields']['id']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['id']['separator'] = '';
   /* Field: Global: Custom text extended */
   $handler->display->display_options['fields']['nothing_extended']['id'] = 'nothing_extended';
   $handler->display->display_options['fields']['nothing_extended']['table'] = 'views';
@@ -7297,7 +7306,8 @@ watch_status|[watch_task_1]
 watch_timer|[watch_task_2]
 dayblog_last_entry|[view]
 task_title|[title_2]
-day_number|[field_day_number]';
+day_number|[field_day_number]
+race_id|[id]';
   $handler->display->display_options['fields']['nothing_extended']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['nothing_extended']['renderer_plugin'] = TRUE;
   /* Field: Content: Logo */
@@ -7434,6 +7444,7 @@ day_number|[field_day_number]';
 <span class="valign"></span>'),
     t('[field_contest_photos]'),
     t('[field_day_status_1-value]'),
+    t('.'),
     t('day_nid|[nid]
 event_nid|[nid_1]
 day_status_name|[field_day_status]
@@ -7442,7 +7453,8 @@ watch_status|[watch_task_1]
 watch_timer|[watch_task_2]
 dayblog_last_entry|[view]
 task_title|[title_2]
-day_number|[field_day_number]'),
+day_number|[field_day_number]
+race_id|[id]'),
     t('Page'),
     t('Frontpage Live Events'),
     t('View panes'),
