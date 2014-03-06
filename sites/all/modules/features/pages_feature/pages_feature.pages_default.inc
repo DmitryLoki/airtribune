@@ -8327,15 +8327,15 @@ window.fbAsyncInit = function() {
     $pane->access = array();
     $pane->configuration = array(
       'widget_code' => array(
-        'value' => '<link rel="stylesheet" href="http://retrieve.airtribune.com/css/airvis.css"/>
-    <link rel="stylesheet" href="http://retrieve.airtribune.com/css/checkbox.css"/>
-    <link rel="stylesheet" href="http://retrieve.airtribune.com/css/shiny-sprite.css">
-    <script data-main="http://retrieve.airtribune.com/js/init" src="http://retrieve.airtribune.com/js/lib/require.js"></script>
+        'value' => '<link rel="stylesheet" href="[variable:retrieve-domain]/css/airvis.css"/>
+    <link rel="stylesheet" href="[variable:retrieve-domain]/css/checkbox.css"/>
+    <link rel="stylesheet" href="[variable:retrieve-domain]/css/shiny-sprite.css">
+    <script data-main="[variable:retrieve-domain]/js/init" src="[variable:retrieve-domain]/js/lib/require.js"></script>
     <div role="main" class="airvis-container">
       <div class="airvis-loading-container">
         <div class="airvis-loading">&nbsp;</div>
       </div>
-    <!-- ko widget: { data: page, imgRootUrl: "http://retrieve.airtribune.com/img/", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", mode: "retrieve", isOnline: [airtribune:race-online], titleUrl: "[airtribune:contest-url]", mapWidget:"2d-canvas", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}} } --><!-- /ko -->
+    <!-- ko widget: { data: page, imgRootUrl: "[variable:retrieve-domain]/img/", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", mode: "retrieve", isOnline: [airtribune:race-online], titleUrl: "[airtribune:contest-url]", mapWidget:"2d-canvas", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}} } --><!-- /ko -->
     </div>',
         'format' => 'full_html',
       ),
@@ -8439,9 +8439,9 @@ window.fbAsyncInit = function() {
     $pane->access = array();
     $pane->configuration = array(
       'widget_code' => array(
-        'value' => '<!--link rel="stylesheet" href="http://retrieve.airtribune.com/table/css/style.css"-->
-<script data-main="http://retrieve.airtribune.com/table/init" src="http://retrieve.airtribune.com/table/libs/require.js"></script>
-<retrieve-table root-url="http://retrieve.airtribune.com/table" api-version="[variable:core-api-version]" api-domain="[variable:core-api-domain]" contest-id="[airtribune:contest-core-id]" race-id="[airtribune:race-core-id]"></retrieve-table>',
+        'value' => '<!--link rel="stylesheet" href="[variable:retrieve-domain]/table/css/style.css"-->
+<script data-main="[variable:retrieve-domain]/table/init" src="[variable:retrieve-domain]/table/libs/require.js"></script>
+<retrieve-table root-url="[variable:retrieve-domain]/table" api-version="[variable:core-api-version]" api-domain="[variable:core-api-domain]" contest-id="[airtribune:contest-core-id]" race-id="[airtribune:race-core-id]"></retrieve-table>',
         'format' => 'php_code',
       ),
       'widget_type' => '2d',
