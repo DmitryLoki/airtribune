@@ -179,7 +179,8 @@
     if (state_old == 'init' && state_current == 'is_live' ) {
       // add checkCoreDataAvailable into crontab
       // @todo: use crontab_currentTime insead of 0 (because of delay)
-      timemark = crontab_currentTime;  // = 0 or 0 + pageload delay
+      //~ timemark = crontab_currentTime;  // = 0 or 0 + pageload delay
+      timemark = 0;  // = 0 or 0 + pageload delay
       action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
       pgRaceCrontabAdd (timemark, action);
 
@@ -190,17 +191,28 @@
 
     // awaiting --> is_live
     // @todo: seems, that this option isn't required
-    else if (state_old == 'awaiting' && state_current == 'is_live' ) {
-      timemark = crontab_currentTime + 1;
-      action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId } };
-      pgRaceCrontabAdd (timemark, action);
-    }
+    //~ else if (state_old == 'awaiting' && state_current == 'is_live' ) {
+      //~ timemark = crontab_currentTime + 1;
+      //~ action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+      //~ pgRaceCrontabAdd (timemark, action);
+    //~ }
 
     // awaiting --> starting
     // @todo: change html if required
+    else if (state_old == 'awaiting' && state_current == 'starting' ) {
+      $('.watch-links-race-id-' + raceId).removeClass('awaiting').addClass('starting');
+      $('.day-blog-race-id-' + raceId).removeClass('awaiting').addClass('starting');
+
+      timemark = crontab_currentTime + 1;
+      action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+      pgRaceCrontabAdd (timemark, action);
+    }
 
     // starting --> is_live
     else if (state_old == 'starting' && state_current == 'is_live' ) {
+      $('.watch-links-race-id-' + raceId).removeClass('starting').addClass('is_live');
+      $('.day-blog-race-id-' + raceId).removeClass('starting').addClass('is_live');
+
       timemark = crontab_currentTime + 1;
       action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
       pgRaceCrontabAdd (timemark, action);
@@ -233,6 +245,18 @@
 
     // is_live --> finished
     else if (state_old == 'is_live' && state_current == 'finished' ) {
+      // Hide WatchLive links
+      $('.watch-links-race-id-'+raceId+' .task-live').hide();
+      $('.watch-links-race-id-'+raceId).removeClass('is_live').addClass('finished');
+      $('.day-blog-race-id-'+raceId).removeClass('is_live').addClass('finished');
+      $('.day-blog-race-id-'+raceId+' .task-timer').hide();
+
+      var dayblog_hidden = $('.day-blog-race-id-'+raceId+' .day-blog-wrapper');
+      if (dayblog_hidden.length > 0) {
+        $('.day-blog-race-id-'+raceId+'.day-blog').removeClass('no-blog');
+        dayblog_hidden.show();
+      }
+
       // Add regular operations (timer update when crontab_currentTime is incremented)
       timemark = crontab_currentTime + 1;
       action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
@@ -260,7 +284,8 @@
       raceId: parameters['raceId'],
       raceCid: parameters['raceCid'],
       contestCid: parameters['contestCid'],
-      requestType: 'online',
+      //~ requestType: 'online',
+      requestType: 'competition_aftertask',
     };
 
     // @todo: Check that status is still is_live. Otherwise don't add checks to crontab any more.
@@ -268,6 +293,8 @@
       if (raceInfo && raceInfo.length > 0 && !$.isEmptyObject(raceInfo)) {
         // Show links if core is available
         $(".watch-links-race-id-"+raceData.raceId+" .task-live").show();
+        components_shown = ['link_live'];
+        visualRaceState(components_shown, raceData);
       } else {
         // If there is problem with data retrieval, bind this action to another timemark.
         var raceId = raceData.raceId;
@@ -319,9 +346,14 @@
 
     _requestRaceState(raceData, function response(raceInfo) {
       if (raceInfo && raceInfo.length > 0 && !$.isEmptyObject(raceInfo)) {
+
         // Show links if core is available
         $(".watch-links-race-id-"+raceData.raceId+" .task-leaderboard").show();
         // setTimeout(function() {$(".watch-links-race-id-"+raceData.raceId+" .task-leaderboard").show();}, 5000);
+
+
+        components_shown = ['link_leaderboard'];
+        visualRaceState(components_shown, raceData);
       } else {
         // If there is problem with data retrieval, bind this action to another timemark.
         var raceId = raceData.raceId;
@@ -392,6 +424,24 @@
 
 
   // ------------- HELPER FUNCTIONS ---------------------------
+
+  // @todo
+  // Show/Hide links components for current state
+  function visualRaceState(components_shown, raceData) {
+    console.log(components_shown);
+
+    components_all = ['dayblog', 'timer', 'link_results', 'link_leaderboard', 'link_live'];
+    $.each (components_all, function(i, component) {
+      //~ op = ops.replace('raceId', raceData.raceId);
+      if ($.inArray(component, components_shown)) {
+        //
+        //~ $(op);
+      }
+      else {
+        //
+      }
+    });
+  }
 
   // Change raceWatch status and trigger "raceStateChange" event.
   function raceChangeStatus(raceId, status_current, status_old) {

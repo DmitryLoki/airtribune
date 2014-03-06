@@ -63,6 +63,9 @@ class pg_race_handler_watch_task extends views_handler_field_entity {
           $linksInfo = $raceWatch->raceLinksInfo();
           //~ dsm_once($linksInfo, 'handler links');
           $output = theme('live_event_watch_links', array('links_info' => $linksInfo, 'race_status' => $raceStatus));
+          if ($raceStatus != PG_RACE_WATCH_STATUS_FINISHED) {
+            $output .= theme('live_event_watch_links', array('links_info' => $linksInfo, 'race_status' => PG_RACE_WATCH_STATUS_FINISHED));
+          }
 
 
           $css_status = array(PG_RACE_WATCH_STATUS_AWAITING => 'awaiting', PG_RACE_WATCH_STATUS_STARTING => 'starting', PG_RACE_WATCH_STATUS_IS_LIVE => 'is_live', PG_RACE_WATCH_STATUS_FINISHED => 'finished');
