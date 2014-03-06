@@ -2067,7 +2067,7 @@ function airtribune_ldap_servers_token_replace_alter(&$tokens, $resource, $text,
           $field_id = "[profile2.$profile_name.$field_name]";
           $field_info = field_info_field($field_name);
           $type = $field_info['type'];
-          if ($type == 'phone_number') {
+          if ($type == 'phone_number' && $field_name == 'field_phone') {
             // Get phone number
             $cc = cck_phone_countrycodes();
             $date_items = field_get_items('profile2', $profile, $field_name);
