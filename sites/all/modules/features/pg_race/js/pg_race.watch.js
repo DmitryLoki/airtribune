@@ -293,8 +293,8 @@
       if (raceInfo && raceInfo.length > 0 && !$.isEmptyObject(raceInfo)) {
         // Show links if core is available
         $(".watch-links-race-id-"+raceData.raceId+" .task-live").show();
-        components_shown = ['link_live'];
-        visualRaceState(components_shown, raceData);
+        //~ components_shown = ['link_live'];
+        //~ visualRaceState(components_shown, raceData);
       } else {
         // If there is problem with data retrieval, bind this action to another timemark.
         var raceId = raceData.raceId;
@@ -352,8 +352,8 @@
         // setTimeout(function() {$(".watch-links-race-id-"+raceData.raceId+" .task-leaderboard").show();}, 5000);
 
 
-        components_shown = ['link_leaderboard'];
-        visualRaceState(components_shown, raceData);
+        //~ components_shown = ['link_leaderboard'];
+        //~ visualRaceState(components_shown, raceData);
       } else {
         // If there is problem with data retrieval, bind this action to another timemark.
         var raceId = raceData.raceId;
@@ -427,21 +427,21 @@
 
   // @todo
   // Show/Hide links components for current state
-  function visualRaceState(components_shown, raceData) {
-    console.log(components_shown);
-
-    components_all = ['dayblog', 'timer', 'link_results', 'link_leaderboard', 'link_live'];
-    $.each (components_all, function(i, component) {
-      //~ op = ops.replace('raceId', raceData.raceId);
-      if ($.inArray(component, components_shown)) {
-        //
-        //~ $(op);
-      }
-      else {
-        //
-      }
-    });
-  }
+  //~ function visualRaceState(components_shown, raceData) {
+    //~ console.log(components_shown);
+//~
+    //~ components_all = ['dayblog', 'timer', 'link_results', 'link_leaderboard', 'link_live'];
+    //~ $.each (components_all, function(i, component) {
+      //~ // op = ops.replace('raceId', raceData.raceId);
+      //~ if ($.inArray(component, components_shown)) {
+        //~ //
+        //~ // $(op);
+      //~ }
+      //~ else {
+        //~ //
+      //~ }
+    //~ });
+  //~ }
 
   // Change raceWatch status and trigger "raceStateChange" event.
   function raceChangeStatus(raceId, status_current, status_old) {
