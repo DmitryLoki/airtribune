@@ -7338,6 +7338,17 @@ race_id|[id]';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  /* Contextual filter: Content: Nid */
+  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['table'] = 'node';
+  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['nid']['default_argument_options']['argument'] = '0';
+  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['nid']['break_phrase'] = TRUE;
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -7352,13 +7363,7 @@ race_id|[id]';
   $handler->display->display_options['filters']['type']['value'] = array(
     'day' => 'day',
   );
-  /* Filter criterion: Content: Is last day (field_is_last_day) */
-  $handler->display->display_options['filters']['field_is_last_day_value']['id'] = 'field_is_last_day_value';
-  $handler->display->display_options['filters']['field_is_last_day_value']['table'] = 'field_data_field_is_last_day';
-  $handler->display->display_options['filters']['field_is_last_day_value']['field'] = 'field_is_last_day_value';
-  $handler->display->display_options['filters']['field_is_last_day_value']['value'] = array(
-    1 => '1',
-  );
+  $handler->display->display_options['filters']['type']['group'] = 1;
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type_1']['id'] = 'type_1';
   $handler->display->display_options['filters']['type_1']['table'] = 'node';
@@ -7368,6 +7373,7 @@ race_id|[id]';
     'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
+  $handler->display->display_options['filters']['type_1']['group'] = 1;
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
@@ -7468,12 +7474,12 @@ dayblog_last_entry|[view]
 task_title|[title_2]
 day_number|[field_day_number]
 race_id|[id]'),
+    t('All'),
     t('Page'),
     t('Frontpage Live Events'),
     t('View panes'),
     t('Day blog single'),
     t('Content referencing Content from field_dayblog_ref'),
-    t('All'),
   );
   $export['frontpage_live_events'] = $view;
 
