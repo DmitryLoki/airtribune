@@ -9,6 +9,8 @@ $plugin = array(
 );
 
 function at_helper__frontpage_live_event_footer__renderer(array $components, array $tokens) {
+  drupal_add_css(drupal_get_path('module', 'pg_race') .'/css/pg_race.watch.css', 'file');
+
   $values = array();
   foreach ($components as $k => $token) {
     $values[$k] = $tokens[$token];
