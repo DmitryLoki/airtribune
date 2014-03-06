@@ -2059,50 +2059,52 @@ function airtribune_ldap_servers_token_replace_alter(&$tokens, $resource, $text,
   if ($resource_type == 'user_account') {
     foreach ($profiles as $profile_name) {
       $profile = profile2_load_by_user($resource, $profile_name);
-      $wrapper = entity_metadata_wrapper('profile2', $profile->pid);
-      // Profile2 bundle fields
-      $profile_fields = field_info_instances('profile2', $profile_name);
-      foreach ($profile_fields as $field_name => $field_instance) {
-        $field_id = "[profile2.$profile_name.$field_name]";
-        $field_info = field_info_field($field_name);
-        $type = $field_info['type'];
-        if ($type == 'phone_number') {
-          // Get phone number
-          $cc = cck_phone_countrycodes();
-          $date_items = field_get_items('profile2', $profile, $field_name);
-          $countrycode = $date_items[0]['country_codes'];
-          $number = $date_items[0]['number'];
-          $full_number = '';
-          if ($countrycode && isset($cc[$countrycode])) {
-            $full_number = '+' . substr($cc[$countrycode]['code'], 1) . $number;
-          }
-          if (isset($tokens[$field_id])) {
-            $tokens[$field_id] = $full_number;
-          }
-        } elseif ($type == 'name') {
-          // Replacements for name tokens with attributes
-          $attrs = array('given', 'family');
-          foreach ($attrs as $attr) {
-            $field_id_attr = "[profile2.$profile_name.$field_name.$attr]";
-            $name_value = $wrapper->{$field_name}->value();
-            if (isset($tokens[$field_id_attr])) {
-              $tokens[$field_id_attr] = $name_value[$attr];
+      if (!empty($profile)) {
+        $wrapper = entity_metadata_wrapper('profile2', $profile->pid);
+        // Profile2 bundle fields
+        $profile_fields = field_info_instances('profile2', $profile_name);
+        foreach ($profile_fields as $field_name => $field_instance) {
+          $field_id = "[profile2.$profile_name.$field_name]";
+          $field_info = field_info_field($field_name);
+          $type = $field_info['type'];
+          if ($type == 'phone_number') {
+            // Get phone number
+            $cc = cck_phone_countrycodes();
+            $date_items = field_get_items('profile2', $profile, $field_name);
+            $countrycode = $date_items[0]['country_codes'];
+            $number = $date_items[0]['number'];
+            $full_number = '';
+            if ($countrycode && isset($cc[$countrycode])) {
+              $full_number = '+' . substr($cc[$countrycode]['code'], 1) . $number;
             }
-          }
-        } elseif ($type == 'addressfield') {
-          // Add tokens for address field types
-          $attrs = array('country', 'locality');
-          foreach ($attrs as $attr) {
-            $field_id_attr = "[profile2.$profile_name.$field_name.$attr]";
-            $name_value = $wrapper->{$field_name}->value();
-            if (isset($tokens[$field_id_attr])) {
-              $tokens[$field_id_attr] = $name_value[$attr];
+            if (isset($tokens[$field_id])) {
+              $tokens[$field_id] = $full_number;
             }
-          }
-        } else {
-          // Other fields
-          if (isset($tokens[$field_id])) {
-            $tokens[$field_id] = $wrapper->{$field_name}->value();
+          } elseif ($type == 'name') {
+            // Replacements for name tokens with attributes
+            $attrs = array('given', 'family');
+            foreach ($attrs as $attr) {
+              $field_id_attr = "[profile2.$profile_name.$field_name.$attr]";
+              $name_value = $wrapper->{$field_name}->value();
+              if (isset($tokens[$field_id_attr])) {
+                $tokens[$field_id_attr] = $name_value[$attr];
+              }
+            }
+          } elseif ($type == 'addressfield') {
+            // Add tokens for address field types
+            $attrs = array('country', 'locality');
+            foreach ($attrs as $attr) {
+              $field_id_attr = "[profile2.$profile_name.$field_name.$attr]";
+              $name_value = $wrapper->{$field_name}->value();
+              if (isset($tokens[$field_id_attr])) {
+                $tokens[$field_id_attr] = $name_value[$attr];
+              }
+            }
+          } else {
+            // Other fields
+            if (isset($tokens[$field_id])) {
+              $tokens[$field_id] = $wrapper->{$field_name}->value();
+            }
           }
         }
       }
