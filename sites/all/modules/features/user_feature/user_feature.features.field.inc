@@ -130,6 +130,91 @@ function user_feature_field_default_fields() {
     ),
   );
 
+  // Exported field: 'user-user-field_social_links'.
+  $fields['user-user-field_social_links'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '5',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_social_links',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'link',
+      'settings' => array(
+        'attributes' => array(
+          'class' => '',
+          'rel' => '',
+          'target' => 'default',
+        ),
+        'display' => array(
+          'url_cutoff' => 80,
+        ),
+        'enable_tokens' => 1,
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+        'title' => 'optional',
+        'title_maxlength' => 128,
+        'title_value' => '',
+        'url' => 0,
+      ),
+      'translatable' => '0',
+      'type' => 'link_field',
+    ),
+    'field_instance' => array(
+      'bundle' => 'user',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => 'Facebook, Google Plus, Youtube, Vimeo, Istagram',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'link',
+          'settings' => array(),
+          'type' => 'link_default',
+          'weight' => 12,
+        ),
+      ),
+      'entity_type' => 'user',
+      'exclude_cv' => 0,
+      'field_name' => 'field_social_links',
+      'label' => 'Social networks links',
+      'required' => 0,
+      'settings' => array(
+        'attributes' => array(
+          'class' => '',
+          'configurable_title' => 0,
+          'rel' => 'nofollow',
+          'target' => 'default',
+          'title' => '',
+        ),
+        'display' => array(
+          'url_cutoff' => '80',
+        ),
+        'enable_tokens' => 0,
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'title' => 'none',
+        'title_maxlength' => '128',
+        'title_value' => '',
+        'url' => 0,
+        'user_register_form' => 0,
+        'validate_url' => 1,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'link',
+        'settings' => array(),
+        'type' => 'link_field',
+        'weight' => '5',
+      ),
+    ),
+  );
+
   // Exported field: 'user-user-field_user_avatar'.
   $fields['user-user-field_user_avatar'] = array(
     'field_config' => array(
@@ -333,7 +418,9 @@ function user_feature_field_default_fields() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Facebook, Google Plus, Youtube, Vimeo, Istagram');
   t('Header image');
+  t('Social networks links');
   t('This image will be displayed in header, on your pilot\'s page.');
   t('Your photo');
 
