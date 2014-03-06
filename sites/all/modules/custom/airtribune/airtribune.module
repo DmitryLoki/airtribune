@@ -362,6 +362,14 @@ function airtribune_token_info() {
     'name' => t('Core API domain'),
     'description' => t('Base Core API domain from settings Core sync module.'),
   );
+  $info['tokens']['variable']['vis-domain'] = array(
+    'name' => t('Visualization hosting URL'),
+    'description' => t('Base visualization domain from settings Core sync module.'),
+  );
+  $info['tokens']['variable']['retrieve-domain'] = array(
+    'name' => t('Retrieve hosting URL'),
+    'description' => t('Base retrieve domain from settings Core sync module.'),
+  );
   $info['tokens']['variable']['core-api-version'] = array(
     'name' => t('Core API version'),
     'description' => t('Core API version from settings Core sync module.'),
@@ -443,6 +451,8 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
     if ($type == 'variable') {
       $replacements['[variable:core-api-domain]'] = at_core_sync_get_api_domain();
       $replacements['[variable:core-api-version]'] = at_core_sync_get_api_version();
+      $replacements['[variable:vis-domain]'] = variable_get('at_core_vis_address', 'http://vis.airtribune.com');
+      $replacements['[variable:retrieve-domain]'] = variable_get('at_core_retrieve_address', 'http://vis.airtribune.com');
     }
   }
 
@@ -1173,27 +1183,29 @@ function airtribune_modify_event_date_include_last_day(&$node) {
 function airtribune_entity_insert($entity, $type) {
   // change membership for user to organizer, whom create contest node
   // @see airtribune_og_membership_presave()
-  if (og_is_group_type($type, $entity->type)) {
-    $account = user_load($entity->uid);
+  if (isset($entity->type)) {
+    if (og_is_group_type($type, $entity->type)) {
+      $account = user_load($entity->uid);
 
-    if (og_is_member($type, $entity->nid, 'user', $account)) {
-      global $change_membership;
-      $change_membership = AIRTRIBUNE_MEMBERSHIP_ORGANIZER;
-    } else {
-      // Add the user to the group
-      og_group($type, $entity->nid, array(
-        'entity type' => 'user',
-        'entity' => $account,
-        'membership type' => AIRTRIBUNE_MEMBERSHIP_ORGANIZER,
-      ));
-    }
-    $roles = og_roles($type, $entity->type, $entity->nid, FALSE, FALSE);
-    // Get rid for group admin role
-    $admin_member_rid = array_search('administrator member', $roles);
+      if (og_is_member($type, $entity->nid, 'user', $account)) {
+        global $change_membership;
+        $change_membership = AIRTRIBUNE_MEMBERSHIP_ORGANIZER;
+      } else {
+        // Add the user to the group
+        og_group($type, $entity->nid, array(
+          'entity type' => 'user',
+          'entity' => $account,
+          'membership type' => AIRTRIBUNE_MEMBERSHIP_ORGANIZER,
+        ));
+      }
+      $roles = og_roles($type, $entity->type, $entity->nid, FALSE, FALSE);
+      // Get rid for group admin role
+      $admin_member_rid = array_search('administrator member', $roles);
 
-    if (!empty($admin_member_rid)) {
-      // Changes the users role in the group
-      og_role_grant($type, $entity->nid, $account->uid, $admin_member_rid);
+      if (!empty($admin_member_rid)) {
+        // Changes the users role in the group
+        og_role_grant($type, $entity->nid, $account->uid, $admin_member_rid);
+      }
     }
   }
 }
@@ -1724,7 +1736,11 @@ function airtribune_user_pass_validate($form, &$form_state) {
 
 
 function airtribune_cron() {
-  _create_day_for_contest();
+  // lock for 3 minutes, @see #4499
+  if (lock_acquire('airtribune_create_day_lock', 180)) {
+    _create_day_for_contest();
+    lock_release('airtribune_create_day_lock');
+  }
 }
 
 /**
@@ -2048,50 +2064,52 @@ function airtribune_ldap_servers_token_replace_alter(&$tokens, $resource, $text,
   if ($resource_type == 'user_account') {
     foreach ($profiles as $profile_name) {
       $profile = profile2_load_by_user($resource, $profile_name);
-      $wrapper = entity_metadata_wrapper('profile2', $profile->pid);
-      // Profile2 bundle fields
-      $profile_fields = field_info_instances('profile2', $profile_name);
-      foreach ($profile_fields as $field_name => $field_instance) {
-        $field_id = "[profile2.$profile_name.$field_name]";
-        $field_info = field_info_field($field_name);
-        $type = $field_info['type'];
-        if ($type == 'phone_number') {
-          // Get phone number
-          $cc = cck_phone_countrycodes();
-          $date_items = field_get_items('profile2', $profile, $field_name);
-          $countrycode = $date_items[0]['country_codes'];
-          $number = $date_items[0]['number'];
-          $full_number = '';
-          if ($countrycode && isset($cc[$countrycode])) {
-            $full_number = '+' . substr($cc[$countrycode]['code'], 1) . $number;
-          }
-          if (isset($tokens[$field_id])) {
-            $tokens[$field_id] = $full_number;
-          }
-        } elseif ($type == 'name') {
-          // Replacements for name tokens with attributes
-          $attrs = array('given', 'family');
-          foreach ($attrs as $attr) {
-            $field_id_attr = "[profile2.$profile_name.$field_name.$attr]";
-            $name_value = $wrapper->{$field_name}->value();
-            if (isset($tokens[$field_id_attr])) {
-              $tokens[$field_id_attr] = $name_value[$attr];
+      if (!empty($profile)) {
+        $wrapper = entity_metadata_wrapper('profile2', $profile->pid);
+        // Profile2 bundle fields
+        $profile_fields = field_info_instances('profile2', $profile_name);
+        foreach ($profile_fields as $field_name => $field_instance) {
+          $field_id = "[profile2.$profile_name.$field_name]";
+          $field_info = field_info_field($field_name);
+          $type = $field_info['type'];
+          if ($type == 'phone_number' && $field_name == 'field_phone') {
+            // Get phone number
+            $cc = cck_phone_countrycodes();
+            $date_items = field_get_items('profile2', $profile, $field_name);
+            $countrycode = $date_items[0]['country_codes'];
+            $number = $date_items[0]['number'];
+            $full_number = '';
+            if ($countrycode && isset($cc[$countrycode])) {
+              $full_number = '+' . substr($cc[$countrycode]['code'], 1) . $number;
             }
-          }
-        } elseif ($type == 'addressfield') {
-          // Add tokens for address field types
-          $attrs = array('country', 'locality');
-          foreach ($attrs as $attr) {
-            $field_id_attr = "[profile2.$profile_name.$field_name.$attr]";
-            $name_value = $wrapper->{$field_name}->value();
-            if (isset($tokens[$field_id_attr])) {
-              $tokens[$field_id_attr] = $name_value[$attr];
+            if (isset($tokens[$field_id])) {
+              $tokens[$field_id] = $full_number;
             }
-          }
-        } else {
-          // Other fields
-          if (isset($tokens[$field_id])) {
-            $tokens[$field_id] = $wrapper->{$field_name}->value();
+          } elseif ($type == 'name') {
+            // Replacements for name tokens with attributes
+            $attrs = array('given', 'family');
+            foreach ($attrs as $attr) {
+              $field_id_attr = "[profile2.$profile_name.$field_name.$attr]";
+              $name_value = $wrapper->{$field_name}->value();
+              if (isset($tokens[$field_id_attr])) {
+                $tokens[$field_id_attr] = $name_value[$attr];
+              }
+            }
+          } elseif ($type == 'addressfield') {
+            // Add tokens for address field types
+            $attrs = array('country', 'locality');
+            foreach ($attrs as $attr) {
+              $field_id_attr = "[profile2.$profile_name.$field_name.$attr]";
+              $name_value = $wrapper->{$field_name}->value();
+              if (isset($tokens[$field_id_attr])) {
+                $tokens[$field_id_attr] = $name_value[$attr];
+              }
+            }
+          } else {
+            // Other fields
+            if (isset($tokens[$field_id])) {
+              $tokens[$field_id] = $wrapper->{$field_name}->value();
+            }
           }
         }
       }

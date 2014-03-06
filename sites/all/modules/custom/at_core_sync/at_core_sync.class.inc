@@ -298,6 +298,7 @@ abstract class ATSyncCustom extends ATSyncNestedInContest {
     $entity = entity_load_single($entity_type, $entity->etid);
     $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
     // Get values.
+    $description = '';
     if ($entity_type == 'ent_customobject') {
       $this->name = $entity->title;
       $this->type = $entity_wrapper->field_customobject_type->value();
@@ -617,10 +618,13 @@ class ATSyncRace extends ATSyncNestedInContest {
       }
     }
     // Write optimal distance to race.
-    if (!empty($response->optdistance)) {
+    $optdistance = floatval($response->optdistance);
+    if (!empty($optdistance)) {
       $this->entity->field_optdistance[LANGUAGE_NONE][0]['value'] = $response->optdistance;
-      field_attach_update($this->entity_type, $this->entity);
+    } else {
+      $this->entity->field_optdistance[LANGUAGE_NONE][0]['value'] = '';
     }
+    field_attach_update($this->entity_type, $this->entity);
     return !empty($response->id) ? $response->id : FALSE;
   }
 
