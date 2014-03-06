@@ -366,6 +366,10 @@ function airtribune_token_info() {
     'name' => t('Visualization hosting URL'),
     'description' => t('Base visualization domain from settings Core sync module.'),
   );
+  $info['tokens']['variable']['retrieve-domain'] = array(
+    'name' => t('Retrieve hosting URL'),
+    'description' => t('Base retrieve domain from settings Core sync module.'),
+  );
   $info['tokens']['variable']['core-api-version'] = array(
     'name' => t('Core API version'),
     'description' => t('Core API version from settings Core sync module.'),
@@ -447,7 +451,8 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
     if ($type == 'variable') {
       $replacements['[variable:core-api-domain]'] = at_core_sync_get_api_domain();
       $replacements['[variable:core-api-version]'] = at_core_sync_get_api_version();
-      $replacements['[variable:vis-domain]'] = variable_get('at_core_vis_address', 'http://vis.airtribune.com');;
+      $replacements['[variable:vis-domain]'] = variable_get('at_core_vis_address', 'http://vis.airtribune.com');
+      $replacements['[variable:retrieve-domain]'] = variable_get('at_core_retrieve_address', 'http://vis.airtribune.com');
     }
   }
 
