@@ -8327,15 +8327,13 @@ window.fbAsyncInit = function() {
     $pane->access = array();
     $pane->configuration = array(
       'widget_code' => array(
-        'value' => '<link rel="stylesheet" href="[variable:retrieve-domain]/css/airvis.css"/>
-    <link rel="stylesheet" href="[variable:retrieve-domain]/css/checkbox.css"/>
-    <link rel="stylesheet" href="[variable:retrieve-domain]/css/shiny-sprite.css">
-    <script data-main="[variable:retrieve-domain]/js/init" src="[variable:retrieve-domain]/js/lib/require.js"></script>
+        'value' => '<link rel="stylesheet" href="[variable:retrieve-domain]/retrieve_map.min.css">
+    <script src="[variable:retrieve-domain]/retrieve_map.min.js"></script>
     <div role="main" class="airvis-container">
       <div class="airvis-loading-container">
         <div class="airvis-loading">&nbsp;</div>
       </div>
-    <!-- ko widget: { data: page, imgRootUrl: "[variable:retrieve-domain]/img/", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", mode: "retrieve", isOnline: [airtribune:race-online], titleUrl: "[airtribune:contest-url]", mapWidget:"2d-canvas", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}} } --><!-- /ko -->
+      <!-- ko widget: { data: page, imgRootUrl: "[variable:retrieve-domain]/img/", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", mode: "retrieve", isOnline: [airtribune:race-online], titleUrl: "[airtribune:contest-url]", mapWidget:"2d-canvas", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}} } --><!-- /ko -->
     </div>',
         'format' => 'full_html',
       ),
