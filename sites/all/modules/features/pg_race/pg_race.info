@@ -33,3 +33,7 @@ features[field][] = field_collection_item-field_competition_results-field_result
 features[field][] = field_collection_item-field_competition_results-field_scoring_category_ref
 features[field][] = field_collection_item-field_day_results-field_results_file
 features[field][] = field_collection_item-field_day_results-field_scoring_category_ref
+
+; Views Handlers
+files[] = includes/views/pg_race_handler_watch_task.inc
+files[] = includes/views/pg_race_handler_watch_task_time.inc

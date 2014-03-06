@@ -1825,6 +1825,37 @@ function airtribune2_views_pre_render(&$view) {
       }
     }
   }
+
+  if ($view->name == 'frontpage_live_events' && (in_array($view->current_display, array('page', 'panel_pane_2')))) {
+
+    drupal_add_js(drupal_get_path('theme', 'airtribune2') . '/js/frontpage.js');
+    $standart = floor(count($view->result)/3) * 3;
+    $deviant = count($view->result) - $standart;
+    if ($deviant == 1) {
+      $img_styles = array('frontpage_event_padding_once', 'event_logo_once');
+      //$view->name .= '_once';
+    }
+    if ($deviant == 2) {
+      $img_styles = array('frontpage_event_padding_twice', 'event_logo_twice');
+      //$view->name .= '_twice';
+    }
+    // Output "show more events" button after view, if we have more, than 3 items.
+    if (count($view->result) > 3) {
+      // @todo: Add attachment for new Live Events block
+      //~ $view->attachment_after = '<div class="frontpage-show-more-events">...</div>';
+    }
+    if (!empty($img_styles)) {
+      $index = 1;
+      foreach ($view->result as $key => $value) {
+        if ($index > $standart) {
+          $view->result[$key]->field_field_contest_photos[0]['rendered']['#image_style'] = $img_styles['0'];
+          $view->result[$key]->field_field_image[0]['rendered']['#image_style'] = $img_styles['0'];
+          //$view->result[$key]->field_field_logo[0]['rendered']['#image_style'] = $img_styles['1'];
+        }
+        $index ++;
+      }
+    }
+  }
 }
 
 
@@ -1891,7 +1922,7 @@ function airtribune2_preprocess_views_view_unformatted(&$vars) {
   $count = 0;
 
   /* if view name is 'frontpage_events' looking for the highest multiple of excess */
-  if ($view->name == 'frontpage_events') {
+  if ($view->name == 'frontpage_events' || $view->name == 'frontpage_live_events') {
     $standart = floor(count($view->result)/3) * 3;
     $deviant = count($view->result) - $standart;
     if ($deviant == 1) {

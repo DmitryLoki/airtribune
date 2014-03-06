@@ -6,3 +6,5 @@ dependencies[] = airtribune
 dependencies[] = views
 dependencies[] = date_api
 dependencies[] = field_formatter_settings
+
+files[] = includes/views/at_helper_handler_field_custom_extended.inc
