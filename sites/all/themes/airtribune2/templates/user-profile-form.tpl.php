@@ -86,6 +86,26 @@ print drupal_render($form['account']['mail']);
 print drupal_render($form['account']['current_pass']);
 print "</div>";
 
+// Personalisation.
+$form['field_header_image']['und'][0]['select']['#title'] = t('Add image');
+$form['field_header_image']['und'][0]['remove']['#title'] = t('Delete');
+
+// Add rel & class to social links field.
+$socials = array('Facebook', 'Google Plus', 'Youtube', 'Vimeo', 'Istagram');
+$soc_links = &$form['field_social_links']['und'];
+foreach (array_keys($soc_links) as $element) {
+  // [und][0], [und][1], ...
+  if (is_int($element)) {
+    $form['field_social_links']['und'][$element]['url']['#class'] = array($socials[$element]);
+    $form['field_social_links']['und'][$element]['url']['#attributes']['rel'] = $socials[$element];
+  }
+}
+
+print "<div id='personalisation'>"; // #personalisation start
+print drupal_render($form['field_header_image']);
+print drupal_render($form['field_social_links']);
+print "</div>"; // #personalisation end
+
 // hide elements
 hide($form['account']['pass']);
 hide($form['timezone']);

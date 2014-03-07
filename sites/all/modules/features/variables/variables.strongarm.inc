@@ -1173,7 +1173,7 @@ function variables_strongarm() {
       'weight' => '-98',
       'action' => 'enabled',
       'tabtamer_original_path' => 'profile-pilot/%user/user',
-      'tabtamer_title' => 'Contestant',
+      'tabtamer_title' => '',
     ),
     'profile-pilot/%/view' => array(
       'weight' => '-100',
@@ -1185,7 +1185,7 @@ function variables_strongarm() {
       'weight' => '-97',
       'action' => 'enabled',
       'tabtamer_original_path' => 'profile-pilot/%profile2_by_uid/edit',
-      'tabtamer_title' => '',
+      'tabtamer_title' => 'Contestant',
     ),
     'profile-pilot/%/delete' => array(
       'weight' => '-99',

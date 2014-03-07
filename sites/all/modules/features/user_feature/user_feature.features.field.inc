@@ -49,8 +49,10 @@ function user_feature_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'user',
+      'default_value' => array(),
       'deleted' => '0',
-      'description' => 'This image will be displayed in header, on your pilot\'s page.',
+      'description' => 'Jpeg, png, gif.<br/>
+Size: not less than 940x380.',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -102,7 +104,7 @@ function user_feature_field_default_fields() {
       ),
       'widget' => array(
         'active' => 1,
-        'module' => 'media',
+        'module' => 'image',
         'settings' => array(
           'allowed_schemes' => array(
             'public' => 'public',
@@ -122,9 +124,20 @@ function user_feature_field_default_fields() {
             'upload' => 0,
             'youtube' => 0,
           ),
+          'insert' => 0,
+          'insert_absolute' => FALSE,
+          'insert_class' => '',
+          'insert_default' => array(
+            0 => 'auto',
+          ),
+          'insert_styles' => array(
+            0 => 'auto',
+          ),
+          'insert_width' => '',
+          'preview_image_style' => 'thumbnail',
           'progress_indicator' => 'throbber',
         ),
-        'type' => 'media_generic',
+        'type' => 'image_image',
         'weight' => '3',
       ),
     ),
@@ -169,7 +182,7 @@ function user_feature_field_default_fields() {
       'bundle' => 'user',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => 'Facebook, Google Plus, Youtube, Vimeo, Istagram',
+      'description' => '',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -182,7 +195,7 @@ function user_feature_field_default_fields() {
       'entity_type' => 'user',
       'exclude_cv' => 0,
       'field_name' => 'field_social_links',
-      'label' => 'Social networks links',
+      'label' => 'Social links',
       'required' => 0,
       'settings' => array(
         'attributes' => array(
@@ -418,10 +431,10 @@ function user_feature_field_default_fields() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Facebook, Google Plus, Youtube, Vimeo, Istagram');
   t('Header image');
-  t('Social networks links');
-  t('This image will be displayed in header, on your pilot\'s page.');
+  t('Jpeg, png, gif.<br/>
+Size: not less than 940x380.');
+  t('Social links');
   t('Your photo');
 
   return $fields;

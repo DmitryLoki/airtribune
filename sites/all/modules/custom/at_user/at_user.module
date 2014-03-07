@@ -76,6 +76,15 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
   global $user;
 
   if ($form_id == 'user_profile_form') {
+
+    // Hide LDAP_* fields.
+    $form_el = array_keys($form);
+    foreach ($form_el as $element) {
+      if (strpos($element, 'ldap') !== FALSE) {
+        unset($form[$element]);
+      }
+    }
+
     // make upload & delete (user_picture / avatar imagefield) without form_submit
     // see #2764
     if (isset($form_state['values']['field_user_avatar_und_0_remove_button']) &&
