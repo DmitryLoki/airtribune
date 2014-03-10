@@ -23,6 +23,13 @@ function at_tracker_field_storage_load($entity_type, $entities, $age, $fields, $
     $delta_count = array();
     if ($field['type'] == 'at_tracker') {
       foreach ($entities as $entity) {
+        if (isset($entity->{AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD}[LANGUAGE_NONE][0]['value']) &&
+                  !in_array($entity->{AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD}[LANGUAGE_NONE][0]['value'],
+                      array(AIRTRIBUNE_PILOT_STATUS_WINDDUMMY,
+                      AIRTRIBUNE_PG_CONTESTANT_CONFIRMED))) {
+          // Don`t get value for not confirmed contestants
+          continue;         
+        }
         $cid = _at_tracker_get_cid($entity_type, $entity);
         $item = NULL;
         $tracker = NULL;
