@@ -334,7 +334,7 @@ function at_points_widget_create_files($nid) {
       }  
     }
     if (empty($file_object)){
-      throw new Exception(t('Points export failed to @class', array('@class' => $classes[$new_class])));
+      throw new Exception(t('Points export failed to @class', array('@class' => AtPointsWidgetFile::$classes[$new_class])));
     }
     $new_file = (array)$file_object;
     $new_file['display'] = 1;
