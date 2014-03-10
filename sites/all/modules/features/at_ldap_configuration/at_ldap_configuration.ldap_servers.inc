@@ -27,7 +27,7 @@ function at_ldap_configuration_default_ldap_servers() {
   $ldap_servers_conf->basedn = array(
     0 => 'ou=person,dc=airtribune,dc=com',
   );
-  $ldap_servers_conf->user_attr = 'cn';
+  $ldap_servers_conf->user_attr = 'mail';
   $ldap_servers_conf->account_name_attr = 'cn';
   $ldap_servers_conf->mail_attr = 'mail';
   $ldap_servers_conf->mail_template = '';
