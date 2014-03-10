@@ -2124,14 +2124,16 @@ function airtribune_ldap_entry_alter(&$ldap_user_entry, $params) {
   // Replace file id with file content
   if (isset($ldap_user_entry['jpegPhoto'][0])) {
     $file = file_load($ldap_user_entry['jpegPhoto'][0]);
-    $filename = drupal_realpath($file->uri);
-    if (file_exists($filename)) {
-      $handle = fopen($filename, "rb");
-      while (!FEOF($handle)) {
-        $contents .= fread($handle,1024);
+    if (isset($file->uri)) {
+      $filename = drupal_realpath($file->uri);
+      if (file_exists($filename)) {
+        $handle = fopen($filename, "rb");
+        while (!FEOF($handle)) {
+          $contents .= fread($handle,1024);
+        }
+        fclose($handle);
+        $ldap_user_entry['jpegPhoto'][0] = $contents;
       }
-      fclose($handle);
-      $ldap_user_entry['jpegPhoto'][0] = $contents;
     }
   }
 }
