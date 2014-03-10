@@ -116,7 +116,7 @@ function organic_groups_field_default_fields() {
       'entity_types' => array(),
       'field_name' => 'field_at_tracker',
       'field_permissions' => array(
-        'type' => '0',
+        'type' => '2',
       ),
       'foreign keys' => array(),
       'indexes' => array(),
@@ -1276,7 +1276,7 @@ function organic_groups_field_default_fields() {
       'entity_types' => array(),
       'field_name' => 'field_at_tracker',
       'field_permissions' => array(
-        'type' => '0',
+        'type' => '2',
       ),
       'foreign keys' => array(),
       'indexes' => array(),
@@ -2182,7 +2182,7 @@ function organic_groups_field_default_fields() {
       'entity_types' => array(),
       'field_name' => 'field_at_tracker',
       'field_permissions' => array(
-        'type' => '0',
+        'type' => '2',
       ),
       'foreign keys' => array(),
       'indexes' => array(),
@@ -2733,7 +2733,7 @@ function organic_groups_field_default_fields() {
       'entity_types' => array(),
       'field_name' => 'field_at_tracker',
       'field_permissions' => array(
-        'type' => '0',
+        'type' => '2',
       ),
       'foreign keys' => array(),
       'indexes' => array(),
@@ -3726,7 +3726,7 @@ function organic_groups_field_default_fields() {
       'entity_types' => array(),
       'field_name' => 'field_at_tracker',
       'field_permissions' => array(
-        'type' => '0',
+        'type' => '2',
       ),
       'foreign keys' => array(),
       'indexes' => array(),
