@@ -319,7 +319,7 @@ function pg_scoring_category_field_default_fields() {
         'entity_translation_sync' => FALSE,
         'profile2_private' => FALSE,
       ),
-      'translatable' => '1',
+      'translatable' => '0',
       'type' => 'text_long',
     ),
     'field_instance' => array(
@@ -811,22 +811,17 @@ Junior',
       'module' => 'entityreference',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'handler' => 'event_views',
+        'handler' => 'base',
         'handler_settings' => array(
           'behaviors' => array(
             'views-select-list' => array(
               'status' => 0,
             ),
           ),
-          'view' => array(
-            'args' => array(
-              0 => 'gid',
-              1 => 'all',
-              2 => '50',
-            ),
-            'display_name' => 'contestants_all_entityreference',
-            'view_name' => 'paragliding_pilots_list',
+          'sort' => array(
+            'type' => 'none',
           ),
+          'target_bundles' => array(),
         ),
         'profile2_private' => FALSE,
         'target_type' => 'user',
@@ -836,7 +831,7 @@ Junior',
     ),
     'field_instance' => array(
       'bundle' => 'pg_scoring_category',
-      'default_value' => array(),
+      'default_value' => NULL,
       'default_value_function' => '',
       'deleted' => '0',
       'description' => '',
@@ -883,9 +878,13 @@ Junior',
       ),
       'widget' => array(
         'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_select',
+        'module' => 'entityreference',
+        'settings' => array(
+          'match_operator' => 'CONTAINS',
+          'path' => '',
+          'size' => '60',
+        ),
+        'type' => 'entityreference_autocomplete',
         'weight' => '3',
       ),
     ),
