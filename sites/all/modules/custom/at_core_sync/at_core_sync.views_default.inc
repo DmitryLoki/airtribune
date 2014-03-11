@@ -3590,6 +3590,13 @@ function at_core_sync_views_default_views() {
       'empty_column' => 0,
     ),
   );
+  /* Header: Global: Unfiltered text */
+  $handler->display->display_options['header']['area_text_custom']['id'] = 'area_text_custom';
+  $handler->display->display_options['header']['area_text_custom']['table'] = 'views';
+  $handler->display->display_options['header']['area_text_custom']['field'] = 'area_text_custom';
+  $handler->display->display_options['header']['area_text_custom']['empty'] = TRUE;
+  $handler->display->display_options['header']['area_text_custom']['content'] = '<ul class="action-links"><li><a href="/node/add/pg-scoring-category?og_group_ref=!1&destination=admin/config/administration/at_manage/contest/!1/scoring_category">Add Scoring Category</a></li></ul>';
+  $handler->display->display_options['header']['area_text_custom']['tokenize'] = TRUE;
   /* Relationship: OG membership: OG membership from Node */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
@@ -3805,6 +3812,7 @@ function at_core_sync_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
+    t('<ul class="action-links"><li><a href="/node/add/pg-scoring-category?og_group_ref=!1&destination=admin/config/administration/at_manage/contest/!1/scoring_category">Add Scoring Category</a></li></ul>'),
     t('OG membership from node'),
     t('Content'),
     t('- Choose an operation -'),
