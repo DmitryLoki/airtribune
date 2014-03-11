@@ -76,6 +76,7 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
   global $user;
 
   if ($form_id == 'user_profile_form') {
+    // TODO maybe use hide() instead unset() to form elements?
 
     // Hide LDAP_* fields.
     $form_el = array_keys($form);
@@ -84,6 +85,51 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
         unset($form[$element]);
       }
     }
+
+    // Hide unnessecary elements.
+    unset($form['timezone']);
+    unset($form['locale']);
+    unset($form['og_user_node']);
+    unset($form['xmlsitemap']);
+    unset($form['metatags']);
+    unset($form['mimemail']);
+
+    // From tpl, used in futher hook_process.
+    $form['account']['mail']['#attached']['js'][] = drupal_get_path('module', 'at_user') . '/js/mail_change.js';
+    $form['field_avatar']['#attached']['js'][] = drupal_get_path('module', 'at_user') . '/js/auto_upload.js';
+
+    $form['name_gender_dob'] = array(
+      '#type' => 'item',
+      '#prefix' => '<div id="name-gender-dob">',
+      '#suffix' => '</div>',
+    );
+    $form['mail_change'] = array(
+      '#type' => 'item',
+      '#prefix' => '<div id="mail-change">',
+      '#suffix' => '</div>',
+    );
+    $form['personalisation'] = array(
+      '#type' => 'item',
+      '#prefix' => '<div id="personalisation">',
+      '#suffix' => '</div>',
+    );
+    $form['account']['mail_dummy'] = array(
+      '#type' => 'item',
+      '#title' => t('Email'),
+      '#markup' => $form['account']['mail']['#value'],
+      '#prefix' => '<div id="mail-dummy">', // form api "item" haven't #attributes
+      '#suffix' => '<div id="mail-edit-pencil">✎</div></div>',
+    );
+    $form['pass_fieldset'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Change password'),
+      '#prefix' => '<div id="password-fieldset">',
+      '#suffix' => '</div>',
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#attributes' => array('class' => array('collapsible', 'collapsed')),
+    );
+    // End from tpl.
 
     // make upload & delete (user_picture / avatar imagefield) without form_submit
     // see #2764
