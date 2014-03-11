@@ -307,6 +307,89 @@ function at_user_login_error_redirect_to_form($form, &$form_state) {
   }
 }
 
+function at_user_preprocess_panels_pane(&$vars) {
+  $content = &$vars['content'];
+  $pane = $vars['pane'];
+  if ($pane->subtype == 'form' && $pane->css['template_suggestion'] == 'user-edit-form') {
+    $panel_page = page_manager_get_current_page();
+  }
+}
+
+function at_user_process_panels_pane(&$vars, $hook) {
+  $pane = $vars['pane'];
+  if ($pane->subtype == 'form' && $pane->css['template_suggestion'] == 'user-edit-form') {
+    $form = &$vars['content'];
+
+    $form['actions']['submit']['#suffix'] = '<a id="mail-edit-cancel-link">or Cancel</a>';
+    $form['field_user_avatar']['und'][0]['#title'] = '';
+    // print drupal_render($form['field_user_avatar']);
+
+    $form['account']['mail']['#title'] = t('Email');
+    $form['account']['mail']['#attributes']['rel'] = t('Enter your email');
+    $form['account']['mail']['#description'] = t('Your email is your login in the system. To change email you must enter your new email. Your email will be changed after confirmation.');
+    $form['account']['current_pass']['#title'] = t('Current password');
+    $form['account']['current_pass']['#description'] = t('Your current password. If your forgot your password, you can reset it <a href="/user/password">here</a>.');
+    $form['account']['pass']['pass1']['#title'] = t("New password");
+    $form['account']['pass']['pass2']['#title'] = t("Confirm new password");
+    $form['account']['pass']['#attached']['js'][0] = 'sites/all/themes/airtribune2/js/user.js';
+
+    $form['name_gender_dob']['#markup'] .= drupal_render($form['account']['mail_dummy']);
+
+    // Main profile Name field
+    if (!empty($form['profile_main'])) {
+
+      $options = array(
+        '#prefix' => '',
+        '#suffix' => '',
+        '#title_display' => 'before',
+      );
+      $form['profile_main']['field_full_name']['und'][0]['given'] = array_merge($form['profile_main']['field_full_name']['und'][0]['given'], $options);
+      $form['profile_main']['field_full_name']['und'][0]['family'] = array_merge($form['profile_main']['field_full_name']['und'][0]['family'], $options);
+      $form['profile_main']['field_full_name']['und'][0]['given']['#attributes']['placeholder'] = t('Enter your name');
+      $form['profile_main']['field_full_name']['und'][0]['family']['#attributes']['placeholder'] = t('Enter your surname');
+      // Temporary fix for Name label translation (see http://drupal.org/node/1788156)
+      $form['profile_main']['field_full_name']['und'][0]['given']['#title'] = t('Name');
+      $form['profile_main']['field_full_name']['und'][0]['family']['#title'] = t('Surname');
+      // Add title to first field, and remove fieldset.
+      $form['profile_main']['field_birthdate']['und'][0]['value']['day']['#title'] = t('Date of birth');
+      $form['profile_main']['field_birthdate']['und'][0]['#title'] = '';
+      // TODO css rename: name_gender_dob -> name_gender_dob, fix in js.
+      $form['name_gender_dob']['#markup'] .= drupal_render($form['profile_main']['field_full_name']['und'][0]['given']);
+      $form['name_gender_dob']['#markup'] .= drupal_render($form['profile_main']['field_full_name']['und'][0]['family']);
+      $form['name_gender_dob']['#markup'] .= drupal_render($form['profile_main']['field_gender']);
+      $form['name_gender_dob']['#markup'] .= drupal_render($form['profile_main']['field_birthdate']['und'][0]['value']);
+
+      unset($form['profile_main']);
+    }
+
+    $form['mail_change']['#markup'] .= drupal_render($form['account']['mail']);
+    $form['mail_change']['#markup'] .= drupal_render($form['account']['current_pass']);
+
+    // Use own password change fieldset & hide default.
+    $form['pass_fieldset']['current_pass'] = $form['account']['current_pass'];
+    $form['pass_fieldset']['pass']         = $form['account']['pass'];
+    hide($form['account']['pass']);
+
+    // Add rel & class to social links field.
+    $socials = array('Facebook', 'Google Plus', 'Youtube', 'Vimeo', 'Istagram');
+    $soc_links = &$form['field_social_links']['und'];
+    foreach (array_keys($soc_links) as $element) {
+      // [und][0], [und][1], ...
+      if (is_int($element)) {
+        $form['field_social_links']['und'][$element]['url']['#class'] = array($socials[$element]);
+        $form['field_social_links']['und'][$element]['url']['#attributes']['rel'] = $socials[$element];
+      }
+    }
+
+    // Personalisation.
+    $form['field_header_image']['und'][0]['select']['#title'] = t('Add image');
+    $form['field_header_image']['und'][0]['remove']['#title'] = t('Delete');
+
+    $form['personalisation']['#markup'] .= drupal_render($form['field_header_image']);
+    $form['personalisation']['#markup'] .= drupal_render($form['field_social_links']);
+  }
+}
+
 /**
  * Menu callback; process one time login link and redirects to the user page on success.
  * Overridden function of user_registrationpassword_confirm_account at user_registrationpassword.pages.inc
