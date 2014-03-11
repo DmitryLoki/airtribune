@@ -2602,18 +2602,18 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 .select .items_padding { padding:12px 0 !important;}
 .select .option { color:#2d3033; font:14px/16px Arial, Helvetica, sans-serif; cursor:pointer; margin:0 7px 2px;}
 .select .option:hover { color:#00aeef;}
-.page-user .pane-page-content form .jspContainer { position:relative; overflow:hidden; display: block !important;}
-.page-user .pane-page-content form .jspContainer div { display: block !important;}
-.page-user .pane-page-content form .jspPane { position:relative;}
-.page-user .pane-page-content form .jspVerticalBar { position:absolute; top:0; right:4px}
-.page-user .pane-page-content form .jspDrag { background:#00aeef; width:4px; cursor:pointer; position:relative;
+.pane-page-content form .jspContainer { position:relative; overflow:hidden; display: block !important;}
+.pane-page-content form .jspContainer div { display: block !important;}
+.pane-page-content form .jspPane { position:relative;}
+.pane-page-content form .jspVerticalBar { position:absolute; top:0; right:4px}
+.pane-page-content form .jspDrag { background:#00aeef; width:4px; cursor:pointer; position:relative;
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
 
 }
-.page-user .pane-page-content form .jspPane { margin-left:0 !important}
+.pane-page-content form .jspPane { margin-left:0 !important}
 
 
 .page-user .pane-page-content form .form-item .form-type-select { padding-bottom: 5px;}
