@@ -55,7 +55,7 @@ function day_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 10,
+          'weight' => '10',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -165,7 +165,7 @@ function day_field_default_fields() {
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => 6,
+          'weight' => '6',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -262,7 +262,7 @@ function day_field_default_fields() {
             'link' => FALSE,
           ),
           'type' => 'entityreference_label',
-          'weight' => 1,
+          'weight' => '1',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -511,6 +511,7 @@ function day_field_default_fields() {
     'field_instance' => array(
       'bundle' => 'day',
       'default_value' => NULL,
+      'default_value_function' => 'entityreference_prepopulate_field_default_value',
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -519,7 +520,7 @@ function day_field_default_fields() {
           'module' => 'og_ui',
           'settings' => array(),
           'type' => 'og_list_default',
-          'weight' => 7,
+          'weight' => '7',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -535,9 +536,13 @@ function day_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
+      'exclude_cv' => 0,
       'field_name' => 'og_group_ref',
       'label' => 'Groups audience',
-      'required' => FALSE,
+      'options_limit' => FALSE,
+      'options_limit_empty_behaviour' => 0,
+      'options_limit_fields' => array(),
+      'required' => 0,
       'settings' => array(
         'behaviors' => array(
           'og_widget' => array(
@@ -548,6 +553,14 @@ function day_field_default_fields() {
               'widget_type' => 'options_select',
             ),
             'status' => TRUE,
+          ),
+          'prepopulate' => array(
+            'action' => 'hide',
+            'action_on_edit' => 0,
+            'fallback' => 'redirect',
+            'og_context' => 0,
+            'skip_perm' => 'administer content types',
+            'status' => 1,
           ),
         ),
         'entity_translation_sync' => FALSE,
@@ -567,6 +580,7 @@ function day_field_default_fields() {
         ),
       ),
       'widget' => array(
+        'active' => 0,
         'module' => 'og',
         'settings' => array(),
         'type' => 'og_complex',
