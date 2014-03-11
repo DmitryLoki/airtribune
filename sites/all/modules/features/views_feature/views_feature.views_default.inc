@@ -7064,6 +7064,427 @@ return array($event_id);';
   $export['frontpage_events'] = $view;
 
   $view = new view();
+  $view->name = 'frontpage_live_events';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'node';
+  $view->human_name = 'Frontpage live events';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Live events';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['row_plugin'] = 'fields';
+  /* Relationship: Entity Reference: Referencing entity */
+  $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['id'] = 'reverse_field_day_ref_ent_race';
+  $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['table'] = 'node';
+  $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['field'] = 'reverse_field_day_ref_ent_race';
+  /* Relationship: OG membership: OG membership from Node */
+  $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
+  $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['og_membership_rel']['required'] = TRUE;
+  /* Relationship: OG membership: Group Node from OG membership */
+  $handler->display->display_options['relationships']['og_membership_related_node_group']['id'] = 'og_membership_related_node_group';
+  $handler->display->display_options['relationships']['og_membership_related_node_group']['table'] = 'og_membership';
+  $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
+  $handler->display->display_options['relationships']['og_membership_related_node_group']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['og_membership_related_node_group']['required'] = TRUE;
+  /* Field: Day title (REMOVE) */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['ui_name'] = 'Day title (REMOVE)';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+  /* Field: Task number (REMOVE ?) */
+  $handler->display->display_options['fields']['field_race_number']['id'] = 'field_race_number';
+  $handler->display->display_options['fields']['field_race_number']['table'] = 'field_data_field_race_number';
+  $handler->display->display_options['fields']['field_race_number']['field'] = 'field_race_number';
+  $handler->display->display_options['fields']['field_race_number']['relationship'] = 'reverse_field_day_ref_ent_race';
+  $handler->display->display_options['fields']['field_race_number']['ui_name'] = 'Task number (REMOVE ?)';
+  $handler->display->display_options['fields']['field_race_number']['label'] = '';
+  $handler->display->display_options['fields']['field_race_number']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_race_number']['element_label_colon'] = FALSE;
+  /* Field: Event title (excluded) */
+  $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
+  $handler->display->display_options['fields']['title_1']['table'] = 'node';
+  $handler->display->display_options['fields']['title_1']['field'] = 'title';
+  $handler->display->display_options['fields']['title_1']['relationship'] = 'og_membership_related_node_group';
+  $handler->display->display_options['fields']['title_1']['ui_name'] = 'Event title (excluded)';
+  $handler->display->display_options['fields']['title_1']['label'] = '';
+  $handler->display->display_options['fields']['title_1']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['title_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title_1']['link_to_node'] = FALSE;
+  /* Field: Task title (excluded) */
+  $handler->display->display_options['fields']['title_2']['id'] = 'title_2';
+  $handler->display->display_options['fields']['title_2']['table'] = 'eck_ent_race';
+  $handler->display->display_options['fields']['title_2']['field'] = 'title';
+  $handler->display->display_options['fields']['title_2']['relationship'] = 'reverse_field_day_ref_ent_race';
+  $handler->display->display_options['fields']['title_2']['ui_name'] = 'Task title (excluded)';
+  $handler->display->display_options['fields']['title_2']['label'] = '';
+  $handler->display->display_options['fields']['title_2']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['title_2']['element_label_colon'] = FALSE;
+  /* Field: Event nid (excluded) */
+  $handler->display->display_options['fields']['nid_1']['id'] = 'nid_1';
+  $handler->display->display_options['fields']['nid_1']['table'] = 'node';
+  $handler->display->display_options['fields']['nid_1']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid_1']['relationship'] = 'og_membership_related_node_group';
+  $handler->display->display_options['fields']['nid_1']['ui_name'] = 'Event nid (excluded)';
+  $handler->display->display_options['fields']['nid_1']['label'] = '';
+  $handler->display->display_options['fields']['nid_1']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid_1']['element_label_colon'] = FALSE;
+  /* Field: Day nid (excluded) */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['ui_name'] = 'Day nid (excluded)';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Last dayblog entry (excluded) */
+  $handler->display->display_options['fields']['view']['id'] = 'view';
+  $handler->display->display_options['fields']['view']['table'] = 'views';
+  $handler->display->display_options['fields']['view']['field'] = 'view';
+  $handler->display->display_options['fields']['view']['ui_name'] = 'Last dayblog entry (excluded)';
+  $handler->display->display_options['fields']['view']['label'] = '';
+  $handler->display->display_options['fields']['view']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['view']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['view']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['view']['view'] = 'frontpage_live_events';
+  $handler->display->display_options['fields']['view']['display'] = 'panel_pane_1';
+  $handler->display->display_options['fields']['view']['arguments'] = '[!nid]';
+  /* Field: Url to event info/blog (excluded) */
+  $handler->display->display_options['fields']['nothing_extended_1']['id'] = 'nothing_extended_1';
+  $handler->display->display_options['fields']['nothing_extended_1']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing_extended_1']['field'] = 'nothing_extended';
+  $handler->display->display_options['fields']['nothing_extended_1']['ui_name'] = 'Url to event info/blog (excluded)';
+  $handler->display->display_options['fields']['nothing_extended_1']['label'] = '';
+  $handler->display->display_options['fields']['nothing_extended_1']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nothing_extended_1']['alter']['text'] = 'event_nid|[nid_1]
+dayblog_last_entry|[view]';
+  $handler->display->display_options['fields']['nothing_extended_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['nothing_extended_1']['renderer_plugin'] = TRUE;
+  /* Field: Link to event info tab */
+  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['ui_name'] = 'Link to event info tab';
+  $handler->display->display_options['fields']['nothing']['label'] = '';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'View contest';
+  $handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['nothing']['alter']['path'] = '[nothing_extended_1]';
+  $handler->display->display_options['fields']['nothing']['alter']['link_class'] = 'event-link';
+  $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+  /* Field: Country (excluded) */
+  $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
+  $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
+  $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
+  $handler->display->display_options['fields']['field_country']['relationship'] = 'og_membership_related_node_group';
+  $handler->display->display_options['fields']['field_country']['ui_name'] = 'Country (excluded)';
+  $handler->display->display_options['fields']['field_country']['label'] = '';
+  $handler->display->display_options['fields']['field_country']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_country']['element_label_colon'] = FALSE;
+  /* Field: City (Overriden) */
+  $handler->display->display_options['fields']['field_city']['id'] = 'field_city';
+  $handler->display->display_options['fields']['field_city']['table'] = 'field_data_field_city';
+  $handler->display->display_options['fields']['field_city']['field'] = 'field_city';
+  $handler->display->display_options['fields']['field_city']['relationship'] = 'og_membership_related_node_group';
+  $handler->display->display_options['fields']['field_city']['ui_name'] = 'City (Overriden)';
+  $handler->display->display_options['fields']['field_city']['label'] = '';
+  $handler->display->display_options['fields']['field_city']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_city']['alter']['text'] = '<span class="contest_head">
+ <span class="contest_title">[title_1]</span><br />
+ <span class="contest_place">[field_country], [field_city]</span>
+</span>
+<span class="valign"></span>';
+  $handler->display->display_options['fields']['field_city']['element_label_colon'] = FALSE;
+  /* Field: Watch task links */
+  $handler->display->display_options['fields']['watch_task']['id'] = 'watch_task';
+  $handler->display->display_options['fields']['watch_task']['table'] = 'eck_ent_race';
+  $handler->display->display_options['fields']['watch_task']['field'] = 'watch_task';
+  $handler->display->display_options['fields']['watch_task']['relationship'] = 'reverse_field_day_ref_ent_race';
+  $handler->display->display_options['fields']['watch_task']['ui_name'] = 'Watch task links';
+  $handler->display->display_options['fields']['watch_task']['label'] = '';
+  $handler->display->display_options['fields']['watch_task']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['watch_task']['hide_empty'] = TRUE;
+  /* Field: Watch task status (excluded) */
+  $handler->display->display_options['fields']['watch_task_1']['id'] = 'watch_task_1';
+  $handler->display->display_options['fields']['watch_task_1']['table'] = 'eck_ent_race';
+  $handler->display->display_options['fields']['watch_task_1']['field'] = 'watch_task';
+  $handler->display->display_options['fields']['watch_task_1']['relationship'] = 'reverse_field_day_ref_ent_race';
+  $handler->display->display_options['fields']['watch_task_1']['ui_name'] = 'Watch task status (excluded)';
+  $handler->display->display_options['fields']['watch_task_1']['label'] = '';
+  $handler->display->display_options['fields']['watch_task_1']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['watch_task_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['watch_task_1']['output_type'] = 'status';
+  /* Field: Watch time timer (excluded) */
+  $handler->display->display_options['fields']['watch_task_2']['id'] = 'watch_task_2';
+  $handler->display->display_options['fields']['watch_task_2']['table'] = 'eck_ent_race';
+  $handler->display->display_options['fields']['watch_task_2']['field'] = 'watch_task';
+  $handler->display->display_options['fields']['watch_task_2']['relationship'] = 'reverse_field_day_ref_ent_race';
+  $handler->display->display_options['fields']['watch_task_2']['ui_name'] = 'Watch time timer (excluded)';
+  $handler->display->display_options['fields']['watch_task_2']['label'] = '';
+  $handler->display->display_options['fields']['watch_task_2']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['watch_task_2']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['watch_task_2']['output_type'] = 'timer';
+  /* Field: Content: Photos */
+  $handler->display->display_options['fields']['field_contest_photos']['id'] = 'field_contest_photos';
+  $handler->display->display_options['fields']['field_contest_photos']['table'] = 'field_data_field_contest_photos';
+  $handler->display->display_options['fields']['field_contest_photos']['field'] = 'field_contest_photos';
+  $handler->display->display_options['fields']['field_contest_photos']['relationship'] = 'og_membership_related_node_group';
+  $handler->display->display_options['fields']['field_contest_photos']['label'] = '';
+  $handler->display->display_options['fields']['field_contest_photos']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_contest_photos']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_contest_photos']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_contest_photos']['settings'] = array(
+    'image_style' => 'frontpage_event_padding',
+    'image_link' => '',
+  );
+  $handler->display->display_options['fields']['field_contest_photos']['delta_limit'] = '1';
+  $handler->display->display_options['fields']['field_contest_photos']['delta_offset'] = '0';
+  /* Field: Field: Image */
+  $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
+  $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['label'] = '';
+  $handler->display->display_options['fields']['field_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_image']['empty'] = '[field_contest_photos]';
+  $handler->display->display_options['fields']['field_image']['hide_alter_empty'] = FALSE;
+  $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_image']['settings'] = array(
+    'image_style' => 'frontpage_event_padding',
+    'image_link' => '',
+  );
+  $handler->display->display_options['fields']['field_image']['delta_offset'] = '0';
+  /* Field: Day status name (excluded) */
+  $handler->display->display_options['fields']['field_day_status']['id'] = 'field_day_status';
+  $handler->display->display_options['fields']['field_day_status']['table'] = 'field_data_field_day_status';
+  $handler->display->display_options['fields']['field_day_status']['field'] = 'field_day_status';
+  $handler->display->display_options['fields']['field_day_status']['ui_name'] = 'Day status name (excluded)';
+  $handler->display->display_options['fields']['field_day_status']['label'] = '';
+  $handler->display->display_options['fields']['field_day_status']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_day_status']['element_label_colon'] = FALSE;
+  /* Field: Day status value (excluded) */
+  $handler->display->display_options['fields']['field_day_status_1']['id'] = 'field_day_status_1';
+  $handler->display->display_options['fields']['field_day_status_1']['table'] = 'field_data_field_day_status';
+  $handler->display->display_options['fields']['field_day_status_1']['field'] = 'field_day_status';
+  $handler->display->display_options['fields']['field_day_status_1']['ui_name'] = 'Day status value (excluded)';
+  $handler->display->display_options['fields']['field_day_status_1']['label'] = '';
+  $handler->display->display_options['fields']['field_day_status_1']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_day_status_1']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_day_status_1']['alter']['text'] = '[field_day_status_1-value]';
+  $handler->display->display_options['fields']['field_day_status_1']['element_label_colon'] = FALSE;
+  /* Field: Day number (excluded) */
+  $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['field'] = 'field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['ui_name'] = 'Day number (excluded)';
+  $handler->display->display_options['fields']['field_day_number']['label'] = '';
+  $handler->display->display_options['fields']['field_day_number']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_day_number']['element_label_colon'] = FALSE;
+  /* Field: Race: Id */
+  $handler->display->display_options['fields']['id']['id'] = 'id';
+  $handler->display->display_options['fields']['id']['table'] = 'eck_ent_race';
+  $handler->display->display_options['fields']['id']['field'] = 'id';
+  $handler->display->display_options['fields']['id']['relationship'] = 'reverse_field_day_ref_ent_race';
+  $handler->display->display_options['fields']['id']['label'] = '';
+  $handler->display->display_options['fields']['id']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['id']['separator'] = '';
+  /* Field: Global: Custom text extended */
+  $handler->display->display_options['fields']['nothing_extended']['id'] = 'nothing_extended';
+  $handler->display->display_options['fields']['nothing_extended']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing_extended']['field'] = 'nothing_extended';
+  $handler->display->display_options['fields']['nothing_extended']['label'] = '';
+  $handler->display->display_options['fields']['nothing_extended']['alter']['text'] = 'day_nid|[nid]
+event_nid|[nid_1]
+day_status_name|[field_day_status]
+day_status_value|[field_day_status_1]
+watch_status|[watch_task_1]
+watch_timer|[watch_task_2]
+dayblog_last_entry|[view]
+task_title|[title_2]
+day_number|[field_day_number]
+race_id|[id]';
+  $handler->display->display_options['fields']['nothing_extended']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['nothing_extended']['renderer_plugin'] = TRUE;
+  /* Field: Content: Logo */
+  $handler->display->display_options['fields']['field_logo']['id'] = 'field_logo';
+  $handler->display->display_options['fields']['field_logo']['table'] = 'field_data_field_logo';
+  $handler->display->display_options['fields']['field_logo']['field'] = 'field_logo';
+  $handler->display->display_options['fields']['field_logo']['relationship'] = 'og_membership_related_node_group';
+  $handler->display->display_options['fields']['field_logo']['label'] = '';
+  $handler->display->display_options['fields']['field_logo']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_logo']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_logo']['settings'] = array(
+    'image_style' => 'event_logo',
+    'image_link' => '',
+  );
+  /* Sort criterion: Content: Post date */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'node';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  /* Contextual filter: Content: Nid */
+  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['table'] = 'node';
+  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['nid']['default_argument_options']['argument'] = '0';
+  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['nid']['break_phrase'] = TRUE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'day' => 'day',
+  );
+  $handler->display->display_options['filters']['type']['group'] = 1;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type_1']['id'] = 'type_1';
+  $handler->display->display_options['filters']['type_1']['table'] = 'node';
+  $handler->display->display_options['filters']['type_1']['field'] = 'type';
+  $handler->display->display_options['filters']['type_1']['relationship'] = 'og_membership_related_node_group';
+  $handler->display->display_options['filters']['type_1']['value'] = array(
+    'hg_contest' => 'hg_contest',
+    'pg_contest' => 'pg_contest',
+  );
+  $handler->display->display_options['filters']['type_1']['group'] = 1;
+
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'page');
+  $handler->display->display_options['path'] = 'frontpage-live-events';
+
+  /* Display: Frontpage Live Events */
+  $handler = $view->new_display('panel_pane', 'Frontpage Live Events', 'panel_pane_2');
+
+  /* Display: Day blog single */
+  $handler = $view->new_display('panel_pane', 'Day blog single', 'panel_pane_1');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '1';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Relationship: Entity Reference: Referencing entity */
+  $handler->display->display_options['relationships']['reverse_field_dayblog_ref_node']['id'] = 'reverse_field_dayblog_ref_node';
+  $handler->display->display_options['relationships']['reverse_field_dayblog_ref_node']['table'] = 'node';
+  $handler->display->display_options['relationships']['reverse_field_dayblog_ref_node']['field'] = 'reverse_field_dayblog_ref_node';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Field: Awards description */
+  $handler->display->display_options['fields']['field_plain_body']['id'] = 'field_plain_body';
+  $handler->display->display_options['fields']['field_plain_body']['table'] = 'field_data_field_plain_body';
+  $handler->display->display_options['fields']['field_plain_body']['field'] = 'field_plain_body';
+  $handler->display->display_options['fields']['field_plain_body']['label'] = '';
+  $handler->display->display_options['fields']['field_plain_body']['element_label_colon'] = FALSE;
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Content: Post date */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'node';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: Content: Nid */
+  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['table'] = 'node';
+  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['relationship'] = 'reverse_field_dayblog_ref_node';
+  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'dayblog' => 'dayblog',
+  );
+  $handler->display->display_options['filters']['type']['group'] = 1;
+  $translatables['frontpage_live_events'] = array(
+    t('Master'),
+    t('Live events'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Race referencing Content from field_day_ref'),
+    t('OG membership from node'),
+    t('Group node from OG membership'),
+    t('event_nid|[nid_1]
+dayblog_last_entry|[view]'),
+    t('View contest'),
+    t('<span class="contest_head">
+ <span class="contest_title">[title_1]</span><br />
+ <span class="contest_place">[field_country], [field_city]</span>
+</span>
+<span class="valign"></span>'),
+    t('[field_contest_photos]'),
+    t('[field_day_status_1-value]'),
+    t('.'),
+    t('day_nid|[nid]
+event_nid|[nid_1]
+day_status_name|[field_day_status]
+day_status_value|[field_day_status_1]
+watch_status|[watch_task_1]
+watch_timer|[watch_task_2]
+dayblog_last_entry|[view]
+task_title|[title_2]
+day_number|[field_day_number]
+race_id|[id]'),
+    t('All'),
+    t('Page'),
+    t('Frontpage Live Events'),
+    t('View panes'),
+    t('Day blog single'),
+    t('Content referencing Content from field_dayblog_ref'),
+  );
+  $export['frontpage_live_events'] = $view;
+
+  $view = new view();
   $view->name = 'header_slideshow';
   $view->description = '';
   $view->tag = 'default';
