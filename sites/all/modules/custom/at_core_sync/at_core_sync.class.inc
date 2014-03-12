@@ -510,13 +510,13 @@ class ATSyncRace extends ATSyncNestedInContest {
     $time_zone = $this->contest->field_time_zone[LANGUAGE_NONE][0]['value'];
     $race_wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $this->entity);
     $racetype = $race_wrapper->field_pg_racetype_ref->value();
-    // With wrapper entity loaded from cache, and not yet have filled fields.
-    // So use workaround, load entity with cache reset.
-    $racetype = reset(entity_load(AIRTRIBUNE_RACETYPE_ENTITY_TYPE, array($racetype->id), array(), TRUE));
     if (!$racetype) {
       ATSync::setMessage('Race type is not specified, the race sync is stopped.', 'error');
       return FALSE;
     }
+    // With wrapper entity loaded from cache, and not yet have filled fields.
+    // So use workaround, load entity with cache reset.
+    $racetype = reset(entity_load(AIRTRIBUNE_RACETYPE_ENTITY_TYPE, array($racetype->id), array(), TRUE));
     $racetype_wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACETYPE_ENTITY_TYPE, $racetype);
     $title = 'Task ' . $race_wrapper->field_race_number->value();
 
