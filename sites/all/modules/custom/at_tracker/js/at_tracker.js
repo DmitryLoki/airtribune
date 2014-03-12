@@ -31,7 +31,7 @@
             $select.html(opt);
             // Select current value
             $select.val( currVal ).prop('selected',true);
-            throbber.detach();
+            throbber.remove();
             updateThemedSelect($select);
           }
         });

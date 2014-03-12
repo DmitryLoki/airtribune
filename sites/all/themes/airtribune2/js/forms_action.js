@@ -7,7 +7,7 @@ function updateForm(container, formsObj) {
     $('.select .items_inner', container).each(function () {
         if(!$(this).hasClass('items_padding')){
             $(this).parent().show();
-            $(this).jScrollPane({scrollbarWidth:4, showArrows:false});
+            $(this).jScrollPane({scrollbarWidth:4, showArrows:false, contentWidth: '0px'});
             handleKeyPressInSelect($(this).parent(), true);
             $(this).addClass('items_padding');
             $(this).parent().hide();
