@@ -352,16 +352,16 @@ function at_user_registrationpassword_confirm_account($form, &$form_state, $uid,
           $organiser = user_load($event->uid);
           // show welcome-message 'your registered to [event-name]' to pilot
           drupal_set_message(t(AT_MSG_SITE_GUEST_REG_ON_EVENT_AFTER_ACCOUNT_ACTIVE, array('@event_name' => $event_title)));
+
           // try to load pre-saved mails about pilot registration to event
-          $mail_dir = drupal_realpath('public://') . '/mail';
-          $mail_to_pilot = unserialize(@file_get_contents($mail_dir . '/' . $user->uid . '_to_pilot.mail'));
-          $mail_to_org = unserialize(@file_get_contents($mail_dir . '/' . $user->uid . '_to_org.mail'));
+          $mail_to_pilot = unserialize(variable_get($user->uid . '_to_pilot.mail'));
+          $mail_to_org = unserialize(variable_get($user->uid . '_to_org.mail'));
           // if mails loaded, then send them to pilot & organiser
           if ($mail_to_pilot && $mail_to_org) {
             $mail_pilot = drupal_mail('system', 'mail', $user->mail, user_preferred_language($user), array('context' => $mail_to_pilot));
             $mail_org = drupal_mail('system', 'mail', $organiser->mail, user_preferred_language($organiser), array('context' => $mail_to_org));
-            unlink($mail_dir . '/' . $user->uid . '_to_pilot.mail');
-            unlink($mail_dir . '/' . $user->uid . '_to_org.mail');
+            variable_del($user->uid . '_to_pilot.mail');
+            variable_del($user->uid . '_to_org.mail');
           }
           else {
             watchdog(WATCHDOG_ERROR, 'cant load & send confirm email about pilot registration for uid: !uid', array('!uid' => $user->uid));

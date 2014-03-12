@@ -329,12 +329,10 @@ function at_messages_register_at_event_submit($form, &$form_state) {
       // show message 'registration is almost finished, check mail'
       drupal_set_message(t(AT_MSG_SITE_GUEST_REG_ON_EVENT_BEFORE_ACCOUNT_ACTIVE, $full_info));
       // try to save mails about pilot registration
-      $mail_dir = drupal_realpath('public://') . '/mail';
-      if (!realpath($mail_dir)) {
-        drupal_mkdir($mail_dir);
-      }
-      file_put_contents($mail_dir . '/' . $user->uid . '_to_pilot.mail', serialize($mail_to_pilot));
-      file_put_contents($mail_dir . '/' . $user->uid . '_to_org.mail', serialize($mail_to_org));
+
+      variable_set($user->uid . '_to_pilot.mail', serialize($mail_to_pilot));
+      variable_set($user->uid . '_to_org.mail', serialize($mail_to_org));
+
       // after form sending drupal generate one-time password reset link, which will be sended to user by email
       // when user click this link & activate account, we send
     }
