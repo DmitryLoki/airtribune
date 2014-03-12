@@ -131,23 +131,29 @@ jQuery.fn.forms = function(options){ // custom form elements
 			el.handle.items = el.handle.find('.items')
 			el.handle.cheked = el.handle.find('.checked_option');
 			el.handle.cheked.html(el.handle.find('.selected').html() || el.handle.find('.option:first-child').html()).click(function(event){
-				jQuery('body').bind('click', {parent:this},bodyClick);
-				function bodyClick(e) {
-                    //If e.target is not a child of el.handle then hide list
-                    if (jQuery(e.target).parents('.' + el.handle.attr('class').split(' ').join('.')).length == 0) {
-                        el.handle.items.hide();
-                        el.handle.removeClass('select_opened');
-                        el.handle.items.trigger('select-hided');
-                        jQuery('body').unbind('click', bodyClick);
-					}
-				}
+        jQuery('body').bind('click', {parent: this}, bodyClick);
+        function bodyClick(e) {
+          //If e.target is not a child of el.handle then hide list
+          if (jQuery(e.target).parents('.' + el.handle.attr('class').split(' ').join('.')).length == 0) {
+            el.handle.items.hide();
+            el.handle.removeClass('select_opened');
+            el.handle.items.trigger('select-hided');
+            jQuery('body').unbind('click', bodyClick);
+            el.trigger('blur');
+            el[0].blur();
+          }
+        }
 				el.handle.items.toggle();
-				el.handle.toggleClass('select_opened');
-                el.handle.items.trigger(jQuery.Event(el.handle.items.is(':visible') ? 'select-showed' : 'select-hided'));
-                if(opt.disableChoiceOfFirstItemInSelection){
-                    el.handle.items.find('span.option:eq(0)').addClass('option-title').hide();
-                }
-			});
+        el.handle.toggleClass('select_opened');
+        var isShown = el.handle.items.is(':visible');
+        el.handle.items.trigger(jQuery.Event(isShown ? 'select-showed' : 'select-hided'));
+        if (opt.disableChoiceOfFirstItemInSelection) {
+          el.handle.items.find('span.option:eq(0)').addClass('option-title').hide();
+        }
+      })
+        .mouseup(function() {
+          el.trigger(!el.handle.hasClass('select_opened') ? 'focus' : 'blur');
+        });
 			el.handle.css({'position':'relative', 'display':'inline-block'})
 			el.handle.find('span').css('display', 'block')
 			el.handle.items.css({'position':'absolute', 'top':'100%', 'left':0}).hide()
@@ -159,8 +165,9 @@ jQuery.fn.forms = function(options){ // custom form elements
 				el.find('option').eq(el.handle.index).attr('selected', '');
 				el.handle.cheked.html(el.handle.items.children('.items_inner').find('.selected').html())
 				el.handle.items.hide();
-                el.handle.items.trigger('select-hided');
+        el.handle.items.trigger('select-hided');
 				el.change();
+        el.trigger('change');
 			});
 			el.addClass('styled_element');
 		}

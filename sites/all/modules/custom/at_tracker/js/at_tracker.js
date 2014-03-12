@@ -4,6 +4,7 @@
     attach: function (context, settings) {
       var updateOptions = function ($select) {
         var apiUrl = Drupal.settings.at_core_sync.apiUrl;
+        var throbber = $('<div class="ajax-progress ajax-progress-throbber"><div class="throbber">&nbsp;</div></div>');
         var contestId = $select.data("contestid") ? '&not_registered_at=' + $select.data("contestid") : '';
         apiUrl = apiUrl + '/tracker?device_type=tr203&device_type=telt_gh3000' + contestId;
 
@@ -30,9 +31,12 @@
             $select.html(opt);
             // Select current value
             $select.val( currVal ).prop('selected',true);
+            throbber.detach();
+            updateThemedSelect($select);
           }
         });
-      }
+        $select.after(throbber);
+      };
 
       $('.field-type-at-tracker select.form-select-at_tracker').each(function () {
         var $this = $(this);
@@ -46,6 +50,17 @@
         var aName = a.name.toLowerCase();
         var bName = b.name.toLowerCase();
         return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+      }
+
+      function updateThemedSelect($select) {
+        //skip unstyled selects
+        if(!$select.hasClass('styled_element')) {
+          return;
+        }
+
+        $select.removeClass('styled_element').siblings('span.select').remove();
+        $select.closest('form').updateForm({disableChoiceOfFirstItemInSelection: false});
+        $select.siblings('span.select').find('.checked_option').trigger('click');
       }
     }
   }
