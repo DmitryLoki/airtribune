@@ -2412,6 +2412,7 @@ a.next_event .hg_contest { background-position: 0 -80px}
 .page-user .pane-page-content form .form-item .form-item + .description { margin-top: -20px;}
 .page-user .pane-page-content form .form-item input.form-text,
 .select .checked_option_wrap,
+.page-event-register-team .file .input,
 .pane_pilots_list_manage input.form-text { width:222px; height:20px; color:#2d3033; font:18px/20px Arial, Helvetica, sans-serif; padding:3px 9px 5px; border:1px solid #b0babf; vertical-align:top; margin:1px;
 
   -webkit-border-radius: 3px;
@@ -2623,7 +2624,8 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 .page-user .pane-page-content form .field-name-field-address .select,
 .page-user .pane-page-content form .form-type-phone-number .select,
 .page-user .pane-page-content form .field-name-field-t-shirt-size .select,
-.page-user .pane-page-content form .field-name-field-blood-type .select { width: 244px;}
+.page-user .pane-page-content form .field-name-field-blood-type .select,
+.page-event-register-team .form-item-county .select { width: 244px;}
 .page-user .pane-page-content form .field-name-field-address legend { display: none;}
 .page-user .pane-page-content form .form-phone-number { max-width: 470px; display: inline-block;}
 .page-user .pane-page-content form .form-phone-number .form-item { display: block; margin-top: 0;}
@@ -2650,6 +2652,8 @@ form .draggable_table table { border: 1px solid #f2f2f2;
 form#user-login .form-wrapper { float: left; padding-bottom: 39px;}
 form#user-login .hybridauth_prefix { float: left; color: #7a8b99; font-size: 18px; padding: 28px 9px 0 24px;}
 form#user-login .hybridauth-widget { float: left; padding-top: 28px;}
+
+
 
 
 /* These styles for tables in forms if they need
@@ -2944,7 +2948,9 @@ tr.odd { background: none}
 .pane-teams-applications-teams-applications .views-field-view-approve-team-leader,
 .pane-teams-applications-teams-applications .views-field-pg-nation-team-pilots-count  { text-align: center;}
 
-.at-reg-team-caption { text-align: center;}
+.at-reg-team-caption { text-align: center; padding-bottom: 20px; font-size: 20px; font-weight: bold;}
+.page-event-register-team .file .input { display: inline-block; width: 224px; overflow: hidden;}
+
 
 /* page-event-map-activity-accommodation */
 
