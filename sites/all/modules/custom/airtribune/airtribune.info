@@ -25,3 +25,5 @@ dependencies[] = tzfield
 ; Event statistics plugin requirements.
 ; Event dates access plugin requirements.
 dependencies[] = og
+
+version = "7.x-1.0"
