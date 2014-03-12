@@ -7177,7 +7177,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['nothing_extended_1']['alter']['text'] = 'event_nid|[nid_1]
 dayblog_last_entry|[view]';
   $handler->display->display_options['fields']['nothing_extended_1']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['nothing_extended_1']['renderer_plugin'] = TRUE;
+  $handler->display->display_options['fields']['nothing_extended_1']['renderer_plugin'] = 'frontpage_live_event_link';
   /* Field: Link to event info tab */
   $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
@@ -7321,7 +7321,7 @@ task_title|[title_2]
 day_number|[field_day_number]
 race_id|[id]';
   $handler->display->display_options['fields']['nothing_extended']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['nothing_extended']['renderer_plugin'] = TRUE;
+  $handler->display->display_options['fields']['nothing_extended']['renderer_plugin'] = 'frontpage_live_event_footer';
   /* Field: Content: Logo */
   $handler->display->display_options['fields']['field_logo']['id'] = 'field_logo';
   $handler->display->display_options['fields']['field_logo']['table'] = 'field_data_field_logo';
