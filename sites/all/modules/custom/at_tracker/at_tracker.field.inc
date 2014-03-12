@@ -133,7 +133,8 @@ function _ajax_at_tracker_widget_callback($form, $form_state) {
     $form[$field_name][LANGUAGE_NONE][0]['value']['#value'] = $previous_value;
     $errors = TRUE;
   }
-  $commands[] = ajax_command_insert("#at_tracker-wrapper-{$id}" , drupal_render($form[$field_name]));
+  //$commands[] = ajax_command_insert("#at_tracker-wrapper-{$id}" , drupal_render($form[$field_name]));
+  //$commands[] = ajax_command_invoke("#at_tracker-wrapper-{$id}", 'updateForm', array());
   if ($errors) {
     $commands[] = ajax_command_append("#at_tracker-wrapper-{$id}" , '<div class="messages error">
       <h2 class="element-invisible">Error message</h2>'.
