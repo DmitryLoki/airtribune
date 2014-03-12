@@ -95,9 +95,12 @@ function at_tracker_field_widget_form(&$form, &$form_state, $field, $instance, $
       '#empty_option' => t('-- None selected --'),
       '#empty_value' => 'none',
       '#default_value' => $value,
-      '#prefix' => "<div id='at_tracker-wrapper-{$id}'>",
+      '#prefix' => "<div id='at_tracker-wrapper-{$id}' class='ajaxing at-tracker-field'>",
       '#suffix' => '</div>',
-      '#attached' => array('js' => array(drupal_get_path('module', 'at_tracker') . '/js/at_tracker.js')),
+      '#attached' => array(
+        'js' => array(drupal_get_path('module', 'at_tracker') . '/js/at_tracker.js'),
+        'css' => array(drupal_get_path('module', 'at_tracker') . '/css/at_tracker.css')
+        ),
       '#ajax' => array(
         'callback' => '_ajax_at_tracker_widget_callback',
         'wrapper' => 'at_tracker-wrapper-' . $id,
@@ -133,20 +136,24 @@ function _ajax_at_tracker_widget_callback($form, $form_state) {
     $form[$field_name][LANGUAGE_NONE][0]['value']['#value'] = $previous_value;
     $errors = TRUE;
   }
-  //$commands[] = ajax_command_insert("#at_tracker-wrapper-{$id}" , drupal_render($form[$field_name]));
-  //$commands[] = ajax_command_invoke("#at_tracker-wrapper-{$id}", 'updateForm', array());
+
+  $commands[] = ajax_command_insert("#at_tracker-wrapper-{$id}" , drupal_render($form[$field_name]));
+  $commands[] = ajax_command_invoke("#at_tracker-wrapper-{$id}", 'updateForm', array());
   if ($errors) {
-    $commands[] = ajax_command_append("#at_tracker-wrapper-{$id}" , '<div class="messages error">
-      <h2 class="element-invisible">Error message</h2>'.
+    $commands[] = ajax_command_invoke("#at_tracker-wrapper-{$id}", 'addClass', array('field_error'));
+    $commands[] = ajax_command_append("#at_tracker-wrapper-{$id}" , '<span class="form_booble error"><span class="form_booble_inner">'.
       t('Unable to attach tracker.')
-      .'</div>');
+      .'</span></span>');
   } else {
-    $commands[] = ajax_command_append("#at_tracker-wrapper-{$id}" , '<div class="messages status">
-      <h2 class="element-invisible">Status message</h2>'.
+      $commands[] = ajax_command_invoke("#at_tracker-wrapper-{$id}", 'removeClass', array('field_error'));
+      $commands[] = ajax_command_invoke("#at_tracker-wrapper-{$id}", 'addClass', array('field_excellent'));
+      /*
+      $commands[] = ajax_command_append("#at_tracker-wrapper-{$id}" , '<span class="form_booble"><span class="form_booble_inner">'.
       t('Tracker has been saved.')
-      .'</div>');
+      .'</span></span>');
+       */
   }
-  $commands[] = ajax_command_invoke("#at_tracker-wrapper-{$id} .messages", 'fadeOut', array(2000));
+  $commands[] = ajax_command_invoke("#at_tracker-wrapper-{$id} .form_booble", 'fadeOut', array(2000));
   return array('#type' => 'ajax', '#commands' => $commands);
 }
 
