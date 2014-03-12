@@ -617,17 +617,20 @@ class ATSyncRace extends ATSyncNestedInContest {
 
   public function pushTracks() {
     $race_wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $this->entity);
-    if ($tracks = $race_wrapper->field_pg_race_tracks) {
+    $tracks = $race_wrapper->field_pg_race_tracks;
+    if ($tracks->value()) {
       if ($this->core_id) {
         $this->address .= '/' . $this->core_id . '/track_archive';
         $file = $tracks->value();
         $data = array('url' => file_create_url($file['uri']));
         $response = $this->request($data);
-      }
-      else {
+      } else {
         ATSync::setMessage(t('Core API: Unable to send tracks. Race not synchronized yet.'));
         return FALSE;
       }
+    } else {
+      ATSync::setMessage(t('Core API: Unable to send tracks. No attached tracks file.'));
+      return FALSE;
     }
   }
 }
