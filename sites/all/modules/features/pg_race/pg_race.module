@@ -197,18 +197,32 @@ function pg_race_day_form_validate(&$form, &$form_state) {
 function pg_race_form_validate(&$form, &$form_state) {
   $values = & $form_state['values'];
   $race = $values['entity'];
+  $contest = FALSE;
   $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $race);
 
-  // Load contest (og node). Skip validation, if contest not specified.
-  $contest = reset($wrapper->og_group_ref->value());
-  if (!$contest) {
-    return;
-  }
   // Get id of entity. If id = null, then its new created entity.
   $id = $wrapper->id->value();
 
+  if (!empty($id)) {
+    // Load contest (og node).
+    $contest = reset($wrapper->og_group_ref->value());
+  } else {
+    if (isset($values['og_group_ref'][LANGUAGE_NONE][0]['target_id'])) {
+      $contest = node_load($values['og_group_ref'][LANGUAGE_NONE][0]['target_id']);
+    }
+  }
+
+  // Skip validation, if contest not specified.
+  if (!$contest) {
+    return;
+  }
+
   // Get race numbers in chronically order (based on keys - ids in database).
   $race_numbers = get_races_for_contest($contest, TRUE);
+  // Unset current race number
+  if (isset($race_numbers[$id])) {
+    unset($race_numbers[$id]);
+  }
   ksort($race_numbers);
 
   $prefer_day_num = end($race_numbers) + 1;
