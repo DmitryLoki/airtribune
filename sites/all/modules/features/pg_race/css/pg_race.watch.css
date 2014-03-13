@@ -57,7 +57,7 @@
 .front_live_events .awaiting .race-online,
 .front_live_events .starting .race-online,
 .front_live_events .replay .help-text { color: #fbd72c;}
-.front_live_events .time { font: bold 22px/24px Arial, Helvetica, sans-serif; display: block; text-align: left;}
+.front_live_events .time { font: bold 24px/24px Arial, Helvetica, sans-serif; display: block; text-align: left; padding-top: 5px;}
 .front_live_events .awaiting .time { color: #fbd72c}
 .front_live_events .replay .time { color: #fbd72c}
 
@@ -73,7 +73,7 @@
 .front_live_events .views-field-dates a { font: bold 14px/16px Arial, Helvetica, sans-serif; color: #ffffff; text-decoration: none;}
 /*.front_live_events .day-blog a:hover,*/
 .front_live_events .no-blog { text-align: center;}
-.front_live_events .no-blog .title { font: bold 28px/42px Arial, Helvetica, sans-serif;}
+.front_live_events .no-blog .title { font: bold 24px/46px Arial, Helvetica, sans-serif;}
 .front_live_events .no-blog .title span { font-size: 18px}
 .front_live_events .views-field-dates a:hover { text-decoration: underline;}
 .front_live_events .views-field-field-logo { display: none; position: absolute; top: 80px; left: 0; background: url(../images/logo_bgr.png) no-repeat 50% 0; width: 100%; text-align: center;}
@@ -127,8 +127,8 @@
 
 .front_live_events .is_live .title,
 .front_live_events .awaiting .title,
-.front_live_events .starting .title { display: block; float: left; }
-.front_live_events .no-blog .task-timer { display: block; float: right; }
+.front_live_events .starting .title { display: block; float: left; width: 49%; text-align: center;}
+.front_live_events .no-blog .task-timer { display: block; float: right; width: 49%;}
 
 .front_live_events .views-field-watch-task { z-index: 120; text-align: center; width: 100%; top: 140px; position: absolute; }
 .front_live_events .watch-links > span { display: inline-block; vertical-align: top; position: relative; margin: 0 1%;}
@@ -188,3 +188,7 @@
 /* <- temporary styles -> */
 
 .front_live_events .day-blog {  padding: 6px 10px 0; height: 54px; font: 12px/15px Verdana, Geneva, sans-serif; color: #d5e4ed; overflow: hidden; display: block;}
+.front_live_events .day-blog-wrapper { overflow: hidden; height: 35px; display: block;}
+
+.front_live_events .views-row .views-row-once,
+.front_live_events .views-row .views-row-twice { width: auto;}
