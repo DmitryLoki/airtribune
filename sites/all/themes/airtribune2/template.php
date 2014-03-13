@@ -1935,6 +1935,8 @@ function airtribune2_preprocess_views_view_unformatted(&$vars) {
   $max = count($rows);
   foreach ($rows as $id => $row) {
     $count++;
+    $vars['prefixes'][$id] = '';
+    $vars['suffixes'][$id] = '';
     if ($default_row_class) {
       $vars['classes'][$id][] = 'views-row';
       $vars['classes'][$id][] = 'views-row-' . $count;
@@ -1950,6 +1952,13 @@ function airtribune2_preprocess_views_view_unformatted(&$vars) {
       if ($count == $max) {
         $vars['classes'][$id][] = 'views-row-last';
       }
+    }
+
+    if ($count == 1 || !(($count - 1) % 3)) {
+      $vars['prefixes'][$id] = '<div class="row-wrapper clearfix">';
+    }
+    if ($count == $max || !($count % 3)) {
+      $vars['suffixes'][$id] = '</div>';
     }
 
     if ($row_class = $view->style_plugin->get_row_class($id)) {

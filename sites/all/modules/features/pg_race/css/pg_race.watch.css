@@ -4,13 +4,17 @@
 .front_live_events h2 a { float: right; margin: 3px -2px 0 0; position: relative; width: 67px; text-shadow: none; text-decoration: none;}
 .front_live_events h2 a:hover { background: rgba(0,174,239, 1);}
 .front_live_events h2 a:active { background: rgba(0,129,239, 1); border-color: #007ee7;}
-.front_live_events .view-content { margin-left: -5px; height: 280px; overflow: hidden;
+.front_live_events .view-content { margin-left: -5px;}
+.front_live_events .view-content .row-wrapper + .row-wrapper { height: 0; overflow: hidden;
+
   -moz-transition-duration: 200ms;
   -webkit-transition-duration: 200ms;
   -ms-transition-duration: 200ms;
   -o-transition-duration: 200ms;
   transition-duration: 200ms;
+
 }
+.front_live_events .view-content .row-wrapper + .row-wrapper-visible { overflow: visible;}
 .front_live_events .view-content .view-content { margin-left: 0; height: auto; overflow: visible;}
 .front_live_events .views-row { float: left; width: 230px; height: 270px; margin-left: 5px; position: relative; margin-top: 10px;}
 .front_live_events .views-row-once { width: 700px;}
@@ -133,7 +137,7 @@
 .front_live_events .views-field-watch-task { z-index: 120; text-align: center; width: 100%; top: 140px; position: absolute; }
 .front_live_events .watch-links > span { display: inline-block; vertical-align: top; position: relative; margin: 0 1%;}
 .front_live_events .watch-links span > a,
-.front_live_events .watch-links .links-content { display: inline-block;  background: #ced828; font-size: 18px; line-height: 30px; color: #828819; height: 30px; padding: 0 15px; text-decoration: none;
+.front_live_events .watch-links .links-content { display: inline-block;  background: #ced828; font-size: 18px; line-height: 30px; color: #828819; height: 30px; padding: 0 10px; text-decoration: none;
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -188,7 +192,7 @@
 /* <- temporary styles -> */
 
 .front_live_events .day-blog {  padding: 6px 10px 0; height: 54px; font: 12px/15px Verdana, Geneva, sans-serif; color: #d5e4ed; overflow: hidden; display: block;}
-.front_live_events .day-blog-wrapper { overflow: hidden; height: 35px; display: block;}
+.front_live_events .day-blog-wrapper { overflow: hidden; height: 35px; display: block; clear: both;}
 
 .front_live_events .views-row .views-row-once,
 .front_live_events .views-row .views-row-twice { width: auto;}
