@@ -45,7 +45,8 @@ jQuery(function ($) {
           var tbl = statusSpans.closest('table');
 
           statusSpans.each(function(i, span){
-            keys.push({key: span.trackerInfo.last_point.timestamp, span:span});
+            var timestamp = span.trackerInfo ? span.trackerInfo.last_point.timestamp : null;
+            keys.push({key: timestamp, span:span});
           });
 
           keys.sort(function (a, b) {
