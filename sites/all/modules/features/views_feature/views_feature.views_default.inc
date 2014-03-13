@@ -7076,7 +7076,9 @@ return array($event_id);';
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Live events';
+  $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['use_more_text'] = 'View all';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -7387,6 +7389,11 @@ race_id|[id]';
 
   /* Display: Day blog single */
   $handler = $view->new_display('panel_pane', 'Day blog single', 'panel_pane_1');
+  $handler->display->display_options['defaults']['use_more'] = FALSE;
+  $handler->display->display_options['defaults']['use_more_always'] = FALSE;
+  $handler->display->display_options['defaults']['use_more_always'] = FALSE;
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['defaults']['use_more_text'] = FALSE;
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '1';
@@ -7447,7 +7454,7 @@ race_id|[id]';
   $translatables['frontpage_live_events'] = array(
     t('Master'),
     t('Live events'),
-    t('more'),
+    t('View all'),
     t('Apply'),
     t('Reset'),
     t('Sort by'),
@@ -7479,6 +7486,7 @@ day_number|[field_day_number]
 race_id|[id]'),
     t('All'),
     t('Page'),
+    t('more'),
     t('Frontpage Live Events'),
     t('View panes'),
     t('Day blog single'),
