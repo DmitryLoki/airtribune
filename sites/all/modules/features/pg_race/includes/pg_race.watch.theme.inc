@@ -17,7 +17,7 @@ function theme_live_event_watch_links($variables) {
 
         $link_2d = !empty($linksInfo['links']['live']['2d']) ? l(t('2D'), $linksInfo['links']['live']['2d']['path'], array('attributes' => array('target' => '_blank'))) : '';
         $link_2d = !empty($link_2d) ? "<li>{$link_2d}</li>" : "";
-        $link_3d = !empty($linksInfo['links']['live']['3d']) ? l(t('3D Google Earch'), $linksInfo['links']['live']['3d']['path'], array('attributes' => array('target' => '_blank'))) : '';
+        $link_3d = !empty($linksInfo['links']['live']['3d']) ? l(t('3D Google Earth'), $linksInfo['links']['live']['3d']['path'], array('attributes' => array('target' => '_blank'))) : '';
         $link_3d = !empty($link_3d) ? "<li>{$link_3d}</li>" : "";
 
         $link_leaderboard = !empty($linksInfo['links']['leader_board']) ? l(t('Leaderboard'), $linksInfo['links']['leader_board']['path'], array('attributes' => array('target' => '_blank'))) : '';
@@ -51,7 +51,7 @@ function theme_live_event_watch_links($variables) {
 
         $link_2d = !empty($linksInfo['links']['replay']['2d']) ? l(t('2D'), $path_2d = $linksInfo['links']['replay']['2d']['path'], array('attributes' => array('target' => '_blank'))) : '';
         $link_2d = !empty($link_2d) ? "<li>{$link_2d}</li>" : "";
-        $link_3d = !empty($linksInfo['links']['replay']['3d']) ? l(t('3D Google Earch'), $path_3d = $linksInfo['links']['replay']['3d']['path'], array('attributes' => array('target' => '_blank'))) : '';
+        $link_3d = !empty($linksInfo['links']['replay']['3d']) ? l(t('3D Google Earth'), $path_3d = $linksInfo['links']['replay']['3d']['path'], array('attributes' => array('target' => '_blank'))) : '';
         $link_3d = !empty($link_3d) ? "<li>{$link_3d}</li>" : "";
 
         $_output = "<span class='links-label'>{$label}</span>";
