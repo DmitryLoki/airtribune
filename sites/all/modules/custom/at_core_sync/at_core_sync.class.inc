@@ -236,8 +236,8 @@ class ATSyncContest extends ATSync {
       'title' => $contest->title,
       'lat' => substr($contest->field_hq_location[LANGUAGE_NONE][0]['lat'], 0, 8),
       'lon' => substr($contest->field_hq_location[LANGUAGE_NONE][0]['lon'], 0, 8),
-      'start_time' => strtotime($contest->field_dates[LANGUAGE_NONE][0]['value']),
-      'end_time' => strtotime($contest->field_dates[LANGUAGE_NONE][0]['value2']),
+      'start_time' => date('c', strtotime($contest->field_dates[LANGUAGE_NONE][0]['value'])),
+      'end_time' => date('c', strtotime($contest->field_dates[LANGUAGE_NONE][0]['value2'])),
       'place' => $contest->field_city[LANGUAGE_NONE][0]['value'],
       'country' => $contest->field_country[LANGUAGE_NONE][0]['iso2'],
       'timezone' => $contest->field_time_zone[LANGUAGE_NONE][0]['value'],
@@ -523,10 +523,10 @@ class ATSyncRace extends ATSyncNestedInContest {
     $race_time = $race_wrapper->field_race_start_end->value();
     $window_time = $race_wrapper->field_pg_race_window_open_close->value();
     $data['properties'] = array(
-      'start_time' => strtotime($race_time['value'] . ' ' . $time_zone),
-      'deadline' => strtotime($race_time['value2'] . ' ' . $time_zone),
-      'window_open' => strtotime($window_time['value'] . ' ' . $time_zone),
-      'window_close' => strtotime($window_time['value2'] . ' ' . $time_zone),
+      'start_time' => date('c', strtotime($race_time['value'] . ' ' . $time_zone)),
+      'deadline' => date('c', strtotime($race_time['value2'] . ' ' . $time_zone)),
+      'window_open' => date('c', strtotime($window_time['value'] . ' ' . $time_zone)),
+      'window_close' => date('c', strtotime($window_time['value2'] . ' ' . $time_zone)),
     );
     switch ($racetype->type) {
       case 'pg_racetype_rtg':
