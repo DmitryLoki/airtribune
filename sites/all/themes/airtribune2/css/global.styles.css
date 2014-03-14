@@ -3982,6 +3982,16 @@ form #edit-field-take-offs .form-item:nth-child(odd) { margin-right: 20px; clear
 form #edit-field-take-offs .inline-label { width: auto;}
 form #edit-field-take-offs label { position: relative; top: -1px; font-weight: normal; font-size: 16px;}
 
+.page-event-settings .field-name-field-tiny-path input.field-add-more-submit {
+  border: none !important;
+  background: none !important;
+  color: #215aff !important;
+  text-decoration: underline;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
 #edit-field-logo .form-item { padding-bottom: 1px;}
 .field-type-image .image-widget { /*float: left;*/ display: inline-block;}
 .field-type-image .image-widget .button { font-size: 16px; line-height: 30px; width: 120px; height: 30px; background: #1cb7f0; color: #ffffff; margin-right: 10px; display: inline-block; text-align: center; vertical-align: top;

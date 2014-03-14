@@ -9,6 +9,7 @@
  * Form function to edit og_membership entity.
  */
 function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
+  global $base_url;
   // Event does not exist
   if (!$event) {
     drupal_not_found();
@@ -28,7 +29,6 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     'field_fai_category',
     'field_open_class',
     'field_country',
-    'field_registration_sw',
     'field_sequence',
     '#pre_render',
     '#entity_type',
@@ -51,10 +51,17 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
   $form['alias'] = array(
     '#type' => 'textfield',
     '#title' => t('URL address'),
+    '#field_prefix' => $base_url . '/',
     '#default_value' => drupal_get_path_alias('event/' . $event->nid),
     '#weight' => 40,
   );
   $form['field_tiny_path']['#weight'] = 50;
+  for ($i = 0; $i<=$form['field_tiny_path'][LANGUAGE_NONE]['#max_delta']; $i++ ) {
+    $form['field_tiny_path'][LANGUAGE_NONE][$i]['value']['#field_prefix'] = $base_url . '/';
+    if (!empty($form['field_tiny_path'][LANGUAGE_NONE][$i]['value']['#default_value'])) {
+      $form['field_tiny_path'][LANGUAGE_NONE][$i]['#disabled'] = TRUE;
+    }
+  }
   $lang = $form['field_tiny_path']['#language'];
   $form['field_tiny_path'][$lang]['add_more']['#prefix'] = '<div class="form-actions">';
   $form['field_tiny_path'][$lang]['add_more']['#suffix'] = '</div>';
