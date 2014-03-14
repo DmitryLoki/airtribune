@@ -17,6 +17,20 @@
 
   Drupal.behaviors.pg_race_watch = {
     attach: function (context) {
+
+
+      $(".front_live_events .view-content").append("<div id='live-events-more'><a href='/events/current'>...</a></div>").click(function(){
+        length = $(this).closest(".front_live_events").find(".row-wrapper").not((".row-wrapper .row-wrapper")).filter(function(){
+              return $(this).css('overflow') == 'hidden';
+            }).length;
+        if (length) {
+          event.preventDefault();
+          $(this).closest(".front_live_events").find(".row-wrapper").not((".row-wrapper .row-wrapper")).filter(function(){
+              return $(this).css('overflow') == 'hidden';
+            }).first().css('overflow', 'visible');
+        }
+      });
+
       // @todo: consider time of pageload in crontab_currentTime
       // also, consider case timer == 0 for status change
       //~ pageLoadDelay = Math.floor((new Date().getTime() - pageLoadStart.getTime())  / 1000);
