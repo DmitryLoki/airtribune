@@ -1798,6 +1798,8 @@ function airtribune2_preprocess_image_style(&$variables) {
  *
  */
 function airtribune2_views_pre_render(&$view) {
+  static $live_events_day_nids = array();
+
   if ($view->name == 'frontpage_events') {
     drupal_add_js(drupal_get_path('theme', 'airtribune2') . '/js/frontpage.js');
     $standart = floor(count($view->result)/3) * 3;
@@ -1855,6 +1857,45 @@ function airtribune2_views_pre_render(&$view) {
         $index ++;
       }
     }
+
+
+    // store nids for last dayblog entry text trim (see below)
+    foreach ($view->result as $key => $value) {
+      $live_events_day_nids[] = $value->nid;
+    }
+  }
+
+  // Last dayblog entry trim text
+  if ($view->name == 'frontpage_live_events' && $view->current_display == 'panel_pane_1') {
+
+    $current_nid = $view->args[0];
+    $current_position = array_search($current_nid, $live_events_day_nids) + 1;
+    $live_events_count = count($live_events_day_nids);
+
+    $remainder = $current_position % 3;
+
+    $max_lengths = array(
+      'single' => 250,
+      'double' => 125,
+      'tripple' => 75,
+    );
+
+    if ($remainder == 0) {
+      $max_length = $max_lengths['tripple'];
+    }
+    else {
+      $current_row_elements_count = $live_events_count - $current_position + $remainder;
+      if ($current_row_elements_count >= 3) {
+        $max_length = $max_lengths['tripple'];
+      }
+      elseif ($current_row_elements_count == 2) {
+        $max_length = $max_lengths['double'];
+      }
+      else {
+        $max_length = $max_lengths['single'];
+      }
+    }
+    $view->field['field_plain_body']->options['alter']['max_length'] = $max_length;
   }
 }
 

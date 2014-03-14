@@ -7419,6 +7419,8 @@ race_id|[id]';
   $handler->display->display_options['fields']['field_plain_body']['table'] = 'field_data_field_plain_body';
   $handler->display->display_options['fields']['field_plain_body']['field'] = 'field_plain_body';
   $handler->display->display_options['fields']['field_plain_body']['label'] = '';
+  $handler->display->display_options['fields']['field_plain_body']['alter']['max_length'] = '75';
+  $handler->display->display_options['fields']['field_plain_body']['alter']['trim'] = TRUE;
   $handler->display->display_options['fields']['field_plain_body']['element_label_colon'] = FALSE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Content: Post date */
