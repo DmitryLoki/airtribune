@@ -35,7 +35,7 @@ function at_membership_form($form, &$form_state, $og_membership = FALSE) {
 
   // Markup some info about pilot.
   $membership = $form['#entity'];
-  if ($membership->type == 'pg_contestant' && $membership->entity_type == 'user') {
+  if (is_membership_contestant($membership) && $membership->entity_type == 'user') {
     $user = user_load($membership->etid);
 
     $profile2 = profile2_load_by_user($membership->etid, 'main');
