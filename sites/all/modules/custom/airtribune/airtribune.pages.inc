@@ -60,7 +60,9 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
   $form['field_tiny_path']['#weight'] = 50;
   for ($i = 0; $i<=$form['field_tiny_path'][LANGUAGE_NONE]['#max_delta']; $i++ ) {
     $form['field_tiny_path'][LANGUAGE_NONE][$i]['value']['#field_prefix'] = $base_url . '/';
-    if (!empty($form['field_tiny_path'][LANGUAGE_NONE][$i]['value']['#default_value'])) {
+    if (!empty($form['field_tiny_path'][LANGUAGE_NONE][$i]['value']['#default_value']) &&
+        !user_access('bypass node access')) {
+      // Disable field for organizer if not empty alias value
       $form['field_tiny_path'][LANGUAGE_NONE][$i]['#disabled'] = TRUE;
     }
   }
