@@ -29,8 +29,8 @@ jQuery(function ($) {
           if(!trackerInfo) return;
           span.trackerInfo = trackerInfo;
 
-          if(trackerInfo.last_point.timestamp > 0) {
-            var d = Math.floor((new Date).getTime()/1000 - trackerInfo.last_point.timestamp);
+          if(trackerInfo.last_point.time) {
+            var d = Math.floor((new Date - new Date(trackerInfo.last_point.time))/1000);
             span.innerHTML = getTimeStr(Math.floor(d/3600),Math.floor(d%3600/60),d%60);
           }
 
@@ -45,8 +45,8 @@ jQuery(function ($) {
           var tbl = statusSpans.closest('table');
 
           statusSpans.each(function(i, span){
-            var timestamp = span.trackerInfo ? span.trackerInfo.last_point.timestamp : null;
-            keys.push({key: timestamp, span:span});
+            var time = span.trackerInfo ? span.trackerInfo.last_point.time : null;
+            keys.push({key: time, span:span});
           });
 
           keys.sort(function (a, b) {
