@@ -93,7 +93,9 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     unset($form['xmlsitemap']);
     unset($form['metatags']);
     unset($form['mimemail']);
-
+    unset($form['field_header_image']);
+    unset($form['field_social_links']);
+    
     // From tpl, used in futher hook_process.
     $form['account']['mail']['#attached']['js'][] = drupal_get_path('module', 'at_user') . '/js/mail_change.js';
     $form['field_avatar']['#attached']['js'][] = drupal_get_path('module', 'at_user') . '/js/auto_upload.js';
