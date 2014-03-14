@@ -29,6 +29,7 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     'field_fai_category',
     'field_open_class',
     'field_country',
+    'field_time_zone',
     'field_sequence',
     '#pre_render',
     '#entity_type',
@@ -45,6 +46,7 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     '#weight' => -1,
   );
   $form['field_country']['#weight'] = 0;
+  $form['field_time_zone']['#weight'] = 0;
   $form['field_flying_info']['#weight'] = 10;
   $form['field_flying_site_ref']['#weight'] = 20;
   $form['field_take_offs']['#weight'] = 30;
@@ -86,6 +88,7 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     '#default_value' => $event->field_registration_sw['und'][0]['value'],
     '#weight' => 110,
   );
+  $form['field_sequence']['#weight'] = 115;
   $form['setting_status'] = array(
     '#type' => 'radios',
     '#title' => t('Publication settings'),
