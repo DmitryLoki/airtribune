@@ -7381,10 +7381,6 @@ race_id|[id]';
   );
   $handler->display->display_options['filters']['type_1']['group'] = 1;
 
-  /* Display: Page */
-  $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['path'] = 'frontpage-live-events';
-
   /* Display: Frontpage Live Events */
   $handler = $view->new_display('panel_pane', 'Frontpage Live Events', 'panel_pane_2');
   $handler->display->display_options['link_url'] = 'events/current';
@@ -7489,9 +7485,8 @@ task_title|[title_2]
 day_number|[field_day_number]
 race_id|[id]'),
     t('All'),
-    t('Page'),
-    t('more'),
     t('Frontpage Live Events'),
+    t('more'),
     t('View panes'),
     t('Day blog single'),
     t('Content referencing Content from field_dayblog_ref'),
