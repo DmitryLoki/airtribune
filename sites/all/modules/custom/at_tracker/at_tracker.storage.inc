@@ -79,7 +79,7 @@ function at_tracker_field_storage_write($entity_type, $entity, $op, $fields, $en
     $field = field_info_field_by_id($field_id);
     $field_name = $field['field_name'];
     if ($field['type'] == 'at_tracker') {
-      if ($entity->{$field_name}[LANGUAGE_NONE][0]['value'] == 'none') {
+      if (isset($entity->{$field_name}[LANGUAGE_NONE]) && $entity->{$field_name}[LANGUAGE_NONE][0]['value'] == 'none') {
         unset($entity->{$field_name}[LANGUAGE_NONE][0]['value']);
       }
 
