@@ -331,7 +331,7 @@ function at_core_sync_entity_sync($entity_type, $entity, $action='', $fields = a
         if (!empty($fields) && is_array($fields)) {
           $data = array();
           foreach($fields as $property => $field_name) {
-            if (isset($entity->{$field_name})) {
+            if (isset($entity->{$field_name}[LANGUAGE_NONE])) {
               // No use wrapper for at_tracker fields
               $data[$property] = $entity->{$field_name}[LANGUAGE_NONE][0]['value'];
             }

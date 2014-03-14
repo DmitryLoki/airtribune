@@ -291,7 +291,7 @@ function at_helper_og_form_validate($form, &$form_state) {
   $number_not_changed = FALSE;
   // Fix NULL value, to avoid SQL PDOException
   // @see #4306
-  if (!empty($form['#form_id']) && ($form['#entity_type'] == 'og_membership')) {
+  if (!empty($form['#form_id']) && !empty($form['#entity_type']) && ($form['#entity_type'] == 'og_membership')) {
     if ($values['field_tracker']['und'][0]['target_id'] === NULL) {
       $form_state['values']['field_tracker']['und'] = array();
     }
