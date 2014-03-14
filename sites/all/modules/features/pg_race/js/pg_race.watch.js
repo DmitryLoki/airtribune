@@ -19,7 +19,7 @@
     attach: function (context) {
 
 
-      $(".front_live_events .view-content").append("<div id='live-events-more'><a href='/events/current'>...</a></div>").click(function(){
+      $(".front_live_events .view-content").append("<div id='live-events-more'><a href='/events/current'>...</a></div>").children("#live-events-more").click(function(){
         length = $(this).closest(".front_live_events").find(".row-wrapper").not((".row-wrapper .row-wrapper")).filter(function(){
               return $(this).css('overflow') == 'hidden';
             }).length;
