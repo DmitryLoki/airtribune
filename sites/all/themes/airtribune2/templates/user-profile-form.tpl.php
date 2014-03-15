@@ -67,16 +67,6 @@ if (!empty($form['profile_main'])) {
 
 print "</div>"; // #name_and_birthday end
 
-$form['pass_fieldset'] = array(
-  '#type' => 'fieldset',
-  '#title' => t('Change password'),
-  '#prefix' => '<div id="password-fieldset">',
-  '#suffix' => '</div>',
-  '#collapsible' => TRUE,
-  '#collapsed' => TRUE,
-  '#attributes' => array('class' => array('collapsible', 'collapsed')),
-);
-
 $form['pass_fieldset']['current_pass'] = $form['account']['current_pass'];
 $form['pass_fieldset']['pass']         = $form['account']['pass'];
 print drupal_render($form['pass_fieldset']);

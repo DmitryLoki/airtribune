@@ -95,7 +95,7 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     unset($form['mimemail']);
     unset($form['field_header_image']);
     unset($form['field_social_links']);
-    
+
     // From tpl, used in futher hook_process.
     $form['account']['mail']['#attached']['js'][] = drupal_get_path('module', 'at_user') . '/js/mail_change.js';
     $form['field_avatar']['#attached']['js'][] = drupal_get_path('module', 'at_user') . '/js/auto_upload.js';
@@ -112,8 +112,12 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     );
     $form['personalisation'] = array(
       '#type' => 'item',
+      '#title' => t('Personalisation'),
       '#prefix' => '<div id="personalisation">',
       '#suffix' => '</div>',
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#attributes' => array('class' => array('collapsible', 'collapsed')),
     );
     $form['account']['mail_dummy'] = array(
       '#type' => 'item',
