@@ -1,12 +1,39 @@
 <?php
 
+function _at_alias_process_user($op, $entity) {
+  switch ($op) {
+    case 'insert' :
+    case 'update' :
+      _at_alias_update_user($entity);
+      break;
+    case 'delete' :
+      _at_alias_delete_user($entity);
+      break;
+  }
+}
+
+function _at_alias_update_user($user) {
+  module_load_include('inc', 'pathauto');
+  if (function_exists('pathauto_cleanstring') && isset($user->uid)) {
+    // Save tiny aliases.
+    $tiny_path_items = field_get_items('user', $user, 'field_tiny_path');
+    // Check that $tiny_path_items is not empty
+    if (!empty($tiny_path_items) && is_array($tiny_path_items)) {
+      foreach ($tiny_path_items as $tiny_path) {
+        $path = array('source' => 'user/' . $user->uid, 'alias' => $tiny_path['value']);
+        path_save($path);
+      }
+    }
+  }
+}
+
+function _at_alias_delete_user($entity) {
+  // @todo delete user-alias/edit, user-alias/contestant and other
+}
+
 // Note: It is supposed that there can be no two bundles
 // of different entities with same names.
-
-// This file processes only AIRTRIBUNE_RACE_ENTITY_TYPE entity type
-
 function _at_alias_process_single_conjugate_ent_race($op, $entity) {
-  
   // @todo
   // Get event nids (actually, only one)
   $event_nids = _at_alias_get_conjugate_entities($entity);
