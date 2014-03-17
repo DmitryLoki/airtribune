@@ -167,6 +167,7 @@ dependencies[] = pg_scoring_category
 dependencies[] = pilot
 dependencies[] = pinba_finish
 dependencies[] = pinba_start
+dependencies[] = pm_existing_pages
 dependencies[] = profile2
 dependencies[] = profile2_page
 dependencies[] = rdf

@@ -38,7 +38,7 @@ print drupal_render($form['account']['mail_dummy']);
 
 // Main profile Name field
 if (!empty($form['profile_main'])) {
-	
+  
   $lang = $form['profile_main']['field_full_name']['#language'];
   $form['profile_main']['field_full_name'][$lang][0]['given']['#prefix'] = '';
   $form['profile_main']['field_full_name'][$lang][0]['given']['#suffix'] = '';
@@ -66,16 +66,6 @@ if (!empty($form['profile_main'])) {
 }
 
 print "</div>"; // #name_and_birthday end
-
-$form['pass_fieldset'] = array(
-  '#type' => 'fieldset',
-  '#title' => t('Change password'),
-  '#prefix' => '<div id="password-fieldset">',
-  '#suffix' => '</div>',
-  '#collapsible' => TRUE,
-  '#collapsed' => TRUE,
-  '#attributes' => array('class' => array('collapsible', 'collapsed')),
-);
 
 $form['pass_fieldset']['current_pass'] = $form['account']['current_pass'];
 $form['pass_fieldset']['pass']         = $form['account']['pass'];

@@ -126,14 +126,16 @@ function at_alias_module_node_hook_implementation($op, $node) {
 
 // @todo:
 function at_alias_entity_hook_implementation($op, $entity, $entity_type) {
+  module_load_include('inc', 'at_alias', 'at_alias.entity');
   switch ($entity_type) {
     case AIRTRIBUNE_RACE_ENTITY_TYPE:
-      module_load_include('inc', 'at_alias', 'at_alias.entity');
       _at_alias_process_single_conjugate_ent_race($op, $entity);
       break;
     case AIRTRIBUNE_TEAM_TYPE:
-      module_load_include('inc', 'at_alias', 'at_alias.entity');
       _at_alias_process_single_conjugate_ent_race($op, $entity);
+      break;
+    case 'user':
+      _at_alias_process_user($op, $entity);
       break;
   }
 }

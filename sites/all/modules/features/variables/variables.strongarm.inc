@@ -1185,7 +1185,7 @@ function variables_strongarm() {
       'weight' => '-97',
       'action' => 'enabled',
       'tabtamer_original_path' => 'profile-pilot/%profile2_by_uid/edit',
-      'tabtamer_title' => 'Edit pilot',
+      'tabtamer_title' => 'Contestant',
     ),
     'profile-pilot/%/delete' => array(
       'weight' => '-99',
