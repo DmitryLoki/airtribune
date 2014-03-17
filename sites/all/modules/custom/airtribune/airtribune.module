@@ -1075,7 +1075,7 @@ function airtribune_preprocess_views_view_field(&$vars){
     // @see #3604
     if ($field->field == 'title') {
       $contest = get_contest_for_entity('day', $row->_field_data['nid']['entity']);
-      $day_date = date('j M, Y', $row->node_created - $contest->time['offset']);
+      $day_date = date('j M, Y', $row->node_created + $contest->time['offset']);
       $now = date('j M, Y', $contest->time['localtime']);
       // Replace date to 'today' word, if date is today
       if ($now == $day_date) {
