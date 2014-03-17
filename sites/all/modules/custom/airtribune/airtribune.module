@@ -1074,6 +1074,7 @@ function airtribune_preprocess_views_view_field(&$vars){
     // Change day header output
     // @see #3604
     if ($field->field == 'title') {
+      // @todo use airtribune_get_string_date_of_contest_day()
       $contest = get_contest_for_entity('day', $row->_field_data['nid']['entity']);
       $day_date = date('j M, Y', $row->node_created - $contest->time['offset']);
       $now = date('j M, Y', $contest->time['localtime']);
@@ -1285,11 +1286,7 @@ function airtribune_init() {
  * @author Kraev Vasily
  */
 function airtribune_contest_status_check_by_date($node) {
-  $result = airtribune_extract_time_from_contest($node);
-  if (!$result) {
-    return FALSE;
-  }
-  return airtribune_compare_dates($result['start_local'], $result['end_local']);
+  return airtribune_compare_dates($contest->time['start_local'], $contest->time['end_local']);
 }
 
 /**
@@ -1459,10 +1456,9 @@ function airtribune_get_events_nids_with_date_status() {
  *
  * @author Kraev Vasily
  */
-function airtribune_how_time_after_event_start($node, $granularity = 'day') {
-  $result = airtribune_extract_time_from_contest($node);
-  $contest_date_status = airtribune_contest_status_check_by_date($node);
-  if ($result && ($contest_date_status == 'current' || $contest_date_status == 'past')) {
+function airtribune_how_time_after_event_start($contest, $granularity = 'day') {
+  $contest_date_status = airtribune_contest_status_check_by_date($contest);
+  if ($contest_date_status == 'current' || $contest_date_status == 'past') {
     $seconds = REQUEST_TIME - ($result['start_local']);
     if ($granularity == 'day') {
       return ($seconds / 3600 / 24);
@@ -1536,16 +1532,15 @@ function airtribune_js_alter(&$javascript) {
 }
 
 function airtribune_get_string_date_of_contest_day($contest, $day_timestamp) {
-  $contest_time = airtribune_extract_time_from_contest($contest);
   // Because datetime in fields set for local, but stored in database as UTC, we substract offset.
-  $day_created_time = $day_timestamp - $contest_time['offset'];
-  if (date('Ymd', $contest_time['localtime']) == date('Ymd', $day_created_time)){
+  $day_created_time = $day_timestamp - $contest->time['offset'];
+  if (date('Ymd', $contest->time['localtime']) == date('Ymd', $day_created_time)){
     $day_string = t('Today');
   }
   else {
     $day_string = format_date($day_created_time, 'custom', 'j M, Y');
   }
-  return '<span class="posted">' . $day_string . '</span>';
+  return $day_string;
 }
 
 /**
@@ -1614,19 +1609,11 @@ function _airtribune_pg_race_online_state($etid) {
   }
   $node = array_shift($nodes);
 
-  // Get event time offset
-  $contest_time = airtribune_extract_time_from_contest($node);
-  if (!isset($contest_time['offset'])) {
-    return;
-  }
-  $offset = $contest_time['offset'];
-
   $start_end = $wrapper->{AIRTRIBUNE_RACE_START_END_FIELD}->value();
   $start = strtotime($start_end['value']);
   $end = strtotime($start_end['value2']);
 
-  // TODO: Get local time
-  $localtime = time() + $offset;
+  $localtime = $contest->time['localtime'];
 
   // Compare dates to get state
   if ($start <= $localtime && $localtime < $end) {
@@ -1765,13 +1752,7 @@ function _create_day_for_contest() {
 
   foreach ($contests['current'] as $key => $contest_nid) {
     $contest = node_load($contest_nid);
-
-    if ($contest_date = airtribune_extract_time_from_contest($contest)) {
-      $offset = $contest_date['offset'];
-    }
-    else {
-      $offset = 0;
-    }
+    $offset = $contest->time['offset'] ? $contest->time['offset'] : 0;
 
     // Get last day for this contest.
     $days = get_days_ids_for_contest($contest);

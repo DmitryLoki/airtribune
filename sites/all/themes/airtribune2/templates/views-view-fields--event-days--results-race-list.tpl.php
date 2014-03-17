@@ -77,7 +77,7 @@ if (!$day_number && !($day_number === 0)) {
   // output srting date
   // event/%nid/blog
   $contest_nid = arg(1);
-  print airtribune_get_string_date_of_contest_day($contest_nid, $fields['created']->raw);
+  print '<span class="posted">' . airtribune_get_string_date_of_contest_day($contest_nid, $fields['created']->raw) . '</span>';
   ?>
 
 <?php
