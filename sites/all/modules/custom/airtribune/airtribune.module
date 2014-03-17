@@ -1916,6 +1916,12 @@ function theme_airtribune_event_statistics($vars) {
  * Implements hook_node_load().
  */
 function airtribune_node_load($nodes, $types) {
+  // Write time data to contest node object.
+  foreach ($nodes as $nid => $node) {
+    if (is_contest($node) && empty($node->time)) {
+      $node->time = airtribune_extract_time_from_contest($node);
+    }
+  }
   // Add pints files into download on event info page
   if (arg(0) == 'event' && arg(2) == 'info') {
     foreach ($nodes as $nid => $node) {
