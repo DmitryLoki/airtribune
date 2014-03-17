@@ -14,6 +14,7 @@ features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:1
 features[field][] = user-user-field_header_image
 features[field][] = user-user-field_social_links
+features[field][] = user-user-field_tiny_path
 features[field][] = user-user-field_user_avatar
 features[user_permission][] = use hybridauth
 features[variable][] = email_confirm_confirmation_after_change_email_body
