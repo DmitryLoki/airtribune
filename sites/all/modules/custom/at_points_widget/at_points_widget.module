@@ -270,6 +270,12 @@ function at_points_widget_get_filereader($filename) {
  * @param type $nid
  */
 function at_points_widget_create_files($nid) {
+  $transliterate = module_exists('transliteration') && isset($settings['transliterate']) && $settings['transliterate'];
+  $pathauto = module_exists('pathauto') && isset($settings['pathauto']) && $settings['pathauto'] == TRUE;
+  if ($pathauto == TRUE) {
+    module_load_include('inc', 'pathauto');
+  }
+
   if (is_null($nid)) return NULL;
   $query = new EntityFieldQuery();
   $result = $query
@@ -286,8 +292,12 @@ function at_points_widget_create_files($nid) {
   $contest_wrapper->field_points_file->set(array());
   $new_classes = array_keys(AtPointsWidgetFile::$classes);
   foreach ($new_classes as $new_class) {
-    $filename = 'public://' . $contest_wrapper->title->value() . '_' . AtPointsWidgetFile::$classes[$new_class] . '.' . $new_class::extension();
-    $filename = str_replace(' ', '_', $filename);
+    $filename = 'public://' . pathauto_cleanstring($contest_wrapper->title->value()) . '_' . AtPointsWidgetFile::$classes[$new_class] . '.' . $new_class::extension();
+
+    // Transliterate string.
+    if ($transliterate == TRUE) {
+      $filename = transliteration_clean_filename($filename);
+    }
     if (file_exists($filename)) {
       $query = new EntityFieldQuery();
       $query->entityCondition('entity_type', 'file')->propertyCondition('uri', $filename);
