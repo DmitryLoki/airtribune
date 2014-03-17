@@ -1074,8 +1074,9 @@ function airtribune_preprocess_views_view_field(&$vars){
     // Change day header output
     // @see #3604
     if ($field->field == 'title') {
-      $day_date = date('j M, Y', $row->node_created);
-      $now = date('j M, Y', time());
+      $contest = get_contest_for_entity('day', $row->_field_data['nid']['entity']);
+      $day_date = date('j M, Y', $row->node_created - $contest->time['offset']);
+      $now = date('j M, Y', $contest->time['localtime']);
       // Replace date to 'today' word, if date is today
       if ($now == $day_date) {
         $output = str_replace($view->field['created']->original_value, t('Today'), $output);
