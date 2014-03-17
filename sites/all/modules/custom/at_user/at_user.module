@@ -137,6 +137,28 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     );
     // End from tpl.
 
+    // 'optional URL', validating & theming.
+    // @see #4498
+    $form['#validate'][] = 'at_user_optional_url_validate';
+    $form['field_tiny_path']['und'][0]['value']['#attributes']['placeholder'] = t('yourname');
+    $optional_url = field_get_items('user', $form['#user'], 'field_tiny_path');
+    // If user already set optional url, show this as text.
+    if ($optional_url) {
+      $form['field_tiny_path'] = $form['field_tiny_path']['und'][0]['value'];
+      $form['field_tiny_path']['#type'] = 'item';
+      $form['field_tiny_path']['#markup'] = $form['field_tiny_path']['#default_value'];
+      $form['field_tiny_path']['#description'] = NULL;
+    }
+    $basic_url = array(
+      '#type' => 'item',
+      '#title' => t('Basic URL'),
+      '#markup' => 'airtribune.com/' . 'user/' . $form['#user']->uid,
+      '#weight' => $form['field_tiny_path']['#weight'] - 1,
+    );
+    $form['personalisation']['basic_url'] = $basic_url;
+    $form['personalisation']['field_tiny_path'] = $form['field_tiny_path'];
+    unset($form['field_tiny_path']);
+
     // make upload & delete (user_picture / avatar imagefield) without form_submit
     // see #2764
     if (isset($form_state['values']['field_user_avatar_und_0_remove_button']) &&
@@ -293,6 +315,18 @@ function at_user_notify_user_at_password_change(&$form, $form_state) {
     drupal_goto('user/' . $user->uid . '/edit');
   }
 }
+
+function at_user_optional_url_validate(&$form, &$form_state) {
+  $tiny_path = $form_state['values']['field_tiny_path']['und'][0]['value'];
+  // Set form error, if submited value for alias already exist in system, and alias not belongs to this user.
+  if ($tiny_path && !drupal_valid_path($tiny_path)) {
+    $source = drupal_lookup_path('source', $tiny_path);
+    if ($source && ($source != $tiny_path)) {
+      form_set_error('field_tiny_path', t('This URL already exists. Choose another one.'));
+    }
+  }
+}
+
 
 function at_user_login_error_msg($form, &$form_state) {
   at_messages_msg_changer();
