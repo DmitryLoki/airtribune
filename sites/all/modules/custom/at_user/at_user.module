@@ -87,14 +87,17 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     }
 
     // Hide unnessecary elements.
-    unset($form['timezone']);
+    unset($form['field_header_image']);
+    unset($form['field_og_user_hg']);
+    unset($form['field_social_links']);
     unset($form['locale']);
-    unset($form['og_user_node']);
-    unset($form['xmlsitemap']);
+    unset($form['masquerade']);
     unset($form['metatags']);
     unset($form['mimemail']);
-    unset($form['field_header_image']);
-    unset($form['field_social_links']);
+    unset($form['og_user_node']);
+    unset($form['signature_settings']);
+    unset($form['timezone']);
+    unset($form['xmlsitemap']);
 
     // From tpl, used in futher hook_process.
     $form['account']['mail']['#attached']['js'][] = drupal_get_path('module', 'at_user') . '/js/mail_change.js';
@@ -344,14 +347,6 @@ function at_user_login_error_redirect_to_form($form, &$form_state) {
     }
     // update form, need for form-redirect and markup update
     $form_state['rebuild'] = TRUE;
-  }
-}
-
-function at_user_preprocess_panels_pane(&$vars) {
-  $content = &$vars['content'];
-  $pane = $vars['pane'];
-  if ($pane->subtype == 'form' && $pane->css['template_suggestion'] == 'user-edit-form') {
-    $panel_page = page_manager_get_current_page();
   }
 }
 
