@@ -22,6 +22,8 @@ function _at_alias_update_user($user) {
       foreach ($tiny_path_items as $tiny_path) {
         $path = array('source' => 'user/' . $user->uid, 'alias' => $tiny_path['value']);
         path_save($path);
+        $path = array('source' => 'user/' . $user->uid . '/edit', 'alias' => $tiny_path['value']. '/edit');
+        path_save($path);
       }
     }
   }
