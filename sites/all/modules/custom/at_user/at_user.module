@@ -155,7 +155,7 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     $basic_url = array(
       '#type' => 'item',
       '#title' => t('Basic URL'),
-      '#markup' => 'airtribune.com/' . 'user/' . $form['#user']->uid,
+      '#markup' => 'airtribune.com/' . $form['#user']->uid,
       '#weight' => $form['field_tiny_path']['#weight'] - 1,
     );
     $form['personalisation']['basic_url'] = $basic_url;
@@ -321,11 +321,18 @@ function at_user_notify_user_at_password_change(&$form, $form_state) {
 
 function at_user_optional_url_validate(&$form, &$form_state) {
   $tiny_path = $form_state['values']['field_tiny_path']['und'][0]['value'];
-  // Set form error, if submited value for alias already exist in system, and alias not belongs to this user.
-  if ($tiny_path && !drupal_valid_path($tiny_path)) {
-    $source = drupal_lookup_path('source', $tiny_path);
-    if ($source && ($source != $tiny_path)) {
-      form_set_error('field_tiny_path', t('This URL already exists. Choose another one.'));
+  if ($tiny_path) {
+    // Not suitable by regex, or digits only.
+    if (preg_match('/^[0-9]+$/si', $tiny_path) || !preg_match('/^[a-z0-9_-]+$/i', $tiny_path))
+    {
+      form_set_error('field_tiny_path', t('Your can use only latin symbols (a–z), digits (0–9), minus and underscore.'));
+    }
+    // Submited value for alias already exist in system, and alias not belongs to this user.
+    if (!drupal_valid_path($tiny_path)) {
+      $source = drupal_lookup_path('source', $tiny_path);
+      if ($source && ($source != $tiny_path)) {
+        form_set_error('field_tiny_path', t('This URL already exists. Choose another one.'));
+      }
     }
   }
 }
