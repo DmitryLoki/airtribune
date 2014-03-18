@@ -370,4 +370,11 @@ class  RaceWatch {
       //~ 'race_eid' => $entity_race->id,
     );
   }
+
+  function raceHasTracks() {
+    $entity_race = $this->entity_race;
+    $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity_race);
+    $race_tracks = $wrapper->{AIRTRIBUNE_PG_RACE_TRACKS_FIELD}->value();
+    return !empty($race_tracks);
+  }
 }

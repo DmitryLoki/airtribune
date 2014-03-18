@@ -192,6 +192,9 @@
     coreApiAddress = raceWatch.settings.core_api_address;
     contestCid = raceWatch.settings.contest_cid;
     raceCid = raceWatch.settings.race_cid;
+    raceSettings = raceWatch.settings;
+
+    coreCheckParameters = { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid, 'raceSettings' : raceSettings };
 
 
     // init --> is_live
@@ -200,7 +203,7 @@
       // @todo: use crontab_currentTime insead of 0 (because of delay)
       //~ timemark = crontab_currentTime;  // = 0 or 0 + pageload delay
       timemark = 0;  // = 0 or 0 + pageload delay
-      action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+      action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : coreCheckParameters };
       pgRaceCrontabAdd (timemark, action);
 
       // add regular operations (timer update when crontab_currentTime is incremented)
@@ -223,7 +226,7 @@
       $('.day-blog-race-id-' + raceId).removeClass('awaiting').addClass('starting');
 
       timemark = crontab_currentTime + 1;
-      action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+      action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : coreCheckParameters };
       pgRaceCrontabAdd (timemark, action);
     }
 
@@ -233,7 +236,7 @@
       $('.day-blog-race-id-' + raceId).removeClass('starting').addClass('is_live');
 
       timemark = crontab_currentTime + 1;
-      action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+      action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : coreCheckParameters };
       pgRaceCrontabAdd (timemark, action);
 
       action = { 'action' : 'actionSetTimerHelpText' , 'parameters' : { 'raceId' : raceId, 'state_old' : state_old, 'state_current' : state_current } };
@@ -258,7 +261,7 @@
     else if (state_old == 'init' && state_current == 'finished' ) {
       // Add regular operations (timer update when crontab_currentTime is incremented)
       timemark = crontab_currentTime + 1;
-      action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+      action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : coreCheckParameters };
       pgRaceCrontabAdd (timemark, action);
     }
 
@@ -278,10 +281,11 @@
 
       // Add regular operations (timer update when crontab_currentTime is incremented)
       timemark = crontab_currentTime + 1;
-      action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+      action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : coreCheckParameters };
       pgRaceCrontabAdd (timemark, action);
     }
 
+    //~ console.log(raceWatch.settings);
     // @todo: Remove regular operation on status change if required. E.g. timer doesn't need to be updated if status == "current"
   }
 
@@ -354,13 +358,22 @@
     var coreApiAddress = parameters['coreApiAddress'];
     var contestCid = parameters['contestCid'];
     var raceCid = parameters['raceCid'];
+    var raceSettings = parameters['raceSettings'];
+
+    if (raceSettings['has_tracks']) {
+      requestType = 'competition_aftertask';
+    }
+    else {
+      requestType = 'online';
+    }
 
     var raceData = {
       coreApiAddress: parameters['coreApiAddress'],
       raceId: parameters['raceId'],
       raceCid: parameters['raceCid'],
       contestCid: parameters['contestCid'],
-      requestType: 'competition_aftertask',
+      //~ requestType: 'competition_aftertask',
+      requestType: requestType,
     };
 
     _requestRaceState(raceData, function response(raceInfo) {
