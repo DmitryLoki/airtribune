@@ -1,9 +1,9 @@
 .pane-activity > .pane-inner,
-.front_live_events > .pane-inner { margin: 0 0 40px;}
+.front_live_events > .pane-inner { margin: 0 0 11px;}
 .front_live_events h2.pane-title { position: relative; z-index: 10;}
-.front_live_events h2 a { float: right; margin: 3px -2px 0 0; position: relative; width: 67px; text-shadow: none; text-decoration: none;}
-.front_live_events h2 a:hover { background: rgba(0,174,239, 1);}
-.front_live_events h2 a:active { background: rgba(0,129,239, 1); border-color: #007ee7;}
+body .front_live_events .more-link a { float: right; margin: 3px -2px 0 0; position: relative; width: 67px; text-shadow: none; text-decoration: none;}
+.front_live_events .more-link a:hover { background: rgba(0,174,239, 1);}
+.front_live_events .more-link a:active { background: rgba(0,129,239, 1); border-color: #007ee7;}
 .front_live_events .view-content { margin-left: -5px;}
 .front_live_events .view-content .row-wrapper + .row-wrapper { height: 0; overflow: hidden;
 
@@ -198,6 +198,6 @@
 .front_live_events .views-row .views-row-twice { width: auto;}
 
 
-.front_live_events .more-link { position: absolute; top: 10px; right: 10px; z-index: 100; }
-#live-events-more { text-align: center; }
-#live-events-more a { text-decoration: none; }
+.front_live_events .more-link { position: absolute; top: 5px; right: 10px; z-index: 100; }
+#live-events-more { text-align: center; padding-top: 5px; }
+#live-events-more a { text-decoration: none; display: inline-block; background: url(../images/live_more.png) no-repeat 50% 50%; width: 30px; height: 16px;}
