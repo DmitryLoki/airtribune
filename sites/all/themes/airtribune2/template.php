@@ -2058,3 +2058,43 @@ function airtribune2_date_combo($variables) {
   );
   return theme($theme_element, array('element' => $fieldset));
 }
+
+/**
+ * Override theme_file_upload_help().
+ * Less text output.
+ * @author Kraev Vasily
+ */
+function airtribune2_file_upload_help($variables) {
+  $description = $variables['description'];
+  $upload_validators = $variables['upload_validators'];
+
+  $descriptions = array();
+
+  if (strlen($description)) {
+    $descriptions[] = $description;
+  }
+  if (isset($upload_validators['file_validate_extensions'])) {
+    $descriptions[] = t('!extensions.', array('!extensions' => check_plain($upload_validators['file_validate_extensions'][0])));
+  }
+  if (isset($upload_validators['file_validate_size'])) {
+    $descriptions[] = t('Max !size.', array('!size' => format_size($upload_validators['file_validate_size'][0])));
+  }
+  if (isset($upload_validators['file_validate_image_resolution'])) {
+    $max = $upload_validators['file_validate_image_resolution'][0];
+    $min = $upload_validators['file_validate_image_resolution'][1];
+    if ($min && $max && $min == $max) {
+      $descriptions[] = t('Size: exactly !size.', array('!size' => $max));
+    }
+    elseif ($min && $max) {
+      $descriptions[] = t('Size: between !min and !max.', array('!min' => $min, '!max' => $max));
+    }
+    elseif ($min) {
+      $descriptions[] = t('Size: not less than !min.', array('!min' => $min));
+    }
+    elseif ($max) {
+      $descriptions[] = t('Size: not more than !max.', array('!max' => $max));
+    }
+  }
+
+  return implode('<br />', $descriptions);
+}
