@@ -7160,6 +7160,14 @@ return array($event_id);';
   $handler->display->display_options['fields']['nid']['label'] = '';
   $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Day number (excluded) */
+  $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['field'] = 'field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['ui_name'] = 'Day number (excluded)';
+  $handler->display->display_options['fields']['field_day_number']['label'] = '';
+  $handler->display->display_options['fields']['field_day_number']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_day_number']['element_label_colon'] = FALSE;
   /* Field: Last dayblog entry (excluded) */
   $handler->display->display_options['fields']['view']['id'] = 'view';
   $handler->display->display_options['fields']['view']['table'] = 'views';
@@ -7180,7 +7188,8 @@ return array($event_id);';
   $handler->display->display_options['fields']['nothing_extended_1']['label'] = '';
   $handler->display->display_options['fields']['nothing_extended_1']['exclude'] = TRUE;
   $handler->display->display_options['fields']['nothing_extended_1']['alter']['text'] = 'event_nid|[nid_1]
-dayblog_last_entry|[view]';
+dayblog_last_entry|[view]
+day_number|[field_day_number]';
   $handler->display->display_options['fields']['nothing_extended_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['nothing_extended_1']['renderer_plugin'] = 'frontpage_live_event_link';
   /* Field: Link to event info tab */
@@ -7189,10 +7198,7 @@ dayblog_last_entry|[view]';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['ui_name'] = 'Link to event info tab';
   $handler->display->display_options['fields']['nothing']['label'] = '';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'View contest';
-  $handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['nothing']['alter']['path'] = '[nothing_extended_1]';
-  $handler->display->display_options['fields']['nothing']['alter']['link_class'] = 'event-link';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<a href="[nothing_extended_1]" class="event-link">View contest</a>';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   /* Field: Country (excluded) */
   $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
@@ -7293,14 +7299,6 @@ dayblog_last_entry|[view]';
   $handler->display->display_options['fields']['field_day_status_1']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_day_status_1']['alter']['text'] = '[field_day_status_1-value]';
   $handler->display->display_options['fields']['field_day_status_1']['element_label_colon'] = FALSE;
-  /* Field: Day number (excluded) */
-  $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
-  $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
-  $handler->display->display_options['fields']['field_day_number']['field'] = 'field_day_number';
-  $handler->display->display_options['fields']['field_day_number']['ui_name'] = 'Day number (excluded)';
-  $handler->display->display_options['fields']['field_day_number']['label'] = '';
-  $handler->display->display_options['fields']['field_day_number']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_day_number']['element_label_colon'] = FALSE;
   /* Field: Race: Id */
   $handler->display->display_options['fields']['id']['id'] = 'id';
   $handler->display->display_options['fields']['id']['table'] = 'eck_ent_race';
@@ -7464,8 +7462,9 @@ race_id|[id]';
     t('OG membership from node'),
     t('Group node from OG membership'),
     t('event_nid|[nid_1]
-dayblog_last_entry|[view]'),
-    t('View contest'),
+dayblog_last_entry|[view]
+day_number|[field_day_number]'),
+    t('<a href="[nothing_extended_1]" class="event-link">View contest</a>'),
     t('<span class="contest_head">
  <span class="contest_title">[title_1]</span><br />
  <span class="contest_place">[field_country], [field_city]</span>
