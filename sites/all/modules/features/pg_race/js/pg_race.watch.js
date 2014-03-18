@@ -23,6 +23,12 @@
         if (!$(event.target).closest(".watch-links").length) {
           $(".watch-links .links-content").hide();
         }
+        else {
+          clicked_element = $(event.target).closest(".watch-links");
+          $(".watch-links").filter(function(){
+            return $(this).attr('class') != clicked_element.attr('class');
+          }).find(".links-content").hide();
+        }
       });
 
       $(".view-frontpage-live-events .row-wrapper:first-child").addClass('row-wrapper-visible');
