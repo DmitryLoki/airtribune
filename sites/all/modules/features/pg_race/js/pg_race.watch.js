@@ -97,9 +97,9 @@
             if (!raceWatchRegistry.hasOwnProperty(raceId)) {
 
 
-              pg_race_watch_setting['open'] = pg_race_watch_setting['now_local'] + 5;
-              pg_race_watch_setting['start'] = pg_race_watch_setting['now_local'] + 10;
-              pg_race_watch_setting['end'] = pg_race_watch_setting['now_local'] + 20;
+              //~ pg_race_watch_setting['open'] = pg_race_watch_setting['now_local'] + 5;
+              //~ pg_race_watch_setting['start'] = pg_race_watch_setting['now_local'] + 10;
+              //~ pg_race_watch_setting['end'] = pg_race_watch_setting['now_local'] + 20;
 
               status = pg_race_watch_setting.status;
               raceWatch = {'settings' : pg_race_watch_setting, 'functions' : [function_name], 'status' : { 'current' : status, 'old' : 'init' }};
@@ -313,8 +313,8 @@
       raceId: parameters['raceId'],
       raceCid: parameters['raceCid'],
       contestCid: parameters['contestCid'],
-      //~ requestType: 'online',
-      requestType: 'competition_aftertask',
+      requestType: 'online',
+      //~ requestType: 'competition_aftertask',
     };
 
     // @todo: Check that status is still is_live. Otherwise don't add checks to crontab any more.
