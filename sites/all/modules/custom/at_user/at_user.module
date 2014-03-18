@@ -87,9 +87,7 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     }
 
     // Hide unnessecary elements.
-    unset($form['field_header_image']);
     unset($form['field_og_user_hg']);
-    unset($form['field_social_links']);
     unset($form['locale']);
     unset($form['masquerade']);
     unset($form['metatags']);
@@ -103,6 +101,7 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     $form['account']['mail']['#attached']['js'][] = drupal_get_path('module', 'at_user') . '/js/mail_change.js';
     $form['field_avatar']['#attached']['js'][] = drupal_get_path('module', 'at_user') . '/js/auto_upload.js';
 
+    // Form API "item" haven't #attributes, use prefix/suffix.
     $form['name_gender_dob'] = array(
       '#type' => 'item',
       '#prefix' => '<div id="name-gender-dob">',
@@ -113,21 +112,21 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
       '#prefix' => '<div id="mail-change">',
       '#suffix' => '</div>',
     );
-    $form['personalisation'] = array(
+    $form['account']['mail_dummy'] = array(
       '#type' => 'item',
+      '#title' => t('Email'),
+      '#markup' => $form['account']['mail']['#value'],
+      '#prefix' => '<div id="mail-dummy">',
+      '#suffix' => '<div id="mail-edit-pencil">✎</div></div>',
+    );
+    $form['personalisation'] = array(
+      '#type' => 'fieldset',
       '#title' => t('Personalisation'),
       '#prefix' => '<div id="personalisation">',
       '#suffix' => '</div>',
       '#collapsible' => TRUE,
       '#collapsed' => TRUE,
       '#attributes' => array('class' => array('collapsible', 'collapsed')),
-    );
-    $form['account']['mail_dummy'] = array(
-      '#type' => 'item',
-      '#title' => t('Email'),
-      '#markup' => $form['account']['mail']['#value'],
-      '#prefix' => '<div id="mail-dummy">', // form api "item" haven't #attributes
-      '#suffix' => '<div id="mail-edit-pencil">✎</div></div>',
     );
     $form['pass_fieldset'] = array(
       '#type' => 'fieldset',
@@ -152,15 +151,12 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
       $form['field_tiny_path']['#markup'] = $form['field_tiny_path']['#default_value'];
       $form['field_tiny_path']['#description'] = NULL;
     }
-    $basic_url = array(
+    $form['basic_url'] = array(
       '#type' => 'item',
       '#title' => t('Basic URL'),
       '#markup' => 'airtribune.com/' . $form['#user']->uid,
       '#weight' => $form['field_tiny_path']['#weight'] - 1,
     );
-    $form['personalisation']['basic_url'] = $basic_url;
-    $form['personalisation']['field_tiny_path'] = $form['field_tiny_path'];
-    unset($form['field_tiny_path']);
 
     // make upload & delete (user_picture / avatar imagefield) without form_submit
     // see #2764
@@ -395,7 +391,7 @@ function at_user_process_panels_pane(&$vars, $hook) {
       // Add title to first field, and remove fieldset.
       $form['profile_main']['field_birthdate']['und'][0]['value']['day']['#title'] = t('Date of birth');
       $form['profile_main']['field_birthdate']['und'][0]['#title'] = '';
-      // TODO css rename: name_gender_dob -> name_gender_dob, fix in js.
+
       $form['name_gender_dob']['#markup'] .= drupal_render($form['profile_main']['field_full_name']['und'][0]['given']);
       $form['name_gender_dob']['#markup'] .= drupal_render($form['profile_main']['field_full_name']['und'][0]['family']);
       $form['name_gender_dob']['#markup'] .= drupal_render($form['profile_main']['field_gender']);
@@ -412,6 +408,7 @@ function at_user_process_panels_pane(&$vars, $hook) {
     $form['pass_fieldset']['pass']         = $form['account']['pass'];
     hide($form['account']['pass']);
 
+    // Personalisation.
     // Add rel & class to social links field.
     $socials = array('Facebook', 'Google Plus', 'Youtube', 'Vimeo', 'Istagram');
     $soc_links = &$form['field_social_links']['und'];
@@ -419,16 +416,20 @@ function at_user_process_panels_pane(&$vars, $hook) {
       // [und][0], [und][1], ...
       if (is_int($element)) {
         $form['field_social_links']['und'][$element]['url']['#class'] = array($socials[$element]);
-        $form['field_social_links']['und'][$element]['url']['#attributes']['rel'] = $socials[$element];
+        $form['field_social_links']['und'][$element]['url']['#attributes']['placeholder'] = $socials[$element];
       }
     }
-
-    // Personalisation.
     $form['field_header_image']['und'][0]['select']['#title'] = t('Add image');
     $form['field_header_image']['und'][0]['remove']['#title'] = t('Delete');
 
-    $form['personalisation']['#markup'] .= drupal_render($form['field_header_image']);
-    $form['personalisation']['#markup'] .= drupal_render($form['field_social_links']);
+    $form['personalisation']['basic_url'] = $form['basic_url'];
+    $form['personalisation']['field_tiny_path'] = $form['field_tiny_path'];
+    $form['personalisation']['field_header_image'] = $form['field_header_image'];
+    $form['personalisation']['field_social_links'] = $form['field_social_links'];
+    unset($form['basic_url']);
+    unset($form['field_tiny_path']);
+    unset($form['field_header_image']);
+    unset($form['field_social_links']);
   }
 }
 

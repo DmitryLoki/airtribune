@@ -8,7 +8,7 @@ global $user;
 //print_r($form);
 $form['actions']['submit']['#suffix'] = '<a id="mail-edit-cancel-link">or Cancel</a>';
 
-print "<div id='name_and_birthday'>"; // #name_and_birthday start
+print "<div id='name-gender-dob'>"; // #name-gender-dob start
 
 $lang = $form['profile_main']['field_full_name']['#language'];
 $form['field_user_avatar'][$lang][0]['#title'] = '';
@@ -33,7 +33,6 @@ $form['account']['mail_dummy'] = array(
   '#suffix' => '<div id="mail-edit-pencil">✎</div></div>',
 );
 
-$form['account']['mail']['#attached']['js'][] = drupal_get_path('module', 'at_user') . '/js/mail_change.js';
 print drupal_render($form['account']['mail_dummy']);
 
 // Main profile Name field
@@ -46,8 +45,6 @@ if (!empty($form['profile_main'])) {
   $form['profile_main']['field_full_name'][$lang][0]['family']['#suffix'] = '';
   $form['profile_main']['field_full_name'][$lang][0]['given']['#title_display'] = 'before';
   $form['profile_main']['field_full_name'][$lang][0]['family']['#title_display'] = 'before';
-  //$form['profile_main']['field_full_name'][$lang][0]['given']['#description'] = t('Your Name in English transcription.');
-  //$form['profile_main']['field_full_name'][$lang][0]['family']['#description'] = t('Your surname in English transcription.');
   $form['profile_main']['field_full_name'][$lang][0]['given']['#attributes']['rel'] = t('Enter your name');
   $form['profile_main']['field_full_name'][$lang][0]['family']['#attributes']['rel'] = t('Enter your surname');
   // Temporary fix for Name label translation (see http://drupal.org/node/1788156)
@@ -65,11 +62,34 @@ if (!empty($form['profile_main'])) {
   print drupal_render($form['profile_main']['field_birthdate']);
 }
 
-print "</div>"; // #name_and_birthday end
+print "</div>"; // #name-gender-dob end
+
+// Personalisation.
+// Add rel & class to social links field.
+$socials = array('Facebook', 'Google Plus', 'Youtube', 'Vimeo', 'Istagram');
+$soc_links = &$form['field_social_links']['und'];
+foreach (array_keys($soc_links) as $element) {
+  // [und][0], [und][1], ...
+  if (is_int($element)) {
+    $form['field_social_links']['und'][$element]['url']['#class'] = array($socials[$element]);
+    $form['field_social_links']['und'][$element]['url']['#attributes']['placeholder'] = $socials[$element];
+  }
+}
+$form['field_header_image']['und'][0]['select']['#title'] = t('Add image');
+$form['field_header_image']['und'][0]['remove']['#title'] = t('Delete');
+
+$form['personalisation']['basic_url'] = $form['basic_url'];
+$form['personalisation']['field_tiny_path'] = $form['field_tiny_path'];
+$form['personalisation']['field_header_image'] = $form['field_header_image'];
+$form['personalisation']['field_social_links'] = $form['field_social_links'];
+unset($form['basic_url']);
+unset($form['field_tiny_path']);
+unset($form['field_header_image']);
+unset($form['field_social_links']);
+
 
 $form['pass_fieldset']['current_pass'] = $form['account']['current_pass'];
 $form['pass_fieldset']['pass']         = $form['account']['pass'];
-print drupal_render($form['pass_fieldset']);
 
 print "<div id='mail-change'>";
 print drupal_render($form['account']['mail']);
