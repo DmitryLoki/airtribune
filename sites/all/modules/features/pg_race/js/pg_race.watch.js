@@ -19,6 +19,12 @@
     attach: function (context) {
 
 
+      $("body").click(function(event){
+        if (!$(event.target).closest(".watch-links").length) {
+          $(".watch-links .links-content").hide();
+        }
+      });
+
       $(".view-frontpage-live-events .row-wrapper:first-child").addClass('row-wrapper-visible');
       $(".view-frontpage-live-events:not(.view-display-id-panel_pane_1) > .view-content").append("<div id='live-events-more'><a href='/events/current'></a></div>").children("#live-events-more").click(function(event){
         length = $(this).closest(".front_live_events").find(".row-wrapper").not((".row-wrapper .row-wrapper")).filter(function(){
