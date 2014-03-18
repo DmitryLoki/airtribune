@@ -214,7 +214,7 @@
       // add checkCoreDataAvailable into crontab
       // @todo: use crontab_currentTime insead of 0 (because of delay)
       //~ timemark = crontab_currentTime;  // = 0 or 0 + pageload delay
-      timemark = 0;  // = 0 or 0 + pageload delay
+      timemark = 1;  // = 0 or 0 + pageload delay
       action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : coreCheckParameters };
       pgRaceCrontabAdd (timemark, action);
 

@@ -178,6 +178,7 @@ body .front_live_events .more-link a { float: right; margin: 3px -2px 0 0; posit
 .watch-links.starting .task-replay,
 .watch-links.starting .task-leaderboard,
 
+.watch-links.is_live .task-live,
 .watch-links.is_live .task-results,
 .watch-links.is_live .task-replay,
 .watch-links.is_live .task-leaderboard,
