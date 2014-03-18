@@ -7160,7 +7160,7 @@ window.fbAsyncInit = function() {
     $pane->pid = 'new-84';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
-    $pane->subtype = 'frontpage_events-live_events_pane';
+    $pane->subtype = 'frontpage_live_events-panel_pane_2';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
@@ -7168,7 +7168,10 @@ window.fbAsyncInit = function() {
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'front_live_events',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
