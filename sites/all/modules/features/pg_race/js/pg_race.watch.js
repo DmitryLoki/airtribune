@@ -19,6 +19,12 @@
     attach: function (context) {
 
 
+      $("body").click(function(event){
+        if (!$(event.target).closest(".watch-links").length) {
+          $(".watch-links .links-content").hide();
+        }
+      });
+
       $(".view-frontpage-live-events .row-wrapper:first-child").addClass('row-wrapper-visible');
       $(".view-frontpage-live-events:not(.view-display-id-panel_pane_1) > .view-content").append("<div id='live-events-more'><a href='/events/current'></a></div>").children("#live-events-more").click(function(event){
         length = $(this).closest(".front_live_events").find(".row-wrapper").not((".row-wrapper .row-wrapper")).filter(function(){
@@ -91,9 +97,9 @@
             if (!raceWatchRegistry.hasOwnProperty(raceId)) {
 
 
-              pg_race_watch_setting['open'] = pg_race_watch_setting['now_local'] + 5;
-              pg_race_watch_setting['start'] = pg_race_watch_setting['now_local'] + 10;
-              pg_race_watch_setting['end'] = pg_race_watch_setting['now_local'] + 20;
+              //~ pg_race_watch_setting['open'] = pg_race_watch_setting['now_local'] + 5;
+              //~ pg_race_watch_setting['start'] = pg_race_watch_setting['now_local'] + 10;
+              //~ pg_race_watch_setting['end'] = pg_race_watch_setting['now_local'] + 20;
 
               status = pg_race_watch_setting.status;
               raceWatch = {'settings' : pg_race_watch_setting, 'functions' : [function_name], 'status' : { 'current' : status, 'old' : 'init' }};
@@ -192,6 +198,9 @@
     coreApiAddress = raceWatch.settings.core_api_address;
     contestCid = raceWatch.settings.contest_cid;
     raceCid = raceWatch.settings.race_cid;
+    raceSettings = raceWatch.settings;
+
+    coreCheckParameters = { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid, 'raceSettings' : raceSettings };
 
 
     // init --> is_live
@@ -200,7 +209,7 @@
       // @todo: use crontab_currentTime insead of 0 (because of delay)
       //~ timemark = crontab_currentTime;  // = 0 or 0 + pageload delay
       timemark = 0;  // = 0 or 0 + pageload delay
-      action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+      action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : coreCheckParameters };
       pgRaceCrontabAdd (timemark, action);
 
       // add regular operations (timer update when crontab_currentTime is incremented)
@@ -223,7 +232,7 @@
       $('.day-blog-race-id-' + raceId).removeClass('awaiting').addClass('starting');
 
       timemark = crontab_currentTime + 1;
-      action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+      action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : coreCheckParameters };
       pgRaceCrontabAdd (timemark, action);
     }
 
@@ -233,7 +242,7 @@
       $('.day-blog-race-id-' + raceId).removeClass('starting').addClass('is_live');
 
       timemark = crontab_currentTime + 1;
-      action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+      action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : coreCheckParameters };
       pgRaceCrontabAdd (timemark, action);
 
       action = { 'action' : 'actionSetTimerHelpText' , 'parameters' : { 'raceId' : raceId, 'state_old' : state_old, 'state_current' : state_current } };
@@ -258,7 +267,7 @@
     else if (state_old == 'init' && state_current == 'finished' ) {
       // Add regular operations (timer update when crontab_currentTime is incremented)
       timemark = crontab_currentTime + 1;
-      action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+      action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : coreCheckParameters };
       pgRaceCrontabAdd (timemark, action);
     }
 
@@ -278,10 +287,11 @@
 
       // Add regular operations (timer update when crontab_currentTime is incremented)
       timemark = crontab_currentTime + 1;
-      action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+      action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : coreCheckParameters };
       pgRaceCrontabAdd (timemark, action);
     }
 
+    //~ console.log(raceWatch.settings);
     // @todo: Remove regular operation on status change if required. E.g. timer doesn't need to be updated if status == "current"
   }
 
@@ -303,8 +313,8 @@
       raceId: parameters['raceId'],
       raceCid: parameters['raceCid'],
       contestCid: parameters['contestCid'],
-      //~ requestType: 'online',
-      requestType: 'competition_aftertask',
+      requestType: 'online',
+      //~ requestType: 'competition_aftertask',
     };
 
     // @todo: Check that status is still is_live. Otherwise don't add checks to crontab any more.
@@ -326,7 +336,8 @@
         var new_timemark = crontab_currentTime + period;
 
         // add action to crontab
-        action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+        //~ action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+        action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : parameters };
         pgRaceCrontabAdd (new_timemark, action);
       }
     });
@@ -354,13 +365,22 @@
     var coreApiAddress = parameters['coreApiAddress'];
     var contestCid = parameters['contestCid'];
     var raceCid = parameters['raceCid'];
+    var raceSettings = parameters['raceSettings'];
+
+    if (raceSettings['has_tracks']) {
+      requestType = 'competition_aftertask';
+    }
+    else {
+      requestType = 'online';
+    }
 
     var raceData = {
       coreApiAddress: parameters['coreApiAddress'],
       raceId: parameters['raceId'],
       raceCid: parameters['raceCid'],
       contestCid: parameters['contestCid'],
-      requestType: 'competition_aftertask',
+      //~ requestType: 'competition_aftertask',
+      requestType: requestType,
     };
 
     _requestRaceState(raceData, function response(raceInfo) {
@@ -385,7 +405,8 @@
         var new_timemark = crontab_currentTime + period;
 
         // add action to crontab
-        action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+        //~ action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+        action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : parameters };
         pgRaceCrontabAdd (new_timemark, action);
       }
     });
