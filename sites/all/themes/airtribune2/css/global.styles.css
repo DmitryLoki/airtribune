@@ -2663,6 +2663,7 @@ form table .field-name-field-pg-contestant-status .select { width: 164px;}*/
 /* User account form */
 /*.page-user-edit #edit-field-user-avatar .image-widget { display: inline;}
 .page-user-edit #edit-field-user-avatar div.image-widget-data { display: inline; float: none;}*/
+.page-user-edit .field-type-image .image-widget .button { display: none;}
 .page-user-edit .pane-page-content form { padding-top: 13px;}
 .page-user-edit .pane-page-content form .date-padding .form-item { padding-bottom: 0;}
 .page-user-edit .form-type-name-element > label { float: left; padding-right: 4px;}

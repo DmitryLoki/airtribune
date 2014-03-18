@@ -106,6 +106,7 @@ hide($form['xmlsitemap']);
 hide($form['metatags']);
 hide($form['mimemail']);
 
+hide($form['name_gender_dob']);
 // Hide wrapping fieldsets.
 drupal_render($form['profile_main']);
 print drupal_render_children($form);
