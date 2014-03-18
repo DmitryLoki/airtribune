@@ -336,7 +336,8 @@
         var new_timemark = crontab_currentTime + period;
 
         // add action to crontab
-        action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+        //~ action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+        action = { 'action' : 'checkCoreDataAvailable' , 'parameters' : parameters };
         pgRaceCrontabAdd (new_timemark, action);
       }
     });
@@ -404,7 +405,8 @@
         var new_timemark = crontab_currentTime + period;
 
         // add action to crontab
-        action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+        //~ action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : { 'raceId' : raceId, 'coreApiAddress' : coreApiAddress, 'contestCid' : contestCid,  'raceCid' : raceCid } };
+        action = { 'action' : 'checkCoreDataAvailableFinished' , 'parameters' : parameters };
         pgRaceCrontabAdd (new_timemark, action);
       }
     });
