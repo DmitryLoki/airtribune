@@ -1954,6 +1954,7 @@ function airtribune2_preprocess_views_view_unformatted(&$vars) {
   $rows = $vars['rows'];
   $style = $view->style_plugin;
   $options = $style->options;
+  //print_r($view->current_display);
 
   $vars['classes_array'] = array();
   $vars['classes'] = array();
@@ -1995,10 +1996,16 @@ function airtribune2_preprocess_views_view_unformatted(&$vars) {
       }
     }
 
-    if ($count == 1 || !(($count - 1) % 3)) {
+    if (
+    	$view->current_display != 'panel_pane_1' 
+    	&& ($count == 1 || !(($count - 1) % 3))
+    ) {
       $vars['prefixes'][$id] = '<div class="row-wrapper clearfix">';
     }
-    if ($count == $max || !($count % 3)) {
+    if (
+    	$view->current_display != 'panel_pane_1' 
+    	&& ($count == $max || !($count % 3))
+    ) {
       $vars['suffixes'][$id] = '</div>';
     }
 

@@ -19,15 +19,20 @@
     attach: function (context) {
 
 
-      $(".front_live_events .view-content").append("<div id='live-events-more'><a href='/events/current'>...</a></div>").children("#live-events-more").click(function(){
+      $(".view-frontpage-live-events .row-wrapper:first-child").addClass('row-wrapper-visible');
+      $(".view-frontpage-live-events:not(.view-display-id-panel_pane_1) > .view-content").append("<div id='live-events-more'><a href='/events/current'></a></div>").children("#live-events-more").click(function(event){
         length = $(this).closest(".front_live_events").find(".row-wrapper").not((".row-wrapper .row-wrapper")).filter(function(){
               return $(this).css('overflow') == 'hidden';
             }).length;
         if (length) {
           event.preventDefault();
-          $(this).closest(".front_live_events").find(".row-wrapper").not((".row-wrapper .row-wrapper")).filter(function(){
-              return $(this).css('overflow') == 'hidden';
-            }).first().css('overflow', 'visible');
+          $(".view-frontpage-live-events .row-wrapper:not(.row-wrapper-visible)").eq(0).height(280);
+          setTimeout(function(){
+            $(".view-frontpage-live-events .row-wrapper:not(.row-wrapper-visible)").eq(0).addClass('row-wrapper-visible');
+          },200);
+          // $(this).closest(".front_live_events").find(".row-wrapper").not((".row-wrapper .row-wrapper")).filter(function(){
+          //     return $(this).css('overflow') == 'hidden';
+          //   }).first().css('overflow', 'visible');
         }
       });
 
