@@ -363,7 +363,7 @@ function at_user_process_panels_pane(&$vars, $hook) {
     // print drupal_render($form['field_user_avatar']);
 
     $form['account']['mail']['#title'] = t('Email');
-    $form['account']['mail']['#attributes']['rel'] = t('Enter your email');
+    $form['account']['mail']['#attributes']['placeholder'] = t('Enter your email');
     $form['account']['mail']['#description'] = t('Your email is your login in the system. To change email you must enter your new email. Your email will be changed after confirmation.');
     $form['account']['current_pass']['#title'] = t('Current password');
     $form['account']['current_pass']['#description'] = t('Your current password. If your forgot your password, you can reset it <a href="/user/password">here</a>.');
@@ -409,7 +409,7 @@ function at_user_process_panels_pane(&$vars, $hook) {
     hide($form['account']['pass']);
 
     // Personalisation.
-    // Add rel & class to social links field.
+    // Add placeholder & class to social links field.
     $socials = array('Facebook', 'Google Plus', 'Youtube', 'Vimeo', 'Istagram');
     $soc_links = &$form['field_social_links']['und'];
     foreach (array_keys($soc_links) as $element) {

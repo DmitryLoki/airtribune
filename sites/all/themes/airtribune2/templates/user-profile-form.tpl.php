@@ -17,7 +17,7 @@ $form['field_avatar']['#attached']['js'][] = drupal_get_path('module', 'at_user'
 print drupal_render($form['field_user_avatar']);
 
 $form['account']['mail']['#title'] = t('Email');
-$form['account']['mail']['#attributes']['rel'] = t('Enter your email');
+$form['account']['mail']['#attributes']['placeholder'] = t('Enter your email');
 $form['account']['mail']['#description'] = t('Your email is your login in the system. To change email you must enter your new email. Your email will be changed after confirmation.');
 $form['account']['current_pass']['#title'] = t('Current password');
 $form['account']['current_pass']['#description'] = t('Your current password. If your forgot your password, you can reset it <a href="/user/password">here</a>.');
@@ -45,8 +45,8 @@ if (!empty($form['profile_main'])) {
   $form['profile_main']['field_full_name'][$lang][0]['family']['#suffix'] = '';
   $form['profile_main']['field_full_name'][$lang][0]['given']['#title_display'] = 'before';
   $form['profile_main']['field_full_name'][$lang][0]['family']['#title_display'] = 'before';
-  $form['profile_main']['field_full_name'][$lang][0]['given']['#attributes']['rel'] = t('Enter your name');
-  $form['profile_main']['field_full_name'][$lang][0]['family']['#attributes']['rel'] = t('Enter your surname');
+  $form['profile_main']['field_full_name'][$lang][0]['given']['#attributes']['placeholder'] = t('Enter your name');
+  $form['profile_main']['field_full_name'][$lang][0]['family']['#attributes']['placeholder'] = t('Enter your surname');
   // Temporary fix for Name label translation (see http://drupal.org/node/1788156)
   $form['profile_main']['field_full_name'][$lang][0]['given']['#title'] = t('Name');
   $form['profile_main']['field_full_name'][$lang][0]['family']['#title'] = t('Surname');
@@ -106,6 +106,7 @@ hide($form['xmlsitemap']);
 hide($form['metatags']);
 hide($form['mimemail']);
 
+hide($form['name_gender_dob']);
 hide($form['name_gender_dob']);
 // Hide wrapping fieldsets.
 drupal_render($form['profile_main']);
