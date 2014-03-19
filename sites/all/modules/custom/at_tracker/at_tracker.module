@@ -4,6 +4,16 @@ include_once 'at_tracker.field.inc';
 include_once 'at_tracker.storage.inc';
 
 /**
+* Implements hook_views_api().
+*/
+function at_tracker_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'at_tracker') . '/views',
+  );
+}
+
+/**
 * Implements hook_field_create_field().
 */
 function at_tracker_field_create_field($field) {
@@ -34,4 +44,35 @@ function at_tracker_field_create_field($field) {
 */
 function at_tracker_field_update_field($field) {
   at_tracker_field_create_field($field);
+}
+
+/**
+ *  Create a new form
+ */
+function at_tracker_editable_widget_form($form, &$form_state, $entity_type, $entity, $field, $instance, $langcode, $delta = 0, $row_index = 0) {
+  list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+
+  // Clear cache and get current value of tracker
+  cache_clear_all("field:$entity_type:$id", 'cache_field');
+  cache_clear_all(_at_tracker_get_cid($entity_type, $entity),'cache');
+  $entity = entity_load_single($entity_type, $id);
+
+  $items = $entity->{$field['field_name']};
+  $items = isset($items[$langcode]) ? $items[$langcode] : array();
+  $form['#parents'] = array();
+  // Wrap the whole form into a wrapper, and prepare AJAX settings.
+  $wrapper_id = drupal_html_id('at-tracker-editable-' . $field['field_name'] . '-' . $row_index);
+  $form['#prefix'] = '<div id="' . $wrapper_id . '" class="editable-' . $field['type'] . ' editable-item">';
+  $form['#suffix'] = '</div>';
+  $form['#row_index'] = $row_index;
+  $form['#entity_type'] = $entity_type;
+  $form['#entity_id'] = $id;
+  $form['#entity'] = $entity;
+
+  $widget_form = field_default_form($entity_type, $entity, $field, $instance, $langcode, $items, $form, $form_state, $delta);
+  unset($widget_form[$field['field_name']][LANGUAGE_NONE][0]['value']['#title']);
+  // Add field widget into form
+  $form += $widget_form;
+
+  return $form;
 }

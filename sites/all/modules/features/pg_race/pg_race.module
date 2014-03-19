@@ -86,13 +86,13 @@ function pg_race_node_presave($node) {
       $node->created = $last_day_created_time;
       $new_day_created_time = $last_day_created_time;
     }
-    
+
     // Days have same date, set for new created node next day.
     if (date('Ymd', $new_day_created_time) == date('Ymd', $last_day_created_time)) {
       $node->created += 3600 * 24;
       $node->updated = $node->created;
       node_save($node);
-    }    
+    }
   }
 }
 
@@ -197,22 +197,34 @@ function pg_race_day_form_validate(&$form, &$form_state) {
 function pg_race_form_validate(&$form, &$form_state) {
   $values = & $form_state['values'];
   $race = $values['entity'];
-  $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $race);
+  $contest = FALSE;
+  $id = FALSE;
+  $submitted_day_num = 0;
 
-  // Load contest (og node). Skip validation, if contest not specified.
-  $contest = reset($wrapper->og_group_ref->value());
+  if (empty($race->is_new)) {
+    $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $race);
+    $submitted_day_num = $wrapper->field_race_number->value();
+    // Get id of entity. If id = null, then its new created entity.
+    $id = $wrapper->id->value();
+    // Load contest (og node).
+    $contest = reset($wrapper->og_group_ref->value());
+  } else {
+    if (isset($values['og_group_ref'][LANGUAGE_NONE][0]['target_id'])) {
+      $contest = node_load($values['og_group_ref'][LANGUAGE_NONE][0]['target_id']);
+      $submitted_day_num = $values['field_race_number'][LANGUAGE_NONE][0]['value'];
+    }
+  }
+
+  // Skip validation, if contest not specified.
   if (!$contest) {
     return;
   }
-  // Get id of entity. If id = null, then its new created entity.
-  $id = $wrapper->id->value();
 
   // Get race numbers in chronically order (based on keys - ids in database).
   $race_numbers = get_races_for_contest($contest, TRUE);
-  ksort($race_numbers);
+  asort($race_numbers);
 
   $prefer_day_num = end($race_numbers) + 1;
-  $submitted_day_num = $wrapper->field_race_number->value();
 
   // If day number is not set (or set to 0), change it to preferred day number.
   if ($submitted_day_num == 0) {
@@ -907,7 +919,7 @@ function _day_pg_race_preview_markup($node) {
   }
 
   $output = pg_race_blog_markup($data);
-  
+
   //if ($status != AIRTRIBUNE_VIS_STATE_REPLAY) {
     $output .= $help_text . $time;
   //}
@@ -1058,4 +1070,37 @@ function pg_race_task_get_info($day_node) {
     $task_data['offset'] = $offset;
   }
   return $task_data;
+}
+
+
+/**
+ * Implements hook_views_api().
+ */
+function pg_race_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'pg_race') . '/includes/views',
+  );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function pg_race_theme() {
+  return array(
+    'live_event_watch_links' => array(
+      'variables' => array(
+        'links_info' => NULL,
+        'race_status' => NULL,
+      ),
+      'file' => 'includes/pg_race.watch.theme.inc',
+    ),
+    'live_event_watch_timer' => array(
+      'variables' => array(
+        'timer_info' => NULL,
+        'race_status' => NULL,
+      ),
+      'file' => 'includes/pg_race.watch.theme.inc',
+    ),
+  );
 }

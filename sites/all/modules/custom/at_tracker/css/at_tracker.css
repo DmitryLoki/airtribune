@@ -1,0 +1,15 @@
+.at-tracker-field {
+  position: relative;
+  display: block;
+}
+
+.pane-page-content form .at-tracker-field .form_booble {
+  background: #ffffff;
+  top: 0;
+}
+
+.at-tracker-field .form_booble {right: -92%;}
+
+.at-tracker-field .select .checked_option_wrap .checked_option {
+  min-width: 130px;
+}

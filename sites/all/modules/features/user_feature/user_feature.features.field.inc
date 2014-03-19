@@ -521,7 +521,7 @@ Size: not less than 940x380.',
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => '2',
+        'weight' => 0,
       ),
     ),
   );

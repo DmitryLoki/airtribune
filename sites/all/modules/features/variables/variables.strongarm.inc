@@ -1215,7 +1215,7 @@ function variables_strongarm() {
       'weight' => '0',
       'action' => 'enabled',
       'tabtamer_original_path' => 'user/%user/edit',
-      'tabtamer_title' => 'User',
+      'tabtamer_title' => 'Edit user',
     ),
     'user/%/edit/account' => array(
       'weight' => '0',

@@ -7,22 +7,24 @@ function updateForm(container, formsObj) {
     $('.select .items_inner', container).each(function () {
         if(!$(this).hasClass('items_padding')){
             $(this).parent().show();
-            $(this).jScrollPane({scrollbarWidth:4, showArrows:false});
+            $(this).jScrollPane({scrollbarWidth:4, showArrows:false, contentWidth: '0px'});
             handleKeyPressInSelect($(this).parent(), true);
             $(this).addClass('items_padding');
             $(this).parent().hide();
         }
     });
-    var select_z_index = 1000;
-    $('select', container).each(function () {
-        //if(!$(this).parents('.form-item').parents('.form-wrapper')){
-        $(this).parents('.form-wrapper, .form-item').css({'z-index':select_z_index, 'position':'relative'})
-        /*}
-         else {
-         $(this).parents('.form-wrapper').css({'z-index':select_z_index, 'position':'relative'})
-         }*/
-        select_z_index--;
-    });
+    if(!updateForm.zIndex) {
+      updateForm.zIndex = 1000;
+    }
+  $('select', container).each(function () {
+    //if(!$(this).parents('.form-item').parents('.form-wrapper')){
+    var formItem = $(this).parents('.form-wrapper, .form-item');
+    formItem.css({'z-index': ++updateForm.zIndex, 'position': 'relative'});
+    /*}
+     else {
+     $(this).parents('.form-wrapper').css({'z-index':select_z_index, 'position':'relative'})
+     }*/
+  });
 
     function handleKeyPressInSelect(selectContainer, ignoreTitle) {
         var jsp = selectContainer.children().data('jsp'),
@@ -75,6 +77,9 @@ function updateForm(container, formsObj) {
     }
 
 }
+jQuery.fn.updateForm = function(options) {
+  return updateForm(this, options);
+};
 jQuery(function ($) {
     updateForm($('.pane-page-content form'));
     $('.reg_choice .form_show').click(function () {

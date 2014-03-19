@@ -60,6 +60,7 @@ function is_membership_contestant($og_membership) {
   $contestants = array(
     AIRTRIBUNE_MEMBERSHIP_CONTESTANT,
     AIRTRIBUNE_MEMBERSHIP_WINDDUMMY,
+    AT_MEMBERSHIP_HG_CONTESTANT,
   );
   return in_array($og_membership->type, $contestants);
 }
@@ -129,13 +130,16 @@ function get_full_name($user) {
  * Returns Contest for entity
  */
 function get_contest_for_entity($entity_type, $entity) {
+  $contest = FALSE;
   if (get_class($entity) == 'OgMembership') {
     return node_load($entity->gid);
   } else if (isset($entity->group_group) && $entity->group_group['und'][0]['value'] == 1){
     return $entity;
   }
-  dpm($entity);
-  return node_load($entity->og_group_ref[LANGUAGE_NONE][0]['target_id']);
+  if (isset($entity->og_group_ref[LANGUAGE_NONE][0]['target_id'])){
+    $contest = node_load($entity->og_group_ref[LANGUAGE_NONE][0]['target_id']);
+  }
+  return $contest ;
 }
 
 /**
