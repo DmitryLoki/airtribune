@@ -154,6 +154,19 @@ function airtribune_form_alter(&$form, &$form_state, $form_id) {
       '#parents' => array('membership_fields'),
     );
     field_attach_form('og_membership', $og_membership, $form['membership_fields'], $form_state);
+  } elseif ($form_id == 'views_form_paragliding_pilots_list_manage') {
+    /**
+     * Fix change status
+     * @see #4307
+     */
+    $views_old = $form_state['build_info']['args'][0];
+    $view = views_get_view($views_old->name);
+    $view->args =  $views_old->args;
+    $view->set_display($views_old->display);
+    $form_state['build_info']['args'][0] = $view;
+    $form_state['build_info']['args'][0]->field = array();
+    $form_state['build_info']['args'][0]->header = $views_old->header;
+    $form_state['build_info']['args'][0]->footer = $views_old->footer;
   }
 }
 
