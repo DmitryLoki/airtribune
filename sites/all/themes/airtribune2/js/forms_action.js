@@ -13,17 +13,9 @@ function updateForm(container, formsObj) {
             $(this).parent().hide();
         }
     });
-    if(!updateForm.zIndex) {
-      updateForm.zIndex = 1000;
-    }
+
   $('select', container).each(function () {
-    //if(!$(this).parents('.form-item').parents('.form-wrapper')){
-    var formItem = $(this).parents('.form-wrapper, .form-item');
-    formItem.css({'z-index': ++updateForm.zIndex, 'position': 'relative'});
-    /*}
-     else {
-     $(this).parents('.form-wrapper').css({'z-index':select_z_index, 'position':'relative'})
-     }*/
+    $(this).parents('.form-wrapper, .form-item').css({'position':'relative'})
   });
 
     function handleKeyPressInSelect(selectContainer, ignoreTitle) {
