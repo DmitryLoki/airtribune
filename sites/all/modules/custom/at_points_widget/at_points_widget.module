@@ -296,7 +296,7 @@ function at_points_widget_create_files($nid) {
 
     // Transliterate string.
     if ($transliterate == TRUE) {
-      $filename = transliteration_clean_filename($filename);
+      //$filename = transliteration_clean_filename($filename);
     }
     if (file_exists($filename)) {
       $query = new EntityFieldQuery();
@@ -313,43 +313,46 @@ function at_points_widget_create_files($nid) {
         file_unmanaged_delete($filename);
       }
     }
-    if ($new_class == 'AtPointsWidgetCompGPSFile') {
-      $compgps_filename = $filename;
-    }
-    $file_writer = new $new_class($filename, TRUE);
-    $file_object = $file_writer->write($points);
-    $array = $contest_wrapper->field_points_file->value();  
-    if (empty($file_object)) {
-      if (empty($compgps_filename)) {
-        throw new Exception(t('Compgps file not found'));
+    $array = array();
+    if (!empty($points)) {
+      if ($new_class == 'AtPointsWidgetCompGPSFile') {
+        $compgps_filename = $filename;
       }
-      $command = $file_writer::$babbel_path . 'gpsbabel -i compegps -f ' . 
-          drupal_realpath($compgps_filename) . ' -o ' . 
-          $file_writer::$babbel_format . ' -F ' . drupal_realpath($filename);
-      if (!empty($command)) {
-        exec($command);
-        global $user;
-        // No way to automate this.
-        // @see file_save_upload()
-        if (is_file($filename)) {
-          $file_object = new stdClass();
-          $file_object->uid = $user->uid;
-          $file_object->status = 1;
-          $file_object->filename = trim(drupal_basename($filename), '.');
-          $file_object->uri = $filename;
-          $file_object->filemime = file_get_mimetype($filename);
-          $file_object->filesize = filesize($filename);
-          file_save($file_object);
+      $file_writer = new $new_class($filename, TRUE);
+      $file_object = $file_writer->write($points);
+      $array = $contest_wrapper->field_points_file->value();
+      if (empty($file_object)) {
+        if (empty($compgps_filename)) {
+          throw new Exception(t('Compgps file not found'));
         }
-      }  
+        $command = $file_writer::$babbel_path . 'gpsbabel -i compegps -f ' . 
+            drupal_realpath($compgps_filename) . ' -o ' . 
+            $file_writer::$babbel_format . ' -F ' . drupal_realpath($filename);
+        if (!empty($command)) {
+          exec($command);
+          global $user;
+          // No way to automate this.
+          // @see file_save_upload()
+          if (is_file($filename)) {
+            $file_object = new stdClass();
+            $file_object->uid = $user->uid;
+            $file_object->status = 1;
+            $file_object->filename = trim(drupal_basename($filename), '.');
+            $file_object->uri = $filename;
+            $file_object->filemime = file_get_mimetype($filename);
+            $file_object->filesize = filesize($filename);
+            file_save($file_object);
+          }
+        }
+      }
+      if (empty($file_object)){
+        throw new Exception(t('Points export failed to @class', array('@class' => AtPointsWidgetFile::$classes[$new_class])));
+      }
+      $new_file = (array)$file_object;
+      $new_file['display'] = 1;
+      $new_file['description'] = $file_writer::$description;
+      $array[] = $new_file;
     }
-    if (empty($file_object)){
-      throw new Exception(t('Points export failed to @class', array('@class' => AtPointsWidgetFile::$classes[$new_class])));
-    }
-    $new_file = (array)$file_object;
-    $new_file['display'] = 1;
-    $new_file['description'] = $file_writer::$description;
-    $array[] = $new_file;
     $contest_wrapper->field_points_file->set($array);
   }
   $contest_wrapper->save();
