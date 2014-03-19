@@ -327,7 +327,9 @@
     _requestRaceState(raceData, function response(raceInfo) {
       if (raceInfo && raceInfo.length > 0 && !$.isEmptyObject(raceInfo)) {
         // Show links if core is available
-        $(".watch-links-race-id-"+raceData.raceId+" .task-live").show();
+        //~ $(".watch-links-race-id-"+raceData.raceId+" .task-live").show();
+        $(".watch-links-race-id-"+raceData.raceId+" .task-live .no-task-text").hide();
+        $(".watch-links-race-id-"+raceData.raceId+" .task-live .watch-task-links-list").show();
         //~ components_shown = ['link_live'];
         //~ visualRaceState(components_shown, raceData);
       } else {
