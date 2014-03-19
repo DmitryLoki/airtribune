@@ -404,7 +404,15 @@ function at_core_sync_races_action(&$object, $context = array()) {
  * @param array $context
  */
 function at_core_delete_races_action(&$object, $context = array()) {
-  at_core_sync_entity_sync('ent_race', $object, 'delete');
+  $entity_type = 'ent_race';
+  $entity = $object;
+  $response = at_core_sync_entity_sync($entity_type, $entity, 'delete');
+  if (empty($response)) {
+    $entity->field_core_id[LANGUAGE_NONE][0]['value'] = '';
+    list($entity_id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+    field_attach_update($entity_type, $entity);
+    entity_get_controller($entity_type)->resetCache(array($entity_id));
+  }
 }
 
 /**
