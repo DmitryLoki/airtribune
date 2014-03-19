@@ -169,16 +169,17 @@ body .front_live_events .more-link a { float: right; margin: 3px -2px 0 0; posit
 .task-replay .links-content { display: none; }
 .task-live .links-content { display: none; }
 
-.watch-links.awaiting .task-live,
+.watch-links.awaiting .task-live .watch-task-links-list,
 .watch-links.awaiting .task-results,
 .watch-links.awaiting .task-replay,
 .watch-links.awaiting .task-leaderboard,
 
+.watch-links.starting .task-live .watch-task-links-list,
 .watch-links.starting .task-results,
 .watch-links.starting .task-replay,
 .watch-links.starting .task-leaderboard,
 
-.watch-links.is_live .task-live,
+.watch-links.is_live .task-live .watch-task-links-list,
 .watch-links.is_live .task-results,
 .watch-links.is_live .task-replay,
 .watch-links.is_live .task-leaderboard,
