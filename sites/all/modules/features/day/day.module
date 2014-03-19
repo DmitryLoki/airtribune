@@ -46,19 +46,31 @@ function day_node_presave($node) {
 function day_views_query_alter(&$view, &$query) {
   if ($view->name == 'frontpage_live_events' && $view->current_display == 'panel_pane_2') {
     // @todo: What about event timezone?
-    $current_date = date("Y-m-d");
+    $offset_delta = 3600 * 24;
+
+    $current_date_from = date("Y-m-d", time() - $offset_delta);
+    $current_date_to = date("Y-m-d", time() + $offset_delta);
+
     $query_node = new EntityFieldQuery();
     // @todo: Check node status
     $query_node->entityCondition('entity_type', 'node')
       ->entityCondition('bundle', array(AIRTRIBUNE_PG_CONTEST_TYPE, AIRTRIBUNE_HG_CONTEST_TYPE), "IN")
-      ->fieldCondition(AIRTRIBUNE_DATES_FIELD, 'value', $current_date, "<=")
-      ->fieldCondition(AIRTRIBUNE_DATES_FIELD, 'value2', $current_date, ">")
+      ->fieldCondition(AIRTRIBUNE_DATES_FIELD, 'value', $current_date_from, "<=")
+      ->fieldCondition(AIRTRIBUNE_DATES_FIELD, 'value2', $current_date_to, ">")
       ->propertyOrderBy('created', 'DESC');
+
 
     $result = $query_node->execute();
     $event_nids = !empty($result['node']) ? array_keys($result['node']) : array();
 
     foreach ($event_nids as $event_nid) {
+      // @todo: Use $contest->time instead
+      $time = airtribune_extract_time_from_contest($event_nid);
+      $show_untill = strtotime(date('Y-m-d', $time['end_local'])) + 24 * 3600 + 5 * 3600;
+      if (($time['start_local'] <= $time['localtime'] && $show_untill >= $time['localtime']) == FALSE) {
+        continue;
+      }
+
       $query_node = new EntityFieldQuery();
       // @todo: Check node status
       $query_node->entityCondition('entity_type', 'node')
