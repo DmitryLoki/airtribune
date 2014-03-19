@@ -256,6 +256,15 @@ function at_core_sync_action_info() {
         'any' => TRUE,
       ),
     ),
+    'at_core_delete_races_action' => array(
+      'type' => 'ent_race',
+      'label' => t('[Core API] Delete race from Core'),
+      'configurable' => FALSE,
+      'aggregate' => FALSE,
+      'hooks' => array(
+        'any' => TRUE,
+      ),
+    ),
     'at_core_sync_races_tracks_action' => array(
       'type' => 'ent_race',
       'label' => t('[Core API] Send tracks'),
@@ -386,6 +395,16 @@ function at_core_sync_tracked_objects_action(&$object, $context = array()) {
  */
 function at_core_sync_races_action(&$object, $context = array()) {
   at_core_sync_entity_sync('ent_race', $object);
+}
+
+/**
+ * Implementation of a Drupal action
+ *
+ * @param object $object
+ * @param array $context
+ */
+function at_core_delete_races_action(&$object, $context = array()) {
+  at_core_sync_entity_sync('ent_race', $object, 'delete');
 }
 
 /**
