@@ -270,8 +270,8 @@ function at_points_widget_get_filereader($filename) {
  * @param type $nid
  */
 function at_points_widget_create_files($nid) {
-  $transliterate = module_exists('transliteration') && isset($settings['transliterate']) && $settings['transliterate'];
-  $pathauto = module_exists('pathauto') && isset($settings['pathauto']) && $settings['pathauto'] == TRUE;
+  $transliterate = module_exists('transliteration');
+  $pathauto = module_exists('pathauto');
   if ($pathauto == TRUE) {
     module_load_include('inc', 'pathauto');
   }
