@@ -572,12 +572,12 @@ class ATSyncRace extends ATSyncNestedInContest {
         $point_data['properties']['checkpoint_type'] = $point->field_point_ss_es[LANGUAGE_NONE][0]['value'];
       }
       if ($delta == 0) {
-        $point_data['properties'] += array(
-          'checkpoint_type' => 'to',
-          'open_time' => $data['properties']['window_open'],
+        $point_data['properties']['checkpoint_type'] = 'to';
+        $point_data['properties'] += array('open_time' => $data['properties']['window_open'],
           'close_time' => $data['properties']['window_close'],
         );
       }
+
       switch ($data['type']) {
         case 'speedrun':
         case 'racetogoal':

@@ -86,6 +86,7 @@ define('AIRTRIBUNE_CONTESTANT_NUMBER_FIELD', 'field_contestant_number');
 define('AIRTRIBUNE_PG_SCORING_CATEGORY_FIELD', 'field_pg_scoring_category');
 define('AIRTRIBUNE_SCORING_CATEGORY_REF_FIELD', 'field_scoring_category_ref');
 define('AIRTRIBUNE_ADDRESS_FIELD', 'field_address');
+define('AIRTRIBUNE_PG_RACE_TRACKS_FIELD', 'field_pg_race_tracks');
 
 define('AIRTRIBUNE_PG_RACE_POINTS_FIELD', 'field_pg_race_points');
 define('AIRTRIBUNE_PG_RACE_AZIMUTH_FIELD', 'field_pg_race_azimuth');

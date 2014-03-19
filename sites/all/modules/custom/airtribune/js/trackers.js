@@ -23,7 +23,7 @@ jQuery(function ($) {
         statusSpans.each(function(i, span) {
           var spanId = span.getAttribute('id'),
             trackerInfo = result.filter(function(tracker){
-              return tracker.last_point && tracker.last_point.id + '-time' == spanId;
+              return tracker.last_point && tracker.id + '-time' == spanId;
             })[0];
 
           if(!trackerInfo) return;
