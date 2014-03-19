@@ -1074,8 +1074,9 @@ function airtribune_preprocess_views_view_field(&$vars){
     // Change day header output
     // @see #3604
     if ($field->field == 'title') {
-      $day_date = date('j M, Y', $row->node_created);
-      $now = date('j M, Y', time());
+      $contest = get_contest_for_entity('day', $row->_field_data['nid']['entity']);
+      $day_date = date('j M, Y', $row->node_created + $contest->time['offset']);
+      $now = date('j M, Y', $contest->time['localtime']);
       // Replace date to 'today' word, if date is today
       if ($now == $day_date) {
         $output = str_replace($view->field['created']->original_value, t('Today'), $output);
@@ -1916,6 +1917,12 @@ function theme_airtribune_event_statistics($vars) {
  * Implements hook_node_load().
  */
 function airtribune_node_load($nodes, $types) {
+  // Write time data to contest node object.
+  foreach ($nodes as $nid => $node) {
+    if (is_contest($node) && empty($node->time)) {
+      $node->time = airtribune_extract_time_from_contest($node);
+    }
+  }
   // Add pints files into download on event info page
   if (arg(0) == 'event' && arg(2) == 'info') {
     foreach ($nodes as $nid => $node) {

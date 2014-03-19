@@ -135,7 +135,7 @@ class  RaceWatch {
 
       $this->race_status = $status;
       //~ $this->race_status = PG_RACE_WATCH_STATUS_EMPTY;
-      $this->race_status = PG_RACE_WATCH_STATUS_AWAITING;
+      //~ $this->race_status = PG_RACE_WATCH_STATUS_AWAITING;
       //~ $this->race_status = PG_RACE_WATCH_STATUS_STARTING;
       //~ $this->race_status = PG_RACE_WATCH_STATUS_IS_LIVE;
       //~ $this->race_status = PG_RACE_WATCH_STATUS_FINISHED;
@@ -369,5 +369,12 @@ class  RaceWatch {
       'race_cid' => !empty($race_cid) ? $race_cid : '',
       //~ 'race_eid' => $entity_race->id,
     );
+  }
+
+  function raceHasTracks() {
+    $entity_race = $this->entity_race;
+    $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity_race);
+    $race_tracks = $wrapper->{AIRTRIBUNE_PG_RACE_TRACKS_FIELD}->value();
+    return !empty($race_tracks);
   }
 }

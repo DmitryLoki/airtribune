@@ -60,6 +60,7 @@ function is_membership_contestant($og_membership) {
   $contestants = array(
     AIRTRIBUNE_MEMBERSHIP_CONTESTANT,
     AIRTRIBUNE_MEMBERSHIP_WINDDUMMY,
+    AT_MEMBERSHIP_HG_CONTESTANT,
   );
   return in_array($og_membership->type, $contestants);
 }

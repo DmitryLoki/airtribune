@@ -15,7 +15,7 @@ class at_helper_handler_field_custom_extended extends views_handler_field {
     // Override the alter text option to always alter the text.
     $options['alter']['contains']['alter_text'] = array('default' => TRUE, 'bool' => TRUE);
     $options['hide_alter_empty'] = array('default' => FALSE, 'bool' => TRUE);
-    $options['renderer_plugin'] = array('default' => '', 'bool' => FALSE);
+    $options['renderer_plugin'] = array('default' => '');
     return $options;
   }
 
@@ -82,7 +82,8 @@ class at_helper_handler_field_custom_extended extends views_handler_field {
       $text = $functon($components, $tokens);
     }
     else {
-      // @todo: set error
+      // set error
+      drupal_set_message(t('Views "Global text extended" handler plugin "!plugin" not found', array('!plugin' => $this->options['renderer_plugin'])), 'error');
     }
 
     // @todo: Maybe this is not the "right" solution to change $this->options['alter']['text']

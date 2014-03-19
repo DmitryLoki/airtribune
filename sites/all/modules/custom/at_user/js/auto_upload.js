@@ -21,7 +21,7 @@
       }); 
 
       $('form', context).delegate('.image-preview', 'click', function() {  
-        if (confirm(Drupal.t('Are you sure you want to delete photo?'))) {
+        if (confirm(Drupal.t('Are you sure you want to delete image?'))) {
           $(this).parent().find('.image-widget-data input[type="submit"]').mousedown();
         }
       });

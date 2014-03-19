@@ -1798,6 +1798,8 @@ function airtribune2_preprocess_image_style(&$variables) {
  *
  */
 function airtribune2_views_pre_render(&$view) {
+  static $live_events_day_nids = array();
+
   if ($view->name == 'frontpage_events') {
     drupal_add_js(drupal_get_path('theme', 'airtribune2') . '/js/frontpage.js');
     $standart = floor(count($view->result)/3) * 3;
@@ -1855,6 +1857,45 @@ function airtribune2_views_pre_render(&$view) {
         $index ++;
       }
     }
+
+
+    // store nids for last dayblog entry text trim (see below)
+    foreach ($view->result as $key => $value) {
+      $live_events_day_nids[] = $value->nid;
+    }
+  }
+
+  // Last dayblog entry trim text
+  if ($view->name == 'frontpage_live_events' && $view->current_display == 'panel_pane_1') {
+
+    $current_nid = $view->args[0];
+    $current_position = array_search($current_nid, $live_events_day_nids) + 1;
+    $live_events_count = count($live_events_day_nids);
+
+    $remainder = $current_position % 3;
+
+    $max_lengths = array(
+      'single' => 250,
+      'double' => 125,
+      'tripple' => 75,
+    );
+
+    if ($remainder == 0) {
+      $max_length = $max_lengths['tripple'];
+    }
+    else {
+      $current_row_elements_count = $live_events_count - $current_position + $remainder;
+      if ($current_row_elements_count >= 3) {
+        $max_length = $max_lengths['tripple'];
+      }
+      elseif ($current_row_elements_count == 2) {
+        $max_length = $max_lengths['double'];
+      }
+      else {
+        $max_length = $max_lengths['single'];
+      }
+    }
+    $view->field['field_plain_body']->options['alter']['max_length'] = $max_length;
   }
 }
 
@@ -1913,6 +1954,7 @@ function airtribune2_preprocess_views_view_unformatted(&$vars) {
   $rows = $vars['rows'];
   $style = $view->style_plugin;
   $options = $style->options;
+  //print_r($view->current_display);
 
   $vars['classes_array'] = array();
   $vars['classes'] = array();
@@ -1935,6 +1977,8 @@ function airtribune2_preprocess_views_view_unformatted(&$vars) {
   $max = count($rows);
   foreach ($rows as $id => $row) {
     $count++;
+    $vars['prefixes'][$id] = '';
+    $vars['suffixes'][$id] = '';
     if ($default_row_class) {
       $vars['classes'][$id][] = 'views-row';
       $vars['classes'][$id][] = 'views-row-' . $count;
@@ -1950,6 +1994,19 @@ function airtribune2_preprocess_views_view_unformatted(&$vars) {
       if ($count == $max) {
         $vars['classes'][$id][] = 'views-row-last';
       }
+    }
+
+    if (
+    	$view->current_display != 'panel_pane_1' 
+    	&& ($count == 1 || !(($count - 1) % 3))
+    ) {
+      $vars['prefixes'][$id] = '<div class="row-wrapper clearfix">';
+    }
+    if (
+    	$view->current_display != 'panel_pane_1' 
+    	&& ($count == $max || !($count % 3))
+    ) {
+      $vars['suffixes'][$id] = '</div>';
     }
 
     if ($row_class = $view->style_plugin->get_row_class($id)) {

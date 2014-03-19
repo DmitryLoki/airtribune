@@ -236,8 +236,8 @@ class ATSyncContest extends ATSync {
       'title' => $contest->title,
       'lat' => substr($contest->field_hq_location[LANGUAGE_NONE][0]['lat'], 0, 8),
       'lon' => substr($contest->field_hq_location[LANGUAGE_NONE][0]['lon'], 0, 8),
-      'start_time' => strtotime($contest->field_dates[LANGUAGE_NONE][0]['value']),
-      'end_time' => strtotime($contest->field_dates[LANGUAGE_NONE][0]['value2']),
+      'start_time' => date('c', strtotime($contest->field_dates[LANGUAGE_NONE][0]['value'])),
+      'end_time' => date('c', strtotime($contest->field_dates[LANGUAGE_NONE][0]['value2'])),
       'place' => $contest->field_city[LANGUAGE_NONE][0]['value'],
       'country' => $contest->field_country[LANGUAGE_NONE][0]['iso2'],
       'timezone' => $contest->field_time_zone[LANGUAGE_NONE][0]['value'],
@@ -514,16 +514,19 @@ class ATSyncRace extends ATSyncNestedInContest {
       ATSync::setMessage('Race type is not specified, the race sync is stopped.', 'error');
       return FALSE;
     }
+    // With wrapper entity loaded from cache, and not yet have filled fields.
+    // So use workaround, load entity with cache reset.
+    $racetype = reset(entity_load(AIRTRIBUNE_RACETYPE_ENTITY_TYPE, array($racetype->id), array(), TRUE));
     $racetype_wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACETYPE_ENTITY_TYPE, $racetype);
     $title = 'Task ' . $race_wrapper->field_race_number->value();
 
     $race_time = $race_wrapper->field_race_start_end->value();
     $window_time = $race_wrapper->field_pg_race_window_open_close->value();
     $data['properties'] = array(
-      'start_time' => strtotime($race_time['value'] . ' ' . $time_zone),
-      'deadline' => strtotime($race_time['value2'] . ' ' . $time_zone),
-      'window_open' => strtotime($window_time['value'] . ' ' . $time_zone),
-      'window_close' => strtotime($window_time['value2'] . ' ' . $time_zone),
+      'start_time' => date('c', strtotime($race_time['value'] . ' ' . $time_zone)),
+      'deadline' => date('c', strtotime($race_time['value2'] . ' ' . $time_zone)),
+      'window_open' => date('c', strtotime($window_time['value'] . ' ' . $time_zone)),
+      'window_close' => date('c', strtotime($window_time['value2'] . ' ' . $time_zone)),
     );
     switch ($racetype->type) {
       case 'pg_racetype_rtg':
@@ -569,12 +572,12 @@ class ATSyncRace extends ATSyncNestedInContest {
         $point_data['properties']['checkpoint_type'] = $point->field_point_ss_es[LANGUAGE_NONE][0]['value'];
       }
       if ($delta == 0) {
-        $point_data['properties'] += array(
-          'checkpoint_type' => 'to',
-          'open_time' => $data['properties']['window_open'],
+        $point_data['properties']['checkpoint_type'] = 'to';
+        $point_data['properties'] += array('open_time' => $data['properties']['window_open'],
           'close_time' => $data['properties']['window_close'],
         );
       }
+
       switch ($data['type']) {
         case 'speedrun':
         case 'racetogoal':
@@ -630,17 +633,20 @@ class ATSyncRace extends ATSyncNestedInContest {
 
   public function pushTracks() {
     $race_wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $this->entity);
-    if ($tracks = $race_wrapper->field_pg_race_tracks) {
+    $tracks = $race_wrapper->field_pg_race_tracks;
+    if ($tracks->value()) {
       if ($this->core_id) {
         $this->address .= '/' . $this->core_id . '/track_archive';
         $file = $tracks->value();
         $data = array('url' => file_create_url($file['uri']));
         $response = $this->request($data);
-      }
-      else {
+      } else {
         ATSync::setMessage(t('Core API: Unable to send tracks. Race not synchronized yet.'));
         return FALSE;
       }
+    } else {
+      ATSync::setMessage(t('Core API: Unable to send tracks. No attached tracks file.'));
+      return FALSE;
     }
   }
 }

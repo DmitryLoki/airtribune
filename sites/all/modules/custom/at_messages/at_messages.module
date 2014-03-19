@@ -1,4 +1,4 @@
-  <?php
+<?php
 
 // Email templates
 define('AT_MSG_EMAIL_BODY_SIGNATURE', "
@@ -105,11 +105,11 @@ You will be able to register your team after you are approved.
 Best regards,
 Airtribune.com');
 
-// notify about 
+// notify about
 define('AT_MSG_EMAIL_SUBJ_TEAM_CHANGE', 'Team @country changed');
 define('AT_MSG_EMAIL_BODY_TEAM_CHANGE', 'Dear, @organizer_fullname
 
-The team leader of @country for for @event_name has saved changes in Team Registration Form. 
+The team leader of @country for for @event_name has saved changes in Team Registration Form.
 
 Team @country @event_manage_team_link
 
@@ -178,22 +178,22 @@ function at_messages_form_alter(&$form, &$form_state, $form_id) {
 }
 
 function at_messages_register_at_event_submit($form, &$form_state) {
-  
+
   $is_multiform = !empty($form_state['#multiform_settings']['#multiform_id']) ? TRUE : FALSE;
   if (!$is_multiform) {
     return;
   }
-  
+
   $multiform_id = $form_state['#multiform_settings']['#multiform_id'];
   if (!in_array($multiform_id, array('contest_registration_authorized', 'contest_registration_anonymous'))) {
     return;
   }
-  
+
   global $registration_at_event_form_state;
-  
+
   $guest_registration_at_event = ($multiform_id == 'contest_registration_anonymous') ? TRUE : FALSE;
-  
-  
+
+
   $continue = FALSE;
   $key = '';
   if ($guest_registration_at_event) {
@@ -224,27 +224,27 @@ function at_messages_register_at_event_submit($form, &$form_state) {
         break;
     }
   }
-  
+
   // Store subform's form_state in global variable.
   if (!empty($key)) {
     $registration_at_event_form_state[$key] = $form_state;
   }
-  
+
   // Continue only on last subform
   if (!$continue) {
     return;
   }
-  
+
   if ($guest_registration_at_event) {
     $user = $registration_at_event_form_state['user_register_form']['user'];
     $event_nid = $registration_at_event_form_state['og_ui_confirm_subscribe']['build_info']['args'][1];
     $event = node_load($event_nid);
     $contestant_number = $registration_at_event_form_state['og_ui_confirm_subscribe']['values']['field_contestant_number']['und'][0]['value'];
-    
+
     $profile_main = $registration_at_event_form_state['user_register_form']['values']['profile_main'];
     // TODO: There should be 'values' instead of 'input'
     $profile_pilot = $registration_at_event_form_state['profile2_edit_pilot_form']['input']['profile_pilot'];
-    
+
       // TODO:
     $gender_list = array('male', 'female');
     $gender = $gender_list[$profile_main['field_gender']['und'][0]['value']];
@@ -255,16 +255,16 @@ function at_messages_register_at_event_submit($form, &$form_state) {
     $event_nid = $registration_at_event_form_state['og_ui_confirm_subscribe']['build_info']['args'][1];
     $event = node_load($event_nid);
     $contestant_number = $registration_at_event_form_state['og_ui_confirm_subscribe']['values']['field_contestant_number']['und'][0]['value'];
-    
+
     $profile_main = $registration_at_event_form_state['profile2_edit_main_form']['input']['profile_main'];
     $profile_pilot = $registration_at_event_form_state['profile2_edit_pilot_form']['input']['profile_pilot'];
-    
+
     // TODO:
     $gender_list = array('male', 'female');
     $gender = $gender_list[$profile_main['field_gender']['und']];
   }
-  
-  
+
+
   $event_name = trim($event->title);
   $event_pilot_list_url = drupal_get_path_alias('event/' . $event->nid . '/pilots');
   $organiser = user_load($event->uid);
@@ -329,12 +329,10 @@ function at_messages_register_at_event_submit($form, &$form_state) {
       // show message 'registration is almost finished, check mail'
       drupal_set_message(t(AT_MSG_SITE_GUEST_REG_ON_EVENT_BEFORE_ACCOUNT_ACTIVE, $full_info));
       // try to save mails about pilot registration
-      $mail_dir = drupal_realpath('public://') . '/mail';
-      if (!realpath($mail_dir)) {
-        drupal_mkdir($mail_dir);
-      }
-      file_put_contents($mail_dir . '/' . $user->uid . '_to_pilot.mail', serialize($mail_to_pilot));
-      file_put_contents($mail_dir . '/' . $user->uid . '_to_org.mail', serialize($mail_to_org));
+
+      variable_set($user->uid . '_to_pilot.mail', serialize($mail_to_pilot));
+      variable_set($user->uid . '_to_org.mail', serialize($mail_to_org));
+
       // after form sending drupal generate one-time password reset link, which will be sended to user by email
       // when user click this link & activate account, we send
     }

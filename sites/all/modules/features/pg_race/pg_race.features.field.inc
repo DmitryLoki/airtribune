@@ -501,20 +501,21 @@ function pg_race_field_default_fields() {
           'active_updating' => 0,
           'file_name' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
-            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
+            'value' => 'day[ent_race:field-day-ref:field-day-number]_[file:ffp-name-only-original]_[current-date:raw].[file:ffp-extension-original]',
           ),
           'file_path' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
-            'value' => '',
+            'value' => 'contest/[ent_race:og-group-ref:0:nid]-[ent_race:og-group-ref:0:title]/tracks',
           ),
           'retroactive_update' => 0,
         ),
+        'filefield_paths_enabled' => 1,
         'max_filesize' => '',
         'user_register_form' => FALSE,
       ),
@@ -523,11 +524,9 @@ function pg_race_field_default_fields() {
         'module' => 'file',
         'settings' => array(
           'insert' => 0,
-          'insert_absolute' => FALSE,
+          'insert_absolute' => 0,
           'insert_class' => '',
-          'insert_default' => array(
-            0 => 'auto',
-          ),
+          'insert_default' => 'auto',
           'insert_styles' => array(
             0 => 'auto',
           ),

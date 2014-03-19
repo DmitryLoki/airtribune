@@ -16,7 +16,9 @@ function at_helper__frontpage_live_event_link__renderer(array $components, array
 
   $day_blog = $values['dayblog_last_entry'];
   $event_nid = $values['event_nid'];
-  return !empty($day_blog) ? "event/{$event_nid}/blog" : "event/{$event_nid}/info";
+  $day_number = $values['day_number'];
+  $url = !empty($day_blog) ? url("event/{$event_nid}/blog") . "#!day_{$day_number}" : url("event/{$event_nid}/info");
+  return $url;
 }
 
 /**
@@ -26,5 +28,6 @@ function at_helper__frontpage_live_event_link__required_keys() {
   return array(
     'dayblog_last_entry',  // day blog
     'event_nid',  // event nid
+    'day_number',  // day number
   );
 }
