@@ -394,8 +394,54 @@ class ATSyncUser extends ATSync {
       return $person_id;
     }
   }
-}
 
+  public function get_auth_token() {
+    $this->address = 'user/auth';
+    $data = array(
+      'username' => $this->entity->mail,
+      'password' => $this->entity->pass,
+    );
+    $response = $this->request($data);
+    return $response->token ? $response->token : NULL;
+  }
+
+  public function get_user_fields() {
+    if (!$this->core_id) {
+      return FALSE;
+    }
+    $this->address = 'user/' . $this->core_id;
+    return $this->request($data, 'GET');
+  }
+
+  public function write_user_fields($data) {
+    if (!$this->core_id) {
+      return FALSE;
+    }
+    $this->address = 'user/' . $this->core_id;
+    return $this->request($data);
+  }
+
+  public function get_user_sponsors() {
+    if (!$this->core_id) {
+      return FALSE;
+    }
+    $this->address = 'user/' . $this->core_id . '/sponsor';
+    $response = $this->request($data, 'GET');
+    foreach ($response as $sponsor) {
+      $sponsor_adress = $this->address . '/' . $sponsor->id;
+      $sponsors[] = $this->request($data, 'GET');
+    }
+    return $sponsors;
+  }
+
+  public function write_user_sponsors($data) {
+    if (!$this->core_id) {
+      return FALSE;
+    }
+    $this->address = 'user/' . $this->core_id . '/sponsor';
+    return $this->request($data);
+  }
+}
 /**
  * Class for synchronization pilot
  */
