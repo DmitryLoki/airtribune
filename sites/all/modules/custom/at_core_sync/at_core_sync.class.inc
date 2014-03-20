@@ -539,8 +539,11 @@ class ATSyncRace extends ATSyncNestedInContest {
 
       case 'pg_racetype_od':
         $data['type'] = 'opendistance';
-        if (isset($racetype_wrapper->field_pg_race_azimuth)) {
-          $data['properties']['bearing'] = (int) $racetype_wrapper->field_pg_race_azimuth->value();
+        $bearing = $racetype_wrapper->field_pg_race_azimuth->value();
+        if (isset($bearing)) {
+          $data['properties']['bearing'] = (int) $bearing;
+        } else {
+          $data['properties']['bearing'] = NULL;
         }
         break;
 
