@@ -1626,7 +1626,7 @@ function _airtribune_pg_race_online_state($etid) {
   $start = strtotime($start_end['value']);
   $end = strtotime($start_end['value2']);
 
-  $localtime = $contest->time['localtime'];
+  $localtime = $node->time['localtime'];
 
   // Compare dates to get state
   if ($start <= $localtime && $localtime < $end) {
