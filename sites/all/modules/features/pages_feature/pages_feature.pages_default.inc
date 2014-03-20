@@ -3480,7 +3480,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'override_title_text' => '',
       'identifier' => '',
       'link' => 0,
-      'leave_node_title' => 0,
+      'leave_node_title' => 1,
       'build_mode' => 'full',
       'context' => 'argument_entity_id:node_2',
     );
