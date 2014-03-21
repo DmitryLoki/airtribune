@@ -131,7 +131,7 @@ function get_full_name($user) {
  */
 function get_contest_for_entity($entity_type, $entity) {
   $contest = FALSE;
-  if (get_class($entity) == 'OgMembership') {
+  if ($entity instanceof OgMembership) {
     return node_load($entity->gid);
   } else if (isset($entity->group_group) && $entity->group_group['und'][0]['value'] == 1){
     return $entity;

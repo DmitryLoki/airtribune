@@ -144,6 +144,10 @@ abstract class ATSync {
     return json_decode($response);
   }
 
+  public function get() {
+    return ATSync::requestToCore($this->address, array(), 'GET');
+  }
+
   public function request($data, $method = 'POST') {
     return ATSync::requestToCore($this->address, $data, $method);
   }
@@ -416,7 +420,7 @@ class ATSyncUser extends ATSync {
       return FALSE;
     }
     $this->address = 'user/' . $this->core_id;
-    return $this->request($data, 'GET');
+    return $this->get();
   }
 
   public function write_user_fields($data) {
@@ -428,16 +432,8 @@ class ATSyncUser extends ATSync {
   }
 
   public function get_user_sponsors() {
-    if (!$this->core_id) {
-      return FALSE;
-    }
     $this->address = 'user/' . $this->core_id . '/sponsor';
-    $response = $this->request($data, 'GET');
-    foreach ($response as $sponsor) {
-      $sponsor_adress = $this->address . '/' . $sponsor->id;
-      $sponsors[] = $this->request($data, 'GET');
-    }
-    return $sponsors;
+    return $this->get();
   }
 
   public function write_user_sponsors($data) {
