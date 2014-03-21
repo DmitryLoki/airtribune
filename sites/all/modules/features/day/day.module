@@ -48,8 +48,8 @@ function day_views_query_alter(&$view, &$query) {
     // @todo: What about event timezone?
     $offset_delta = 3600 * 24;
 
-    $current_date_from = date("Y-m-d", time() - $offset_delta);
-    $current_date_to = date("Y-m-d", time() + $offset_delta);
+    $current_date_from = date("Y-m-d", time() + $offset_delta);
+    $current_date_to = date("Y-m-d", time() - $offset_delta);
 
     $query_node = new EntityFieldQuery();
     // @todo: Check node status
