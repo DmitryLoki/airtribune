@@ -7280,6 +7280,7 @@ day_number|[field_day_number]';
     'image_style' => 'frontpage_event_padding',
     'image_link' => '',
   );
+  $handler->display->display_options['fields']['field_image']['delta_limit'] = '1';
   $handler->display->display_options['fields']['field_image']['delta_offset'] = '0';
   /* Field: Day status name (excluded) */
   $handler->display->display_options['fields']['field_day_status']['id'] = 'field_day_status';
