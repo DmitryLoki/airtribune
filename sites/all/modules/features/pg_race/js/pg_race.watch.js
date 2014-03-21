@@ -461,7 +461,7 @@
       raceChangeStatus(raceId, 'is_live', status);
     }
 
-    else if (status == 'awaiting' && (now_local  + crontab_currentTime) >= open) {
+    else if ((status == 'awaiting' || status == 'starting') && (now_local  + crontab_currentTime) >= open) {
       raceChangeStatus(raceId, 'starting', 'awaiting');
     }
 
