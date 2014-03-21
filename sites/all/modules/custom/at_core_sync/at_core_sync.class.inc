@@ -371,6 +371,12 @@ class ATSyncTrackedObject extends ATSyncNestedInContest {
  * Class for synchronization user
  */
 class ATSyncUser extends ATSync {
+  public $token = '';
+
+  public function __construct($entity_type, $entity) {
+    $this->token = $_COOKIE['token_' . $entity->mail];
+  }
+
   public function synchronize() {
     $profile = profile2_load_by_user($this->entity);
     $user_wrapper = entity_metadata_wrapper('user', $this->entity);
@@ -395,11 +401,11 @@ class ATSyncUser extends ATSync {
     }
   }
 
-  public function get_auth_token() {
+  public function get_auth_token($pass) {
     $this->address = 'user/auth';
     $data = array(
       'username' => $this->entity->mail,
-      'password' => $this->entity->pass,
+      'password' => $pass,
     );
     $response = $this->request($data);
     return $response->token ? $response->token : NULL;

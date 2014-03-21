@@ -191,12 +191,15 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     unset($form['account']['current_pass_required_values']);
     $form['#validate'] = array_diff($form['#validate'], array('user_validate_current_pass'));
   }
-  // see #2633
   if ($form_id == 'user_login_block' || $form_id == 'user_login') {
+    // see #2633
     $form['inline_errors']['#markup'] = '';
     $form['inline_errors']['#weight'] = -10;
     $form['#validate'][] = 'at_user_login_error_msg';
     $form['#validate'][] = 'at_user_login_error_redirect_to_form';
+    // Get auth token for CoreAPI, using plain password from user_login submitted form.
+    // @see #4498
+    $form['#submit'][] = 'at_user_login_get_core_api_auth_token';
   }
 }
 
@@ -351,6 +354,17 @@ function at_user_login_error_redirect_to_form($form, &$form_state) {
     // update form, need for form-redirect and markup update
     $form_state['rebuild'] = TRUE;
   }
+}
+
+/**
+ * Get auth token for CoreAPI, using plain password from user_login submitted form.
+ * @see #4498
+ */
+function at_user_login_get_core_api_auth_token(&$form, &$form_state) {
+  $user = user_load($form_state['uid']);
+  $sync = _get_class_by_entity('user', $user);
+  $token = $sync->get_auth_token($form_state['values']['pass']);
+  $_COOKIE['token_' . $user->mail] = $token;
 }
 
 function at_user_process_panels_pane(&$vars, $hook) {
