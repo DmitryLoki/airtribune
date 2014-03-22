@@ -120,7 +120,7 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     $form['account']['mail_dummy'] = array(
       '#type' => 'item',
       '#title' => t('Email'),
-      '#markup' => $form['account']['mail']['#value'],
+      '#markup' => $user->mail,
       '#prefix' => '<div id="mail-dummy">',
       '#suffix' => '<div id="mail-edit-pencil">✎</div></div>',
     );
@@ -325,6 +325,9 @@ function at_user_notify_user_at_password_change(&$form, $form_state) {
 }
 
 function at_user_optional_url_validate(&$form, &$form_state) {
+  if (empty($form_state['values']['field_tiny_path'])) {
+    return;
+  }
   $tiny_path = $form_state['values']['field_tiny_path']['und'][0]['value'];
   if ($tiny_path) {
     // Not suitable by regex, or digits only.
@@ -443,7 +446,7 @@ function at_user_process_panels_pane(&$vars, $hook) {
     hide($form['account']['pass']);
 
     // Personalisation.
-    $socials = array('Facebook', 'GooglePlus', 'Youtube', 'Vimeo', 'Istagram');
+    $socials = array('Facebook', 'GooglePlus', 'Youtube', 'Vimeo', 'Instagram');
     $soc_links = &$form['field_social_links']['und'];
     foreach (array_keys($soc_links) as $element) {
       // [und][0], [und][1], ...

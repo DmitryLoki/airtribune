@@ -65,7 +65,7 @@ if (!empty($form['profile_main'])) {
 print "</div>"; // #name-gender-dob end
 
 // Personalisation.
-$socials = array('Facebook', 'GooglePlus', 'Youtube', 'Vimeo', 'Istagram');
+$socials = array('Facebook', 'GooglePlus', 'Youtube', 'Vimeo', 'Instagram');
 $soc_links = &$form['field_social_links']['und'];
 foreach (array_keys($soc_links) as $element) {
   // [und][0], [und][1], ...

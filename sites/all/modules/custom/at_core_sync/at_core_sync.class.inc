@@ -433,7 +433,7 @@ class ATSyncUser extends ATSync {
     }
     $this->address = 'user/' . $this->core_id;
     $data['token'] = $this->token;
-    return $this->request($data, 'PUT');
+    return $this->request($data, 'PATCH');
   }
 
   public function get_user_sponsors() {
