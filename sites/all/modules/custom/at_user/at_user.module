@@ -73,9 +73,9 @@ function at_user_form_user_profile_form_alter(&$form, &$form_state) {
  * Implements hook_form_alter for user create/login/pass-reset
  */
 function at_user_form_alter(&$form, $form_state, $form_id) {
-  global $user;
-
   if ($form_id == 'user_profile_form') {
+    // If form/form_state we have user object without attached fields, so we need to load full object.
+    $user = user_load($form['#user']->uid);
     // TODO maybe use hide() instead unset() to form elements?
 
     // Hide LDAP_* fields.
@@ -96,6 +96,11 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     unset($form['signature_settings']);
     unset($form['timezone']);
     unset($form['xmlsitemap']);
+
+    $sync = _get_class_by_entity('user', $user);
+    $form['#sync'] = $sync;
+    $form['#core_user_fields']   = $sync->get_user_fields();
+    $form['#core_user_sponsors'] = $sync->get_user_sponsors();
 
     // From tpl, used in futher hook_process.
     $form['account']['mail']['#attached']['js'][] = drupal_get_path('module', 'at_user') . '/js/mail_change.js';
@@ -157,6 +162,7 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
       '#markup' => 'airtribune.com/' . $form['#user']->uid,
       '#weight' => $form['field_tiny_path']['#weight'] - 1,
     );
+    $form['#submit'][] = 'at_user_core_api_fields_submit';
 
     // make upload & delete (user_picture / avatar imagefield) without form_submit
     // see #2764
@@ -367,6 +373,20 @@ function at_user_login_get_core_api_auth_token(&$form, &$form_state) {
   user_cookie_save(array("auth_token_{$user->uid}" => $token));
 }
 
+function at_user_core_api_fields_submit(&$form, &$form_state) {
+  $sync = $form['#sync'];
+  $social = $form_state['values']['field_social_links']['und'];
+  $data = array(
+    'facebook_url' => $social[0]['url'],
+    'googleplus_url' => $social[1]['url'],
+    'youtube_url' => $social[2]['url'],
+    'vimeo_url' => $social[3]['url'],
+    'instagram_url' => $social[4]['url'],
+  );
+  $sync->write_user_fields($data);
+}
+
+
 function at_user_process_panels_pane(&$vars, $hook) {
   $pane = $vars['pane'];
   if ($pane->subtype == 'form' && $pane->css['template_suggestion'] == 'user-edit-form') {
@@ -423,14 +443,17 @@ function at_user_process_panels_pane(&$vars, $hook) {
     hide($form['account']['pass']);
 
     // Personalisation.
-    // Add placeholder & class to social links field.
-    $socials = array('Facebook', 'Google Plus', 'Youtube', 'Vimeo', 'Istagram');
+    $socials = array('Facebook', 'GooglePlus', 'Youtube', 'Vimeo', 'Istagram');
     $soc_links = &$form['field_social_links']['und'];
     foreach (array_keys($soc_links) as $element) {
       // [und][0], [und][1], ...
       if (is_int($element)) {
+        // Add placeholder & class to social links field
         $form['field_social_links']['und'][$element]['url']['#class'] = array($socials[$element]);
         $form['field_social_links']['und'][$element]['url']['#attributes']['placeholder'] = $socials[$element];
+        // Override Drupal field value, to the value obtained from the CoreAPI.
+        $soc_name = strtolower($socials[$element]) . '_url';
+        $form['field_social_links']['und'][$element]['url']['#value'] = $form['#core_user_fields']->$soc_name;
       }
     }
     $form['field_header_image']['und'][0]['select']['#title'] = t('Add image');

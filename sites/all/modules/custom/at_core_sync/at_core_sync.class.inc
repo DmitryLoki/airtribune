@@ -432,8 +432,8 @@ class ATSyncUser extends ATSync {
       return FALSE;
     }
     $this->address = 'user/' . $this->core_id;
-    return $this->request($data);
     $data['token'] = $this->token;
+    return $this->request($data, 'PUT');
   }
 
   public function get_user_sponsors() {
