@@ -378,7 +378,11 @@ class ATSyncUser extends ATSync {
   public $token = '';
 
   public function __construct($entity_type, $entity) {
-    $this->token = $_COOKIE['token_' . $entity->mail];
+    parent::__construct($entity_type, $entity);
+    $token_name = 'Drupal_visitor_auth_token_' . $entity->uid;
+    if (isset($_COOKIE[$token_name])) {
+      $this->token = $_COOKIE[$token_name];
+    }
   }
 
   public function synchronize() {
@@ -405,11 +409,11 @@ class ATSyncUser extends ATSync {
     }
   }
 
-  public function get_auth_token($pass) {
+  public function get_auth_token($username, $password) {
     $this->address = 'user/auth';
     $data = array(
-      'username' => $this->entity->mail,
-      'password' => $pass,
+      'username' => $username,
+      'password' => $password,
     );
     $response = $this->request($data);
     return $response->token ? $response->token : NULL;
@@ -429,6 +433,7 @@ class ATSyncUser extends ATSync {
     }
     $this->address = 'user/' . $this->core_id;
     return $this->request($data);
+    $data['token'] = $this->token;
   }
 
   public function get_user_sponsors() {
@@ -441,6 +446,7 @@ class ATSyncUser extends ATSync {
       return FALSE;
     }
     $this->address = 'user/' . $this->core_id . '/sponsor';
+    $data['token'] = $this->token;
     return $this->request($data);
   }
 }
