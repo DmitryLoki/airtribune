@@ -502,7 +502,8 @@
   // convert time into H:i:s format
   function renderRaceTimer(timer) {
     var absD = Math.abs(timer);
-    timerRendered = (timer < 0 ? "-" : "") + _getTimeStr(Math.floor(absD / 3600), Math.floor(absD % 3600 / 60), absD % 60);
+    //~ timerRendered = (timer < 0 ? "-" : "") + _getTimeStr(Math.floor(absD / 3600), Math.floor(absD % 3600 / 60), absD % 60);
+    timerRendered = _getTimeStr(Math.floor(absD / 3600), Math.floor(absD % 3600 / 60), absD % 60);
     return timerRendered;
   }
 
