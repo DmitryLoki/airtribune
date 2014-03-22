@@ -23,6 +23,7 @@ abstract class ATSync {
   }
 
   public static function requestToCore($address, $data = array(), $method = "POST") {
+    $data_array = $data;
     $data = json_encode($data);
     $handle = curl_init();
     $url = at_core_sync_get_api_url() . '/' . $address;
@@ -32,11 +33,6 @@ abstract class ATSync {
     curl_setopt($handle, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, FALSE);
     curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, FALSE);
-    curl_setopt($handle, CURLOPT_HTTPHEADER, array(
-      'Expect:',
-      'Content-Type: application/json',
-    ));
-
     switch ($method) {
       case 'GET':
         break;
@@ -55,6 +51,15 @@ abstract class ATSync {
       case 'DELETE':
         curl_setopt($handle, CURLOPT_CUSTOMREQUEST, 'DELETE');
         break;
+    }
+    if (isset($data_array['upload_file'])) {
+      // 'Content-Type: multipart/form-data' by default, if set CURLOPT_POSTFIELDS to php array
+      curl_setopt($handle, CURLOPT_POSTFIELDS, $data_array);
+    } else {
+      curl_setopt($handle, CURLOPT_HTTPHEADER, array(
+        'Expect:',
+        'Content-Type: application/json',
+      ));
     }
     $response = curl_exec($handle);
     $code = curl_getinfo($handle, CURLINFO_HTTP_CODE);
