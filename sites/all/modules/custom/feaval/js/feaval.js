@@ -412,6 +412,11 @@
         return;
       }
 
+      //skip events from themed select
+      $('body').bind('container-themed', function(){
+        birthDateComboboxes.siblings('.select').find('.checked_option').unbind('mouseup')
+      });
+
       passField
         .unbind('keyup.user-reg-validation')
         .bind('keyup.user-reg-validation', function(){

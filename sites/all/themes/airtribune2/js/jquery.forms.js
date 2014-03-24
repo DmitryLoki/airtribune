@@ -14,7 +14,7 @@ jQuery.fn.forms = function(options){ // custom form elements
 		ie: jQuery.browser.msie
 	},options);
 	var opt = options;
-	return this.each(function() {
+	this.each(function() {
 		var el = jQuery(this);
 		el.type = el.attr('type') || el[0].tagName.toLowerCase();
 		if (el.type.indexOf('select') + 1) {
@@ -153,7 +153,7 @@ jQuery.fn.forms = function(options){ // custom form elements
           el.handle.items.find('span.option:eq(0)').addClass('option-title').hide();
         }
       })
-        .mouseup(function() {
+        .bind('mouseup', function() {
           el.trigger(!el.handle.hasClass('select_opened') ? 'focus' : 'blur');
         });
 			el.handle.css({'position':'relative', 'display':'inline-block'})
@@ -173,5 +173,8 @@ jQuery.fn.forms = function(options){ // custom form elements
 			});
 			el.addClass('styled_element');
 		}
-	});	
+
+
+	});
+  return this.trigger('container-themed');
 }
