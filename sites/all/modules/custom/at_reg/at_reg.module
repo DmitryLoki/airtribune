@@ -1039,6 +1039,14 @@ function at_reg_ajax_render_alter(&$commands) {
       if ($is_multiform || $is_pilot_profile) {
         unset($commands[$k]['settings']['clientsideValidation']);
       }
+      else {
+        $setting =& $commands[$k]['settings'];
+        // Set custom function for error placement.
+        foreach ($setting['clientsideValidation']['forms'] as $form_key => $form_settings) {
+          $setting['clientsideValidation']['forms'][$form_key]['errorPlacement'] = 7;
+          $setting['clientsideValidation']['forms'][$form_key]['customErrorFunction'] = 'setErrorElement';
+        }
+      }
       break;
     }
   }
