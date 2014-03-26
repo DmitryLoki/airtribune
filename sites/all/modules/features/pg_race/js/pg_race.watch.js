@@ -327,7 +327,9 @@
     _requestRaceState(raceData, function response(raceInfo) {
       if (raceInfo && raceInfo.length > 0 && !$.isEmptyObject(raceInfo)) {
         // Show links if core is available
-        $(".watch-links-race-id-"+raceData.raceId+" .task-live").show();
+        //~ $(".watch-links-race-id-"+raceData.raceId+" .task-live").show();
+        $(".watch-links-race-id-"+raceData.raceId+" .task-live .no-task-text").hide();
+        $(".watch-links-race-id-"+raceData.raceId+" .task-live .watch-task-links-list").show();
         //~ components_shown = ['link_live'];
         //~ visualRaceState(components_shown, raceData);
       } else {
@@ -459,7 +461,7 @@
       raceChangeStatus(raceId, 'is_live', status);
     }
 
-    else if (status == 'awaiting' && (now_local  + crontab_currentTime) >= open) {
+    else if ((status == 'awaiting' || status == 'starting') && (now_local  + crontab_currentTime) >= open) {
       raceChangeStatus(raceId, 'starting', 'awaiting');
     }
 
@@ -500,7 +502,8 @@
   // convert time into H:i:s format
   function renderRaceTimer(timer) {
     var absD = Math.abs(timer);
-    timerRendered = (timer < 0 ? "-" : "") + _getTimeStr(Math.floor(absD / 3600), Math.floor(absD % 3600 / 60), absD % 60);
+    //~ timerRendered = (timer < 0 ? "-" : "") + _getTimeStr(Math.floor(absD / 3600), Math.floor(absD % 3600 / 60), absD % 60);
+    timerRendered = _getTimeStr(Math.floor(absD / 3600), Math.floor(absD % 3600 / 60), absD % 60);
     return timerRendered;
   }
 

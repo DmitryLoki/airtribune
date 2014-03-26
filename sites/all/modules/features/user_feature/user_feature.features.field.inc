@@ -84,7 +84,7 @@ Size: not less than 940x380.',
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '[user:uid]-header-[file:ffp-name-only-original].[file:ffp-extension-original]',
+            'value' => '[file:fid].[file:ffp-extension-original]',
           ),
           'file_path' => array(
             'options' => array(

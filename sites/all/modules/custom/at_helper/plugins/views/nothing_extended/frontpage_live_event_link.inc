@@ -17,7 +17,8 @@ function at_helper__frontpage_live_event_link__renderer(array $components, array
   $day_blog = $values['dayblog_last_entry'];
   $event_nid = $values['event_nid'];
   $day_number = $values['day_number'];
-  $url = !empty($day_blog) ? url("event/{$event_nid}/blog") . "#!day_{$day_number}" : url("event/{$event_nid}/info");
+  //~ $url = !empty($day_blog) ? url("event/{$event_nid}/blog") . "#!day_{$day_number}" : url("event/{$event_nid}/info");
+  $url = url("event/{$event_nid}/blog") . "#!day_{$day_number}";
   return $url;
 }
 

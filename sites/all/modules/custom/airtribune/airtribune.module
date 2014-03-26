@@ -70,6 +70,18 @@ function airtribune_menu_alter(&$items) {
       '%map',
     ),
   );
+  $items['media_colorbox/%file/%/%']['page callback'] = 'airtribune_media_colorbox_callback';
+}
+
+/**
+ * Callback for media_colorbox.
+ * Fix view video on IE9.
+ * @see #4537
+ * @author Vyacheslav Malchik <info@vkey.biz>
+ */
+function airtribune_media_colorbox_callback($file, $view_mode, $langcode) {
+  drupal_set_header('Content-Type: text/html; UTF-8');
+  media_colorbox_callback($file, $view_mode, $langcode);
 }
 
 /**
@@ -154,6 +166,19 @@ function airtribune_form_alter(&$form, &$form_state, $form_id) {
       '#parents' => array('membership_fields'),
     );
     field_attach_form('og_membership', $og_membership, $form['membership_fields'], $form_state);
+  } elseif ($form_id == 'views_form_paragliding_pilots_list_manage') {
+    /**
+     * Fix change status
+     * @see #4307
+     */
+    $views_old = $form_state['build_info']['args'][0];
+    $view = views_get_view($views_old->name);
+    $view->args =  $views_old->args;
+    $view->set_display($views_old->current_display);
+    $form_state['build_info']['args'][0] = $view;
+    $form_state['build_info']['args'][0]->field = array();
+    $form_state['build_info']['args'][0]->header = $views_old->header;
+    $form_state['build_info']['args'][0]->footer = $views_old->footer;
   }
 }
 
@@ -1613,7 +1638,7 @@ function _airtribune_pg_race_online_state($etid) {
   $start = strtotime($start_end['value']);
   $end = strtotime($start_end['value2']);
 
-  $localtime = $contest->time['localtime'];
+  $localtime = $node->time['localtime'];
 
   // Compare dates to get state
   if ($start <= $localtime && $localtime < $end) {

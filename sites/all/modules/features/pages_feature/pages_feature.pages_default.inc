@@ -3480,7 +3480,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'override_title_text' => '',
       'identifier' => '',
       'link' => 0,
-      'leave_node_title' => 0,
+      'leave_node_title' => 1,
       'build_mode' => 'full',
       'context' => 'argument_entity_id:node_2',
     );
@@ -8125,11 +8125,11 @@ window.fbAsyncInit = function() {
     $pane->access = array();
     $pane->configuration = array(
       'widget_code' => array(
-        'value' => '<link rel="stylesheet" href="http://vis.airtribune.com/leaderboard/build/bootstrap-3.0.0/css/bootstrap.css">
-<link rel="stylesheet" href="http://vis.airtribune.com/leaderboard/build/table.css">
-<script type="text/javascript" src="http://vis.airtribune.com/leaderboard/build/airvis-table.min.js"></script>
+        'value' => '<link rel="stylesheet" href="[variable:vis-domain]/leaderboard/bootstrap-3.0.0/css/bootstrap.css">
+<link rel="stylesheet" href="[variable:vis-domain]/leaderboard/table.css">
+<script type="text/javascript" src="[variable:vis-domain]/leaderboard/airvis-table.min.js"></script>
 <div class="container" id="container" data-options=\'{"contestId":"[airtribune:contest-core-id]","raceId":"[airtribune:race-core-id]","isOnline":[airtribune:race-online],"apiDomain":"[variable:core-api-domain]","apiVersion":"[variable:core-api-version]"}\'></div>',
-        'format' => 'php_code',
+        'format' => 'full_html',
       ),
       'widget_type' => '_none',
       'widget_height' => '380',

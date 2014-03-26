@@ -44,11 +44,8 @@ function at_inline_ajax($day_id) {
   // Wrapper select to replace
   $selector = '#at-inline-' . $day_id;
 
-  // Get form
-  $form = at_inline_get_form($day_id);
-
   // Prepare html
-  $html = drupal_render($form);
+  $html = drupal_render(drupal_get_form('at_inline_form', $day_id));
 
   // Send ajax command
   $ajax_commands[] = ajax_command_html($selector, $html);
@@ -187,7 +184,7 @@ function at_inline_tmp() {
  * Temporary callback.
  * For testing purposes only.
  */
-function at_inline_get_form($day_id) {
+function at_inline_form($form, &$form_state, $day_id = NULL) {
   //dsm($_POST);
   // TODO:
 
@@ -195,21 +192,15 @@ function at_inline_get_form($day_id) {
   //$gid = _at_inline_set_og_ref($day_id);
   _at_inline_set_og_ref($day_id);
 
-  $entity_type = 'ent_race';
-  $bundle = 'pg_race';
+  $entity_type = AIRTRIBUNE_RACE_ENTITY_TYPE;
+  $bundle = AIRTRIBUNE_PG_RACE_TYPE;
 
   $race_id = _at_inline_race_exists($day_id);
 
-  if ($race_id != FALSE) {
-    //$form = eck__entity__edit($entity_type, $bundle, $race_id);
-    $form = _at_inline_eck__entity__edit($entity_type, $bundle, $race_id);
-
-  }
-  else {
-    // TODO: "Edit" case
-    //$form = eck__entity__add($entity_type, $bundle);
-    $form = _at_inline_eck__entity__add($entity_type, $bundle, $day_id);
-  }
+  // Set inline flag for presave hook
+  $entity = entity_load_single($entity_type,$race_id);
+  $entity->is_inline = TRUE;
+  field_attach_form($entity_type, $entity, $form, $form_state);
 
   //dsm($form['submit_redirect']);
   //watchdog('tmp2', serialize($form['#submit']));
@@ -217,36 +208,74 @@ function at_inline_get_form($day_id) {
   //$form['entity']['#value']->field_day_ref['und'][0]['target_id'] = 5497;
 
   //$form['#submit'][] = 'at_inline_form_submit';
-
-  $hidden = array(
-    'field_photos',
-    'field_core_id',
-    'field_competition_results',
-    'field_day_results',
-    'field_day_ref',
-    'field_pg_race_tracks',
-    'og_group_ref'
+  $fields = array(
+    'name',
+    '#parents',
+    '#entity',
+    'field_pg_racetype_ref',
+    'field_race_start_end',
+    'field_pg_race_window_open_close',
+    'field_optdistance',
+    'field_race_number',
+    '#pre_render',
+    '#entity_type',
+    '#bundle',
+    '#after_build',
+    '#validate',
+    '#attached',
+    '#groups',
+    '#fieldgroups',
+    '#group_children',
   );
-  at_inline_prepare_form($form, $hidden);
+
+  foreach ($form as $id => $value) {
+    if(!in_array($id, $fields))
+      unset($form[$id]);
+  }
+  $form['#prefix'] = '<a class="at-inline-close">' . t('Close') . '</a>';
+
+  $form['race'] = array(
+    '#type' => 'value',
+    '#value' => $entity,
+  );
+
+  $form['day_id'] = array(
+    '#type' => 'value',
+    '#value' => $day_id,
+  );
+
+  $form['#suffix'] = '<div id="at-inline-race-edit-form-' . $entity->id . '"></div>';
+  $form['actions']['#weight'] = 999;
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+    '#prefix' => '<div class="form-actions">',
+    '#suffix' => '</div>',
+    '#ajax' => array(
+      'callback' => 'at_inline_form_submit',
+      'wrapper' => 'at-inline-race-edit-form' . $entity->id,
+    ),
+    '#submit' => array('at_inline_form_submit'),
+  );
+  drupal_add_js('Drupal.behaviors.updateForm = {attach:function(){updateForm(false, {disableChoiceOfFirstItemInSelection:true, file_bt:Drupal.t("Add image")})}}', 'inline');
+
   return $form;
 }
 
-
 function at_inline_form_submit($form, &$form_state) {
-  $form_state['redirect'] = 'at-inline-tmp';
-}
+  $values = & $form_state['values'];
+  $race = $values['race'];
+  $entity_type = AIRTRIBUNE_RACE_ENTITY_TYPE;
+  $day_id = $values['day_id'];
+  field_attach_submit($entity_type, $race, $form, $form_state);
+  entity_save($entity_type, $race);
 
-function at_inline_prepare_form(&$form, $hidden) {
-  $form['#prefix'] = '<a class="at-inline-close">' . t('Close') . '</a>';
-  foreach ($hidden as $k => $v) {
-    // Hide element only if it exists,
-    // e.g. OG_GROUP_REF is shown only on edit form
-    if (isset($form[$v])) {
-      // see #3799
-      // $form[$v]['#access'] = FALSE;
-      unset($form[$v]);
-    }
-  }
+  $content = '<div class="messages status"><span>' . t('Race has been saved.') . '</span></div>';
+  $commands = array(
+    ajax_command_html('#at-inline-' . $day_id, $content),
+  );
+  $replace = array('#type' => 'ajax', '#commands' => $commands);
+  return $replace;
 }
 
 function at_inline_entity_presave($entity, $type) {
@@ -296,29 +325,14 @@ function _at_inline_eck__entity__add($entity_type_name, $bundle_name, $day_id) {
   return drupal_get_form("eck__entity__form_add_{$entity_type_name}_{$bundle_name}", $entity, 'at_inline_form');
 }
 
-/**
- * Modified version eck__entity__edit().
- */
-function _at_inline_eck__entity__edit($entity_type_name, $bundle_name, $id) {
-  if (is_numeric($id)) {
-    // Set inline flag for presave hook
-    $entities = entity_load($entity_type_name, array($id));
-    $entity = $entities[$id];
-    $entity->is_inline = TRUE;
-  }
-
-  return drupal_get_form("eck__entity__form_edit_{$entity_type_name}_{$bundle_name}", $entity, 'at_inline_form');
-}
-
-
 function _at_inline_race_exists($day_id) {
   $query = new EntityFieldQuery();
-  $query->entityCondition('entity_type', 'ent_race')
-    ->entityCondition('bundle', 'pg_race')
+  $query->entityCondition('entity_type', AIRTRIBUNE_RACE_ENTITY_TYPE)
+    ->entityCondition('bundle', AIRTRIBUNE_PG_RACE_TYPE)
     ->fieldCondition('field_day_ref', 'target_id', $day_id, '=');
   $result = $query->execute();
-  if (!empty($result['ent_race'])) {
-    $entity = array_shift($result['ent_race']);
+  if (!empty($result[AIRTRIBUNE_RACE_ENTITY_TYPE])) {
+    $entity = array_shift($result[AIRTRIBUNE_RACE_ENTITY_TYPE]);
     return $entity->id;
   }
   else {

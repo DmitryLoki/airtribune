@@ -14,7 +14,7 @@ jQuery.fn.forms = function(options){ // custom form elements
 		ie: jQuery.browser.msie
 	},options);
 	var opt = options;
-	return this.each(function() {
+	this.each(function() {
 		var el = jQuery(this);
 		el.type = el.attr('type') || el[0].tagName.toLowerCase();
 		if (el.type.indexOf('select') + 1) {
@@ -140,6 +140,7 @@ jQuery.fn.forms = function(options){ // custom form elements
             el.handle.items.trigger('select-hided');
             jQuery('body').unbind('click', bodyClick);
             el.trigger('blur');
+            el.handle.css({zIndex:0})
             el[0].blur();
           }
         }
@@ -147,11 +148,12 @@ jQuery.fn.forms = function(options){ // custom form elements
         el.handle.toggleClass('select_opened');
         var isShown = el.handle.items.is(':visible');
         el.handle.items.trigger(jQuery.Event(isShown ? 'select-showed' : 'select-hided'));
+        el.handle.css({'z-index': (isShown ? 1000 : 0)});
         if (opt.disableChoiceOfFirstItemInSelection) {
           el.handle.items.find('span.option:eq(0)').addClass('option-title').hide();
         }
       })
-        .mouseup(function() {
+        .bind('mouseup', function() {
           el.trigger(!el.handle.hasClass('select_opened') ? 'focus' : 'blur');
         });
 			el.handle.css({'position':'relative', 'display':'inline-block'})
@@ -171,5 +173,8 @@ jQuery.fn.forms = function(options){ // custom form elements
 			});
 			el.addClass('styled_element');
 		}
-	});	
+
+
+	});
+  return this.trigger('container-themed');
 }

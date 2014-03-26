@@ -23,8 +23,11 @@ function theme_live_event_watch_links($variables) {
         $link_leaderboard = !empty($linksInfo['links']['leader_board']) ? l(t('Leaderboard'), $linksInfo['links']['leader_board']['path'], array('attributes' => array('target' => '_blank'))) : '';
         $link_leaderboard = !empty($link_leaderboard) ? "<li>{$link_leaderboard}</li>" : "";
 
+        $no_task_text = t("We haven't got any data from pilots' live trackers yet. Please, try again later.");
+        $no_task_text = "<span class='no-task-text'>{$no_task_text}</span>";
+
         $_output = "<span class='links-label'>{$label}</span>";
-        $_output .= "<div class='links-content'><ul>{$link_2d}{$link_3d}{$link_leaderboard}</ul></div>";
+        $_output .= "<div class='links-content'><ul class='watch-task-links-list'>{$link_2d}{$link_3d}{$link_leaderboard}</ul>{$no_task_text}</div>";
         $_output = "<span class='task-live'>{$_output}</span>";
 
         $output .= $_output;

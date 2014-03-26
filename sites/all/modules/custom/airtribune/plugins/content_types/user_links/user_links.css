@@ -224,10 +224,10 @@ a:hover .hybridauth-facebook {
 .user-menu ul li { margin:0; padding:2px 0 3px; display:block; height: 25px;}
 
 
-.user-menu ul li.user-create-event-link,
-.user-menu ul li.user-my-events-link { background:url(images/menu_extra_bgr.png) repeat 0 0;}
-.user-menu ul li.user-create-event-link { margin-top:5px; padding-top:6px; border-top:1px solid #cfba77}
-.user-menu ul li.user-my-events-link { margin-bottom:5px; padding-bottom:7px; border-bottom:1px solid #cfba77}
+/*.user-menu ul li.user-create-event-link,
+.user-menu ul li.user-my-events-link { background:url(images/menu_extra_bgr.png) repeat 0 0;}*/
+/*.user-menu ul li.user-create-event-link { margin-top:5px; padding-top:6px; border-top:1px solid #cfba77}*/
+/*.user-menu ul li.user-my-events-link { margin-bottom:5px; padding-bottom:7px; border-bottom:1px solid #cfba77}*/
 
 
 .user-menu ul li a { color:#4a7990; font:14px/16px Arial, Helvetica, sans-serif; display:block; padding:4px 0 5px 39px; background:url(images/user_menu_icon.png) no-repeat 6px 0; text-shadow:0 1px 1px rgba(255,255,255,1); text-decoration:none;}
@@ -237,8 +237,8 @@ a:hover .hybridauth-facebook {
 
 .user-menu ul li a.user-account-link { background-position:6px -52px}
 .user-menu ul li a.user-my-registrations-link{ background-position:6px -104px}
-.user-menu ul li a.user-create-event-link { background-position:6px -156px}
-.user-menu ul li a.user-my-events-link { background-position:6px -208px}
+.user-menu ul li a.user-create-event-link { background-position:6px -313px}
+.user-menu ul li a.user-my-events-link { background-position:6px -365px}
 .user-menu ul li a.user-logout-link { background-position:6px -260px}
 
 .flags .pane-inner { padding:12px 0 13px 6px; width:200px}

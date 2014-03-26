@@ -564,7 +564,7 @@ function at_reg_name_dateofbirth_element_validate($element, &$form_state) {
     }
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'profile2');
-    $query->entityCondition('bundle', AIRTRIBUNE_MEMBERSHIP_CONTESTANT);
+    $query->entityCondition('bundle', AIRTRIBUNE_USER_MAIN_PROFILE);
     // Add case-insensitive conditions.
     $query->fieldCondition('field_full_name', 'given', db_like($given), 'LIKE');
     $query->fieldCondition('field_full_name', 'family', db_like($family), 'LIKE');
@@ -853,8 +853,8 @@ function at_reg_ajax_commands($selector, $html) {
     if (isset($remove_error)) {
       $commands = array(
         //~ ajax_command_invoke('#edit-profile-main-field-birthdate-und-0-value-year', 'nameAndBirthdateCombinationError', array($html)),
-        //~ ajax_command_invoke($selector, 'checkValidationResult', array($html, $remove_error)),
-        ajax_command_invoke('#edit-profile-main-field-birthdate-und-0-value-year', 'checkValidationResult', array($html, $remove_error)),
+        ajax_command_invoke($selector, 'checkValidationResult', array($html, $remove_error)),
+        // ajax_command_invoke('#edit-profile-main-field-birthdate-und-0-value-year', 'checkValidationResult', array($html, $remove_error)),
       );
       
       return $commands;
@@ -1038,6 +1038,14 @@ function at_reg_ajax_render_alter(&$commands) {
       // Unset settings only for multiforms and pilot profile edit form.
       if ($is_multiform || $is_pilot_profile) {
         unset($commands[$k]['settings']['clientsideValidation']);
+      }
+      else {
+        $setting =& $commands[$k]['settings'];
+        // Set custom function for error placement.
+        foreach ($setting['clientsideValidation']['forms'] as $form_key => $form_settings) {
+          $setting['clientsideValidation']['forms'][$form_key]['errorPlacement'] = 7;
+          $setting['clientsideValidation']['forms'][$form_key]['customErrorFunction'] = 'setErrorElement';
+        }
       }
       break;
     }
