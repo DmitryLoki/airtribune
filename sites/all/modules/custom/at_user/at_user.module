@@ -85,6 +85,7 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
         unset($form[$element]);
       }
     }
+    unset($form_el);
 
     // Hide unnessecary elements.
     unset($form['field_og_user_hg']);
@@ -101,6 +102,35 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     $form['#sync'] = $sync;
     $form['#core_user_fields']   = $sync->get_user_fields();
     $form['#core_user_sponsors'] = $sync->get_user_sponsors();
+
+    // Own header filename has pattern '%fid.extension' (12345.png / 10500.jpg)
+    // If header filename from API has another name, different with fid from field
+    // its means, what user change header from mobile app.
+    $api_header = $form['#core_user_fields']->header;
+    if (!empty($api_header)) {
+      $api_filename = substr(strrchr($api_header, "/"), 1);
+      $api_file_fid = strstr($api_filename, '.', true);
+      if ($api_file_fid != $user->field_header_image['und'][0]['fid']) {
+        // Get header from api.
+        $api_path = at_core_sync_get_api_domain() . '/media/' . $api_header;
+        $file_temp = file_get_contents($api_path);
+        $file_temp = file_save_data($file_temp, 'public://' . $api_filename, FILE_EXISTS_RENAME);
+        // Write new file to user object.
+        $wrapper = entity_metadata_wrapper('user', $user);
+        $wrapper->field_header_image->set( (array) $file_temp );
+        $zxc = $wrapper->save();
+        // Overload saved file to field in form, need to correct render image and preview.
+        $new_file_array = $user->field_header_image['und'][0];
+        $form['field_header_image']['und'][0]['#default_value'] = $new_file_array;
+        // Write to API with new name.
+        $path = drupal_realpath($new_file_array['uri']);
+        $data = array(
+          'upload_file' => TRUE,
+          'header' => '@' . $path,
+        );
+        $sync->write_user_fields($data);
+      }
+    }
 
     // From tpl, used in futher hook_process.
     $form['account']['mail']['#attached']['js'][] = drupal_get_path('module', 'at_user') . '/js/mail_change.js';
