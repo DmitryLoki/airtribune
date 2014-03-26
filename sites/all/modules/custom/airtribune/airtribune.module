@@ -162,7 +162,7 @@ function airtribune_form_alter(&$form, &$form_state, $form_id) {
     $views_old = $form_state['build_info']['args'][0];
     $view = views_get_view($views_old->name);
     $view->args =  $views_old->args;
-    $view->set_display($views_old->display);
+    $view->set_display($views_old->current_display);
     $form_state['build_info']['args'][0] = $view;
     $form_state['build_info']['args'][0]->field = array();
     $form_state['build_info']['args'][0]->header = $views_old->header;
