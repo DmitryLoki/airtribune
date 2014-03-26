@@ -74,7 +74,7 @@ foreach (array_keys($soc_links) as $element) {
     $form['field_social_links']['und'][$element]['url']['#class'] = array($socials[$element]);
     $form['field_social_links']['und'][$element]['url']['#attributes']['placeholder'] = $socials[$element];
     // Override Drupal field value, to the value obtained from the CoreAPI.
-    if (!empty($form['#core_user_fields'])) {
+    if (isset($form['#core_user_fields']->facebook_url)) {
       $soc_name = strtolower($socials[$element]) . '_url';
       $form['field_social_links']['und'][$element]['url']['#value'] = $form['#core_user_fields']->$soc_name;
     }

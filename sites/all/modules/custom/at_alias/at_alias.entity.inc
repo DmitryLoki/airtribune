@@ -13,14 +13,7 @@ function _at_alias_process_user($op, $entity) {
 }
 
 function _at_alias_update_user($user) {
-  module_load_include('inc', 'pathauto');
-  if (function_exists('pathauto_cleanstring') && isset($user->uid)) {
-    if ($user->uid == drupal_get_path_alias('user/' . $user->uid)) {
-      return;
-    }
-    $path = array('source' => 'user/' . $user->uid, 'alias' => $user->uid);
-    path_save($path);
-  }
+// todo
 }
 
 function _at_alias_delete_user($entity) {

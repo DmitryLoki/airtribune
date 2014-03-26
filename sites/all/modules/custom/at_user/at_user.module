@@ -193,6 +193,9 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
         '#field_prefix' => 'airtribune.com/',
         '#description' => t('You may set short URL, like <code>airtribune.com/yourname</code>. It only once and can’t change it.'),
       );
+      $form['optional_url']['#attached']['js'][] = drupal_get_path('module', 'simple_phone_number_widget') . '/jquery.maskedinput.min.js';
+      $form['optional_url']['#attached']['js'][] = drupal_get_path('module', 'at_user') . '/js/optional_url_prefix.js';
+
       $form['#validate'][] = 'at_user_optional_url_validate';
       $form['#submit'][]   = 'at_user_optional_url_submit';
     } else {
@@ -528,8 +531,10 @@ function at_user_process_panels_pane(&$vars, $hook) {
         $form['field_social_links']['und'][$element]['url']['#class'] = array($socials[$element]);
         $form['field_social_links']['und'][$element]['url']['#attributes']['placeholder'] = $socials[$element];
         // Override Drupal field value, to the value obtained from the CoreAPI.
-        $soc_name = strtolower($socials[$element]) . '_url';
-        $form['field_social_links']['und'][$element]['url']['#value'] = $form['#core_user_fields']->$soc_name;
+        if (isset($form['#core_user_fields']->facebook_url)) {
+          $soc_name = strtolower($socials[$element]) . '_url';
+          $form['field_social_links']['und'][$element]['url']['#value'] = $form['#core_user_fields']->$soc_name;
+        }
       }
     }
     $form['field_header_image']['und'][0]['select']['#title'] = t('Add image');
