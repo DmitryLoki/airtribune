@@ -428,8 +428,10 @@ class ATSyncUser extends ATSync {
   }
 
   public function get_user_fields() {
-    $this->address = 'user/' . $this->core_id;
-    return $this->get();
+    if (!empty($this->core_id)) {
+      $this->address = 'user/' . $this->core_id;
+      return $this->get();
+    }
   }
 
   public function write_user_fields($data) {
@@ -446,9 +448,11 @@ class ATSyncUser extends ATSync {
   }
 
   public function write_user_sponsors($data) {
-    $this->address = 'user/' . $this->core_id . '/sponsor';
-    $data['token'] = $this->token;
-    return $this->request($data);
+    if (!empty($this->core_id)) {
+      $this->address = 'user/' . $this->core_id . '/sponsor';
+      $data['token'] = $this->token;
+      return $this->request($data);
+    }
   }
 }
 /**
