@@ -73,6 +73,7 @@ function at_user_form_user_profile_form_alter(&$form, &$form_state) {
  * Implements hook_form_alter for user create/login/pass-reset
  */
 function at_user_form_alter(&$form, $form_state, $form_id) {
+  global $base_url;
   if ($form_id == 'user_profile_form') {
     // If form/form_state we have user object without attached fields, so we need to load full object.
     $user = user_load($form['#user']->uid);
@@ -106,8 +107,8 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     // Own header filename has pattern '%fid.extension' (12345.png / 10500.jpg)
     // If header filename from API has another name, different with fid from field
     // its means, what user change header from mobile app.
-    $api_header = $form['#core_user_fields']->header;
-    if (!empty($api_header)) {
+    if (!empty($form['#core_user_fields']->header)) {
+      $api_header = $form['#core_user_fields']->header;
       $api_filename = substr(strrchr($api_header, "/"), 1);
       $api_file_fid = strstr($api_filename, '.', true);
       if ($api_file_fid != $user->field_header_image['und'][0]['fid']) {
@@ -178,6 +179,7 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     // @see #4498
     $form['#validate'][] = 'at_user_optional_url_validate';
     $form['field_tiny_path']['und'][0]['value']['#attributes']['placeholder'] = t('yourname');
+    $form['field_tiny_path']['und'][0]['value']['#field_prefix'] = $base_url . '/';
     $optional_url = field_get_items('user', $form['#user'], 'field_tiny_path');
     // If user already set optional url, show this as text.
     if ($optional_url) {

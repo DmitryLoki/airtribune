@@ -74,8 +74,10 @@ foreach (array_keys($soc_links) as $element) {
     $form['field_social_links']['und'][$element]['url']['#class'] = array($socials[$element]);
     $form['field_social_links']['und'][$element]['url']['#attributes']['placeholder'] = $socials[$element];
     // Override Drupal field value, to the value obtained from the CoreAPI.
-    $soc_name = strtolower($socials[$element]) . '_url';
-    $form['field_social_links']['und'][$element]['url']['#value'] = $form['#core_user_fields']->$soc_name;
+    if (!empty($form['#core_user_fields'])) {
+      $soc_name = strtolower($socials[$element]) . '_url';
+      $form['field_social_links']['und'][$element]['url']['#value'] = $form['#core_user_fields']->$soc_name;
+    }
   }
 }
 $form['field_header_image']['und'][0]['select']['#title'] = t('Add image');

@@ -388,12 +388,15 @@ class ATSyncUser extends ATSync {
     if (isset($_COOKIE[$token_name])) {
       $this->token = $_COOKIE[$token_name];
     }
+    if (!$this->core_id) {
+      return $this->synchronize();
+    }
   }
 
   public function synchronize() {
     $profile = profile2_load_by_user($this->entity);
     $user_wrapper = entity_metadata_wrapper('user', $this->entity);
-    if (empty($profile['main']) || empty($profile['pilot'])) {
+    if (empty($profile['main'])) {
       ATSync::setMessage('Core API: User has no profiles.');
       return FALSE;
     }
@@ -425,17 +428,11 @@ class ATSyncUser extends ATSync {
   }
 
   public function get_user_fields() {
-    if (!$this->core_id) {
-      return FALSE;
-    }
     $this->address = 'user/' . $this->core_id;
     return $this->get();
   }
 
   public function write_user_fields($data) {
-    if (!$this->core_id) {
-      return FALSE;
-    }
     $this->address = 'user/' . $this->core_id;
     $data['token'] = $this->token;
     return $this->request($data, 'PATCH');
@@ -447,9 +444,6 @@ class ATSyncUser extends ATSync {
   }
 
   public function write_user_sponsors($data) {
-    if (!$this->core_id) {
-      return FALSE;
-    }
     $this->address = 'user/' . $this->core_id . '/sponsor';
     $data['token'] = $this->token;
     return $this->request($data);
