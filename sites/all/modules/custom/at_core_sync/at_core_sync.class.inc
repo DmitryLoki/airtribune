@@ -23,6 +23,7 @@ abstract class ATSync {
   }
 
   public static function requestToCore($address, $data = array(), $method = "POST") {
+    $data_array = $data;
     $data = json_encode($data);
     $handle = curl_init();
     $url = at_core_sync_get_api_url() . '/' . $address;
@@ -32,11 +33,6 @@ abstract class ATSync {
     curl_setopt($handle, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, FALSE);
     curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, FALSE);
-    curl_setopt($handle, CURLOPT_HTTPHEADER, array(
-      'Expect:',
-      'Content-Type: application/json',
-    ));
-
     switch ($method) {
       case 'GET':
         break;
@@ -55,6 +51,15 @@ abstract class ATSync {
       case 'DELETE':
         curl_setopt($handle, CURLOPT_CUSTOMREQUEST, 'DELETE');
         break;
+    }
+    if (isset($data_array['upload_file'])) {
+      // 'Content-Type: multipart/form-data' by default, if set CURLOPT_POSTFIELDS to php array
+      curl_setopt($handle, CURLOPT_POSTFIELDS, $data_array);
+    } else {
+      curl_setopt($handle, CURLOPT_HTTPHEADER, array(
+        'Expect:',
+        'Content-Type: application/json',
+      ));
     }
     $response = curl_exec($handle);
     $code = curl_getinfo($handle, CURLINFO_HTTP_CODE);
@@ -142,6 +147,10 @@ abstract class ATSync {
     _asd($data, $full_request , $response);
 
     return json_decode($response);
+  }
+
+  public function get() {
+    return ATSync::requestToCore($this->address, array(), 'GET');
   }
 
   public function request($data, $method = 'POST') {
@@ -371,6 +380,16 @@ class ATSyncTrackedObject extends ATSyncNestedInContest {
  * Class for synchronization user
  */
 class ATSyncUser extends ATSync {
+  public $token = '';
+
+  public function __construct($entity_type, $entity) {
+    parent::__construct($entity_type, $entity);
+    $token_name = 'Drupal_visitor_auth_token_' . $entity->uid;
+    if (isset($_COOKIE[$token_name])) {
+      $this->token = $_COOKIE[$token_name];
+    }
+  }
+
   public function synchronize() {
     $profile = profile2_load_by_user($this->entity);
     $user_wrapper = entity_metadata_wrapper('user', $this->entity);
@@ -394,8 +413,48 @@ class ATSyncUser extends ATSync {
       return $person_id;
     }
   }
-}
 
+  public function get_auth_token($username, $password) {
+    $this->address = 'user/auth';
+    $data = array(
+      'username' => $username,
+      'password' => $password,
+    );
+    $response = $this->request($data);
+    return $response->token ? $response->token : NULL;
+  }
+
+  public function get_user_fields() {
+    if (!$this->core_id) {
+      return FALSE;
+    }
+    $this->address = 'user/' . $this->core_id;
+    return $this->get();
+  }
+
+  public function write_user_fields($data) {
+    if (!$this->core_id) {
+      return FALSE;
+    }
+    $this->address = 'user/' . $this->core_id;
+    $data['token'] = $this->token;
+    return $this->request($data, 'PATCH');
+  }
+
+  public function get_user_sponsors() {
+    $this->address = 'user/' . $this->core_id . '/sponsor';
+    return $this->get();
+  }
+
+  public function write_user_sponsors($data) {
+    if (!$this->core_id) {
+      return FALSE;
+    }
+    $this->address = 'user/' . $this->core_id . '/sponsor';
+    $data['token'] = $this->token;
+    return $this->request($data);
+  }
+}
 /**
  * Class for synchronization pilot
  */
