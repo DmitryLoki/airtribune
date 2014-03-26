@@ -70,6 +70,18 @@ function airtribune_menu_alter(&$items) {
       '%map',
     ),
   );
+  $items['media_colorbox/%file/%/%']['page callback'] = 'airtribune_media_colorbox_callback';
+}
+
+/**
+ * Callback for media_colorbox.
+ * Fix view video on IE9.
+ * @see #4537
+ * @author Vyacheslav Malchik <info@vkey.biz>
+ */
+function airtribune_media_colorbox_callback($file, $view_mode, $langcode) {
+  drupal_set_header('Content-Type: text/html; UTF-8');
+  media_colorbox_callback($file, $view_mode, $langcode);
 }
 
 /**
