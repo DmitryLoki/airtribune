@@ -198,3 +198,7 @@ function at_alias_module_implements_alter(&$implementations, $hook) {
     $implementations['at_alias'] = $group;
   }
 }
+
+function at_alias_get_count_of_aliases($path) {
+  return db_query("SELECT COUNT(*) FROM {url_alias} WHERE source = :source", array(':source' => $path))->fetchField();
+}

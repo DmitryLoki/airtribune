@@ -15,17 +15,11 @@ function _at_alias_process_user($op, $entity) {
 function _at_alias_update_user($user) {
   module_load_include('inc', 'pathauto');
   if (function_exists('pathauto_cleanstring') && isset($user->uid)) {
-    // Save tiny aliases.
-    $tiny_path_items = field_get_items('user', $user, 'field_tiny_path');
-    // Check that $tiny_path_items is not empty
-    if (!empty($tiny_path_items) && is_array($tiny_path_items)) {
-      foreach ($tiny_path_items as $tiny_path) {
-        $path = array('source' => 'user/' . $user->uid, 'alias' => $tiny_path['value']);
-        path_save($path);
-        $path = array('source' => 'user/' . $user->uid . '/edit', 'alias' => $tiny_path['value']. '/edit');
-        path_save($path);
-      }
+    if ($user->uid == drupal_get_path_alias('user/' . $user->uid)) {
+      return;
     }
+    $path = array('source' => 'user/' . $user->uid, 'alias' => $user->uid);
+    path_save($path);
   }
 }
 
