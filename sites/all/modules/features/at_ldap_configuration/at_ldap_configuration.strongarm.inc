@@ -233,7 +233,7 @@ function at_ldap_configuration_strongarm() {
         ),
         '[userPassword]' => array(
           'ldap_attr' => '[userPassword]',
-          'user_attr' => '[password.user-random]',
+          'user_attr' => '[password.user-only]',
           'convert' => 1,
           'direction' => '2',
           'user_tokens' => '',
