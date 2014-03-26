@@ -442,8 +442,10 @@ class ATSyncUser extends ATSync {
   }
 
   public function get_user_sponsors() {
-    $this->address = 'user/' . $this->core_id . '/sponsor';
-    return $this->get();
+    if (!empty($this->core_id)) {
+      $this->address = 'user/' . $this->core_id . '/sponsor';
+      return $this->get();
+    }
   }
 
   public function write_user_sponsors($data) {

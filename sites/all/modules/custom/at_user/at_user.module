@@ -88,12 +88,15 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     unset($form_el);
 
     // Hide unnessecary elements.
-    unset($form['field_og_user_hg']);
+    if (!user_access('bypass node access')) {
+      unset($form['field_og_user_hg']);
+      unset($form['og_user_node']);
+    }
     unset($form['locale']);
     unset($form['masquerade']);
     unset($form['metatags']);
     unset($form['mimemail']);
-    unset($form['og_user_node']);
+
     unset($form['signature_settings']);
     unset($form['timezone']);
     unset($form['xmlsitemap']);

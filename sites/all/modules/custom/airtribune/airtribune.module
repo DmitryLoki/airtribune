@@ -2135,6 +2135,7 @@ function airtribune_ldap_servers_token_replace_alter(&$tokens, $resource, $text,
  */
 function airtribune_ldap_entry_alter(&$ldap_user_entry, $params) {
   // Replace file id with file content
+  $contents = NULL;
   if (isset($ldap_user_entry['jpegPhoto'][0])) {
     $file = file_load($ldap_user_entry['jpegPhoto'][0]);
     if (isset($file->uri)) {
