@@ -3,10 +3,10 @@
  */
 jQuery(function ($) {
   $.mask.definitions['a'] = '';
-  $.mask.definitions['Z'] = '[a-zA-Z\-_]';
+  $.mask.definitions['Z'] = '[0-9a-zA-Z-_]';
   $.mask.placeholder = '';
   var urlMask = new Array(30).join('Z');
-  $('#edit-optional-url').mask('airtribune.com/' + urlMask)
+  $('#edit-optional-url').mask('airtribune.com/?' + urlMask)
     .unbind('blur.mask')
     .bind('blur', function () {
       $(this).trigger('change');
