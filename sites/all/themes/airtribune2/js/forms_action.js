@@ -3,7 +3,8 @@ function updateForm(container, formsObj) {
         container = container || $(document);
         formsObj = formsObj || {disableChoiceOfFirstItemInSelection:true, file_bt:''}
 
-    $('input, .pane-page-content form select', container).forms(formsObj);
+    $('input:not(#edit-field-header-image-und-0-upload), .pane-page-content form select', container).forms(formsObj);
+    $('#edit-field-header-image-und-0-upload', container).forms({file_bt:Drupal.t('Upload image')});
     $('.select .items_inner', container).each(function () {
         if(!$(this).hasClass('items_padding')){
             $(this).parent().show();
