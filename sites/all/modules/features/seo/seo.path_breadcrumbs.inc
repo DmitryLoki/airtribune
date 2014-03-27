@@ -3655,11 +3655,11 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'user_pilot_edit';
-  $path_breadcrumb->name = 'User Pilot Edit';
+  $path_breadcrumb->name = 'Contestant Edit';
   $path_breadcrumb->path = 'profile-pilot/%uid/edit';
   $path_breadcrumb->data = array(
     'titles' => array(
-      0 => 'Edit pilot profile',
+      0 => 'Edit contestant',
     ),
     'paths' => array(
       0 => 'profile-pilot/%uid:uid/edit',
