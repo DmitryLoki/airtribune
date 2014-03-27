@@ -450,7 +450,7 @@ function at_user_core_api_fields_submit(&$form, &$form_state) {
   $sync->write_user_fields($data);
 
   // If posted file fid not equal already saved if user object, it's mean, what user upload new file.
-  $old_fid = $sync->entity->field_header_image['und'][0]['fid'];
+  $old_fid = !empty($sync->entity->field_header_image['und']) ? $sync->entity->field_header_image['und'][0]['fid'] : 0;
   $posted_fid = $form_state['values']['field_header_image']['und'][0]['fid'];
   if ($old_fid != $posted_fid) {
     $file = file_load($posted_fid);
