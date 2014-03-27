@@ -7,7 +7,7 @@ function at_user_menu() {
   $items = array();
 
   $items['profile-pilot/%user/user'] = array(
-    'title' => 'Edit user',
+    'title' => 'User',
     'page callback' => 'at_user_redirect_to_user',
     'page arguments' => array(1),
     'access callback' => 'user_view_access',
@@ -15,9 +15,9 @@ function at_user_menu() {
     'type' => MENU_LOCAL_TASK,
   );
 
-  $items['user/%/pilot'] = array(
-    'title' => 'Edit pilot',
-    'page callback' => 'at_user_redirect_to_pilot',
+  $items['user/%user/contestant'] = array(
+    'title' => 'Contestant',
+    'page callback' => 'at_user_redirect_to_contestant',
     'page arguments' => array(1),
     'access callback' => 'user_access',
     'access arguments' => array('edit own pilot profile'),
@@ -28,12 +28,12 @@ function at_user_menu() {
   return $items;
 }
 
-function at_user_redirect_to_pilot($nid) {
-  drupal_goto('profile-pilot/' . arg(1) . '/edit');
+function at_user_redirect_to_contestant($user) {
+  drupal_goto('profile-pilot/' . $user->uid . '/edit');
 }
 
-function at_user_redirect_to_user($nid) {
-  drupal_goto('user/' . arg(1) . '/edit');
+function at_user_redirect_to_user($user) {
+  drupal_goto('user/' . $user->uid . '/edit');
 }
 
 /**
@@ -195,8 +195,6 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
         '#type' => 'textfield',
         '#description' => t('You may set short URL, like <code>airtribune.com/yourname</code>. It only once and can’t change it.'),
       );
-      $form['optional_url']['#attached']['js'][] = drupal_get_path('module', 'simple_phone_number_widget') . '/jquery.maskedinput.min.js';
-      $form['optional_url']['#attached']['js'][] = drupal_get_path('module', 'at_user') . '/js/optional_url_prefix.js';
 
       $form['#validate'][] = 'at_user_optional_url_validate';
       $form['#submit'][]   = 'at_user_optional_url_submit';

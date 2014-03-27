@@ -12232,11 +12232,11 @@ race_id|[id]'),
   $handler->display->display_options['allow']['fields_override'] = 0;
   $handler->display->display_options['argument_input'] = array(
     'uid' => array(
-      'type' => 'user',
+      'type' => 'fixed',
       'context' => 'entity:ent_advert.og-membership--1',
       'context_optional' => 0,
       'panel' => '0',
-      'fixed' => '',
+      'fixed' => '1',
       'label' => 'User: Uid',
     ),
   );

@@ -711,7 +711,8 @@ viewers/*',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '1',
-            'paths' => 'user/*',
+            'paths' => 'user/*
+profile-pilot/*',
           ),
           'context' => 'empty',
           'not' => TRUE,
@@ -781,7 +782,8 @@ viewers/*',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '1',
-            'paths' => 'user/*',
+            'paths' => 'user/*
+profile-pilot/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -789,9 +791,6 @@ viewers/*',
       ),
     );
     $pane->configuration = array(
-      'arguments' => array(
-        'uid' => '%account:uid',
-      ),
       'override_title' => 1,
       'override_title_text' => '',
     );
