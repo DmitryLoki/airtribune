@@ -26,6 +26,14 @@ function organic_groups_og_features_default_roles() {
     'name' => 'editor',
   );
 
+  // Exported OG Role: 'node:hg_contest:organizer'.
+  $roles['node:hg_contest:organizer'] = array(
+    'gid' => 0,
+    'group_type' => 'node',
+    'group_bundle' => 'hg_contest',
+    'name' => 'organizer',
+  );
+
   // Exported OG Role: 'node:hg_contest:retrieve manager'.
   $roles['node:hg_contest:retrieve manager'] = array(
     'gid' => 0,
@@ -48,6 +56,14 @@ function organic_groups_og_features_default_roles() {
     'group_type' => 'node',
     'group_bundle' => 'pg_contest',
     'name' => 'editor',
+  );
+
+  // Exported OG Role: 'node:pg_contest:organizer'.
+  $roles['node:pg_contest:organizer'] = array(
+    'gid' => 0,
+    'group_type' => 'node',
+    'group_bundle' => 'pg_contest',
+    'name' => 'organizer',
   );
 
   // Exported OG Role: 'node:pg_contest:retrieve manager'.
