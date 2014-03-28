@@ -2413,7 +2413,7 @@ a.next_event .hg_contest { background-position: 0 -80px}
 .page-user .pane-page-content form .form-item input.form-text,
 .select .checked_option_wrap,
 .page-event-register-team .file .input,
-.pane_pilots_list_manage input.form-text { width:222px; height:20px; color:#2d3033; font:18px/20px Arial, Helvetica, sans-serif; padding:3px 9px 5px; border:1px solid #b0babf; vertical-align:top; margin:1px;
+.pane_pilots_list_manage input.form-text { width:222px; height:20px; color:#2d3033; font:16px/20px Arial, Helvetica, sans-serif; padding:3px 9px 5px; border:1px solid #b0babf; vertical-align:top; margin:1px;
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -2740,6 +2740,46 @@ form .form-type-item .inline-label { top: -10px;}
 .node-form .image-widget .image-widget-data { position: relative;}
 .node-form .image-widget span.file { height: auto; width: auto;}
 .node-form .image-widget .form-submit { position: static; top: auto;}
+
+	/* personalization */
+#edit-basic-url { color: #7a8b99; font-size: 16px;}
+.form-item-optional-url { position: relative;}
+.form-item-optional-url .field-prefix { position: absolute; top: 3px; left: 210px; font-size: 16px; color: #b9c4c9;}
+.page-user .pane-page-content form .form-item-optional-url input.form-text { width: 165px; position: relative; background: transparent; padding-left: 115px; }
+.page-user .pane-page-content form .form-item-optional-url .description { width: 290px;}
+.page-user .form-item-field-header-image-und-0 .image-preview + .image-widget-data { display: none;}
+#edit-field-social-links .tabledrag-toggle-weight-wrapper { display: none;}
+form #edit-field-social-links table { border: none; margin: -6px 0 0;}
+form #edit-field-social-links table input.form-text { border-left: 0; margin: 0 0 20px; width: 247px;
+
+  -webkit-border-radius: 0 3px 3px 0;
+  -moz-border-radius: 0 3px 3px 0;
+  border-radius: 0 3px 3px 0;
+
+}
+form #edit-field-social-links table tr { background: transparent;}
+form #edit-field-social-links table td { padding: 0; border: 0}
+form #edit-field-social-links .field-multiple-drag { position: absolute; z-index: 10;}
+form #edit-field-social-links table .form-item:last-child { margin: 0;}
+form #edit-field-social-links a.tabledrag-handle { margin: 0; padding: 0; height: auto;}
+form #edit-field-social-links a.tabledrag-handle .handle { width: 30px; height: 30px; margin: 0; padding: 0; background: none;}
+form #edit-field-social-links td .form-type-link-field { padding-left: 30px; background: url(../images/socials_user.png) no-repeat 0 0;}
+form #edit-field-social-links td .form-item-field-social-links-und-0 { background-position: 0 0}
+form #edit-field-social-links td .form-item-field-social-links-und-1 { background-position: 0 -50px}
+form #edit-field-social-links td .form-item-field-social-links-und-2 { background-position: 0 -100px}
+form #edit-field-social-links td .form-item-field-social-links-und-3 { background-position: 0 -150px}
+form #edit-field-social-links td .form-item-field-social-links-und-4 { background-position: 0 -200px}
+.page-user-edit #edit-field-header-image .image-widget .image-widget-data { position: static;}
+.page-user-edit #edit-field-header-image .image-widget span.file { width: auto; height: auto;}
+.page-user-edit #edit-field-header-image .image-widget .button { background: #00aeef; color: #ffffff; font-size: 16px; line-height: 30px; padding: 0 11px; display: inline-block;
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+
+}
+.page-user-edit #edit-field-header-image .image-widget .emulate-click-plus { display: none;}
+
 
 
 .inline_login_errors { text-align: center; color: #ff5a61; font: 18px/20px Arial, Helvetica, sans-serif; padding: 21px 0 30px;}
@@ -3367,8 +3407,9 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
   border-radius: 2px;
 
 }
-.pane_pilots_list_manage .filter-table input:-moz-placeholder { color: #b9c4c9;}
-.pane_pilots_list_manage .filter-table input::-webkit-input-placeholder { color: #b9c4c9;}
+input:-moz-placeholder { color: #b9c4c9;}
+input::-moz-placeholder { color: #b9c4c9; opacity: 1}
+input::-webkit-input-placeholder { color: #b9c4c9;}
 
 .pane_pilots_list_manage td.views-field-field-full-name { width: 178px;}
 .pane_pilots_list_manage th.views-field-field-full-name a { padding-right: 15px;}
