@@ -193,6 +193,7 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
         '#title' => t('Optional URL'),
         '#attributes' => array('placeholder' => t('yourname')),
         '#type' => 'textfield',
+        '#field_prefix' => 'airtribune.com/',
         '#description' => t('You may set short URL, like <code>airtribune.com/yourname</code>. It only once and can’t change it.'),
       );
 
