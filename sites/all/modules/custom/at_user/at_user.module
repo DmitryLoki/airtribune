@@ -7,7 +7,7 @@ function at_user_menu() {
   $items = array();
 
   $items['profile-pilot/%user/user'] = array(
-    'title' => 'Edit user',
+    'title' => 'User',
     'page callback' => 'at_user_redirect_to_user',
     'page arguments' => array(1),
     'access callback' => 'user_view_access',
@@ -15,9 +15,9 @@ function at_user_menu() {
     'type' => MENU_LOCAL_TASK,
   );
 
-  $items['user/%/pilot'] = array(
-    'title' => 'Edit pilot',
-    'page callback' => 'at_user_redirect_to_pilot',
+  $items['user/%user/contestant'] = array(
+    'title' => 'Contestant',
+    'page callback' => 'at_user_redirect_to_contestant',
     'page arguments' => array(1),
     'access callback' => 'user_access',
     'access arguments' => array('edit own pilot profile'),
@@ -28,12 +28,12 @@ function at_user_menu() {
   return $items;
 }
 
-function at_user_redirect_to_pilot($nid) {
-  drupal_goto('profile-pilot/' . arg(1) . '/edit');
+function at_user_redirect_to_contestant($user) {
+  drupal_goto('profile-pilot/' . $user->uid . '/edit');
 }
 
-function at_user_redirect_to_user($nid) {
-  drupal_goto('user/' . arg(1) . '/edit');
+function at_user_redirect_to_user($user) {
+  drupal_goto('user/' . $user->uid . '/edit');
 }
 
 /**
@@ -73,6 +73,7 @@ function at_user_form_user_profile_form_alter(&$form, &$form_state) {
  * Implements hook_form_alter for user create/login/pass-reset
  */
 function at_user_form_alter(&$form, $form_state, $form_id) {
+  global $base_url;
   if ($form_id == 'user_profile_form') {
     // If form/form_state we have user object without attached fields, so we need to load full object.
     $user = user_load($form['#user']->uid);
@@ -88,12 +89,15 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     unset($form_el);
 
     // Hide unnessecary elements.
-    unset($form['field_og_user_hg']);
+    if (!user_access('bypass node access')) {
+      unset($form['field_og_user_hg']);
+      unset($form['og_user_node']);
+    }
     unset($form['locale']);
     unset($form['masquerade']);
     unset($form['metatags']);
     unset($form['mimemail']);
-    unset($form['og_user_node']);
+
     unset($form['signature_settings']);
     unset($form['timezone']);
     unset($form['xmlsitemap']);
@@ -106,8 +110,8 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     // Own header filename has pattern '%fid.extension' (12345.png / 10500.jpg)
     // If header filename from API has another name, different with fid from field
     // its means, what user change header from mobile app.
-    $api_header = $form['#core_user_fields']->header;
-    if (!empty($api_header)) {
+    if (!empty($form['#core_user_fields']->header)) {
+      $api_header = $form['#core_user_fields']->header;
       $api_filename = substr(strrchr($api_header, "/"), 1);
       $api_file_fid = strstr($api_filename, '.', true);
       if ($api_file_fid != $user->field_header_image['und'][0]['fid']) {
@@ -176,22 +180,33 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
 
     // 'optional URL', validating & theming.
     // @see #4498
-    $form['#validate'][] = 'at_user_optional_url_validate';
-    $form['field_tiny_path']['und'][0]['value']['#attributes']['placeholder'] = t('yourname');
-    $optional_url = field_get_items('user', $form['#user'], 'field_tiny_path');
-    // If user already set optional url, show this as text.
-    if ($optional_url) {
-      $form['field_tiny_path'] = $form['field_tiny_path']['und'][0]['value'];
-      $form['field_tiny_path']['#type'] = 'item';
-      $form['field_tiny_path']['#markup'] = $form['field_tiny_path']['#default_value'];
-      $form['field_tiny_path']['#description'] = NULL;
-    }
+
     $form['basic_url'] = array(
       '#type' => 'item',
       '#title' => t('Basic URL'),
-      '#markup' => 'airtribune.com/' . $form['#user']->uid,
-      '#weight' => $form['field_tiny_path']['#weight'] - 1,
+      '#markup' => 'airtribune.com/' . $user->uid,
     );
+
+    $alias_count = at_alias_get_count_of_aliases('user/' . $user->uid);
+    if ($alias_count < 2) {
+      $form['optional_url'] = array(
+        '#title' => t('Optional URL'),
+        '#attributes' => array('placeholder' => t('yourname')),
+        '#type' => 'textfield',
+        '#field_prefix' => 'airtribune.com/',
+        '#description' => t('You may set short URL, like <code>airtribune.com/yourname</code>. It only once and can’t change it.'),
+      );
+
+      $form['#validate'][] = 'at_user_optional_url_validate';
+      $form['#submit'][]   = 'at_user_optional_url_submit';
+    } else {
+      $form['optional_url'] = array(
+        '#title' => t('Optional URL'),
+        '#attributes' => array('placeholder' => t('yourname')),
+        '#type' => 'item',
+        '#markup' => 'airtribune.com/' . drupal_get_path_alias('user/' . $user->uid),
+      );
+    }
     $form['#submit'][] = 'at_user_core_api_fields_submit';
 
     // make upload & delete (user_picture / avatar imagefield) without form_submit
@@ -355,26 +370,45 @@ function at_user_notify_user_at_password_change(&$form, $form_state) {
 }
 
 function at_user_optional_url_validate(&$form, &$form_state) {
-  if (empty($form_state['values']['field_tiny_path'])) {
+  if (empty($form_state['values']['optional_url'])) {
     return;
   }
-  $tiny_path = $form_state['values']['field_tiny_path']['und'][0]['value'];
-  if ($tiny_path) {
+  $optional_url = $form_state['values']['optional_url'];
+  if ($optional_url) {
     // Not suitable by regex, or digits only.
-    if (preg_match('/^[0-9]+$/si', $tiny_path) || !preg_match('/^[a-z0-9_-]+$/i', $tiny_path))
+    if (preg_match('/^[0-9]+$/si', $optional_url) || !preg_match('/^[a-z0-9_-]+$/i', $optional_url))
     {
-      form_set_error('field_tiny_path', t('Your can use only latin symbols (a–z), digits (0–9), minus and underscore.'));
+      form_set_error('optional_url', t('Your can use only latin symbols (a–z), digits (0–9), minus and underscore.'));
     }
     // Submited value for alias already exist in system, and alias not belongs to this user.
-    if (!drupal_valid_path($tiny_path)) {
-      $source = drupal_lookup_path('source', $tiny_path);
-      if ($source && ($source != $tiny_path)) {
-        form_set_error('field_tiny_path', t('This URL already exists. Choose another one.'));
+    if (!drupal_valid_path($optional_url)) {
+      $source = drupal_lookup_path('source', $optional_url);
+      if ($source && ($source != $optional_url)) {
+        form_set_error('optional_url', t('This URL already exists. Choose another one.'));
       }
     }
   }
 }
 
+/**
+ * Save optional url aliases.
+ */
+function at_user_optional_url_submit(&$form, &$form_state) {
+  module_load_include('inc', 'pathauto');
+  $user = $form_state['user'];
+  if (function_exists('pathauto_cleanstring') && isset($user->uid)) {
+    $optional_url = $form_state['values']['optional_url'];
+    if (!empty($optional_url)) {
+      if ($optional_url == drupal_get_path_alias('user/' . $user->uid)) {
+        return;
+      }
+      $path = array('source' => 'user/' . $user->uid, 'alias' => $optional_url);
+      path_save($path);
+      $path = array('source' => 'user/' . $user->uid . '/edit', 'alias' => $optional_url. '/edit');
+      path_save($path);
+    }
+  }
+}
 
 function at_user_login_error_msg($form, &$form_state) {
   at_messages_msg_changer();
@@ -419,7 +453,7 @@ function at_user_core_api_fields_submit(&$form, &$form_state) {
   $sync->write_user_fields($data);
 
   // If posted file fid not equal already saved if user object, it's mean, what user upload new file.
-  $old_fid = $sync->entity->field_header_image['und'][0]['fid'];
+  $old_fid = !empty($sync->entity->field_header_image['und']) ? $sync->entity->field_header_image['und'][0]['fid'] : 0;
   $posted_fid = $form_state['values']['field_header_image']['und'][0]['fid'];
   if ($old_fid != $posted_fid) {
     $file = file_load($posted_fid);
@@ -498,19 +532,21 @@ function at_user_process_panels_pane(&$vars, $hook) {
         $form['field_social_links']['und'][$element]['url']['#class'] = array($socials[$element]);
         $form['field_social_links']['und'][$element]['url']['#attributes']['placeholder'] = $socials[$element];
         // Override Drupal field value, to the value obtained from the CoreAPI.
-        $soc_name = strtolower($socials[$element]) . '_url';
-        $form['field_social_links']['und'][$element]['url']['#value'] = $form['#core_user_fields']->$soc_name;
+        if (isset($form['#core_user_fields']->facebook_url)) {
+          $soc_name = strtolower($socials[$element]) . '_url';
+          $form['field_social_links']['und'][$element]['url']['#value'] = $form['#core_user_fields']->$soc_name;
+        }
       }
     }
     $form['field_header_image']['und'][0]['select']['#title'] = t('Add image');
     $form['field_header_image']['und'][0]['remove']['#title'] = t('Delete');
 
     $form['personalisation']['basic_url'] = $form['basic_url'];
-    $form['personalisation']['field_tiny_path'] = $form['field_tiny_path'];
+    $form['personalisation']['optional_url'] = $form['optional_url'];
     $form['personalisation']['field_header_image'] = $form['field_header_image'];
     $form['personalisation']['field_social_links'] = $form['field_social_links'];
     unset($form['basic_url']);
-    unset($form['field_tiny_path']);
+    unset($form['optional_url']);
     unset($form['field_header_image']);
     unset($form['field_social_links']);
   }

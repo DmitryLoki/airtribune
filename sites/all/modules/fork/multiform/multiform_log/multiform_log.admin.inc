@@ -1,5 +1,7 @@
 <?php
 
+// @todo: Add range to the search form.
+
 function multiform_log_list_page() {
   $result = db_select('multiform_log', 'a')
     ->fields('a')
@@ -61,10 +63,13 @@ function multiform_log_search() {
 }
 
 function multiform_log_search_form($form, $form_state) {
+  $form['search_result'] = array(
+    '#markup' => !empty($_GET['search']) ? multiform_search_result($_GET['search']) : '',
+  );
   $form['search_string'] = array(
     '#type' => 'textfield',
     '#title' => t('Search string'),
-    '#required' => !empty($form_state['input']['search_string']) ? $form_state['input']['search_string'] : '',
+    '#default_value' => !empty($_GET['search']) ? $_GET['search'] : '',
     '#required' => TRUE,
   );
 
@@ -82,26 +87,8 @@ function multiform_log_search_form($form, $form_state) {
 }
 
 function multiform_log_search_form_submit($form, &$form_state) {
-  $output = '';
   $search_string = $form_state['values']['search_string'];
-
-  $result = db_select('multiform_log', 'a')
-    ->fields('a')
-    ->execute()
-    ->fetchAll();
-
-  foreach ($result as $entry) {
-    if (strpos($entry->post_array, $search_string) !== FALSE) {
-      //~ $output .= kpr($entry, TRUE);
-      dsm($entry);
-      $matches = array();
-      $haystack = unserialize($entry->post_array);
-      multiform_log_search_array($haystack, $search_string, $matches);
-      dsm($matches);
-    }
-  }
-
-  $form_state['search_result'] = $output;
+  drupal_goto('multiform/log/search', array('query' => array('search' => $search_string)));
 }
 
 function multiform_log_search_array($haystack, $needle, &$matches, $current_path = array()) {
@@ -118,4 +105,24 @@ function multiform_log_search_array($haystack, $needle, &$matches, $current_path
       multiform_log_search_array($v, $needle, $matches, $new_path);
     }
   }
+}
+
+function multiform_search_result($search_string) {
+  $output = '';
+
+  $result = db_select('multiform_log', 'a')
+    ->fields('a')
+    ->execute()
+    ->fetchAll();
+
+  foreach ($result as $entry) {
+    if (strpos($entry->post_array, $search_string) !== FALSE) {
+      $output .= kpr($entry, TRUE);
+      $matches = array();
+      $haystack = unserialize($entry->post_array);
+      multiform_log_search_array($haystack, $search_string, $matches);
+      $output .= kpr($matches, TRUE);
+    }
+  }
+  return $output;
 }

@@ -997,8 +997,6 @@ function airtribune_views_query_alter(&$view, &$query) {
   // Prevent Live events duplication.
   // See #3538.
   if ($view->name == 'live_events') {
-
-
     foreach($query->fields as $key => $field) {
       //$query->fields[$key]['aggregate'] = TRUE;
     }
@@ -1006,13 +1004,20 @@ function airtribune_views_query_alter(&$view, &$query) {
 
   }
 
-
   // See http://drupal.org/node/1451218#comment-6136692
   if ($view->name == 'day_results') {
     $view->query->where[0]['type'] = 'OR';
   }
 }
 
+function airtribune_views_pre_view(&$view, &$display_id, &$args) {
+  // @see #4498
+  // @todo remove at release2.13
+  // temp fix for user / pilot profile page, load user:uid from to view argument from url.
+  if ($view->name == 'user_header') {
+    $args = array(arg(1));
+  }
+}
 
 /**
  * Implementation of hook_views_pre_render
@@ -2135,6 +2140,7 @@ function airtribune_ldap_servers_token_replace_alter(&$tokens, $resource, $text,
  */
 function airtribune_ldap_entry_alter(&$ldap_user_entry, $params) {
   // Replace file id with file content
+  $contents = NULL;
   if (isset($ldap_user_entry['jpegPhoto'][0])) {
     $file = file_load($ldap_user_entry['jpegPhoto'][0]);
     if (isset($file->uri)) {
