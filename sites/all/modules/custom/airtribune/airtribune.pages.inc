@@ -109,6 +109,7 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     '#prefix' => '<div class="form-actions">',
     '#suffix' => '</div>',
   );
+  $form['#attached']['js'][] =  drupal_get_path('module', 'at_user') . '/js/auto_upload.js';
   drupal_add_js('Drupal.behaviors.updateForm = {attach:function(){updateForm(false, {disableChoiceOfFirstItemInSelection:true, file_bt:Drupal.t("Add image")})}}', 'inline');
   return $form;
 }
