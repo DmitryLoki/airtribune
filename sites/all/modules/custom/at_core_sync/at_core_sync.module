@@ -229,6 +229,15 @@ function at_core_sync_action_info() {
         'any' => TRUE,
       ),
     ),
+    'at_core_sync_contests_full_action' => array(
+      'type' => 'node',
+      'label' => t('[Core API] Sync contests (full data)'),
+      'configurable' => FALSE,
+      'aggregate' => FALSE,
+      'hooks' => array(
+        'any' => TRUE,
+      ),
+    ),
     'at_core_sync_contestants_action' => array(
       'type' => 'og_membership',
       'label' => t('[Core API] Sync contestants'),
@@ -363,6 +372,62 @@ function at_core_sync_entity_sync($entity_type, $entity, $action='', $fields = a
  */
 function at_core_sync_contests_action(&$object, $context = array()) {
   at_core_sync_entity_sync('node', $object);
+}
+/**
+ * Implementation of a Drupal action
+ *
+ * @param object $object
+ * @param array $context
+ * @see #4586
+ * @author Vyacheslav Malchik <info@vkey.biz>
+ */
+function at_core_sync_contests_full_action(&$object, $context = array()) {
+  // Get group id
+  list($gid, $vid, $bundle) = entity_extract_ids('node', $object);
+
+  // Sync contest
+  at_core_sync_entity_sync('node', $object);
+
+  // Sync contestants
+  $view = views_get_view('core_api_manage_contestants');
+  $view->set_display('manage_list_contestants_page');
+  $view->set_arguments(array($gid));
+  $view->execute();
+  foreach ($view->result as $result) {
+    $membership = entity_load_single('og_membership', $result->og_membership_users_id);
+    at_core_sync_contestants_action($membership);
+  }
+
+  // Sync days
+  $view = views_get_view('day_admin');
+  $view->set_display('manage_list_days_page');
+  $view->set_arguments(array($gid));
+  $view->execute();
+  foreach ($view->result as $result) {
+    $day = node_load($result->nid);
+    at_core_sync_entity_sync('node', $day);
+  }
+
+  // Sync race
+  $view = views_get_view('core_api_manage_races');
+  $view->set_display('manage_list_race_page');
+  $view->set_arguments(array($gid));
+  $view->execute();
+  foreach ($view->result as $result) {
+    $race = entity_load_single(AIRTRIBUNE_RACE_ENTITY_TYPE, $result->id);
+    at_core_sync_races_action($race);
+    at_core_sync_races_tracks_action($race);
+  }
+
+  // Sync race
+  $view = views_get_view('staff_manage');
+  $view->set_display('manage_list_staff');
+  $view->set_arguments(array($gid));
+  $view->execute();
+  foreach ($view->result as $result) {
+    $membership = entity_load_single('og_membership', $result->id);
+    at_core_sync_contestants_action($membership);
+  }
 }
 
 /**
