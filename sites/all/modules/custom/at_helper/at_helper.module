@@ -1,18 +1,5 @@
 <?php
 
-define('VIEWS_EVENTS_LIST', 'events_list');
-
-define('VIEWS_EVENTS_LIST_NEXT', 'page_events_next');
-define('VIEWS_EVENTS_LIST_CURRENT', 'page_events_current');
-define('VIEWS_EVENTS_LIST_PAST', 'page_events_past');
-
-define('AT_VIEWS_TABS_CACHE_CID', 'at_views_tabs');
-
-define('AT_CONTEST_CONTENT_TYPE', 'pg_contest');
-
-define('MAIN_PROFILE_TYPE', 'main');
-define('CONTESTANT_MEMBERSHIP_TYPE', 'pg_contestant');
-
 /**
  * Implements hook_permission().
  */
@@ -225,13 +212,13 @@ function at_helper_form_alter(&$form, &$form_state, $form_id) {
       //~ $form['#after_build'][] = '_at_helper_user_register_extra_after_build';
       //~ // TODO: Add after_build only when performing ajax validation.
       $form['#after_build'][] = '_at_helper_og_form_extra_after_build';
-      
-      
+
+
       // Moved from at_validation.module
-      
+
       // Fix clientside validation for editablefields_as_link.
       // @see #3485
-      $langcode = $form['#langcode'];
+      $langcode = isset($form['#langcode']) ? $form['#langcode'] : LANGUAGE_NONE;
       $name = key($form_state['field']);
       if ($name == 'field_phone') {
         // We use custom widget to output phone number, which combine 2 fields: country code & number in one at client.
@@ -265,7 +252,7 @@ function _at_helper_og_form_extra_after_build($form, $form_state) {
 
 /**
  * Implements hook_field_widget_form_alter().
- * 
+ *
  * Alter Start/Finish and Open/Close Event fields' labels
  */
 function at_helper_field_widget_form_alter(&$element, &$form_state, $context) {
@@ -302,6 +289,13 @@ function _at_helper_race_time_after_build($element, $form_state) {
 function at_helper_og_form_validate($form, &$form_state) {
   $values = $form_state['values'];
   $number_not_changed = FALSE;
+  // Fix NULL value, to avoid SQL PDOException
+  // @see #4306
+  if (!empty($form['#form_id']) && !empty($form['#entity_type']) && ($form['#entity_type'] == 'og_membership')) {
+    if ($values['field_tracker']['und'][0]['target_id'] === NULL) {
+      $form_state['values']['field_tracker']['und'] = array();
+    }
+  }
   // Contest pilots manage page.
   if (!empty($form['#form_id']) && !empty($form_state['triggering_element']['#array_parents']) &&
       $form['#form_id'] == 'views_form_paragliding_pilots_list_manage' &&
@@ -339,11 +333,11 @@ function at_helper_og_form_validate($form, &$form_state) {
   if (isset($form['field_contestant_number'])) {
     $number_not_changed = ($pilot_number == $form['field_contestant_number']['und'][0]['value']['#default_value']) ? TRUE : FALSE;
   }
-  
+
   if ($gid && $pilot_number && !$number_not_changed) {
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'og_membership');
-    $query->entityCondition('bundle', CONTESTANT_MEMBERSHIP_TYPE);
+    $query->entityCondition('bundle', AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD);
     $query->propertyCondition('gid', $gid);
     $query->fieldCondition('field_contestant_number', 'value', $pilot_number);
     //$query->fieldCondition('field_full_name', 'family', $family);
@@ -426,11 +420,26 @@ function at_helper_preprocess_media_colorbox(&$variables) {
 
 
 /**
+ * Implements hook_ctools_plugin_type().
+ */
+function at_helper_ctools_plugin_type() {
+  // Used for "nothing_extended" views handler.
+  // see at_helper_handler_field_custom_extended.inc class.
+  $plugins['nothing_extended'] = array(
+    'use hooks' => FALSE,
+  );
+  return $plugins;
+}
+
+/**
  * Implements hook_ctools_plugin_directory().
  */
 function at_helper_ctools_plugin_directory($module, $plugin) {
   if ($module == 'addressfield') {
     return 'plugins/' . $plugin;
+  }
+  if ($module == 'at_helper' && $plugin == 'nothing_extended') {
+    return 'plugins/views/nothing_extended';
   }
 }
 
@@ -544,7 +553,7 @@ function _at_helper_event_edit_denied($node) {
 
 /**
  * Implements hook_field_formatter_prepare_view().
- * 
+ *
  * This chages styles for all instances of AIRTRIBUNE_IMAGE_FIELD display
  * if formatter is set to Media Colorbox. Both for nodes and views.
  * #3996 and related issues
@@ -554,13 +563,13 @@ function media_colorbox_field_formatter_prepare_view($entity_type, $entities, $f
   //~ dsm('formatter');
   //~ dsm($items);
   //~ dsm($displays);
-  
+
   // TODO: Add bricks info into display settings (instead of using static variable).
   // And override theme_media_colorbox()
-  
-  
+
+
   if ($field['field_name'] == AIRTRIBUNE_IMAGE_FIELD && !empty($items)) {
-    
+
     $imgs = array_shift($items);
     if (!empty($imgs)) {
       $file_styles = array();
@@ -623,13 +632,13 @@ function media_colorbox_field_formatter_prepare_view($entity_type, $entities, $f
     if (!empty($imgs)) {
       //~ $image_style = 'contest_gallery_thumb';
       $image_style = 'contest_thumbnail';
-      
+
       $file_styles = array();
       foreach ($imgs as $img) {
         $file_styles[$img['fid']] = $image_style;
       }
       _at_helper_file_view_alter_styles($file_styles);
-      
+
     }
   }
 }
@@ -672,7 +681,7 @@ function _at_helper_file_view_alter_styles($file_styles = NULL) {
 
 /**
  * Implements hook_field_formatter_settings_form_alter().
- * 
+ *
  * Alter media_colorbox formatter to set Bricks scheme.
  * Uses hook provided by field_formatter_settings module.
  */
@@ -681,14 +690,14 @@ function at_helper_field_formatter_settings_form_alter(&$element, &$form_state, 
     return;
   }
   if ($form_state['instance']['display'][$form_state['view_mode']]['type'] == 'media_colorbox') {
-    
+
     $settings = $form_state['instance']['display'][$form_state['view_mode']]['settings'];
     //~ dsm($form_state);
     $schemes = array(
       '' => t('- None -'),
       'test' => t('Test'),
     );
-    
+
     $scheme = (isset($settings['bricks_scheme']) && isset($schemes[$settings['bricks_scheme']])) ? $settings['bricks_scheme'] : '';
     //~ dsm($element);
     $element['bricks_scheme'] = array(
@@ -704,15 +713,15 @@ function at_helper_field_formatter_settings_form_alter(&$element, &$form_state, 
 
 /**
  * Implements hook_field_formatter_settings_summary_alter().
- * 
+ *
  * Alter media_colorbox formatter settings summary.
  * Uses hook provided by field_formatter_settings module.
  */
 function at_helper_field_formatter_settings_summary_alter(&$summary, array $context) {
   if ($context['instance']['display'][$context['view_mode']]['type'] == 'media_colorbox') {
-    
+
     $settings = $context['instance']['display'][$context['view_mode']]['settings'];
-    
+
     $schemes = array(
       '' => t('- None -'),
       'test' => t('Test'),
@@ -757,5 +766,16 @@ function _at_helper_clear_pilots_list_cache() {
   );
   foreach ($cids as $cid => $bin) {
     cache_clear_all($cid, $bin, TRUE);
-  }  
+  }
+}
+
+
+/**
+ * Implements hook_views_api().
+ */
+function at_helper_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'at_helper') . '/includes/views',
+  );
 }

@@ -4,9 +4,6 @@
  * Code for the Paragliding Race feature.
  */
 
-define('PG_RACE_RETREIVE_URL', 'http://retrieve.airtribune.com/table/index.html');
-define('PG_RACE_NO_TRACKS_TEXT',"We haven't got any data from pilots' live trackers yet. Please, try again later.");
-
 include_once 'pg_race.features.inc';
 
 
@@ -48,16 +45,8 @@ function pg_race_entity_presave($entity, $type) {
   }
 }
 
-function pg_race_entity_insert($entity, $type) {
-  if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
-    get_opt_distance_from_core($entity, 'insert');
-  }
-}
-
 function pg_race_entity_update($entity, $type) {
   if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
-    get_opt_distance_from_core($entity, 'update');
-
     $race_id = $entity->id;
     $files_path = variable_get('file_public_path', conf_path() . '/files');
     $files_path .= '/pg_race_preview';
@@ -97,13 +86,13 @@ function pg_race_node_presave($node) {
       $node->created = $last_day_created_time;
       $new_day_created_time = $last_day_created_time;
     }
-    
+
     // Days have same date, set for new created node next day.
     if (date('Ymd', $new_day_created_time) == date('Ymd', $last_day_created_time)) {
       $node->created += 3600 * 24;
       $node->updated = $node->created;
       node_save($node);
-    }    
+    }
   }
 }
 
@@ -168,41 +157,6 @@ function get_last_day_number_in_contest($contest_node) {
   return $day_number;
 }
 
-function get_opt_distance_from_core($entity, $action) {
-  $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
-  // load contest (og node)
-  $contest = reset($wrapper->og_group_ref->value());
-  // load core id for this contest
-  $contest_core_id = !empty($contest->field_core_id['und']['0']['value']) ? $contest->field_core_id['und']['0']['value'] : NULL;
-
-  $ch = curl_init();
-
-  // if race have not filled field with optimum distance, then try to get from CoreAPI
-  if (empty($entity->field_optdistance['und']['0']['value'])) {
-    // try to load core id for current race
-    $race_core_id = !empty($entity->field_core_id['und']['0']['value']) ? $entity->field_core_id['und']['0']['value'] : NULL;
-    // connect to CoreAPI & get info for current race (race start time, optimum distance, checkpoints, etc)
-    curl_setopt_array($ch, array(
-      CURLOPT_URL => at_core_sync_get_api_url() . "/contest/" . $contest_core_id . "/race/" . $race_core_id,
-      CURLOPT_RETURNTRANSFER => TRUE,
-      CURLOPT_TIMEOUT => 10,
-    ));
-    $ch_exec = curl_exec($ch);
-    // if we get correct data from CoreAPI
-    if ($ch_exec && $core_race_data = drupal_json_decode($ch_exec)) {
-      if ($optdistance = $core_race_data['optdistance']) {
-        // write the optimum distance to field_optdistance & save(update) race entity
-        $entity->field_optdistance['und']['0']['value'] = $optdistance;
-      }
-    }
-  }
-  // save changed fields for race
-  field_attach_presave(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
-  field_attach_update(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
-
-  curl_close($ch);
-}
-
 function pg_race_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'eck__entity__form_add_ent_race_pg_race' ||
     $form_id == 'eck__entity__form_edit_ent_race_pg_race'
@@ -243,19 +197,34 @@ function pg_race_day_form_validate(&$form, &$form_state) {
 function pg_race_form_validate(&$form, &$form_state) {
   $values = & $form_state['values'];
   $race = $values['entity'];
-  $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $race);
+  $contest = FALSE;
+  $id = FALSE;
+  $submitted_day_num = 0;
 
-  // Load contest (og node).
-  $contest = reset($wrapper->og_group_ref->value());
-  // Get id of entity. If id = null, then its new created entity.
-  $id = $wrapper->id->value();
+  if (empty($race->is_new)) {
+    $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $race);
+    $submitted_day_num = $wrapper->field_race_number->value();
+    // Get id of entity. If id = null, then its new created entity.
+    $id = $wrapper->id->value();
+    // Load contest (og node).
+    $contest = reset($wrapper->og_group_ref->value());
+  } else {
+    if (isset($values['og_group_ref'][LANGUAGE_NONE][0]['target_id'])) {
+      $contest = node_load($values['og_group_ref'][LANGUAGE_NONE][0]['target_id']);
+      $submitted_day_num = $values['field_race_number'][LANGUAGE_NONE][0]['value'];
+    }
+  }
+
+  // Skip validation, if contest not specified.
+  if (!$contest) {
+    return;
+  }
 
   // Get race numbers in chronically order (based on keys - ids in database).
   $race_numbers = get_races_for_contest($contest, TRUE);
-  ksort($race_numbers);
+  asort($race_numbers);
 
   $prefer_day_num = end($race_numbers) + 1;
-  $submitted_day_num = $wrapper->field_race_number->value();
 
   // If day number is not set (or set to 0), change it to preferred day number.
   if ($submitted_day_num == 0) {
@@ -950,7 +919,7 @@ function _day_pg_race_preview_markup($node) {
   }
 
   $output = pg_race_blog_markup($data);
-  
+
   //if ($status != AIRTRIBUNE_VIS_STATE_REPLAY) {
     $output .= $help_text . $time;
   //}
@@ -1101,4 +1070,37 @@ function pg_race_task_get_info($day_node) {
     $task_data['offset'] = $offset;
   }
   return $task_data;
+}
+
+
+/**
+ * Implements hook_views_api().
+ */
+function pg_race_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'pg_race') . '/includes/views',
+  );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function pg_race_theme() {
+  return array(
+    'live_event_watch_links' => array(
+      'variables' => array(
+        'links_info' => NULL,
+        'race_status' => NULL,
+      ),
+      'file' => 'includes/pg_race.watch.theme.inc',
+    ),
+    'live_event_watch_timer' => array(
+      'variables' => array(
+        'timer_info' => NULL,
+        'race_status' => NULL,
+      ),
+      'file' => 'includes/pg_race.watch.theme.inc',
+    ),
+  );
 }

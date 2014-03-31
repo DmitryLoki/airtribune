@@ -51,28 +51,39 @@ function _at_alias_update_single_conjugate_node($node, $events) {
       );
       break;
   }
-  
+
   // Delete node's existing aliases
   _at_alias_delete_single_conjugate_node($node);
-  
+
   // Prepare placeholders.
   $clear_title = _at_alias_clear_string($node->title);
   $placeholders = array(':clear_title' => $clear_title, ':nid' => $node->nid);
   if ($node->type == AIRTRIBUNE_DAY_TYPE) {
-    $placeholders[':day_suffix'] = isset($node->field_day_number[LANGUAGE_NONE]['0']['value'])
-      ? $node->field_day_number[LANGUAGE_NONE]['0']['value']
-      : _at_alias_clear_string($node->title);
+    switch($node->field_day_status[LANGUAGE_NONE][0]['value']) {
+      case 4:
+        $placeholders[':day_suffix'] = 'registration';
+        break;
+      case 5:
+        $placeholders[':day_suffix'] = 'training';
+        break;
+      default:
+        $placeholders[':day_suffix'] = isset($node->field_day_number[LANGUAGE_NONE]['0']['value'])
+          ? $node->field_day_number[LANGUAGE_NONE]['0']['value']
+          : _at_alias_clear_string($node->title);
+        break;
+    }
+
   }
-  
+
   // Go through events.
   foreach ($events as $event) {
     $alias_base = _at_alias_get_event_alias_base($event);
     if ($alias_base == FALSE) {
       continue;
     }
-    
+
     $placeholders += array(':alias_base' => $alias_base, ':event_id' => $event->nid);
-    
+
     $path = array(
       'source' => strtr($pattern['source'], $placeholders),
       'alias' => strtr($pattern['alias'], $placeholders),
@@ -108,18 +119,18 @@ function _at_alias_delete_single_conjugate_node($node) {
 
 /**
  * Process event's conjugate nodes.
- * 
+ *
  * @var $op - event node hook option: insert, update, delete
  * @var $event - event node
  * @var $type - conjugate nodes' type
- * 
+ *
  * @return NULL
  */
 function _at_alias_process_event_conjugate_nodes($op, $event, $type) {
   //~ if (in_array($type, array(AIRTRIBUNE_ACCOMMODATION_TYPE, AIRTRIBUNE_ACTIVITY_TYPE, AIRTRIBUNE_DAY_TYPE))) {
     //~ return;
   //~ }
-  
+
   $nids = _at_alias_get_conjugate_nodes($event, $type);
   if (!empty($nids)) {
     $nodes = node_load_multiple($nids);
@@ -149,19 +160,19 @@ function _at_alias_insert_event_conjugate_nodes_alias($event, $nodes, $type) {
 
 function _at_alias_update_event_conjugate_nodes_alias($event, $nodes, $type) {
   module_load_include('inc', 'at_alias', 'at_alias.event');
-  
+
   // Get event alias base.
   $alias_base = _at_alias_get_event_alias_base($event);
   // Do nothing if there is no event alias in the db.
   if (empty($alias_base)) {
     return;
   }
-  
+
   // Delete conjugate nodes' old aliases.
   _at_alias_delete_event_conjugate_nodes_alias($event, $nodes, $type);
-  
+
   // @todo: Create new aliases
-  
+
   switch ($type) {
     case AIRTRIBUNE_ACCOMMODATION_TYPE :
       $subalias = 'accommodations';
@@ -179,16 +190,26 @@ function _at_alias_update_event_conjugate_nodes_alias($event, $nodes, $type) {
       );
       break;
   }
-  
+
   foreach ($nodes as $node) {
     $placeholders = array(':alias_base' => $alias_base, ':event_id' => $event->nid, ':nid' => $node->nid);
     $placeholders[':clear_title'] = _at_alias_clear_string($node->title);
     if ($node->type == AIRTRIBUNE_DAY_TYPE) {
-      $placeholders[':day_suffix'] = isset($node->field_day_number[LANGUAGE_NONE]['0']['value'])
-        ? $node->field_day_number[LANGUAGE_NONE]['0']['value']
-        : _at_alias_clear_string($node->title);
+      switch($node->field_day_status[LANGUAGE_NONE][0]['value']) {
+        case 4:
+          $placeholders[':day_suffix'] = 'registration';
+          break;
+        case 5:
+          $placeholders[':day_suffix'] = 'training';
+          break;
+        default:
+          $placeholders[':day_suffix'] = isset($node->field_day_number[LANGUAGE_NONE]['0']['value'])
+            ? $node->field_day_number[LANGUAGE_NONE]['0']['value']
+            : _at_alias_clear_string($node->title);
+          break;
+      }
     }
-    
+
     $path = array(
       'source' => strtr($pattern['source'], $placeholders),
       'alias' => strtr($pattern['alias'], $placeholders),
@@ -203,7 +224,7 @@ function _at_alias_update_event_conjugate_nodes_alias($event, $nodes, $type) {
 
 /**
  * Delete conjugate nodes' aliases on event delete.
- * 
+ *
  * @var $event - event node
  * @var $nodes - conjugate nodes
  * @var $type - conjugate nodes' type
@@ -211,13 +232,13 @@ function _at_alias_update_event_conjugate_nodes_alias($event, $nodes, $type) {
 function _at_alias_delete_event_conjugate_nodes_alias($event, $nodes, $type) {
   // Get event alias base.
   $alias_base = _at_alias_get_event_alias_base($event);
-  
+
   // Do nothing if there is no event alias in the db.
   if (empty($alias_base)) {
     return;
   }
-  
-  
+
+
   switch ($type) {
     case AIRTRIBUNE_ACCOMMODATION_TYPE :
       $subalias = 'accommodations';
@@ -235,7 +256,7 @@ function _at_alias_delete_event_conjugate_nodes_alias($event, $nodes, $type) {
       );
       break;
   }
-  
+
   //~ dsm($conditions);
   foreach ($nodes as $node) {
     // @todo: Seems, $alias_base isn't required here.
@@ -273,12 +294,12 @@ function _at_alias_delete_node_alias_multiple($conditions) {
 
 /**
  * Get conjugate nodes for given one.
- * 
+ *
  * @var $node - node that provides (geopoint) origin for search.
  * @var $type - type of conjugate nodes: activities or accomodations. Used for event $node only.
- * 
+ *
  * @return array $nids.
- * 
+ *
  * Possible pairs:
  * AIRTRIBUNE_PG_CONTEST_TYPE | AIRTRIBUNE_HG_CONTEST_TYPE <---> AIRTRIBUNE_ACCOMMODATION_TYPE | AIRTRIBUNE_ACTIVITY_TYPE | AIRTRIBUNE_DAY_TYPE
  */
@@ -292,19 +313,18 @@ function _at_alias_get_conjugate_nodes($node, $type = NULL) {
         $location = $wrapper->{AIRTRIBUNE_HQ_LOCATION_FIELD}->value();
         // Get nearby activities/accommodations.
         $nids = _at_alias_get_nearby_nodes($location, $type);
-      
+
       }
       elseif ($type == AIRTRIBUNE_DAY_TYPE){
         // Get in-event days.
-        $query = db_select('og_membership', 'og');
-        $query->join('node', 'n', 'og.etid = n.nid');
-        $query->fields('n');
-        $query->condition('n.type', AIRTRIBUNE_DAY_TYPE, '=');
-        $query->condition('og.gid', $node->nid,'=');
+        $query = new EntityFieldQuery();
+        $query->entityCondition('entity_type', 'node');
+        $query->entityCondition('bundle', AIRTRIBUNE_DAY_TYPE);
+        $query->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', $node->nid);
         $result = $query->execute();
 
-        foreach ($result as $row) {
-          $nids[] = $row->nid;
+        if (!empty($result['node'])) {
+          $nids = array_keys($result['node']);
         }
       }
       break;
@@ -336,10 +356,10 @@ function _at_alias_get_conjugate_nodes($node, $type = NULL) {
 
 /**
  * Get nodes of given type around the geopoint.
- * 
+ *
  * @var $location - center, around which to look for nodes.
  * @var $type - type of nodes, that are looked for.
- * 
+ *
  * @return array $nids.
  */
 function _at_alias_get_nearby_nodes($location, $type) {
@@ -359,7 +379,7 @@ function _at_alias_get_nearby_nodes($location, $type) {
     default :
       return;
   }
-  
+
   $sql = "SELECT location.* FROM {$location_table} location WHERE bundle = :bundle AND
           ST_Distance(ST_Point(location.{$postgis_lon}, {$postgis_lat})::geography, ST_Point(:lon, :lat)::geography) < :distance";
 
@@ -381,10 +401,10 @@ function _at_alias_get_nearby_nodes($location, $type) {
     watchdog('airtribune', 'Fetch location nearby nodes failed: %message', array('%message' => $e->getMessage()), WATCHDOG_ERROR);
     return $nids;
   }
-  
-  
-  
-  
+
+
+
+
   foreach ($result as $row) {
     $nids[] = $row->entity_id;
   }

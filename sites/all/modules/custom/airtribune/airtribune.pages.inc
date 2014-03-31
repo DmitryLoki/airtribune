@@ -9,6 +9,7 @@
  * Form function to edit og_membership entity.
  */
 function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
+  global $base_url;
   // Event does not exist
   if (!$event) {
     drupal_not_found();
@@ -28,7 +29,7 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     'field_fai_category',
     'field_open_class',
     'field_country',
-    'field_registration_sw',
+    'field_time_zone',
     'field_sequence',
     '#pre_render',
     '#entity_type',
@@ -45,16 +46,26 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     '#weight' => -1,
   );
   $form['field_country']['#weight'] = 0;
+  $form['field_time_zone']['#weight'] = 0;
   $form['field_flying_info']['#weight'] = 10;
   $form['field_flying_site_ref']['#weight'] = 20;
   $form['field_take_offs']['#weight'] = 30;
   $form['alias'] = array(
     '#type' => 'textfield',
     '#title' => t('URL address'),
+    '#field_prefix' => $base_url . '/',
     '#default_value' => drupal_get_path_alias('event/' . $event->nid),
     '#weight' => 40,
   );
   $form['field_tiny_path']['#weight'] = 50;
+  for ($i = 0; $i<=$form['field_tiny_path'][LANGUAGE_NONE]['#max_delta']; $i++ ) {
+    $form['field_tiny_path'][LANGUAGE_NONE][$i]['value']['#field_prefix'] = $base_url . '/';
+    if (!empty($form['field_tiny_path'][LANGUAGE_NONE][$i]['value']['#default_value']) &&
+        !user_access('bypass node access')) {
+      // Disable field for organizer if not empty alias value
+      $form['field_tiny_path'][LANGUAGE_NONE][$i]['#disabled'] = TRUE;
+    }
+  }
   $lang = $form['field_tiny_path']['#language'];
   $form['field_tiny_path'][$lang]['add_more']['#prefix'] = '<div class="form-actions">';
   $form['field_tiny_path'][$lang]['add_more']['#suffix'] = '</div>';
@@ -79,6 +90,7 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     '#default_value' => $event->field_registration_sw['und'][0]['value'],
     '#weight' => 110,
   );
+  $form['field_sequence']['#weight'] = 115;
   $form['setting_status'] = array(
     '#type' => 'radios',
     '#title' => t('Publication settings'),
@@ -97,6 +109,7 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     '#prefix' => '<div class="form-actions">',
     '#suffix' => '</div>',
   );
+  $form['#attached']['js'][] =  drupal_get_path('module', 'at_user') . '/js/auto_upload.js';
   drupal_add_js('Drupal.behaviors.updateForm = {attach:function(){updateForm(false, {disableChoiceOfFirstItemInSelection:true, file_bt:Drupal.t("Add image")})}}', 'inline');
   return $form;
 }

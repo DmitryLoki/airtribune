@@ -17,4 +17,3 @@ function hg_contest_ctools_plugin_api() {
     return array("version" => "1");
   }
 }
-

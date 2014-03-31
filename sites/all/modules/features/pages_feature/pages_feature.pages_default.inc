@@ -404,6 +404,68 @@ terms',
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
+  $handler->name = 'pm_existing_pages_contestant_edit_template_panel_context';
+  $handler->task = 'pm_existing_pages';
+  $handler->subtask = 'contestant_edit_template';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Contestant edit',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+  );
+  $display = new panels_display();
+  $display->layout = 'onecol';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'middle' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-5';
+    $pane->panel = 'middle';
+    $pane->type = 'pm_existing_pages';
+    $pane->subtype = 'pm_existing_pages';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      0 => 'task_id',
+      1 => 'pane_title_from_menu',
+      'task_id' => 'contestant_edit_template',
+      'pane_title_from_menu' => 0,
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-5'] = $pane;
+    $display->panels['middle'][0] = 'new-5';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = 'new-5';
+  $handler->conf['display'] = $display;
+  $export['pm_existing_pages_contestant_edit_template_panel_context'] = $handler;
+
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
   $handler->name = 'site_template_panel_context_2';
   $handler->task = 'site_template';
   $handler->subtask = '';
@@ -531,7 +593,7 @@ terms',
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-5';
+    $pane->pid = 'new-6';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'views_panes';
     $pane->subtype = 'header_slideshow-front_page_header';
@@ -565,10 +627,10 @@ terms',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-5'] = $pane;
-    $display->panels['featured_header_padding'][0] = 'new-5';
+    $display->content['new-6'] = $pane;
+    $display->panels['featured_header_padding'][0] = 'new-6';
     $pane = new stdClass();
-    $pane->pid = 'new-6';
+    $pane->pid = 'new-7';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'views_panes';
     $pane->subtype = 'events_map-events_pane';
@@ -596,10 +658,10 @@ events/*',
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-6'] = $pane;
-    $display->panels['featured_header_padding'][1] = 'new-6';
+    $display->content['new-7'] = $pane;
+    $display->panels['featured_header_padding'][1] = 'new-7';
     $pane = new stdClass();
-    $pane->pid = 'new-7';
+    $pane->pid = 'new-8';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'views_panes';
     $pane->subtype = 'header_slideshow-default_header';
@@ -645,6 +707,16 @@ viewers/*',
           'context' => 'alias',
           'not' => FALSE,
         ),
+        4 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'user/*
+profile-pilot/*',
+          ),
+          'context' => 'empty',
+          'not' => TRUE,
+        ),
       ),
     );
     $pane->configuration = array();
@@ -656,10 +728,10 @@ viewers/*',
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-7'] = $pane;
-    $display->panels['featured_header_padding'][2] = 'new-7';
+    $display->content['new-8'] = $pane;
+    $display->panels['featured_header_padding'][2] = 'new-8';
     $pane = new stdClass();
-    $pane->pid = 'new-8';
+    $pane->pid = 'new-9';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'views_panes';
     $pane->subtype = 'header_slideshow-panel_pane_1';
@@ -696,10 +768,44 @@ viewers/*',
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-8'] = $pane;
-    $display->panels['featured_header_padding'][3] = 'new-8';
+    $display->content['new-9'] = $pane;
+    $display->panels['featured_header_padding'][3] = 'new-9';
     $pane = new stdClass();
-    $pane->pid = 'new-9';
+    $pane->pid = 'new-10';
+    $pane->panel = 'featured_header_padding';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'user_header-user_header';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'user/*
+profile-pilot/*',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 4;
+    $pane->locks = array();
+    $display->content['new-10'] = $pane;
+    $display->panels['featured_header_padding'][4] = 'new-10';
+    $pane = new stdClass();
+    $pane->pid = 'new-11';
     $pane->panel = 'featured_header_title';
     $pane->type = 'page_title';
     $pane->subtype = 'page_title';
@@ -738,10 +844,10 @@ viewers/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-9'] = $pane;
-    $display->panels['featured_header_title'][0] = 'new-9';
+    $display->content['new-11'] = $pane;
+    $display->panels['featured_header_title'][0] = 'new-11';
     $pane = new stdClass();
-    $pane->pid = 'new-10';
+    $pane->pid = 'new-12';
     $pane->panel = 'footer';
     $pane->type = 'panels_mini';
     $pane->subtype = 'footer_blocks';
@@ -759,10 +865,10 @@ viewers/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-10'] = $pane;
-    $display->panels['footer'][0] = 'new-10';
+    $display->content['new-12'] = $pane;
+    $display->panels['footer'][0] = 'new-12';
     $pane = new stdClass();
-    $pane->pid = 'new-11';
+    $pane->pid = 'new-13';
     $pane->panel = 'header';
     $pane->type = 'panels_mini';
     $pane->subtype = 'header_blocks';
@@ -780,10 +886,10 @@ viewers/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-11'] = $pane;
-    $display->panels['header'][0] = 'new-11';
+    $display->content['new-13'] = $pane;
+    $display->panels['header'][0] = 'new-13';
     $pane = new stdClass();
-    $pane->pid = 'new-12';
+    $pane->pid = 'new-14';
     $pane->panel = 'left';
     $pane->type = 'pane_messages';
     $pane->subtype = 'pane_messages';
@@ -798,10 +904,10 @@ viewers/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-12'] = $pane;
-    $display->panels['left'][0] = 'new-12';
+    $display->content['new-14'] = $pane;
+    $display->panels['left'][0] = 'new-14';
     $pane = new stdClass();
-    $pane->pid = 'new-13';
+    $pane->pid = 'new-15';
     $pane->panel = 'left';
     $pane->type = 'page_title';
     $pane->subtype = 'page_title';
@@ -853,10 +959,10 @@ user',
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-13'] = $pane;
-    $display->panels['left'][1] = 'new-13';
+    $display->content['new-15'] = $pane;
+    $display->panels['left'][1] = 'new-15';
     $pane = new stdClass();
-    $pane->pid = 'new-14';
+    $pane->pid = 'new-16';
     $pane->panel = 'left';
     $pane->type = 'page_content';
     $pane->subtype = 'page_content';
@@ -875,10 +981,10 @@ user',
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = '';
-    $display->content['new-14'] = $pane;
-    $display->panels['left'][2] = 'new-14';
+    $display->content['new-16'] = $pane;
+    $display->panels['left'][2] = 'new-16';
     $pane = new stdClass();
-    $pane->pid = 'new-15';
+    $pane->pid = 'new-17';
     $pane->panel = 'right';
     $pane->type = 'recently_viewed';
     $pane->subtype = 'recently_viewed';
@@ -904,10 +1010,10 @@ user',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-15'] = $pane;
-    $display->panels['right'][0] = 'new-15';
+    $display->content['new-17'] = $pane;
+    $display->panels['right'][0] = 'new-17';
     $pane = new stdClass();
-    $pane->pid = 'new-16';
+    $pane->pid = 'new-18';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'activity-news_content_pane';
@@ -930,10 +1036,10 @@ user',
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-16'] = $pane;
-    $display->panels['right'][1] = 'new-16';
+    $display->content['new-18'] = $pane;
+    $display->panels['right'][1] = 'new-18';
     $pane = new stdClass();
-    $pane->pid = 'new-17';
+    $pane->pid = 'new-19';
     $pane->panel = 'right';
     $pane->type = 'airtribune_event_sharelinks';
     $pane->subtype = 'airtribune_event_sharelinks';
@@ -970,10 +1076,10 @@ terms',
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-17'] = $pane;
-    $display->panels['right'][2] = 'new-17';
+    $display->content['new-19'] = $pane;
+    $display->panels['right'][2] = 'new-19';
     $pane = new stdClass();
-    $pane->pid = 'new-18';
+    $pane->pid = 'new-20';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'next_events-sidebar_pane';
@@ -1017,10 +1123,10 @@ viewers/*',
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-18'] = $pane;
-    $display->panels['right'][3] = 'new-18';
+    $display->content['new-20'] = $pane;
+    $display->panels['right'][3] = 'new-20';
     $pane = new stdClass();
-    $pane->pid = 'new-19';
+    $pane->pid = 'new-21';
     $pane->panel = 'right';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -1055,10 +1161,10 @@ viewers/*',
     $pane->extras = array();
     $pane->position = 4;
     $pane->locks = array();
-    $display->content['new-19'] = $pane;
-    $display->panels['right'][4] = 'new-19';
+    $display->content['new-21'] = $pane;
+    $display->panels['right'][4] = 'new-21';
     $pane = new stdClass();
-    $pane->pid = 'new-20';
+    $pane->pid = 'new-22';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-panel_pane_4';
@@ -1090,10 +1196,10 @@ viewers/*',
     $pane->extras = array();
     $pane->position = 5;
     $pane->locks = array();
-    $display->content['new-20'] = $pane;
-    $display->panels['right'][5] = 'new-20';
+    $display->content['new-22'] = $pane;
+    $display->panels['right'][5] = 'new-22';
     $pane = new stdClass();
-    $pane->pid = 'new-21';
+    $pane->pid = 'new-23';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-pane_solutions_organizers';
@@ -1121,10 +1227,10 @@ organizers/*',
     $pane->extras = array();
     $pane->position = 6;
     $pane->locks = array();
-    $display->content['new-21'] = $pane;
-    $display->panels['right'][6] = 'new-21';
+    $display->content['new-23'] = $pane;
+    $display->panels['right'][6] = 'new-23';
     $pane = new stdClass();
-    $pane->pid = 'new-22';
+    $pane->pid = 'new-24';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-pane_solutions_pilots';
@@ -1152,10 +1258,10 @@ pilots/*',
     $pane->extras = array();
     $pane->position = 7;
     $pane->locks = array();
-    $display->content['new-22'] = $pane;
-    $display->panels['right'][7] = 'new-22';
+    $display->content['new-24'] = $pane;
+    $display->panels['right'][7] = 'new-24';
     $pane = new stdClass();
-    $pane->pid = 'new-23';
+    $pane->pid = 'new-25';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-pane_solutions_viewers';
@@ -1183,10 +1289,10 @@ viewers/*',
     $pane->extras = array();
     $pane->position = 8;
     $pane->locks = array();
-    $display->content['new-23'] = $pane;
-    $display->panels['right'][8] = 'new-23';
+    $display->content['new-25'] = $pane;
+    $display->panels['right'][8] = 'new-25';
     $pane = new stdClass();
-    $pane->pid = 'new-24';
+    $pane->pid = 'new-26';
     $pane->panel = 'top';
     $pane->type = 'page_breadcrumb';
     $pane->subtype = 'page_breadcrumb';
@@ -1201,8 +1307,8 @@ viewers/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-24'] = $pane;
-    $display->panels['top'][0] = 'new-24';
+    $display->content['new-26'] = $pane;
+    $display->panels['top'][0] = 'new-26';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -1347,7 +1453,7 @@ viewers/*',
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-25';
+    $pane->pid = 'new-27';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'views_panes';
     $pane->subtype = 'header_slideshow-event_header';
@@ -1386,10 +1492,10 @@ event/*/results',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-25'] = $pane;
-    $display->panels['featured_header_padding'][0] = 'new-25';
+    $display->content['new-27'] = $pane;
+    $display->panels['featured_header_padding'][0] = 'new-27';
     $pane = new stdClass();
-    $pane->pid = 'new-26';
+    $pane->pid = 'new-28';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'views_panes';
     $pane->subtype = 'header_slideshow-event_results_header';
@@ -1426,10 +1532,10 @@ event/*/results',
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-26'] = $pane;
-    $display->panels['featured_header_padding'][1] = 'new-26';
+    $display->content['new-28'] = $pane;
+    $display->panels['featured_header_padding'][1] = 'new-28';
     $pane = new stdClass();
-    $pane->pid = 'new-27';
+    $pane->pid = 'new-29';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'views_panes';
     $pane->subtype = 'event_map-event_map';
@@ -1464,10 +1570,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-27'] = $pane;
-    $display->panels['featured_header_padding'][2] = 'new-27';
+    $display->content['new-29'] = $pane;
+    $display->panels['featured_header_padding'][2] = 'new-29';
     $pane = new stdClass();
-    $pane->pid = 'new-28';
+    $pane->pid = 'new-30';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'views_panes';
     $pane->subtype = 'event_map-activities_pane';
@@ -1501,10 +1607,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-28'] = $pane;
-    $display->panels['featured_header_padding'][3] = 'new-28';
+    $display->content['new-30'] = $pane;
+    $display->panels['featured_header_padding'][3] = 'new-30';
     $pane = new stdClass();
-    $pane->pid = 'new-29';
+    $pane->pid = 'new-31';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'airtribune_vis';
     $pane->subtype = 'airtribune_vis';
@@ -1525,11 +1631,11 @@ event/*/day/*',
     );
     $pane->configuration = array(
       'widget_code' => array(
-        'value' => '<link rel="stylesheet" href="http://vis.airtribune.com/css/airvis.css"/>
-<script  src="/sites/all/modules/custom/airtribune/js/day-blog-airvis-controller.js"></script>
-<script src="http://vis.airtribune.com/airvis.min.js"></script>
+        'value' => '<script  src="/sites/all/modules/custom/airtribune/js/day-blog-airvis-controller.js"></script>
+<link rel="stylesheet" href="[variable:vis-domain]/airvis.min.css">
+<script src="[variable:vis-domain]/airvis-2d-simple-[variable:core-api-version].min.js"></script>
 <div role="main" class="airvis-container">
-<!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/img/", contestId: "", raceId: "", width: "[airtribune:widget-width]px", height: "[airtribune:widget-height]px", callback: window.airvisPageLoadedCallback, mode: "simple", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", mapOptions: {activateScrollWheelOnClick:true,panControl:false,streetViewControl:false,scrollwheel:false,zoomControl:true,mapTypeControl:false,zoomControlOptions:{style:google.maps.ZoomControlStyle.LARGE} } } --><!-- /ko -->
+<!-- ko widget: { data: page, imgRootUrl: "[variable:vis-domain]/img/", contestId: "", raceId: "", width: "[airtribune:widget-width]px", height: "[airtribune:widget-height]px", callback: window.airvisPageLoadedCallback, apiDomain: "[variable:core-api-domain]", mapOptions: {activateScrollWheelOnClick:true,panControl:false,streetViewControl:false,scrollwheel:false,zoomControl:true,mapTypeControl:false,zoomControlOptions:{style:google.maps.ZoomControlStyle.LARGE} } } --><!-- /ko -->
 </div>',
         'format' => 'full_html',
       ),
@@ -1551,10 +1657,10 @@ event/*/day/*',
     $pane->extras = array();
     $pane->position = 4;
     $pane->locks = array();
-    $display->content['new-29'] = $pane;
-    $display->panels['featured_header_padding'][4] = 'new-29';
+    $display->content['new-31'] = $pane;
+    $display->panels['featured_header_padding'][4] = 'new-31';
     $pane = new stdClass();
-    $pane->pid = 'new-30';
+    $pane->pid = 'new-32';
     $pane->panel = 'featured_header_title';
     $pane->type = 'event_title';
     $pane->subtype = 'event_title';
@@ -1592,10 +1698,10 @@ event/*/day/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-30'] = $pane;
-    $display->panels['featured_header_title'][0] = 'new-30';
+    $display->content['new-32'] = $pane;
+    $display->panels['featured_header_title'][0] = 'new-32';
     $pane = new stdClass();
-    $pane->pid = 'new-31';
+    $pane->pid = 'new-33';
     $pane->panel = 'featured_header_title';
     $pane->type = 'event_title';
     $pane->subtype = 'event_title';
@@ -1627,10 +1733,10 @@ event/*/day/*',
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-31'] = $pane;
-    $display->panels['featured_header_title'][1] = 'new-31';
+    $display->content['new-33'] = $pane;
+    $display->panels['featured_header_title'][1] = 'new-33';
     $pane = new stdClass();
-    $pane->pid = 'new-32';
+    $pane->pid = 'new-34';
     $pane->panel = 'footer';
     $pane->type = 'panels_mini';
     $pane->subtype = 'footer_blocks';
@@ -1660,10 +1766,10 @@ event/*/day/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-32'] = $pane;
-    $display->panels['footer'][0] = 'new-32';
+    $display->content['new-34'] = $pane;
+    $display->panels['footer'][0] = 'new-34';
     $pane = new stdClass();
-    $pane->pid = 'new-33';
+    $pane->pid = 'new-35';
     $pane->panel = 'header';
     $pane->type = 'panels_mini';
     $pane->subtype = 'header_blocks';
@@ -1681,10 +1787,10 @@ event/*/day/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-33'] = $pane;
-    $display->panels['header'][0] = 'new-33';
+    $display->content['new-35'] = $pane;
+    $display->panels['header'][0] = 'new-35';
     $pane = new stdClass();
-    $pane->pid = 'new-34';
+    $pane->pid = 'new-36';
     $pane->panel = 'left';
     $pane->type = 'pane_messages';
     $pane->subtype = 'pane_messages';
@@ -1702,10 +1808,10 @@ event/*/day/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-34'] = $pane;
-    $display->panels['left'][0] = 'new-34';
+    $display->content['new-36'] = $pane;
+    $display->panels['left'][0] = 'new-36';
     $pane = new stdClass();
-    $pane->pid = 'new-35';
+    $pane->pid = 'new-37';
     $pane->panel = 'left';
     $pane->type = 'page_title';
     $pane->subtype = 'page_title';
@@ -1743,10 +1849,10 @@ event/*/day/*',
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-35'] = $pane;
-    $display->panels['left'][1] = 'new-35';
+    $display->content['new-37'] = $pane;
+    $display->panels['left'][1] = 'new-37';
     $pane = new stdClass();
-    $pane->pid = 'new-36';
+    $pane->pid = 'new-38';
     $pane->panel = 'left';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-panel_pane_3';
@@ -1777,10 +1883,10 @@ event/*/day/*',
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-36'] = $pane;
-    $display->panels['left'][2] = 'new-36';
+    $display->content['new-38'] = $pane;
+    $display->panels['left'][2] = 'new-38';
     $pane = new stdClass();
-    $pane->pid = 'new-37';
+    $pane->pid = 'new-39';
     $pane->panel = 'left';
     $pane->type = 'page_content';
     $pane->subtype = 'page_content';
@@ -1799,10 +1905,10 @@ event/*/day/*',
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = '';
-    $display->content['new-37'] = $pane;
-    $display->panels['left'][3] = 'new-37';
+    $display->content['new-39'] = $pane;
+    $display->panels['left'][3] = 'new-39';
     $pane = new stdClass();
-    $pane->pid = 'new-38';
+    $pane->pid = 'new-40';
     $pane->panel = 'right';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -1838,10 +1944,10 @@ event/*/day/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-38'] = $pane;
-    $display->panels['right'][0] = 'new-38';
+    $display->content['new-40'] = $pane;
+    $display->panels['right'][0] = 'new-40';
     $pane = new stdClass();
-    $pane->pid = 'new-39';
+    $pane->pid = 'new-41';
     $pane->panel = 'right';
     $pane->type = 'airtribune_event_sharelinks';
     $pane->subtype = 'airtribune_event_sharelinks';
@@ -1877,10 +1983,10 @@ event/*/race/*/results/*',
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-39'] = $pane;
-    $display->panels['right'][1] = 'new-39';
+    $display->content['new-41'] = $pane;
+    $display->panels['right'][1] = 'new-41';
     $pane = new stdClass();
-    $pane->pid = 'new-40';
+    $pane->pid = 'new-42';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-panel_pane_2';
@@ -1915,10 +2021,10 @@ event/*/race/*/results/*',
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-40'] = $pane;
-    $display->panels['right'][2] = 'new-40';
+    $display->content['new-42'] = $pane;
+    $display->panels['right'][2] = 'new-42';
     $pane = new stdClass();
-    $pane->pid = 'new-41';
+    $pane->pid = 'new-43';
     $pane->panel = 'right';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -1960,10 +2066,10 @@ event/*/race/*/results/*',
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-41'] = $pane;
-    $display->panels['right'][3] = 'new-41';
+    $display->content['new-43'] = $pane;
+    $display->panels['right'][3] = 'new-43';
     $pane = new stdClass();
-    $pane->pid = 'new-42';
+    $pane->pid = 'new-44';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'next_events-sidebar_pane';
@@ -2000,10 +2106,10 @@ event/*/race/*/results/*',
     $pane->extras = array();
     $pane->position = 4;
     $pane->locks = array();
-    $display->content['new-42'] = $pane;
-    $display->panels['right'][4] = 'new-42';
+    $display->content['new-44'] = $pane;
+    $display->panels['right'][4] = 'new-44';
     $pane = new stdClass();
-    $pane->pid = 'new-43';
+    $pane->pid = 'new-45';
     $pane->panel = 'top';
     $pane->type = 'page_breadcrumb';
     $pane->subtype = 'page_breadcrumb';
@@ -2030,8 +2136,8 @@ event/*/race/*/results/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-43'] = $pane;
-    $display->panels['top'][0] = 'new-43';
+    $display->content['new-45'] = $pane;
+    $display->panels['top'][0] = 'new-45';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -2168,7 +2274,7 @@ event/*/race/*/results/*',
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-44';
+    $pane->pid = 'new-46';
     $pane->panel = 'footer';
     $pane->type = 'panels_mini';
     $pane->subtype = 'footer_blocks';
@@ -2186,10 +2292,10 @@ event/*/race/*/results/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-44'] = $pane;
-    $display->panels['footer'][0] = 'new-44';
+    $display->content['new-46'] = $pane;
+    $display->panels['footer'][0] = 'new-46';
     $pane = new stdClass();
-    $pane->pid = 'new-45';
+    $pane->pid = 'new-47';
     $pane->panel = 'header';
     $pane->type = 'panels_mini';
     $pane->subtype = 'header_blocks';
@@ -2207,10 +2313,10 @@ event/*/race/*/results/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-45'] = $pane;
-    $display->panels['header'][0] = 'new-45';
+    $display->content['new-47'] = $pane;
+    $display->panels['header'][0] = 'new-47';
     $pane = new stdClass();
-    $pane->pid = 'new-46';
+    $pane->pid = 'new-48';
     $pane->panel = 'middle';
     $pane->type = 'page_content';
     $pane->subtype = 'page_content';
@@ -2229,8 +2335,8 @@ event/*/race/*/results/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-46'] = $pane;
-    $display->panels['middle'][0] = 'new-46';
+    $display->content['new-48'] = $pane;
+    $display->panels['middle'][0] = 'new-48';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -2272,7 +2378,7 @@ event/*/race/*/results/*',
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-47';
+    $pane->pid = 'new-49';
     $pane->panel = 'middle';
     $pane->type = 'page_content';
     $pane->subtype = 'page_content';
@@ -2294,12 +2400,72 @@ event/*/race/*/results/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-47'] = $pane;
-    $display->panels['middle'][0] = 'new-47';
+    $display->content['new-49'] = $pane;
+    $display->panels['middle'][0] = 'new-49';
   $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = 'new-47';
+  $display->title_pane = 'new-49';
   $handler->conf['display'] = $display;
   $export['site_template_panel_context_5'] = $handler;
+
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'user_edit_panel_context';
+  $handler->task = 'user_edit';
+  $handler->subtask = '';
+  $handler->handler = 'panel_context';
+  $handler->weight = -29;
+  $handler->conf = array(
+    'title' => 'Edit user',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'panels_everywhere_site_template' => '',
+  );
+  $display = new panels_display();
+  $display->layout = 'one';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'one_main' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-50';
+    $pane->panel = 'one_main';
+    $pane->type = 'form';
+    $pane->subtype = 'form';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_user_edit_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-50'] = $pane;
+    $display->panels['one_main'][0] = 'new-50';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = 'new-50';
+  $handler->conf['display'] = $display;
+  $export['user_edit_panel_context'] = $handler;
 
   return $export;
 }
@@ -3354,7 +3520,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'override_title_text' => '',
       'identifier' => '',
       'link' => 0,
-      'leave_node_title' => 0,
+      'leave_node_title' => 1,
       'build_mode' => 'full',
       'context' => 'argument_entity_id:node_2',
     );
@@ -7034,7 +7200,7 @@ window.fbAsyncInit = function() {
     $pane->pid = 'new-84';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
-    $pane->subtype = 'frontpage_events-live_events_pane';
+    $pane->subtype = 'frontpage_live_events-panel_pane_2';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
@@ -7042,7 +7208,10 @@ window.fbAsyncInit = function() {
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'front_live_events',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
@@ -7867,15 +8036,13 @@ window.fbAsyncInit = function() {
     $pane->access = array();
     $pane->configuration = array(
       'widget_code' => array(
-        'value' => '<link rel="stylesheet" href="http://vis.airtribune.com/css/airvis.css"/>
-    <link rel="stylesheet" href="http://vis.airtribune.com/css/checkbox.css"/>
-    <link rel="stylesheet" href="http://vis.airtribune.com/css/shiny-sprite.css">
-    <script src="http://vis.airtribune.com/airvis.min.js"></script>
+        'value' => '<link rel="stylesheet" href="[variable:vis-domain]/airvis.min.css">
+     <script src="[variable:vis-domain]/airvis-[airtribune:widget-map]-full-[variable:core-api-version].min.js "></script>
     <div role="main" class="airvis-container"[airtribune:ge-css:airvis-container:style]>
       <div class="airvis-loading-container">
         <div class="airvis-loading[airtribune:ge-css:airvis-loading:class]">&nbsp;</div>
       </div>
-    <!-- ko widget: { data: page, rootDomain: "http://vis.airtribune.com", imgRootUrl: "/img/", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", isOnline: [airtribune:race-online], titleUrl: "[airtribune:contest-url]", mapWidget:"[airtribune:widget-map]", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, defaultCookieValues:{}, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}}[airtribune:ge-settings] } --><!-- /ko -->
+    <!-- ko widget: { data: page, rootDomain: "[variable:vis-domain]", imgRootUrl: "/img/", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", isOnline: [airtribune:race-online], titleUrl: "[airtribune:contest-url]", apiDomain: "[variable:core-api-domain]", cookiesEnabled: true, defaultCookieValues:{}, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}}[airtribune:ge-settings] } --><!-- /ko -->
     </div>',
         'format' => 'full_html',
       ),
@@ -7998,123 +8165,10 @@ window.fbAsyncInit = function() {
     $pane->access = array();
     $pane->configuration = array(
       'widget_code' => array(
-        'value' => '    <link rel="stylesheet" href="http://vis.airtribune.com/leaderboard/lib/bootstrap-3.0.0/css/bootstrap.css">
-    <style>
-      .table {
-        font-size:14px;
-      }
-      .table thead > tr > th,.table tbody > tr > td {
-        padding: 3px;
-      }
-      .returned {
-        background-color: #B7D8A2;
-      }
-      .picked_up {
-        background-color: #FFE68C;
-      }
-    </style>
-    <script type="text/javascript" src="http://vis.airtribune.com/leaderboard/lib/jquery-1.8.2.min.js"></script>
-  	<script type="text/javascript" src="http://vis.airtribune.com/leaderboard/lib/knockout-3.0.0.min.js"></script>
-  	<script type="text/javascript" src="http://vis.airtribune.com/leaderboard/table.js"></script>
-  </head>
-  <body>
-    <div class="container" style="max-width:100%;">
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="pull-right">Status: <span data-bind="text:status"></span></div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-3">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Pilot</th>
-                <th>Result</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody data-bind="foreach:pilots">
-              <!-- ko if: $index()<35 -->
-                <tr>
-                  <td data-bind="text:$index()+1"></td>
-                  <td data-bind="text:name()+\' (\'+id+\')\'"></td>
-                  <td data-bind="text:text"></td>
-                  <td data-bind="text:retrieveStatus,css:retrieveStatus"></td>
-                </tr>
-              <!-- /ko -->
-            </tbody>
-          </table>
-        </div>
-        <div class="col-sm-3">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Pilot</th>
-                <th>Result</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody data-bind="foreach:pilots">
-              <!-- ko if: $index()>=35 && $index()<70 -->
-                <tr>
-                  <td data-bind="text:$index()+1"></td>
-                  <td data-bind="text:name()+\' (\'+id+\')\'"></td>
-                  <td data-bind="text:text"></td>
-                  <td data-bind="text:retrieveStatus,css:retrieveStatus"></td>
-                </tr>
-              <!-- /ko -->
-            </tbody>
-          </table>
-        </div>
-        <div class="col-sm-3">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Pilot</th>
-                <th>Result</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody data-bind="foreach:pilots">
-              <!-- ko if: $index()>=70 && $index()<105 -->
-                <tr>
-                  <td data-bind="text:$index()+1"></td>
-                  <td data-bind="text:name()+\' (\'+id+\')\'"></td>
-                  <td data-bind="text:text"></td>
-                  <td data-bind="text:retrieveStatus,css:retrieveStatus"></td>
-                </tr>
-              <!-- /ko -->
-            </tbody>
-          </table>
-        </div>
-        <div class="col-sm-3">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Pilot</th>
-                <th>Result</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody data-bind="foreach:pilots">
-              <!-- ko if: $index()>=105 -->
-                <tr>
-                  <td data-bind="text:$index()+1"></td>
-                  <td data-bind="text:name()+\' (\'+id+\')\'"></td>
-                  <td data-bind="text:text"></td>
-                  <td data-bind="text:retrieveStatus,css:retrieveStatus"></td>
-                </tr>
-              <!-- /ko -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>',
+        'value' => '<link rel="stylesheet" href="[variable:vis-domain]/leaderboard/bootstrap-3.0.0/css/bootstrap.css">
+<link rel="stylesheet" href="[variable:vis-domain]/leaderboard/table.css">
+<script type="text/javascript" src="[variable:vis-domain]/leaderboard/airvis-table.min.js"></script>
+<div class="container" id="container" data-options=\'{"contestId":"[airtribune:contest-core-id]","raceId":"[airtribune:race-core-id]","isOnline":[airtribune:race-online],"apiDomain":"[variable:core-api-domain]","apiVersion":"[variable:core-api-version]"}\'></div>',
         'format' => 'full_html',
       ),
       'widget_type' => '_none',
@@ -8442,15 +8496,13 @@ window.fbAsyncInit = function() {
     $pane->access = array();
     $pane->configuration = array(
       'widget_code' => array(
-        'value' => '<link rel="stylesheet" href="http://retrieve.airtribune.com/css/airvis.css"/>
-    <link rel="stylesheet" href="http://retrieve.airtribune.com/css/checkbox.css"/>
-    <link rel="stylesheet" href="http://retrieve.airtribune.com/css/shiny-sprite.css">
-    <script data-main="http://retrieve.airtribune.com/js/init" src="http://retrieve.airtribune.com/js/lib/require.js"></script>
+        'value' => '<link rel="stylesheet" href="[variable:retrieve-domain]/retrieve_map.min.css">
+    <script src="[variable:retrieve-domain]/retrieve_map.min.js"></script>
     <div role="main" class="airvis-container">
       <div class="airvis-loading-container">
         <div class="airvis-loading">&nbsp;</div>
       </div>
-    <!-- ko widget: { data: page, imgRootUrl: "http://retrieve.airtribune.com/img/", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", mode: "retrieve", isOnline: [airtribune:race-online], titleUrl: "[airtribune:contest-url]", mapWidget:"2d-canvas", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}} } --><!-- /ko -->
+      <!-- ko widget: { data: page, imgRootUrl: "[variable:retrieve-domain]/img/", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", mode: "retrieve", isOnline: [airtribune:race-online], titleUrl: "[airtribune:contest-url]", mapWidget:"2d-canvas", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}} } --><!-- /ko -->
     </div>',
         'format' => 'full_html',
       ),
@@ -8554,9 +8606,9 @@ window.fbAsyncInit = function() {
     $pane->access = array();
     $pane->configuration = array(
       'widget_code' => array(
-        'value' => '<!--link rel="stylesheet" href="http://retrieve.airtribune.com/table/css/style.css"-->
-<script data-main="http://retrieve.airtribune.com/table/init" src="http://retrieve.airtribune.com/table/libs/require.js"></script>
-<retrieve-table root-url="http://retrieve.airtribune.com/table" api-version="[variable:core-api-version]" api-domain="[variable:core-api-domain]" contest-id="[airtribune:contest-core-id]" race-id="[airtribune:race-core-id]"></retrieve-table>',
+        'value' => '<!--link rel="stylesheet" href="[variable:retrieve-domain]/table/css/style.css"-->
+<script data-main="[variable:retrieve-domain]/table/init" src="[variable:retrieve-domain]/table/libs/require.js"></script>
+<retrieve-table root-url="[variable:retrieve-domain]/table" api-version="[variable:core-api-version]" api-domain="[variable:core-api-domain]" contest-id="[airtribune:contest-core-id]" race-id="[airtribune:race-core-id]"></retrieve-table>',
         'format' => 'php_code',
       ),
       'widget_type' => '2d',

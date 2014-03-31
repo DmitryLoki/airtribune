@@ -21,12 +21,12 @@ function hg_contest_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Contacts',
-    'weight' => '29',
+    'weight' => '27',
     'children' => array(
-      0 => 'field_contacts_name',
-      1 => 'field_position',
-      2 => 'field_contacts_phone',
-      3 => 'field_contacts_email',
+      0 => 'field_contacts_email',
+      1 => 'field_contacts_phone',
+      2 => 'field_position',
+      3 => 'field_contacts_name',
     ),
     'format_type' => 'field_group_multiple_table',
     'format_settings' => array(

@@ -35,28 +35,55 @@ function at_core_sync_admin_settings() {
     '#description' => t('For example: http://api.airtribune.com'),
   );
 
+  $form['at_core_sync_custom_settings']['at_core_sync_port'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Core API port'),
+    '#multiple' => FALSE,
+    '#size' => 5,
+    '#default_value' => variable_get('at_core_sync_port', '80'),
+    '#description' => t('For example: 80'),
+  );
+
   $form['at_core_sync_custom_settings']['at_core_sync_version'] = array(
     '#type' => 'select',
     '#title' => t('Core API version'),
     '#multiple' => FALSE,
     '#options' => array(
+      '' => 'none (debug for codecat)',
       'v0.1' => 'v0.1',
       'v0.1.2' => 'v0.1.2',
       'v0.1.4' => 'v0.1.4',
       'v0.2.8' => 'v0.2.8',
       'v0.2' => 'v0.2 (PRODUCTION)',
+      'v0.3' => 'v0.3',
     ),
     '#default_value' => variable_get('at_core_sync_version', 'v0.1'),
     '#description' => t('For example: v0.1, v0.1.2'),
   );
-  
+
+  $form['at_core_sync_custom_settings']['at_core_vis_address'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Visualization hosting URL'),
+    '#default_value' => variable_get('at_core_vis_address', 'http://vis.airtribune.com'),
+    '#size' => 30,
+    '#description' => t('For example: http://vis.airtribune.com'),
+  );
+
+  $form['at_core_sync_custom_settings']['at_core_retrieve_address'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Retrieve hosting URL'),
+    '#default_value' => variable_get('at_core_retrieve_address', 'http://retrieve.airtribune.com'),
+    '#size' => 30,
+    '#description' => t('For example: http://retrieve.irtribune.com'),
+  );
+
   $form['at_core_sync_custom_settings']['at_core_sync_debug_mode'] = array(
     '#type' => 'checkbox',
     '#title' => t('Debug mode'),
     '#default_value' => variable_get('at_core_sync_debug_mode', 0),
     '#description' => t('Switch to debug mode'),
   );
-  
+
   return system_settings_form($form);
 }
 

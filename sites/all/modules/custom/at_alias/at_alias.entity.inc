@@ -1,12 +1,28 @@
 <?php
 
+function _at_alias_process_user($op, $entity) {
+  switch ($op) {
+    case 'insert' :
+    case 'update' :
+      _at_alias_update_user($entity);
+      break;
+    case 'delete' :
+      _at_alias_delete_user($entity);
+      break;
+  }
+}
+
+function _at_alias_update_user($user) {
+// todo
+}
+
+function _at_alias_delete_user($entity) {
+  // @todo delete user-alias/edit, user-alias/contestant and other
+}
+
 // Note: It is supposed that there can be no two bundles
 // of different entities with same names.
-
-// This file processes only AIRTRIBUNE_RACE_ENTITY_TYPE entity type
-
 function _at_alias_process_single_conjugate_ent_race($op, $entity) {
-  
   // @todo
   // Get event nids (actually, only one)
   $event_nids = _at_alias_get_conjugate_entities($entity);

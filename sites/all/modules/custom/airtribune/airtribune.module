@@ -5,114 +5,11 @@
  * Common functions that many Airtribune plugins will need to reference.
  */
 
+include_once 'airtribune_const.inc';
+
 include_once 'airtribune_nodes.inc';
 
-define('AIRTRIBUNE_VIS_URL', 'http://vis.airtribune.com');
-define('AIRTRIBUNE_RETRIEVE_URL', 'http://retrieve.airtribune.com');
-define('AIRTRIBUNE_LANGUAGES_ICONSET', 'shiny');
-define('AIRTRIBUNE_USER_MAIN_PROFILE', 'main');
-define('AIRTRIBUNE_USER_PILOT_PROFILE', 'pilot');
-
-// See field field_pg_contestant_status allowed values list.
-define('AIRTRIBUNE_PG_CONTESTANT_WAITING_LIST', 10);
-define('AIRTRIBUNE_PG_CONTESTANT_CONFIRMED', 50);
-define('AIRTRIBUNE_CAROUSEL_IMAGE_STYLE', 'hotel_preview');
-define('AIRTRIBUNE_INFO_CAROUSEL_IMAGE_STYLE', 'contest_gallery_thumb');
-define('AIRTRIBUNE_FAI_CATEGORY_NONE', 0);
-define('AIRTRIBUNE_FAI_CATEGORY_1', 1);
-define('AIRTRIBUNE_FAI_CATEGORY_2', 2);
-
-// Fields.
-define('AIRTRIBUNE_USER_FULLNAME_FIELD', 'field_full_name');
-define('AIRTRIBUNE_OPENCLASS_FIELD', 'field_open_class');
-define('AIRTRIBUNE_GETTING_THERE_FIELD', 'field_collection_getting_there');
-define('AIRTRIBUNE_COUNTRY_FIELD', 'field_country');
-define('AIRTRIBUNE_CITY_FIELD', 'field_city');
-define('AIRTRIBUNE_DATES_FIELD', 'field_dates');
-define('AIRTRIBUNE_TIMEZONE_FIELD', 'field_time_zone');
-define('AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD', 'field_pg_contestant_status');
-define('AIRTRIBUNE_CONTEST_PHOTOS_FIELD', 'field_contest_photos');
-define('AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD', 'field_flying_site_photos');
-define('AIRTRIBUNE_AWARDS_PHOTOS_FIELD', 'field_awards_photos');
-define('AIRTRIBUNE_FAI_CATEGORY_FIELD', 'field_fai_category');
-define('AIRTRIBUNE_HQ_LOCATION_FIELD', 'field_hq_location');
-define('AIRTRIBUNE_LOCATION_FIELD', 'field_location');
-define('AIRTRIBUNE_RULES_FIELD', 'field_contest_rules');
-define('AIRTRIBUNE_TINY_PATH_FIELD', 'field_tiny_path');
-define('AIRTRIBUNE_POINTS_FILE_FIELD', 'field_points_file');
-define('AIRTRIBUNE_REGISTRATION_SW_FIELD', 'field_registration_sw');
-define('AIRTRIBUNE_DAY_RESULTS_FIELD', 'field_day_results');
-define('AIRTRIBUNE_DAY_REF_FIELD', 'field_day_ref');
-define('AIRTRIBUNE_COMPETITION_RESULTS_FIELD', 'field_competition_results');
-define('AIRTRIBUNE_RACE_START_END_FIELD', 'field_race_start_end');
-define('AIRTRIBUNE_RACE_NUMBER', 'field_race_number');
-define('AIRTRIBUNE_DAY_NUMBER', 'field_day_number');
-define('AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD', 'field_pg_race_window_open_close');
-define('AIRTRIBUNE_DOWNLOADS_FIELD', 'field_downloads');
-define('AIRTRIBUNE_PG_RACETYPE_REF_FIELD', 'field_pg_racetype_ref');
-define('AIRTRIBUNE_TWITTER_WIDGET_CODE_FIELD', 'field_twitter_widget_code');
-define('AIRTRIBUNE_IMAGE_FIELD', 'field_image');
-define('AIRTRIBUNE_BIRTHDATE_FIELD', 'field_birthdate');
-define('AIRTRIBUNE_CONTESTANT_NUMBER_FIELD', 'field_contestant_number');
-define('AIRTRIBUNE_PG_SCORING_CATEGORY_FIELD', 'field_pg_scoring_category');
-define('AIRTRIBUNE_SCORING_CATEGORY_REF_FIELD', 'field_scoring_category_ref');
-define('AIRTRIBUNE_ADDRESS_FIELD', 'field_address');
-
-define('AIRTRIBUNE_PG_RACE_POINTS_FIELD', 'field_pg_race_points');
-define('AIRTRIBUNE_PG_RACE_AZIMUTH_FIELD', 'field_pg_race_azimuth');
-define('AIRTRIBUNE_POINT_RADIUS_FIELD', 'field_point_radius');
-define('AIRTRIBUNE_POINT_TYPE_FIELD', 'field_point_type');
-define('AIRTRIBUNE_POINT_SS_ES_FIELD', 'field_point_ss_es');
-define('AIRTRIBUNE_POINT_REF_FIELD', 'field_point_ref');
-define('AIRTRIBUNE_POINT_LOCATION_FIELD', 'field_point_location');
-
-define('AIRTRIBUNE_MEDIA_DESCRIPTION_FIELD', 'field_media_description');
-define('AIRTRIBUNE_FILE_IMAGE_ALT_TEXT_FIELD', 'field_file_image_alt_text');
-define('AIRTRIBUNE_FILE_IMAGE_TITLE_TEXT_FIELD', 'field_file_image_title_text');
-define('AIRTRIBUNE_COUNTRY_ISO2_FIELD', 'field_country_iso2');
-define('AIRTRIBUNE_TEAM_MEMBER_FIELD', 'field_team_member');
-define('AIRTRIBUNE_USERS_REF_FIELD', 'field_users_ref');
-
-define('AIRTRIBUNE_SINGLE_DOWNLOAD_FIELD', 'field_single_download');
-
-// Content types.
-define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
-define('AIRTRIBUNE_HG_CONTEST_TYPE', 'hg_contest');
-define('AIRTRIBUNE_PG_RACE_TYPE', 'pg_race');
-define('AIRTRIBUNE_NEWSBLOG_TYPE', 'newsblog');
-define('AIRTRIBUNE_ACCOMMODATION_TYPE', 'accommodation');
-define('AIRTRIBUNE_ACTIVITY_TYPE', 'activity');
-define('AIRTRIBUNE_DAY_TYPE', 'day');
-define('AIRTRIBUNE_PG_FLYINGSITE_TYPE', 'pg_flyingsite');
-define('AIRTRIBUNE_PG_NATION_TEAM_TYPE', 'pg_nation_team');
-
-// Entity types.
-define('AIRTRIBUNE_RACE_ENTITY_TYPE', 'ent_race');
-define('AIRTRIBUNE_RACETYPE_ENTITY_TYPE', 'ent_racetype');
-define('AIRTRIBUNE_POINT_ENTITY_TYPE', 'ent_point');
-define('AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE', 'ent_contest_point');
-define('AIRTRIBUNE_CUSTOMOBJECT_TYPE', 'ent_customobject');
-define('AIRTRIBUNE_TRACKER_TYPE', 'ent_tracker');
-define('AIRTRIBUNE_TEAM_TYPE', 'ent_team');
-
-// Bundles for basicmark.
-define('AIRTRIBUNE_BASICMARK_BUNDLE_PG_LANDING', 'pg_landing');
-define('AIRTRIBUNE_BASICMARK_BUNDLE_PG_TAKEOFF', 'pg_takeoff');
-
-// Views
-define('AIRTRIBUNE_PARAGLIDING_PILOTS_LIST', 'paragliding_pilots_list');
-define('AIRTRIBUNE_DAY_BLOG_VIEW', 'day_blog');
-
-// Memberships
-define('AIRTRIBUNE_MEMBERSHIP_CONTESTANT', 'pg_contestant');
-define('AIRTRIBUNE_MEMBERSHIP_WINDDUMMY', 'pg_winddummy');
-define('AIRTRIBUNE_MEMBERSHIP_ORGANIZER', 'pg_organizer');
-define('AIRTRIBUNE_MEMBERSHIP_TRACKEDOBJECT', 'tracked_object');
-
-// Visualisation
-define('AIRTRIBUNE_VIS_STATE_ONLINE', 'online');
-define('AIRTRIBUNE_VIS_STATE_REPLAY', 'replay');
-define('AIRTRIBUNE_VIS_STATE_AWAITING', 'awaiting');
+require_once 'airtribune_helpers.inc';
 
 /**
  * Implements hook_views_api().
@@ -173,6 +70,18 @@ function airtribune_menu_alter(&$items) {
       '%map',
     ),
   );
+  $items['media_colorbox/%file/%/%']['page callback'] = 'airtribune_media_colorbox_callback';
+}
+
+/**
+ * Callback for media_colorbox.
+ * Fix view video on IE9.
+ * @see #4537
+ * @author Vyacheslav Malchik <info@vkey.biz>
+ */
+function airtribune_media_colorbox_callback($file, $view_mode, $langcode) {
+  drupal_set_header('Content-Type: text/html; UTF-8');
+  media_colorbox_callback($file, $view_mode, $langcode);
 }
 
 /**
@@ -189,9 +98,9 @@ function airtribune_event_settings_title($event) {
  */
 function airtribune_event_settings_access($event, $op = 'edit') {
   global $user;
-  $og_roles = og_get_user_roles('node', $event->nid);
+  $allow_edit_group = og_user_access('node', $event->nid, 'update group');
   $access = FALSE;
-  if (in_array('administrator', $user->roles) || in_array(OG_ADMINISTRATOR_ROLE, $og_roles)) {
+  if (in_array('administrator', $user->roles) || $allow_edit_group) {
     $access = TRUE;
   }
   return $access;
@@ -257,6 +166,19 @@ function airtribune_form_alter(&$form, &$form_state, $form_id) {
       '#parents' => array('membership_fields'),
     );
     field_attach_form('og_membership', $og_membership, $form['membership_fields'], $form_state);
+  } elseif ($form_id == 'views_form_paragliding_pilots_list_manage') {
+    /**
+     * Fix change status
+     * @see #4307
+     */
+    $views_old = $form_state['build_info']['args'][0];
+    $view = views_get_view($views_old->name);
+    $view->args =  $views_old->args;
+    $view->set_display($views_old->current_display);
+    $form_state['build_info']['args'][0] = $view;
+    $form_state['build_info']['args'][0]->field = array();
+    $form_state['build_info']['args'][0]->header = $views_old->header;
+    $form_state['build_info']['args'][0]->footer = $views_old->footer;
   }
 }
 
@@ -465,6 +387,14 @@ function airtribune_token_info() {
     'name' => t('Core API domain'),
     'description' => t('Base Core API domain from settings Core sync module.'),
   );
+  $info['tokens']['variable']['vis-domain'] = array(
+    'name' => t('Visualization hosting URL'),
+    'description' => t('Base visualization domain from settings Core sync module.'),
+  );
+  $info['tokens']['variable']['retrieve-domain'] = array(
+    'name' => t('Retrieve hosting URL'),
+    'description' => t('Base retrieve domain from settings Core sync module.'),
+  );
   $info['tokens']['variable']['core-api-version'] = array(
     'name' => t('Core API version'),
     'description' => t('Core API version from settings Core sync module.'),
@@ -477,7 +407,7 @@ function airtribune_token_info() {
     'name' => t('Core ID: Race'),
     'description' => t('Race ID in Core.'),
   );
-  $info['tokens']['airtribune']['race-online]'] = array(
+  $info['tokens']['airtribune']['race-online'] = array(
     'name' => t('Race state'),
     'description' => t('Race state ("online"/false).'),
   );
@@ -546,6 +476,8 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
     if ($type == 'variable') {
       $replacements['[variable:core-api-domain]'] = at_core_sync_get_api_domain();
       $replacements['[variable:core-api-version]'] = at_core_sync_get_api_version();
+      $replacements['[variable:vis-domain]'] = variable_get('at_core_vis_address', 'http://vis.airtribune.com');
+      $replacements['[variable:retrieve-domain]'] = variable_get('at_core_retrieve_address', 'http://vis.airtribune.com');
     }
   }
 
@@ -558,7 +490,7 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
 
       // Check if track files exist
       $race_tracks = $wrapper->field_pg_race_tracks->value();
-      $replacements['[airtribune:race-core-id]'] = get_id_from_entity('ent_race', $data['race']);
+      $replacements['[airtribune:race-core-id]'] = get_core_id_from_entity('ent_race', $data['race']);
       $online = _airtribune_pg_race_online_state($data['race']->id);
       if ($online == AIRTRIBUNE_VIS_STATE_ONLINE || empty($race_tracks)) {
         $replacements['[airtribune:race-online]'] =  '"online"';
@@ -572,7 +504,7 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
 
     if (!empty($data['contest'])) {
       $replacements['[airtribune:contest-url]'] = url('event/' . $data['contest']->nid, array('absolute' => TRUE));
-      $replacements['[airtribune:contest-core-id]'] = get_id_from_entity('node', $data['contest']);
+      $replacements['[airtribune:contest-core-id]'] = get_core_id_from_entity('node', $data['contest']);
     } else {
       $replacements['[airtribune:contest-url]'] = '/';
       $replacements['[airtribune:contest-core-id]'] = '';
@@ -1065,8 +997,6 @@ function airtribune_views_query_alter(&$view, &$query) {
   // Prevent Live events duplication.
   // See #3538.
   if ($view->name == 'live_events') {
-
-
     foreach($query->fields as $key => $field) {
       //$query->fields[$key]['aggregate'] = TRUE;
     }
@@ -1074,13 +1004,20 @@ function airtribune_views_query_alter(&$view, &$query) {
 
   }
 
-
   // See http://drupal.org/node/1451218#comment-6136692
   if ($view->name == 'day_results') {
     $view->query->where[0]['type'] = 'OR';
   }
 }
 
+function airtribune_views_pre_view(&$view, &$display_id, &$args) {
+  // @see #4498
+  // @todo remove at release2.13
+  // temp fix for user / pilot profile page, load user:uid from to view argument from url.
+  if ($view->name == 'user_header') {
+    $args = array(arg(1));
+  }
+}
 
 /**
  * Implementation of hook_views_pre_render
@@ -1167,8 +1104,10 @@ function airtribune_preprocess_views_view_field(&$vars){
     // Change day header output
     // @see #3604
     if ($field->field == 'title') {
-      $day_date = date('j M, Y', $row->node_created);
-      $now = date('j M, Y', time());
+      // @todo use airtribune_get_string_date_of_contest_day()
+      $contest = get_contest_for_entity('day', $row->_field_data['nid']['entity']);
+      $day_date = date('j M, Y', $row->node_created + $contest->time['offset']);
+      $now = date('j M, Y', $contest->time['localtime']);
       // Replace date to 'today' word, if date is today
       if ($now == $day_date) {
         $output = str_replace($view->field['created']->original_value, t('Today'), $output);
@@ -1276,10 +1215,42 @@ function airtribune_modify_event_date_include_last_day(&$node) {
 function airtribune_entity_insert($entity, $type) {
   // change membership for user to organizer, whom create contest node
   // @see airtribune_og_membership_presave()
-  if ($type == 'node' && $entity->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
-    global $change_membership;
-    $change_membership = AIRTRIBUNE_MEMBERSHIP_ORGANIZER;
+  if (isset($entity->type)) {
+    if (og_is_group_type($type, $entity->type)) {
+      $account = user_load($entity->uid);
+
+      if (og_is_member($type, $entity->nid, 'user', $account)) {
+        global $change_membership;
+        $change_membership = AIRTRIBUNE_MEMBERSHIP_ORGANIZER;
+      } else {
+        // Add the user to the group
+        og_group($type, $entity->nid, array(
+          'entity type' => 'user',
+          'entity' => $account,
+          'membership type' => AIRTRIBUNE_MEMBERSHIP_ORGANIZER,
+        ));
+      }
+      $roles = og_roles($type, $entity->type, $entity->nid, FALSE, FALSE);
+      // Get rid for group admin role
+      $admin_member_rid = array_search('organizer', $roles);
+
+      if (!empty($admin_member_rid)) {
+        // Changes the users role in the group
+        og_role_grant($type, $entity->nid, $account->uid, $admin_member_rid);
+      }
+
+      if ($role = user_role_load_by_name('organizer')) {
+        user_multiple_role_edit(array($account->uid), 'add_role', $role->rid);
+      }
+    }
   }
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function airtribune_entity_update($entity, $type) {
+  airtribune_entity_insert($entity, $type);
 }
 
 /**
@@ -1348,12 +1319,8 @@ function airtribune_init() {
  *
  * @author Kraev Vasily
  */
-function airtribune_contest_status_check_by_date($node) {
-  $result = airtribune_extract_time_from_contest($node);
-  if (!$result) {
-    return FALSE;
-  }
-  return airtribune_compare_dates($result['start_local'], $result['end_local']);
+function airtribune_contest_status_check_by_date($contest) {
+  return airtribune_compare_dates($contest->time['start_local'], $contest->time['end_local']);
 }
 
 /**
@@ -1418,14 +1385,13 @@ function airtribune_extract_time_from_race($entity, $offset) {
     $entity = entity_load(AIRTRIBUNE_RACE_ENTITY_TYPE, array($entity));
     $entity = array_shift($entity);
   }
-  if (!($entity) || empty($offset)) {
+  if (!($entity) || (empty($offset) && $offset !== 0)) {
     return FALSE;
   }
 
   $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
   $start_end = $wrapper->{AIRTRIBUNE_RACE_START_END_FIELD}->value();
   $window_open_close = $wrapper->{AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD}->value();
-
   date_default_timezone_set('UTC');
   $result['start'] = strtotime($start_end['value']);
   $result['deadline'] = strtotime($start_end['value2']);
@@ -1524,10 +1490,9 @@ function airtribune_get_events_nids_with_date_status() {
  *
  * @author Kraev Vasily
  */
-function airtribune_how_time_after_event_start($node, $granularity = 'day') {
-  $result = airtribune_extract_time_from_contest($node);
-  $contest_date_status = airtribune_contest_status_check_by_date($node);
-  if ($result && ($contest_date_status == 'current' || $contest_date_status == 'past')) {
+function airtribune_how_time_after_event_start($contest, $granularity = 'day') {
+  $contest_date_status = airtribune_contest_status_check_by_date($contest);
+  if ($contest_date_status == 'current' || $contest_date_status == 'past') {
     $seconds = REQUEST_TIME - ($result['start_local']);
     if ($granularity == 'day') {
       return ($seconds / 3600 / 24);
@@ -1601,16 +1566,15 @@ function airtribune_js_alter(&$javascript) {
 }
 
 function airtribune_get_string_date_of_contest_day($contest, $day_timestamp) {
-  $contest_time = airtribune_extract_time_from_contest($contest);
   // Because datetime in fields set for local, but stored in database as UTC, we substract offset.
-  $day_created_time = $day_timestamp - $contest_time['offset'];
-  if (date('Ymd', $contest_time['localtime']) == date('Ymd', $day_created_time)){
+  $day_created_time = $day_timestamp - $contest->time['offset'];
+  if (date('Ymd', $contest->time['localtime']) == date('Ymd', $day_created_time)){
     $day_string = t('Today');
   }
   else {
     $day_string = format_date($day_created_time, 'custom', 'j M, Y');
   }
-  return '<span class="posted">' . $day_string . '</span>';
+  return $day_string;
 }
 
 /**
@@ -1656,21 +1620,6 @@ function airtribune_inline_entity_form_entity_form_alter(&$entity_form, &$form_s
 }
 
 /**
- * Get single gid value from group member entity
- *
- * @return group id
- *
- * @author Vyacheslav Malchik <info@>
- */
-function _airtribune_get_gid($entity_type, $entity) {
-  $entity_groups = og_get_entity_groups($entity_type, $entity);
-  $gids = reset($entity_groups);
-  $gid = array_shift($gids);
-
-  return $gid;
-}
-
-/**
  * Get paragliding race visualisation state
  *
  * @return race_state string
@@ -1694,19 +1643,11 @@ function _airtribune_pg_race_online_state($etid) {
   }
   $node = array_shift($nodes);
 
-  // Get event time offset
-  $contest_time = airtribune_extract_time_from_contest($node);
-  if (!isset($contest_time['offset'])) {
-    return;
-  }
-  $offset = $contest_time['offset'];
-
   $start_end = $wrapper->{AIRTRIBUNE_RACE_START_END_FIELD}->value();
   $start = strtotime($start_end['value']);
   $end = strtotime($start_end['value2']);
 
-  // TODO: Get local time
-  $localtime = time() + $offset;
+  $localtime = $node->time['localtime'];
 
   // Compare dates to get state
   if ($start <= $localtime && $localtime < $end) {
@@ -1723,23 +1664,8 @@ function _airtribune_pg_race_online_state($etid) {
   }
 }
 
-function _at_get_contest_trackers($contest_id = NULL, $contestant_id = NULL) {
-  $view = views_get_view('contest_trackers');
-  $view->set_arguments(array($contest_id, $contestant_id));
-  $view->query->where[0]['type'] = 'OR';
-  $view->execute();
-  $response = $view->result;
-  $ids = array();
-  foreach ($response as $tracker) {
-    $ids[] = $tracker->id;
-  }
-  return implode('+', $ids);
-}
-
 /**
  * Implements hook_og_membership_presave().
- *
- * @see #3444 #3446
  */
 function airtribune_og_membership_presave(OgMembership $og_membership) {
   // we can't know, what is it - usual pg_contestant, which register on contest,
@@ -1752,6 +1678,29 @@ function airtribune_og_membership_presave(OgMembership $og_membership) {
     $og_membership->type = $change_membership;
   }
 
+  // Update membership type on payment status change (Contestant <-> Wind Dummy).
+  // @see #3959
+  if (isset($og_membership->original) && is_membership_contestant($og_membership)) {
+    $now_status = entity_metadata_wrapper('og_membership', $og_membership)->{AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD}->value();
+    $old_status = entity_metadata_wrapper('og_membership', $og_membership->original)->{AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD}->value();
+
+    if ($now_status != $old_status) {
+      // Because pilots & winddummy has different resources in Core API - we must delete current before sync.
+      $sync = _get_class_by_entity('og_membership', $og_membership);
+      $res = $sync->delete();
+      // WindDummy -> Contestant (waiting list / waiting payment / in progress / confirmed).
+      // @see #4205
+      if ($old_status == AIRTRIBUNE_PILOT_STATUS_WINDDUMMY) {
+        $og_membership->type = AIRTRIBUNE_MEMBERSHIP_CONTESTANT;
+      }
+      // Contestant -> WindDummy.
+      if ($now_status == AIRTRIBUNE_PILOT_STATUS_WINDDUMMY) {
+        $og_membership->type = AIRTRIBUNE_MEMBERSHIP_WINDDUMMY;
+      }
+    }
+  }
+
+  // @see #3444 #3446
   switch ($og_membership->entity_type) {
     case AIRTRIBUNE_CUSTOMOBJECT_TYPE:
       $og_membership->type = AIRTRIBUNE_MEMBERSHIP_TRACKEDOBJECT;
@@ -1809,7 +1758,11 @@ function airtribune_user_pass_validate($form, &$form_state) {
 
 
 function airtribune_cron() {
-  _create_day_for_contest();
+  // lock for 3 minutes, @see #4499
+  if (lock_acquire('airtribune_create_day_lock', 180)) {
+    _create_day_for_contest();
+    lock_release('airtribune_create_day_lock');
+  }
 }
 
 /**
@@ -1833,13 +1786,7 @@ function _create_day_for_contest() {
 
   foreach ($contests['current'] as $key => $contest_nid) {
     $contest = node_load($contest_nid);
-
-    if ($contest_date = airtribune_extract_time_from_contest($contest)) {
-      $offset = $contest_date['offset'];
-    }
-    else {
-      $offset = 0;
-    }
+    $offset = $contest->time['offset'] ? $contest->time['offset'] : 0;
 
     // Get last day for this contest.
     $days = get_days_ids_for_contest($contest);
@@ -1952,35 +1899,6 @@ function _add_metatag_opengraph_image($url, $key) {
 }
 
 /**
- * Update membership type on payment status change (Contestant <-> Wind Dummy).
- * @see #3959
- */
-function airtribune_og_membership_update($og_membership) {
-  if ($og_membership->already_updated_by_paymentstatus == TRUE) {
-    return;
-  }
-
-  $status_field_allowed_values = list_allowed_values(field_info_field(AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD));
-  $wind_dummy_status = array_search("Wind dummy", $status_field_allowed_values);
-  $now_status = entity_metadata_wrapper('og_membership', $og_membership)->{AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD}->value();
-  $old_status = entity_metadata_wrapper('og_membership', $og_membership->original)->{AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD}->value();
-
-  if ($now_status != $old_status) {
-    // WindDummy -> Contestant (waiting list / waiting payment / in progress / confirmed).
-    if ($old_status == $wind_dummy_status) {
-      $og_membership->type = AIRTRIBUNE_MEMBERSHIP_CONTESTANT;
-    }
-    // Contestant -> WindDummy.
-    if ($now_status == $wind_dummy_status) {
-      $og_membership->type = AIRTRIBUNE_MEMBERSHIP_WINDDUMMY;
-    }
-    // Avoid recursion by hook_og_membership_update & hook_og_membership_save.
-    $og_membership->already_updated_by_paymentstatus = TRUE;
-    og_membership_save($og_membership);
-  }
-}
-
-/**
  * Count contestants.
  */
 function airtribune_count_pilots($nid, $status = NULL) {
@@ -2014,6 +1932,12 @@ function theme_airtribune_event_statistics($vars) {
  * Implements hook_node_load().
  */
 function airtribune_node_load($nodes, $types) {
+  // Write time data to contest node object.
+  foreach ($nodes as $nid => $node) {
+    if (is_contest($node) && empty($node->time)) {
+      $node->time = airtribune_extract_time_from_contest($node);
+    }
+  }
   // Add pints files into download on event info page
   if (arg(0) == 'event' && arg(2) == 'info') {
     foreach ($nodes as $nid => $node) {
@@ -2060,56 +1984,179 @@ function airtribune_node_load($nodes, $types) {
   }
 }
 
-/**
- * Detect contest nodes
- * @see #4323
- */
-function is_contest($node) {
-  $contest_node_types = array (AIRTRIBUNE_PG_CONTEST_TYPE, AIRTRIBUNE_HG_CONTEST_TYPE);
-  if (in_array($node->type, $contest_node_types)) {
-    return TRUE;
-  }
-
-  return FALSE;
-}
-
-function is_user_entity_author($entity) {
-  global $user;
-  if ($user->uid == $entity->uid || $user->uid == 1) {
-    return TRUE;
-  }
-  return FALSE;
-}
-
-function is_user_contest_org($contest) {
-  return is_user_entity_author($contest);
-}
-
-function is_user_team_leader($team) {
-  return is_user_entity_author($team);
-}
-
-function get_country_name($iso2) {
-  $country = country_load($iso2);
-  return $country->name;
-}
-
-function get_pilot_profile($user) {
-  return profile2_load_by_user($user, AIRTRIBUNE_USER_PILOT_PROFILE);
-}
-
-function get_main_profile($user) {
-  return profile2_load_by_user($user, AIRTRIBUNE_USER_MAIN_PROFILE);
-}
 /*
  * Alter country token.
  * @see #4338
  */
 function airtribune_tokens_alter(array &$replacements, array $context) {
+
   if ((isset($context['data']['entity_type']) && $context['data']['entity_type'] == AIRTRIBUNE_TEAM_TYPE) && isset($context['tokens'][AIRTRIBUNE_COUNTRY_FIELD]) || isset($context['tokens']['field-country'])) {
     $entity = isset($context['data']['entity_type']) ? $context['data']['entity'] : $context['data'][$context['type']];
     $cc = $entity->{AIRTRIBUNE_COUNTRY_FIELD}[LANGUAGE_NONE][0]['iso2'];
     $replacements[AIRTRIBUNE_COUNTRY_FIELD] = $cc;
     $replacements['field-country'] = get_country_name($cc);
+  }
+}
+
+/**
+ * Implements hook_ldap_user_attrs_list_alter().
+ */
+function airtribune_ldap_user_attrs_list_alter(&$available_user_attrs, &$params) {
+  // Define array of profiles types
+  $profiles = array_keys(field_info_bundles('profile2'));
+
+  $sid = (isset($params['ldap_server']) && is_object($params['ldap_server'])) ? $params['ldap_server']->sid : LDAP_USER_NO_SERVER_SID;
+
+  $ldap_user_conf = $params['ldap_user_conf'];
+  $direction = isset($params['direction']) ? $params['direction'] : LDAP_USER_PROV_DIRECTION_NONE;
+
+  foreach ($profiles as $profile_name) {
+    // Profile2 bundle fields
+    $user_fields = field_info_instances('profile2', $profile_name);
+    foreach ($user_fields as $field_name => $field_instance) {
+      $field_id = "[profile2.$profile_name.$field_name]";
+
+      $field_info = field_info_field($field_name);
+      $type = $field_info['type'];
+      if ($type == 'name') {
+        // Add tokens for name custom attributes
+        $attrs = array('given', 'family');
+        foreach ($attrs as $attr) {
+          $field_id_attr = "[profile2.$profile_name.$field_name.$attr]";
+
+          if (!isset($available_user_attrs[$field_id_attr]) || !is_array($available_user_attrs[$field_id_attr])) {
+            $available_user_attrs[$field_id_attr] = array();
+          }
+
+          $available_user_attrs[$field_id_attr] = $available_user_attrs[$field_id_attr] + array(
+            'name' =>  $profile_name . ': ' . $field_instance['label'] . ' (' . $attr . ')',
+            'configurable_to_drupal' => 1,
+            'configurable_to_ldap' => 1,
+            'enabled' => FALSE,
+            'config_module' => 'ldap_user',
+            'prov_module' => 'ldap_user',
+          );
+        }
+      } elseif ($type == 'addressfield') {
+        // Add tokens for address field types
+        $attrs = array('country', 'locality');
+        foreach ($attrs as $attr) {
+          $field_id_attr = "[profile2.$profile_name.$field_name.$attr]";
+
+          if (!isset($available_user_attrs[$field_id_attr]) || !is_array($available_user_attrs[$field_id_attr])) {
+            $available_user_attrs[$field_id_attr] = array();
+          }
+
+          $available_user_attrs[$field_id_attr] = $available_user_attrs[$field_id_attr] + array(
+            'name' =>  $profile_name . ': ' . $field_instance['label'] . ' (' . $attr . ')',
+            'configurable_to_drupal' => 1,
+            'configurable_to_ldap' => 1,
+            'enabled' => FALSE,
+            'config_module' => 'ldap_user',
+            'prov_module' => 'ldap_user',
+          );
+        }
+      } else {
+        // Add tokens for other field types
+        $field_id = "[profile2.$profile_name.$field_name]";
+
+        if (!isset($available_user_attrs[$field_id]) || !is_array($available_user_attrs[$field_id])) {
+          $available_user_attrs[$field_id] = array();
+        }
+
+        $available_user_attrs[$field_id] = $available_user_attrs[$field_id] + array(
+          'name' =>  $profile_name . ': ' . $field_instance['label'],
+          'configurable_to_drupal' => 1,
+          'configurable_to_ldap' => 1,
+          'enabled' => FALSE,
+          'config_module' => 'ldap_user',
+          'prov_module' => 'ldap_user',
+        );
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_ldap_servers_token_replace_alter().
+ */
+function airtribune_ldap_servers_token_replace_alter(&$tokens, $resource, $text, $resource_type) {
+  // Define array of profiles types
+  $profiles = array_keys(field_info_bundles('profile2'));
+  if ($resource_type == 'user_account') {
+    foreach ($profiles as $profile_name) {
+      $profile = profile2_load_by_user($resource, $profile_name);
+      if (!empty($profile)) {
+        $wrapper = entity_metadata_wrapper('profile2', $profile->pid);
+        // Profile2 bundle fields
+        $profile_fields = field_info_instances('profile2', $profile_name);
+        foreach ($profile_fields as $field_name => $field_instance) {
+          $field_id = "[profile2.$profile_name.$field_name]";
+          $field_info = field_info_field($field_name);
+          $type = $field_info['type'];
+          if ($type == 'phone_number' && $field_name == 'field_phone') {
+            // Get phone number
+            $cc = cck_phone_countrycodes();
+            $date_items = field_get_items('profile2', $profile, $field_name);
+            $countrycode = $date_items[0]['country_codes'];
+            $number = $date_items[0]['number'];
+            $full_number = '';
+            if ($countrycode && isset($cc[$countrycode])) {
+              $full_number = '+' . substr($cc[$countrycode]['code'], 1) . $number;
+            }
+            if (isset($tokens[$field_id])) {
+              $tokens[$field_id] = $full_number;
+            }
+          } elseif ($type == 'name') {
+            // Replacements for name tokens with attributes
+            $attrs = array('given', 'family');
+            foreach ($attrs as $attr) {
+              $field_id_attr = "[profile2.$profile_name.$field_name.$attr]";
+              $name_value = $wrapper->{$field_name}->value();
+              if (isset($tokens[$field_id_attr])) {
+                $tokens[$field_id_attr] = $name_value[$attr];
+              }
+            }
+          } elseif ($type == 'addressfield') {
+            // Add tokens for address field types
+            $attrs = array('country', 'locality');
+            foreach ($attrs as $attr) {
+              $field_id_attr = "[profile2.$profile_name.$field_name.$attr]";
+              $name_value = $wrapper->{$field_name}->value();
+              if (isset($tokens[$field_id_attr])) {
+                $tokens[$field_id_attr] = $name_value[$attr];
+              }
+            }
+          } else {
+            // Other fields
+            if (isset($tokens[$field_id])) {
+              $tokens[$field_id] = $wrapper->{$field_name}->value();
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_ldap_user_edit_user_alter().
+ */
+function airtribune_ldap_entry_alter(&$ldap_user_entry, $params) {
+  // Replace file id with file content
+  $contents = NULL;
+  if (isset($ldap_user_entry['jpegPhoto'][0])) {
+    $file = file_load($ldap_user_entry['jpegPhoto'][0]);
+    if (isset($file->uri)) {
+      $filename = drupal_realpath($file->uri);
+      if (file_exists($filename)) {
+        $handle = fopen($filename, "rb");
+        while (!FEOF($handle)) {
+          $contents .= fread($handle,1024);
+        }
+        fclose($handle);
+        $ldap_user_entry['jpegPhoto'][0] = $contents;
+      }
+    }
   }
 }

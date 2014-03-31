@@ -1,0 +1,6 @@
+name = at_tracker
+description = at_tracker
+core = 7.x
+package = Airtribune
+
+files[] = views/views_handler_at_tracker_widget.inc

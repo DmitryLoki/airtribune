@@ -10,38 +10,24 @@ define('AIRTRIBUNE_CORE_ID_FIELD', 'field_core_id');
  */
 
 /**
- * Returns Core ID from entity
+ * Implements hook_init().
  */
-function get_id_from_entity($entity_type, $entity) {
-  $field_core_id = field_get_items($entity_type, $entity, AIRTRIBUNE_CORE_ID_FIELD);
-  if (!empty($field_core_id[0]['value'])) {
-    return $field_core_id[0]['value'];
-  }
-  else {
-    return FALSE;
-  }
-}
-
-/**
- * Returns Contest Core ID from race entity
- */
-function get_contest_id_from_race($entity) {
-  $contest_id = $this->entity->og_group_ref[LANGUAGE_NONE][0]['target_id'];
-  $contest = node_load($contest_id);
-  $field_core_id = field_get_items('node', $contest, AIRTRIBUNE_CORE_ID_FIELD);
-  if (!empty($field_core_id[0]['value'])) {
-    return $field_core_id[0]['value'];
-  }
-  else {
-    return FALSE;
-  }
+function at_core_sync_init() {
+  // Add global variables for Core API access
+  drupal_add_js(array(
+      'at_core_sync' => array(
+        'apiVersion' => at_core_sync_get_api_version(),
+        'apiDomain' => at_core_sync_get_api_domain(),
+        'apiUrl' => at_core_sync_get_api_url(),
+      )
+    ), 'setting');
 }
 
 /**
  * Returns synchronization class
  */
 function _get_class_by_entity($entity_type, $entity) {
-  require_once drupal_get_path("module", "at_core_sync") . "/at_core_sync.class.inc";
+  require_once drupal_get_path('module', 'at_core_sync') . '/at_core_sync.class.inc';
 
   $class = FALSE;
   $tmp = $entity_type;
@@ -51,13 +37,16 @@ function _get_class_by_entity($entity_type, $entity) {
   }
   $classes = array(
     'node:pg_contest' => 'ATSyncContest',
-    'user' => 'ATSyncPerson',
-    'og_membership:pg_contestant' => 'ATSyncPilot',
+    'node:hg_contest' => 'ATSyncContest',
+    'node:day' => 'ATSyncDay',
+    'user' => 'ATSyncUser',
+    'og_membership:pg_contestant' => 'ATSyncGlider',
+    'og_membership:hg_contestant' => 'ATSyncGlider',
     'og_membership:pg_winddummy' => 'ATSyncWindDummy',
-    'og_membership:tracked_object' => 'ATSyncTrackedObject',
+    'og_membership:pg_organizer' => 'ATSyncOrganizer',
+    'og_membership:tracked_object' => 'ATSyncStaff',
     'ent_race:pg_race' => 'ATSyncRace',
     'ent_tracker:device' => 'ATSyncTracker',
-    'ent_customobject:customobject' => 'ATSyncCustom',
   );
 
   if (!empty($classes[$tmp])) {
@@ -67,6 +56,13 @@ function _get_class_by_entity($entity_type, $entity) {
   else {
     return FALSE;
   }
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function at_core_sync_entity_delete($entity, $type) {
+  at_core_sync_entity_sync($type, $entity, 'delete');
 }
 
 /**
@@ -135,7 +131,17 @@ function at_core_sync_get_api_version() {
  * @author Vyacheslav Malchik <info@vkey.biz>
  */
 function at_core_sync_get_api_domain() {
-  $result = variable_get('at_core_sync_address', 'http://api.airtribune.com');
+  $port = variable_get('at_core_sync_port', '80');
+  $port = $port == '80' ? '' : ':' . $port;
+  $result = variable_get('at_core_sync_address', 'http://api.airtribune.com') . $port;
+  return $result;
+}
+
+/**
+ * Get CoreAPI port.
+ */
+function at_core_sync_get_port() {
+  $result = variable_get('at_core_sync_port', '80');
   return $result;
 }
 
@@ -146,9 +152,12 @@ function at_core_sync_get_api_domain() {
  * @see #3115.
  */
 function at_core_sync_get_api_url() {
-  $address = at_core_sync_get_api_domain()
-    . '/'
-    . at_core_sync_get_api_version();
+  $version = at_core_sync_get_api_version();
+
+  $address =
+    $version ?
+    at_core_sync_get_api_domain() . '/' . $version :
+    at_core_sync_get_api_domain();
   return $address;
 }
 
@@ -156,21 +165,21 @@ function at_core_sync_get_api_url() {
  * Get all contests from Core.
  */
 function get_contests_from_core() {
-  return ATSync::requestToCore("contest", FALSE, "GET");
+  return ATSync::requestToCore('contest', FALSE, 'GET');
 }
 
 /**
  * Get all races from contest from Core.
  */
 function get_races_from_contest_core($core_id) {
-  return ATSync::requestToCore("contest/" . $core_id . "/race", FALSE, "GET");
+  return ATSync::requestToCore('contest/' . $core_id . '/race', FALSE, 'GET');
 }
 
 /**
  * Get all paragliders from contest from Core.
  */
 function get_paragliders_from_contest_core($core_id) {
-  return ATSync::requestToCore("contest/" . $core_id . "/paraglider", FALSE, "GET");
+  return ATSync::requestToCore('contest/' . $core_id . '/paraglider', FALSE, 'GET');
 }
 
 // Debug function
@@ -178,33 +187,30 @@ function _d($var) {
   drupal_set_message(print_r($var, TRUE));
 }
 
-
 /**
  * _at_sync_debug function
- * 
- * $var - variable for debug
- * $url - Core API url for debug
- * $response - response from Core API
+ *
+ * @param $var - variable for debug
+ * @param $request - string, contains: method, url, port to Core API
+ * @param $response - response from Core API
  */
-function _asd($var, $url = NULL, $response = NULL) {
+function _asd($var, $request = NULL, $response = NULL) {
   $debug = variable_get('at_core_sync_debug_mode', 0);
   if ($debug) {
-    ATSync::setMessage(t('<strong>Core API sync:</strong>&nbsp;Debug mode is ON.'), 'warning');
+    // ATSync::setMessage(t('<strong>Core API sync:</strong>&nbsp;Debug mode is ON.'), 'warning');
     $message = '';
-    if (isset($url)) {
-      $message_url = "<strong>URL:</strong>&nbsp;" . at_core_sync_get_api_url() . '/' . $url;
-      ATSync::setMessage($message_url, 'warning');
-      $message = $message_url . "\n</br />";
+    if (isset($request)) {
+      $message_url = "<b>$request</b>";
+      $message = $message_url . '<br />';
     }
-    $message_body = "<strong>Request:</strong>&nbsp;" . print_r($var, TRUE);
-    $message .= $message_body ;
+    $message .= '<b>Data:</b> <pre>' . $var . '</pre>';
     ATSync::setMessage($message, 'warning');
     if (isset($response)) {
-      $message_response = "<strong>Response:</strong>&nbsp;" . print_r($response, TRUE) . '/' . $url;
+      $message_response = '<b>Response:</b> <pre>' . print_r($response, TRUE)  . '</pre>';
       ATSync::setMessage($message_response, 'warning');
-      $message .= "\n</br />" . $message_response;
+      $message .= '<br />' . $message_response;
     }
-    watchdog("at_core_sync", $message);
+    watchdog('at_core_sync', $message);
   }
 }
 
@@ -217,6 +223,15 @@ function at_core_sync_action_info() {
     'at_core_sync_contests_action' => array(
       'type' => 'node',
       'label' => t('[Core API] Sync contests'),
+      'configurable' => FALSE,
+      'aggregate' => FALSE,
+      'hooks' => array(
+        'any' => TRUE,
+      ),
+    ),
+    'at_core_sync_contests_full_action' => array(
+      'type' => 'node',
+      'label' => t('[Core API] Sync contests (full data)'),
       'configurable' => FALSE,
       'aggregate' => FALSE,
       'hooks' => array(
@@ -244,6 +259,15 @@ function at_core_sync_action_info() {
     'at_core_sync_races_action' => array(
       'type' => 'ent_race',
       'label' => t('[Core API] Sync races'),
+      'configurable' => FALSE,
+      'aggregate' => FALSE,
+      'hooks' => array(
+        'any' => TRUE,
+      ),
+    ),
+    'at_core_delete_races_action' => array(
+      'type' => 'ent_race',
+      'label' => t('[Core API] Delete race from Core'),
       'configurable' => FALSE,
       'aggregate' => FALSE,
       'hooks' => array(
@@ -285,9 +309,9 @@ function at_core_sync_other_sync($entity_type, $entity) {
           break;
         case 'tracked_object':
         case 'og_membership':
+          /*
           $tracker_entity = $sync->tracker;
-          $tracked_core_id = $sync->tracked_core_id;
-          $contest_core_id = $sync->contest_core_id;
+          $tracked_core_id = $sync->core_id;
 
           // Tracker erased
           if (isset($entity->original) && !isset($entity->field_tracker[LANGUAGE_NONE][0]) && $entity->field_tracker != $entity->original->field_tracker) {
@@ -298,10 +322,12 @@ function at_core_sync_other_sync($entity_type, $entity) {
             }
           }
           // Assignee tracker to person
+
           if ($tracker_entity) {
             $tracker = _get_class_by_entity('ent_tracker', $tracker_entity);
-            return $tracker->assignee($tracked_core_id, $contest_core_id);
+            return $tracker->assignee($tracked_core_id);
           }
+           */
           break;
       }
     }
@@ -309,14 +335,33 @@ function at_core_sync_other_sync($entity_type, $entity) {
   return FALSE;
 }
 
-function at_core_sync_entity_sync($entity_type, $entity) {
-
-  if (variable_get('at_core_sync_enabled', 0)) {
-    if ($sync = _get_class_by_entity($entity_type, $entity)) {
-      return $sync->synchronize();
+function at_core_sync_entity_sync($entity_type, $entity, $action='', $fields = array()) {
+  // Exit, if synchronization disabled
+  if (variable_get('at_core_sync_enabled', 0) == 0) {
+    return FALSE;
+  }
+  if ($sync = _get_class_by_entity($entity_type, $entity)) {
+    switch ($action) {
+      case 'delete' :
+        return $sync->delete();
+        break;
+      case 'patch':
+        if (!empty($fields) && is_array($fields)) {
+          $data = array();
+          foreach($fields as $property => $field_name) {
+            if (isset($entity->{$field_name}[LANGUAGE_NONE])) {
+              // No use wrapper for at_tracker fields
+              $data[$property] = $entity->{$field_name}[LANGUAGE_NONE][0]['value'];
+            }
+          }
+          return $sync->synchronizePatch($data);
+        }
+        break;
+      default :
+        return $sync->synchronize();
+        break;
     }
   }
-  return FALSE;
 }
 
 /**
@@ -327,6 +372,62 @@ function at_core_sync_entity_sync($entity_type, $entity) {
  */
 function at_core_sync_contests_action(&$object, $context = array()) {
   at_core_sync_entity_sync('node', $object);
+}
+/**
+ * Implementation of a Drupal action
+ *
+ * @param object $object
+ * @param array $context
+ * @see #4586
+ * @author Vyacheslav Malchik <info@vkey.biz>
+ */
+function at_core_sync_contests_full_action(&$object, $context = array()) {
+  // Get group id
+  list($gid, $vid, $bundle) = entity_extract_ids('node', $object);
+
+  // Sync contest
+  at_core_sync_entity_sync('node', $object);
+
+  // Sync contestants
+  $view = views_get_view('core_api_manage_contestants');
+  $view->set_display('manage_list_contestants_page');
+  $view->set_arguments(array($gid));
+  $view->execute();
+  foreach ($view->result as $result) {
+    $membership = entity_load_single('og_membership', $result->og_membership_users_id);
+    at_core_sync_contestants_action($membership);
+  }
+
+  // Sync days
+  $view = views_get_view('day_admin');
+  $view->set_display('manage_list_days_page');
+  $view->set_arguments(array($gid));
+  $view->execute();
+  foreach ($view->result as $result) {
+    $day = node_load($result->nid);
+    at_core_sync_entity_sync('node', $day);
+  }
+
+  // Sync race
+  $view = views_get_view('core_api_manage_races');
+  $view->set_display('manage_list_race_page');
+  $view->set_arguments(array($gid));
+  $view->execute();
+  foreach ($view->result as $result) {
+    $race = entity_load_single(AIRTRIBUNE_RACE_ENTITY_TYPE, $result->id);
+    at_core_sync_races_action($race);
+    at_core_sync_races_tracks_action($race);
+  }
+
+  // Sync race
+  $view = views_get_view('staff_manage');
+  $view->set_display('manage_list_staff');
+  $view->set_arguments(array($gid));
+  $view->execute();
+  foreach ($view->result as $result) {
+    $membership = entity_load_single('og_membership', $result->id);
+    at_core_sync_contestants_action($membership);
+  }
 }
 
 /**
@@ -359,6 +460,24 @@ function at_core_sync_tracked_objects_action(&$object, $context = array()) {
  */
 function at_core_sync_races_action(&$object, $context = array()) {
   at_core_sync_entity_sync('ent_race', $object);
+}
+
+/**
+ * Implementation of a Drupal action
+ *
+ * @param object $object
+ * @param array $context
+ */
+function at_core_delete_races_action(&$object, $context = array()) {
+  $entity_type = 'ent_race';
+  $entity = $object;
+  $response = at_core_sync_entity_sync($entity_type, $entity, 'delete');
+  if (empty($response)) {
+    $entity->field_core_id[LANGUAGE_NONE][0]['value'] = '';
+    list($entity_id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+    field_attach_update($entity_type, $entity);
+    entity_get_controller($entity_type)->resetCache(array($entity_id));
+  }
 }
 
 /**

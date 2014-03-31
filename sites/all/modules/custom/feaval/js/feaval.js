@@ -305,7 +305,8 @@
               if (!Drupal.myClientsideValidation) {
                 validator.settings.errorPlacement = Drupal.clientsideValidation.prototype.setErrorElement;
               }
-              validator.element(this);
+              if(this.getAttribute('type') != 'password')
+                validator.element(this);
               if (!validator.checkAllValid()) {
                 $(this.form).find('.form-submit').addClass('disabled');
               } else if(!$(this).hasClass('ajax-processed')){
@@ -318,7 +319,7 @@
               submit.attr('disabled','disabled');
             });
             allElements
-              .filter(':not(.ajax-processed,[type="password"])')
+              .filter(':not(.ajax-processed)')
               .unbind('focusout.validation')
               .bind('focusout.validation', validateElement);
 
@@ -411,6 +412,11 @@
       if (!birthDateComboboxes.length) {
         return;
       }
+
+      //skip events from themed select
+      $('body').bind('container-themed', function(){
+        birthDateComboboxes.siblings('.select').find('.checked_option').unbind('mouseup')
+      });
 
       passField
         .unbind('keyup.user-reg-validation')
