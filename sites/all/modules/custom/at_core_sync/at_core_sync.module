@@ -395,6 +395,8 @@ function at_core_sync_contests_full_action(&$object, $context = array()) {
   $view->execute();
   foreach ($view->result as $result) {
     $membership = entity_load_single('og_membership', $result->og_membership_users_id);
+    $curr_user = user_load($membership->etid);
+    user_save($curr_user);
     at_core_sync_contestants_action($membership);
   }
 
@@ -419,7 +421,7 @@ function at_core_sync_contests_full_action(&$object, $context = array()) {
     at_core_sync_races_tracks_action($race);
   }
 
-  // Sync race
+  // Sync staff
   $view = views_get_view('staff_manage');
   $view->set_display('manage_list_staff');
   $view->set_arguments(array($gid));
