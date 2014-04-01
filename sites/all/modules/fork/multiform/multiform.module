@@ -178,6 +178,7 @@ function multiform_get_form($settings) {
   );
   
   $post = !empty($_POST) ? $_POST : array();
+  $rebuild = FALSE;
   foreach ($subforms as $index => $subform) {
     $subform_id = $subform['form_id'];
     $subform_args = $subform['args'];
@@ -227,6 +228,10 @@ function multiform_get_form($settings) {
     
     // TODO: Temporary solution for #after_execute in multiform_delayed_submit_execute().
     $multiform['#subforms'][$subform_id]['#subform_settings'] = $subform;
+
+    if ($subform_form_state['rebuild']) {
+      $rebuild = TRUE;
+    }
   }
   
   // TODO: Check.
@@ -236,6 +241,9 @@ function multiform_get_form($settings) {
     // Log _POST data.
     // TODO: Fill in context.
     $context = array();
+    if ($rebuild) {
+      $context['rebuild'] = TRUE;
+    }
 
     $entry_data = array(
       'multiform_id' => !empty($settings['#multiform_id']) ? $settings['#multiform_id'] : DEFAULT_MULTIFORM_ID,
@@ -248,6 +256,14 @@ function multiform_get_form($settings) {
   }
   
   // At this point all subforms were validated.
+
+  // @todo: Check for pinch points.
+  // If any of subform is set to be rebuilt, rebuild all subforms.
+  if ($rebuild) {
+    foreach ($multiform['#subforms'] as $form_id => $subform_prepare) {
+      $multiform['#subforms'][$form_id]['form_state']['rebuild'] = TRUE;
+    }
+  }
   
   foreach ($subforms as $index => $subform) {
     $subform_id = $subform['form_id'];
@@ -289,7 +305,7 @@ function multiform_get_form($settings) {
   // TODO: Check.
   $errors = form_get_errors();
   
-  if (empty($errors) && !empty($post['multiform']) && isset($settings['#redirect_path'])) {
+  if (empty($errors) && !empty($post['multiform']) && isset($settings['#redirect_path']) && !$rebuild) {
     // Redirect
     drupal_goto($settings['#redirect_path']);
   }
