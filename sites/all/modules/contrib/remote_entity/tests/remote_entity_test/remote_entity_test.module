@@ -1,0 +1,222 @@
+<?php
+
+/**
+ * @file remote_entity_test.module
+ * Test module for Remote Entity tests.
+ *
+ * This may also be used as an example of defining a remote entity type.
+ */
+
+/**
+ * Implements hook_clients_connection_type_info().
+ *
+ * Define a dummy connection type.
+ */
+function remote_entity_test_clients_connection_type_info() {
+  return array(
+    'test_remote_entity' => array(
+      'label'  => t('Dummy Remote Entity Client'),
+      'description' => t('Dummy Connection for Remote Entity testing.'),
+      'tests' => array(
+      ),
+    ),
+  );
+}
+
+/**
+ * Class for test_remote_entity client connection type.
+ *
+ * Normally this would contain methods which make remote calls to retrieve or
+ * send data.
+ */
+class clients_connection_test_remote_entity extends clients_connection_base {
+
+  /**
+   * Load a remote entity.
+   */
+  function remote_entity_load($entity_type, $id) {
+    // Optionally simulate a connection failure.
+    $remote_entity_test_throw_exception = variable_get('remote_entity_test_throw_exception', FALSE);
+    if ($remote_entity_test_throw_exception) {
+      throw new Exception('Remote load failed.');
+    }
+
+    // This dummy function simulates the load of a remote entity.
+    // We merely return an object with the requested remote ID.
+    $values = array(
+      'remote_id' => $id,
+      'remote_name' => $id,
+    );
+    return (object) $values;
+  }
+
+  /**
+   * Save a remote entity.
+   */
+  function remote_entity_save($entity_type, $entity, $remote_properties = array()) {
+    // Optionally simulate a connection failure.
+    $remote_entity_test_throw_exception = variable_get('remote_entity_test_throw_exception', FALSE);
+    if ($remote_entity_test_throw_exception) {
+      throw new Exception('Remote save failed.');
+    }
+
+    // Simulate that a remote save took place by returning a dummy remote ID.
+    return 'DummyRemoteID';
+  }
+
+  /**
+   * Save multiple entities remotely.
+   *
+   * @return
+   *  An array of the remote GUIDs created by the operation, keyed by the
+   *  entity ID. Thus an entity which is updated rather than inserted will not
+   *  be present in the array.
+   */
+  function remote_entity_save_multiple($entity_type, $entities, $remote_properties = array()) {
+    $remote_entity_test_throw_exception = variable_get('remote_entity_test_throw_exception', FALSE);
+    if ($remote_entity_test_throw_exception) {
+      throw new Exception('Remote save multiple failed.');
+    }
+
+    // An array of dummy remote IDs.
+    $remote_ids = array();
+
+    foreach ($entities as $eid => $entity) {
+      // Determine whether this is an insert or an update. An entity not yet
+      // saved remotely will have no remote ID property.
+      if (empty($entity->remote_id)) {
+        // If the entity has no remote ID, then it's an insert: simulate the
+        // remote server returning a new remote ID.
+        $remote_ids[$eid] = 'DummyRemoteID-' . $eid;
+      }
+    }
+    return $remote_ids;
+  }
+
+}
+
+/**
+ * Implements hook_clients_default_connections().
+ *
+ * Define our dummy connection.
+ */
+function remote_entity_test_clients_default_connections() {
+  $items = array();
+  $items['test_connection'] = entity_import('clients_connection', '{
+    "name" : "test_connection",
+    "endpoint" : "http://www.example.com/",
+    "configuration" : {
+    },
+    "label" : "Test Connection",
+    "type" : "test_remote_entity",
+    "rdf_mapping" : []
+  }');
+  return $items;
+}
+
+/**
+ * Implements hook_clients_default_resources().
+ */
+function remote_entity_test_clients_default_resources() {
+  // Declare a remote entity resource for our entity type.
+  // This identifies the entity type and the connection it uses.
+  $items = array();
+  $items['test_remote_entity'] = entity_import('clients_resource', '{
+    "component" : "test_remote_entity",
+    "connection" : "test_connection",
+    "name" : "test_remote_entity",
+    "label" : "Test Remote Entity",
+    "type" : "remote_entity",
+    "configuration" : null,
+    "rdf_mapping" : []
+  }');
+  return $items;
+}
+
+/**
+ * Implements hook_entity_info().
+ *
+ * Define our dummy entity type.
+ */
+function remote_entity_test_entity_info() {
+  $return = array(
+    'test_remote_entity' => array(
+      'label' => t('Test Remote Entity'),
+      'entity class' => 'TestRemoteEntityClass',
+      'controller class' => 'RemoteEntityAPIDefaultController',
+      'base table' => 'test_remote_entity',
+      'fieldable' => TRUE,
+      'entity keys' => array(
+        'id' => 'eid',
+      ),
+      'bundles' => array(),
+      // Make use the class' label() and uri() implementation by default.
+      'label callback' => 'entity_class_label',
+      'uri callback' => 'entity_class_uri',
+      'access callback' => 'test_remote_entity_access',
+      'view modes' => array(
+        'full' => array(
+          'label' => t('Full content'),
+          'custom settings' => FALSE,
+        ),
+      ),
+      'module' => 'remote_entity_test',
+      // Remote Entity API properties.
+      'remote base table' => 'remote_test_remote_entity',
+      'property map' => array(
+      ),
+      'remote entity keys' => array(
+        // Map the key on the local entity to properties on the remote entity
+        // which will be saved into the entity blob when saved to the local
+        // database.
+        'remote id' => 'remote_id',
+      ),
+      'remote entity unpack callback' => 'remote_entity_test_unpack_callback',
+    ),
+  );
+
+  return $return;
+}
+
+/**
+ * Implements callback_remote_entity_unpack()
+ */
+function remote_entity_test_unpack_callback($entity_type, $entity) {
+  // Set a marker on the entity that can be checked in the test.
+  $entity->unpacked = TRUE;
+}
+
+/**
+ * Implements callback_entity_info_access().
+ */
+function test_remote_entity_access() {
+  // Our tests don't care about access: grant it in all cases.
+  return TRUE;
+}
+
+/**
+ * Entity class for test entities.
+ *
+ * This class is not necessary, but it's tidier than having callbacks.
+ */
+class TestRemoteEntityClass extends Entity {
+
+  public function __construct(array $values = array(), $entityType = NULL) {
+    parent::__construct($values, 'test_remote_entity');
+  }
+
+  /**
+   * Specifies the default label, which is picked up by label() by default.
+   */
+  protected function defaultLabel() {
+    return $this->name;
+  }
+
+  /**
+   * Specifies the default uri, which is picked up by uri() by default.
+   */
+  protected function defaultURI() {
+    return array('path' => 'test_remote_entity/' . $this->identifier());
+  }
+
+}
