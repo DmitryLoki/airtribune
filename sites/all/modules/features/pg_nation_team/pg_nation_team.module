@@ -122,6 +122,13 @@ function approve_team_leader_ajax_callback($form, &$form_state) {
     $team_leader_uid = 1;
   } else {
     // Send mail
+
+    // Debug
+    if (empty($contest->title)) {
+      $debug = var_exrort(array('contest' => $contest, 'team' => $team_entity), TRUE);
+      watchdog('airtribune', 'Achtung! Variable ist leer! !debug', array('!debug' => '<pre>' . $debug . '</pre>'), WATCHDOG_DEBUG);
+    }
+
     $options['user'] = user_load($team_leader_uid);
     $fullname = get_full_name($options['user']);
     $country = country_load($team_country);
