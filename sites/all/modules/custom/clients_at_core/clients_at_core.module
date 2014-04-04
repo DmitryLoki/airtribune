@@ -1,0 +1,23 @@
+<?php
+/**
+ * @file clients_at_core.module
+ * Provides connection types for Clients module that connect to Airtribune CoreAPI.
+ */
+
+/**
+ * Implements hook_clients_connection_type_info().
+ */
+function clients_at_core_clients_connection_type_info() {
+  return array(
+    'drupal_rest_at_core' => array(
+      'label'  => t('Drupal AT Core API'),
+      'description' => t('Connects to Airtribune Core API with REST endpoints.'),
+      'tests' => array(
+        'user_retrieve' => 'ClientsConnectionCoreGetUser',
+        'users_retrieve' => 'ClientsConnectionCoreGetAllUsers',
+        'user_token' => 'ClientsConnectionCoreGetUserToken',
+        'sponsor_create' => 'ClientsConnectionATCoreCreateSponsor',
+      ),
+    ),
+  );
+}
