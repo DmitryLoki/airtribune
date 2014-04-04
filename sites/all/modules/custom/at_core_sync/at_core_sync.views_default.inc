@@ -368,6 +368,13 @@ function at_core_sync_views_default_views() {
       'override_label' => 0,
       'label' => '',
     ),
+    'action::at_core_sync_contests_full_action' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 1,
+      'override_label' => 0,
+      'label' => '',
+    ),
     'action::node_assign_owner_action' => array(
       'selected' => 0,
       'postpone_processing' => 0,
@@ -376,6 +383,13 @@ function at_core_sync_views_default_views() {
       'label' => '',
     ),
     'action::views_bulk_operations_delete_item' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::views_bulk_operations_delete_revision' => array(
       'selected' => 0,
       'postpone_processing' => 0,
       'skip_confirmation' => 0,

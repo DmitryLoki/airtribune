@@ -80,7 +80,7 @@ function airtribune_menu_alter(&$items) {
  * @author Vyacheslav Malchik <info@vkey.biz>
  */
 function airtribune_media_colorbox_callback($file, $view_mode, $langcode) {
-  drupal_set_header('Content-Type: text/html; UTF-8');
+  drupal_add_http_header('Content-Type: text/html; UTF-8');
   media_colorbox_callback($file, $view_mode, $langcode);
 }
 
@@ -98,9 +98,9 @@ function airtribune_event_settings_title($event) {
  */
 function airtribune_event_settings_access($event, $op = 'edit') {
   global $user;
-  $og_roles = og_get_user_roles('node', $event->nid);
+  $allow_edit_group = og_user_access('node', $event->nid, 'update group');
   $access = FALSE;
-  if (in_array('administrator', $user->roles) || in_array(OG_ADMINISTRATOR_ROLE, $og_roles)) {
+  if (in_array('administrator', $user->roles) || $allow_edit_group) {
     $access = TRUE;
   }
   return $access;
@@ -1232,11 +1232,15 @@ function airtribune_entity_insert($entity, $type) {
       }
       $roles = og_roles($type, $entity->type, $entity->nid, FALSE, FALSE);
       // Get rid for group admin role
-      $admin_member_rid = array_search('administrator member', $roles);
+      $admin_member_rid = array_search('organizer', $roles);
 
       if (!empty($admin_member_rid)) {
         // Changes the users role in the group
         og_role_grant($type, $entity->nid, $account->uid, $admin_member_rid);
+      }
+
+      if ($role = user_role_load_by_name('organizer')) {
+        user_multiple_role_edit(array($account->uid), 'add_role', $role->rid);
       }
     }
   }

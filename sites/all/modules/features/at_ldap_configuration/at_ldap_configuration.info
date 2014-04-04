@@ -12,6 +12,7 @@ features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:1
 features[ldap_authorization][] = drupal_role
 features[ldap_servers][] = codecat
+features[ldap_servers][] = airtribune
 features[variable][] = ldap_authentication_conf
 features[variable][] = ldap_servers_encryption
 features[variable][] = ldap_servers_require_ssl_for_credentails
