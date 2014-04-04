@@ -125,7 +125,7 @@ function approve_team_leader_ajax_callback($form, &$form_state) {
 
     // Debug
     if (empty($contest->title)) {
-      $debug = var_exrort(array('contest' => $contest, 'team' => $team_entity), TRUE);
+      $debug = print_r(array('contest' => $contest, 'team' => $team_entity), TRUE);
       watchdog('airtribune', 'Achtung! Variable ist leer! !debug', array('!debug' => '<pre>' . $debug . '</pre>'), WATCHDOG_DEBUG);
     }
 
