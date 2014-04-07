@@ -5,6 +5,7 @@ dependencies[] = clients
 package = Clients
 files[] = clients_at_core.inc
 files[] = clients_at_core.testing.inc
+files[] = clients_at_core.query.inc
 
 version = "7.x-1.0"
 core = "7.x"

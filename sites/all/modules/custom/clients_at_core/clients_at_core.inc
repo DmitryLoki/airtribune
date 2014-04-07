@@ -9,7 +9,7 @@
  */
 class clients_connection_drupal_rest_at_core extends clients_connection_base {
 
-  // ============================================ Connection form methods.
+  // ============================================ Connection form UI.
 
   /**
    * Extra form elements specific to a class's edit form.
@@ -36,6 +36,64 @@ class clients_connection_drupal_rest_at_core extends clients_connection_base {
   }
 
   // ============================================ Resource retrieval.
+
+  /**
+   * Load a remote entity.
+   *
+   * @param $entity_type
+   *  The entity type to load.
+   * @param $id
+   *  The (remote) ID of the entity.
+   * @return
+   *  An entity object.
+   */
+  function remote_entity_load($entity_type, $id) {
+    $query = $this->getRemoteEntityQuery('select');
+    $query->base($entity_type);
+    $query->entityCondition('entity_id', $id);
+    $result = $query->execute();
+
+    return reset($result);
+  }
+
+  /**
+   * Save a remote entity.
+   *
+   * @param $entity_type
+   *  The entity type to save.
+   * @param $entity
+   *  The entity to save.
+   * @return
+   *  If the entity is being created remotely, the new remote GUID.
+   */
+  function remote_entity_save($entity_type, $entity, $remote_properties = array()) {
+    // If entity not yet saved remotely - entity haven't remote ID property.
+    // So use 'insert', otherwise - 'update'.
+    $action = empty($entity->remote_id) ? 'insert' : 'update';
+
+    $query = $this->getRemoteEntityQuery($action);
+    $query->setEntity($entity_type, $entity);
+
+    if ($action == 'insert') {
+      $result = $query->execute();
+      return $result;
+    }
+    else {
+      $query->addFields($remote_properties);
+      $query->execute();
+    }
+  }
+
+  function getRemoteEntityQuery($query_type = 'select') {
+    switch ($query_type) {
+      case 'select':
+        return new ATCoreSelectQuery($this);
+      case 'insert':
+        return new ATCoreSelectQuery($this);
+      case 'update':
+        return new ATCoreSelectQuery($this);
+    }
+  }
 
   /**
    * Common helper for reacting to an error from a REST call.
