@@ -1569,13 +1569,17 @@ function airtribune_js_alter(&$javascript) {
 }
 
 function airtribune_get_string_date_of_contest_day($contest, $day_timestamp) {
+  $day_created_time = $day_timestamp;
+  $day_string = format_date($day_created_time, 'custom', 'j M, Y');
   // Because datetime in fields set for local, but stored in database as UTC, we substract offset.
-  $day_created_time = $day_timestamp - $contest->time['offset'];
-  if (date('Ymd', $contest->time['localtime']) == date('Ymd', $day_created_time)){
-    $day_string = t('Today');
-  }
-  else {
-    $day_string = format_date($day_created_time, 'custom', 'j M, Y');
+  if (isset($contest->time)) {
+    $day_created_time = $day_timestamp - $contest->time['offset'];
+    if (date('Ymd', $contest->time['localtime']) == date('Ymd', $day_created_time)){
+      $day_string = t('Today');
+    }
+    else {
+      $day_string = format_date($day_created_time, 'custom', 'j M, Y');
+    }
   }
   return $day_string;
 }
