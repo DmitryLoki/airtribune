@@ -207,8 +207,9 @@ function at_reg_access($node) {
   global $user;
   
   $entity_type = 'node';
-  
-  if (airtribune_how_time_after_event_start($etid) >= 2) {
+  $wrapper = entity_metadata_wrapper($entity_type, $node);
+  $is_open = $wrapper->{AIRTRIBUNE_REGISTRATION_SW_FIELD}->value();
+  if (airtribune_how_time_after_event_start($etid) >= 2 || !$is_open) {
     return FALSE;
   }
 

@@ -1320,7 +1320,10 @@ function airtribune_init() {
  * @author Kraev Vasily
  */
 function airtribune_contest_status_check_by_date($contest) {
-  return airtribune_compare_dates($contest->time['start_local'], $contest->time['end_local']);
+  if (isset($contest->time)) {
+    return airtribune_compare_dates($contest->time['start_local'], $contest->time['end_local']);
+  }
+  return FALSE;
 }
 
 /**
