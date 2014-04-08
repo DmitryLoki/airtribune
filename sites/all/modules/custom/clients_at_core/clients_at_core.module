@@ -21,3 +21,83 @@ function clients_at_core_clients_connection_type_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_clients_default_connections().
+ */
+function clients_at_core_clients_default_connections() {
+  $items = array();
+  $items['connection'] = entity_import('clients_connection', '{
+    "name" : "sponsor_connection",
+    "endpoint" : "http://apidev.airtribune.com/v0.3/",
+    "configuration" : {
+      "debug" : 1
+    },
+    "label" : "Sponsor Connections",
+    "type" : "drupal_rest_at_core",
+    "rdf_mapping" : []
+  }');
+  return $items;
+}
+
+/**
+ * Implements hook_clients_default_resources().
+ */
+function clients_at_core_clients_default_resources() {
+  // Declare a remote entity resource for our entity type.
+  // This identifies the entity type and the connection it uses.
+  $items = array();
+  $items['sponsor_entity'] = entity_import('clients_resource', '{
+    "component" : "sponsor_entity",
+    "connection" : "sponsor_connection",
+    "name" : "sponsor_entity",
+    "label" : "Sponsor Entity",
+    "type" : "remote_entity",
+    "configuration" : null,
+    "rdf_mapping" : []
+  }');
+  return $items;
+}
+
+/**
+ * Implements hook_entity_info().
+ *
+ * Define our dummy entity type.
+ */
+function clients_at_core_entity_info() {
+  $return = array(
+    'sponsor_entity' => array(
+      'label' => t('Sponsor Remote Entity'),
+      'base table' => 'sponsor_entity',
+      'fieldable' => TRUE,
+      'entity keys' => array(
+        'id' => 'eid',
+      ),
+      'bundles' => array(),
+      // Make use the class' label() and uri() implementation by default.
+      'label callback' => 'entity_class_label',
+      'uri callback' => 'entity_class_uri',
+      'access callback' => TRUE,
+      'view modes' => array(
+        'full' => array(
+          'label' => t('Full content'),
+          'custom settings' => FALSE,
+        ),
+      ),
+      // Remote Entity API properties.
+      'remote base table' => 'remote_sponsor_entity',
+      'property map' => array(
+      ),
+      'remote entity keys' => array(
+        // Map the key on the local entity to properties on the remote entity
+        // which will be saved into the entity blob when saved to the local
+        // database.
+        'remote id' => 'remote_id',
+      ),
+      // TODO
+      // 'remote entity unpack callback' => 'clients_at_core_unpack_callback',
+    ),
+  );
+
+  return $return;
+}
