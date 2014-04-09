@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * Implements hook_views_api().
+ */
+function at_inline_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'at_inline') . '/views',
+  );
+}
+
+/**
  * Implements hook_permission().
  */
 function at_inline_permission() {
