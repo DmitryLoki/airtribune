@@ -7267,7 +7267,7 @@ day_number|[field_day_number]';
   );
   $handler->display->display_options['fields']['field_contest_photos']['delta_limit'] = '1';
   $handler->display->display_options['fields']['field_contest_photos']['delta_offset'] = '0';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -9932,21 +9932,17 @@ race_id|[id]'),
     'use_widget_handlers' => 1,
     'format_handlers' => array(),
   );
-  /* Field: OG membership: Payment status */
-  $handler->display->display_options['fields']['field_pg_contestant_status']['id'] = 'field_pg_contestant_status';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = 'Status';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['alter']['text'] = '<span class="status-value">[field_pg_contestant_status]</span>';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['element_class'] = 'status-[field_pg_contestant_status_1]';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'editable';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['settings'] = array(
-    'click_to_edit' => 0,
-    'click_to_edit_style' => 'button',
-    'empty_text' => '',
-    'fallback_format' => 'list_default',
-  );
+  /* Field: OG membership: Custom editable field */
+  $handler->display->display_options['fields']['views_handler_field_editable']['id'] = 'views_handler_field_editable';
+  $handler->display->display_options['fields']['views_handler_field_editable']['table'] = 'views_entity_og_membership';
+  $handler->display->display_options['fields']['views_handler_field_editable']['field'] = 'views_handler_field_editable';
+  $handler->display->display_options['fields']['views_handler_field_editable']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['views_handler_field_editable']['label'] = 'Status';
+  $handler->display->display_options['fields']['views_handler_field_editable']['element_type'] = '0';
+  $handler->display->display_options['fields']['views_handler_field_editable']['element_label_type'] = '0';
+  $handler->display->display_options['fields']['views_handler_field_editable']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['views_handler_field_editable']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['views_handler_field_editable']['editable_field'] = 'field_pg_contestant_status';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Profile: Gender (field_gender) */
   $handler->display->display_options['sorts']['field_gender_value']['id'] = 'field_gender_value';
@@ -11066,7 +11062,6 @@ race_id|[id]'),
   $handler->display->display_options['fields']['field_person_name']['table'] = 'field_data_field_person_name';
   $handler->display->display_options['fields']['field_person_name']['field'] = 'field_person_name';
   $handler->display->display_options['fields']['field_person_name']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_person_name']['label'] = 'Person to contact in case of emergency';
   $handler->display->display_options['fields']['field_person_name']['element_label_colon'] = FALSE;
   /* Field: Profile: Contact phone number in case of emergency */
   $handler->display->display_options['fields']['field_person_phone']['id'] = 'field_person_phone';
@@ -11674,7 +11669,7 @@ race_id|[id]'),
     t('Insurance company'),
     t('Insurance policy number'),
     t('Name in national alphabet'),
-    t('Person to contact in case of emergency'),
+    t('NAC contact person full name'),
     t('Contact phone number in case of emergency'),
     t('="[field_person_phone]"'),
     t('Blood type'),
@@ -11684,7 +11679,6 @@ race_id|[id]'),
     t('%1 members'),
     t('All pilots export (csv)'),
     t('Pilot card export (print)'),
-    t('NAC contact person full name'),
     t('Confirmed pilots export (csv)'),
     t('Model'),
     t('IMEI'),
