@@ -2598,6 +2598,7 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
   border-radius: 3px;
 
 }
+.form-item-field-pg-contestant-status-und .checked_option_wrap {min-width: 216px;}
 .page-user .pane-page-content form .select .items { width:100%; top: 0 !important; z-index: 110;}
 
 .select .items_padding { padding:12px 0 !important;}
