@@ -68,6 +68,8 @@ function clients_at_core_entity_info() {
   $return = array(
     'sponsor_entity' => array(
       'label' => t('Sponsor Remote Entity'),
+      'entity class' => 'Entity',
+      'controller class' => 'RemoteEntityAPIDefaultController',
       'base table' => 'sponsor_entity',
       'fieldable' => TRUE,
       'entity keys' => array(

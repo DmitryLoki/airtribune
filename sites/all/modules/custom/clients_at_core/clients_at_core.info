@@ -2,6 +2,7 @@ name = Drupal clients Airtribune CoreAPI
 description = Provides connections to Airtribune CoreAPI with REST endpoints.
 core = 7.x
 dependencies[] = clients
+dependencies[] = remote_entity
 package = Clients
 files[] = clients_at_core.inc
 files[] = clients_at_core.testing.inc
