@@ -379,4 +379,6 @@ class ClientsHandlerEntityBroken extends ClientsHandlerEntity {
     drupal_set_message(t('This handler is broken.'), 'warning');
   }
 
+  function formatEndpoint(&$form, &$form_state) {
+  }
 }
