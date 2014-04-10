@@ -936,7 +936,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['edit_link']['field'] = 'edit_link';
   $handler->display->display_options['fields']['edit_link']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['edit_link']['alter']['text'] = '[title]';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -994,7 +994,7 @@ function at_core_sync_views_default_views() {
     t('Title'),
     t('Edit link'),
     t('[title]'),
-    t('Image'),
+    t('Banner'),
     t('All'),
     t('Ad for visualisations of %1'),
     t('Page'),
@@ -1445,7 +1445,28 @@ function at_core_sync_views_default_views() {
       'override_label' => 0,
       'label' => '',
     ),
+    'action::at_core_sync_tracked_objects_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::at_core_sync_contestants_users_action' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 1,
+      'override_label' => 0,
+      'label' => '',
+    ),
     'action::views_bulk_operations_delete_item' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::views_bulk_operations_delete_revision' => array(
       'selected' => 0,
       'postpone_processing' => 0,
       'skip_confirmation' => 0,
@@ -1496,7 +1517,7 @@ function at_core_sync_views_default_views() {
       ),
     ),
     'action::og_membership_delete_action' => array(
-      'selected' => 0,
+      'selected' => 1,
       'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
