@@ -247,6 +247,15 @@ function at_core_sync_action_info() {
         'any' => TRUE,
       ),
     ),
+    'at_core_sync_contestants_users_action' => array(
+      'type' => 'og_membership',
+      'label' => t('[Core API] Sync users'),
+      'configurable' => FALSE,
+      'aggregate' => FALSE,
+      'hooks' => array(
+        'any' => TRUE,
+      ),
+    ),
     'at_core_sync_tracked_objects_action' => array(
       'type' => 'og_membership',
       'label' => t('[Core API] Sync tracked objects'),
@@ -441,6 +450,17 @@ function at_core_sync_contests_full_action(&$object, $context = array()) {
 function at_core_sync_contestants_action(&$object, $context = array()) {
   at_core_sync_entity_sync('og_membership', $object);
   at_core_sync_other_sync('og_membership', $object);
+}
+
+/**
+ * Implementation of a Drupal action
+ *
+ * @param object $object
+ * @param array $context
+ */
+function at_core_sync_contestants_users_action(&$object, $context = array()) {
+  $account = user_load($object->etid);
+  user_save($account);
 }
 
 /**
