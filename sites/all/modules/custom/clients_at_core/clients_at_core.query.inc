@@ -30,4 +30,37 @@ class ATCoreSelectQuery extends RemoteEntityQuery {
       $this->fields[] = $field_name;
     }
   }
+
+  /**
+   * Add a condition to the query.
+   * Based on EntityFieldQuery::entityCondition().
+   */
+  function entityCondition($name, $value, $operator = NULL) {
+    if ($name == 'entity_id') {
+      $this->retrieve_multiple = FALSE;
+      $field = $this->entity_info['remote entity keys']['remote id'];
+      $this->id_condition = $value;
+    }
+    else {
+      $this->conditions[$this->remote_base][] = array(
+        'field' => $field,
+        'value' => $value,
+        'operator' => $operator,
+      );
+    }
+  }
+
+  /**
+   * Execute query and get the result.
+   */
+  function execute() {
+    $entity_info = $this->entity_info;
+    // $url = 'user/' . $pers-id . '/' . $this->id_condition;
+    $url = 'node/' . $this->id_condition;
+    $response = $this->connection->makeRequest($url , 'GET');
+    // Debug mode output.
+    $this->connection->debug($response);
+
+    return reset($response);
+  }
 }
