@@ -16,7 +16,7 @@ function at_user_menu() {
   );
 
   $items['user/%user/contestant'] = array(
-    'title' => 'Contestant',
+    'title' => 'Participant',
     'page callback' => 'at_user_redirect_to_contestant',
     'page arguments' => array(1),
     'access callback' => 'user_access',

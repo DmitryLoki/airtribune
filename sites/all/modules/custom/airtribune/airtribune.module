@@ -80,7 +80,7 @@ function airtribune_menu_alter(&$items) {
  * @author Vyacheslav Malchik <info@vkey.biz>
  */
 function airtribune_media_colorbox_callback($file, $view_mode, $langcode) {
-  drupal_add_http_header('Content-Type: text/html; UTF-8');
+  drupal_add_http_header('Content-Type', 'text/html; UTF-8');
   media_colorbox_callback($file, $view_mode, $langcode);
 }
 
