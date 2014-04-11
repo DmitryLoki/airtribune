@@ -55,13 +55,14 @@ class ATCoreSelectQuery extends RemoteEntityQuery {
    */
   function execute() {
     $entity_info = $this->entity_info;
+
     // $url = 'user/' . $pers-id . '/' . $this->id_condition;
     $url = 'node/' . $this->id_condition;
     $response = $this->connection->makeRequest($url , 'GET');
     // Debug mode output.
-    $this->connection->debug($response);
+    $this->connection->debug(print_r($response));
 
-    return reset($response);
+    return $response;
   }
 }
 

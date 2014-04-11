@@ -53,7 +53,7 @@ class clients_connection_drupal_rest_at_core extends clients_connection_base {
     $query->entityCondition('entity_id', $id);
     $result = $query->execute();
 
-    return reset($result);
+    return $result;
   }
 
   /**
@@ -226,7 +226,7 @@ class clients_connection_drupal_rest_at_core extends clients_connection_base {
       'data'    => $data,
     );
 
-    $response = drupal_http_request($this->endpoint . '/user/auth', $options);
+    $response = drupal_http_request(at_core_sync_get_api_url() . '/user/auth', $options);
     if ($response->code == 200) {
       $data = json_decode($response->data);
       return $data->token;
