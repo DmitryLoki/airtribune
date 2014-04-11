@@ -74,7 +74,7 @@ function at_core_sync_admin_settings() {
     '#title' => t('Retrieve hosting URL'),
     '#default_value' => variable_get('at_core_retrieve_address', 'http://retrieve.airtribune.com'),
     '#size' => 30,
-    '#description' => t('For example: http://retrieve.irtribune.com'),
+    '#description' => t('For example: http://retrieve.airtribune.com'),
   );
 
   $form['at_core_sync_custom_settings']['at_core_sync_debug_mode'] = array(
