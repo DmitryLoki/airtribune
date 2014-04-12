@@ -64,3 +64,51 @@ class ATCoreSelectQuery extends RemoteEntityQuery {
     return reset($response);
   }
 }
+
+
+class ATCoreInsertQuery extends RemoteEntityInsertQuery {
+
+  public $table_info;
+
+  function __construct($connection) {
+    parent::__construct($connection);
+    $this->table_info = remote_entity_get_query_table_info($connection->name);
+  }
+
+  function execute() {
+    $entity_info = $this->entity_info;
+    $response = $this->connection->makeRequest($this->endpoint, 'POST', $data);
+    $this->connection->debug(print_r($response));
+    return $response;
+  }
+}
+
+
+class ATCoreUpdateQuery extends RemoteEntityUpdateQuery {
+
+  public $table_info;
+
+  function __construct($connection) {
+    parent::__construct($connection);
+    $this->table_info = remote_entity_get_query_table_info($connection->name);
+  }
+
+  function execute() {
+    $entity_info = $this->entity_info;
+    $response = $this->connection->makeRequest($this->endpoint, 'PUT', $data);
+    $this->connection->debug(print_r($response));
+    return $response;
+  }
+}
+
+
+class ATCoreDeleteQuery extends RemoteEntitySaveQuery {
+
+  function execute() {
+    $entity_info = $this->entity_info;
+    $response = $this->connection->makeRequest($this->endpoint, 'DELETE');
+    $this->connection->debug(print_r($response));
+    return $response;
+  }
+}
+

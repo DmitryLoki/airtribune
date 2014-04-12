@@ -89,9 +89,11 @@ class clients_connection_drupal_rest_at_core extends clients_connection_base {
       case 'select':
         return new ATCoreSelectQuery($this);
       case 'insert':
-        return new ATCoreSelectQuery($this);
+        return new ATCoreInsertQuery($this);
       case 'update':
-        return new ATCoreSelectQuery($this);
+        return new ATCoreUpdateQuery($this);
+      case 'delete':
+        return new ATCoreDeleteQuery($this);
     }
   }
 
