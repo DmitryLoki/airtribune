@@ -14,5 +14,13 @@ function clients_at_core_schema() {
 
   $schema['sponsor_entity'] = remote_entity_schema_table('sponsor_entity');
 
+  $schema['sponsor_entity']['fields']['parent_id'] = array(
+    'description' => 'The parent ID for remote entity. Usually specified in GUID-8, like pers-1234-12345678',
+    'type' => 'varchar',
+    'length' => 255,
+    'not null' => FALSE,
+    'default' => NULL,
+  );
+
   return $schema;
 }

@@ -48,6 +48,8 @@ class clients_connection_drupal_rest_at_core extends clients_connection_base {
    *  An entity object.
    */
   function remote_entity_load($entity_type, $id) {
+    $this->endpoint = $this->get_url_for_entity($entity_type);
+    $this->endpoint .= '/' . $id;
     $query = $this->getRemoteEntityQuery('select');
     $query->base($entity_type);
     $query->entityCondition('entity_id', $id);
@@ -67,6 +69,7 @@ class clients_connection_drupal_rest_at_core extends clients_connection_base {
    *  If the entity is being created remotely, the new remote GUID.
    */
   function remote_entity_save($entity_type, $entity, $remote_properties = array()) {
+    $this->endpoint = $this->get_url_for_entity($entity_type);
     // If entity not yet saved remotely - entity haven't remote ID property.
     // So use 'insert', otherwise - 'update'.
     $action = empty($entity->remote_id) ? 'insert' : 'update';
@@ -79,9 +82,18 @@ class clients_connection_drupal_rest_at_core extends clients_connection_base {
       return $result;
     }
     else {
+      $this->endpoint .= '/' . $entity->remote_id;
       $query->addFields($remote_properties);
       $query->execute();
     }
+  }
+
+  function get_url_for_entity($entity_type) {
+    $url = at_core_sync_get_api_url();
+    if ($entity_type == 'sponsor_entity') {
+      $this->url = $url . '/user/' . $this->parent_id . '/sponsor';
+    }
+    return $url;
   }
 
   function getRemoteEntityQuery($query_type = 'select') {
