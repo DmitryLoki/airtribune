@@ -393,9 +393,9 @@ function airtribune2_preprocess_node(&$vars) {
     $vars['title'] = '';
     $vars['user_picture'] = '';
   }
-  
+
   // @see #3796: add template for solutions pages
-  
+
   if (is_solutions()) {
     $base = 'node';
     $delimiter = '__';
@@ -710,7 +710,7 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
       $lang = $form['field_dates']['#language'];
       //$form['field_dates'][$lang][0]['#required'] = 1;
       //unset($form['field_dates'][$lang]['#title']);
-      
+
       // unset($form['field_dates'][$lang][0]['#title']);
       //unset($form['field_dates'][$lang][0]['#entity']);
       // unset($form['field_dates'][$lang][1]['#entity']);
@@ -1254,7 +1254,7 @@ function airtribune2_theme() {
       'render element' => 'form',
       'template' => 'templates/profile2-edit-pilot-form',
     ),
-    
+
     'contest_registration_anonymous' => array(
       'render element' => 'form',
       'template' => 'templates/contest-registration-anonymous',
@@ -1951,6 +1951,11 @@ function airtribune2_preprocess_views_view_fields(&$vars) {
 function airtribune2_preprocess_views_view_unformatted(&$vars) {
   //print_r($vars);
   $view = $vars['view'];
+
+  if (!in_array($view->name, array('frontpage_events', 'frontpage_live_events'))) {
+    return;
+  }
+
   $rows = $vars['rows'];
   $style = $view->style_plugin;
   $options = $style->options;
@@ -1984,7 +1989,7 @@ function airtribune2_preprocess_views_view_unformatted(&$vars) {
       $vars['classes'][$id][] = 'views-row-' . $count;
     }
     if (!empty($row_name) && $count > $standart) {
-      $vars['classes'][$id][] = 'views-row-' . $row_name;      
+      $vars['classes'][$id][] = 'views-row-' . $row_name;
     }
     if ($row_class_special) {
       $vars['classes'][$id][] = 'views-row-' . ($count % 2 ? 'odd' : 'even');
@@ -1997,13 +2002,13 @@ function airtribune2_preprocess_views_view_unformatted(&$vars) {
     }
 
     if (
-    	$view->current_display != 'panel_pane_1' 
+    	$view->current_display != 'panel_pane_1'
     	&& ($count == 1 || !(($count - 1) % 3))
     ) {
       $vars['prefixes'][$id] = '<div class="row-wrapper clearfix">';
     }
     if (
-    	$view->current_display != 'panel_pane_1' 
+    	$view->current_display != 'panel_pane_1'
     	&& ($count == $max || !($count % 3))
     ) {
       $vars['suffixes'][$id] = '</div>';
@@ -2138,10 +2143,10 @@ function airtribune2_date_combo($variables) {
 
   // Group start/end items together in fieldset.
   $fieldset = array(
-    '#title' => t($element['#title']) . ' ' . ($element['#delta'] > 0 ? intval($element['#delta'] + 1) : ''), 
-    '#value' => '', 
-    '#description' => !empty($element['#fieldset_description']) ? $element['#fieldset_description'] : '', 
-    '#attributes' => array(), 
+    '#title' => t($element['#title']) . ' ' . ($element['#delta'] > 0 ? intval($element['#delta'] + 1) : ''),
+    '#value' => '',
+    '#description' => !empty($element['#fieldset_description']) ? $element['#fieldset_description'] : '',
+    '#attributes' => array(),
     '#children' => $element['#children'],
   );
   return theme($theme_element, array('element' => $fieldset));
