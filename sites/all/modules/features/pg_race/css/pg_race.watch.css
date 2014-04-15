@@ -131,8 +131,8 @@ body .front_live_events .more-link a { float: right; margin: 3px -2px 0 0; posit
 
 .front_live_events .is_live .title,
 .front_live_events .awaiting .title,
-.front_live_events .starting .title { display: block; float: left; width: 49%; text-align: center;}
-.front_live_events .no-blog .task-timer { display: block; float: right; width: 49%;}
+.front_live_events .starting .title { display: block; float: left; text-align: center;}
+.front_live_events .no-blog .task-timer { display: block; float: right; }
 
 .front_live_events .views-field-watch-task { z-index: 120; text-align: center; width: 100%; top: 140px; position: absolute; }
 .front_live_events .watch-links > span { display: inline-block; vertical-align: top; position: relative; margin: 0 1%;}
