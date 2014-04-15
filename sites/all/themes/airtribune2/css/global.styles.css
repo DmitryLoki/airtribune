@@ -2937,13 +2937,13 @@ tr.odd { background: none}
 
 #airtribune-vis td.row-number { width: 32px;}
 #airtribune-vis td.contest-number { width: 41px;}
-#airtribune-vis td.name { width: 131px;}
+#airtribune-vis td.name { width: 151px;}
 #airtribune-vis td.distance { width: 81px;}
 #airtribune-vis td.data-age { width: 61px;}
 #airtribune-vis td.speed { width: 71px;}
 #airtribune-vis td.alt { width: 51px;}
 #airtribune-vis td.coords { width: 151px;}
-#airtribune-vis td.tracker-name { width: 81px;}
+#airtribune-vis td.tracker-name { width: 61px;}
 #airtribune-vis td.battery { width: 51px;}
 
 #airtribune-vis td.name span { display: inline-block; }
