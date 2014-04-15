@@ -1830,6 +1830,10 @@ function airtribune2_views_pre_render(&$view) {
 
   if ($view->name == 'frontpage_live_events' && (in_array($view->current_display, array('page', 'panel_pane_2')))) {
 
+    // used in frontpage_live_event_photo.inc
+    global $front_live_event_total;
+    $front_live_event_total = count($view->result);
+
     drupal_add_js(drupal_get_path('theme', 'airtribune2') . '/js/frontpage.js');
     $standart = floor(count($view->result)/3) * 3;
     $deviant = count($view->result) - $standart;
