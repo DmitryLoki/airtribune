@@ -1,7 +1,7 @@
 <?php
 /**
  * @file clients_at_core.module
- * Provides connection types for Clients module that connect to Airtribune CoreAPI.
+ * Provides connection types for Clients module that connect to AirTribune CoreAPI.
  */
 
 /**
@@ -11,7 +11,7 @@ function clients_at_core_clients_connection_type_info() {
   return array(
     'drupal_rest_at_core' => array(
       'label'  => t('Drupal AT Core API'),
-      'description' => t('Connects to Airtribune Core API with REST endpoints.'),
+      'description' => t('Connects to AirTribune Core API with REST endpoints.'),
       'tests' => array(
         'user_retrieve' => 'ClientsConnectionCoreGetUser',
         'users_retrieve' => 'ClientsConnectionCoreGetAllUsers',
@@ -62,7 +62,7 @@ function clients_at_core_clients_default_resources() {
 /**
  * Implements hook_entity_info().
  *
- * Define our dummy entity type.
+ * Define our remote profile.
  */
 function clients_at_core_entity_info() {
   $return = array(
