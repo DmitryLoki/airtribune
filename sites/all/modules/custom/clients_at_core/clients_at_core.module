@@ -66,30 +66,38 @@ function clients_at_core_clients_default_resources() {
  */
 function clients_at_core_entity_info() {
   $return = array(
-    'sponsor_entity' => array(
-      'label' => t('Sponsor Remote Entity'),
-      'entity class' => 'Entity',
+    'profile_remote' => array(
+      'label' => t('Remote profile'),
+      'plural label' => t('Remote profiles'),
+      'description' => t('Profile2 user remote profiles.'),
+      'entity class' => 'Profile',
       'controller class' => 'RemoteEntityAPIDefaultController',
-      'base table' => 'sponsor_entity',
+      'base table' => 'profile_remote',
       'fieldable' => TRUE,
       'entity keys' => array(
-        'id' => 'eid',
+        'id' => 'pid',
+        'bundle' => 'type',
+        'label' => 'label',
       ),
       'bundles' => array(),
+      'bundle keys' => array(
+        'bundle' => 'type',
+      ),
       // Make use the class' label() and uri() implementation by default.
       'label callback' => 'entity_class_label',
       'uri callback' => 'entity_class_uri',
-      'access callback' => TRUE,
+      'access callback' => 'profile2_access',
+      'module' => 'profile2',
+      'metadata controller class' => 'Profile2MetadataController',
       'view modes' => array(
-        'full' => array(
-          'label' => t('Full content'),
+        'account' => array(
+          'label' => t('User account'),
           'custom settings' => FALSE,
         ),
       ),
       // Remote Entity API properties.
-      'remote base table' => 'remote_sponsor_entity',
-      'property map' => array(
-      ),
+      'remote base table' => 'profile_remote_remote_entity',
+      'property map' => array(),
       'remote entity keys' => array(
         // Map the key on the local entity to properties on the remote entity
         // which will be saved into the entity blob when saved to the local
@@ -101,5 +109,79 @@ function clients_at_core_entity_info() {
     ),
   );
 
+  // Add bundle info but bypass entity_load() as we cannot use it here.
+  $types = db_select('profile_type', 'p')
+    ->fields('p')
+    ->execute()
+    ->fetchAllAssoc('type');
+
+  foreach ($types as $type => $info) {
+    $return['profile_remote']['bundles'][$type] = array(
+      'label' => $info->label,
+      'admin' => array(
+//        'path' => 'admin/structure/profile_remotes/manage/%profile2_type',
+//        'real path' => 'admin/structure/profile_remotes/manage/' . $type,
+        'path' => 'admin/structure/profiles/manage/%profile2_type',
+        'real path' => 'admin/structure/profiles/manage/' . $type,
+        'bundle argument' => 4,
+        'access arguments' => array('administer remote profiles'),
+      ),
+    );
+  }
+
   return $return;
+}
+
+/**
+ * Implements hook_schema_alter().
+ */
+function clients_at_core_schema_alter(&$schema) {
+  module_load_install('remote_entity');
+  $profile_remote = remote_entity_schema_table('profile_remote');
+
+  $profile_remote['fields']['parent_id'] = array(
+    'description' => 'The parent ID for remote entity. Usually specified in GUID-8, like pers-1234-12345678',
+    'type' => 'varchar',
+    'length' => 255,
+    'not null' => FALSE,
+    'default' => NULL,
+  );
+
+  unset($profile_remote['fields']['eid']);
+  unset($profile_remote['primary key']);
+
+  $schema['profile'] = array_merge_recursive($schema['profile'], $profile_remote);
+
+  //dpm($profile_remote, 'schema for remote entity');
+  //dpm($schema, 'all schemas');
+  //dpm($schema['profile'], 'merged schema: profile + remote');
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ *
+ * Alter profile2 entity, add stuff, related to Remote Entity.
+ */
+function clients_at_core_entity_info_alter(&$entity_info) {
+  $profile_remote_additional = array(
+    // Remote Entity API properties.
+    'remote base table' => 'profile_remote',
+    'property map' => array(),
+    'remote entity keys' => array(
+      // Map the key on the local entity to properties on the remote entity
+      // which will be saved into the entity blob when saved to the local
+      // database.
+      'remote id' => 'remote_id',
+    ),
+    // 'remote entity unpack callback' => 'clients_at_core_unpack_callback',
+  );
+
+  // Change the controller class, base table, and other stuff.
+  $entity_info['profile2']['controller class'] = 'RemoteEntityAPIDefaultController';
+  $entity_info['profile2']['base table'] = 'profile_remote';
+  $entity_info['profile2'] += $profile_remote_additional;
+
+  //dpm($entity_info, '$entity_info all');
+  //dpm($entity_info['profile2'], '$entity_info for profile2');
+  //dpm($entity_info['profile_remote'], '$entity_info for profile_remote');
 }
