@@ -30,7 +30,8 @@ jQuery(function ($) {
           span.trackerInfo = trackerInfo;
 
           if(trackerInfo.last_point.time) {
-            var d = Math.floor((new Date - new Date(trackerInfo.last_point.time))/1000);
+            var d = Math.floor(((new Date).getTime() - (new Date(trackerInfo.last_point.time+"Z")).getTime())/1000);
+			span.trackerInfo.dt = d;
             span.innerHTML = getTimeStr(Math.floor(d/3600),Math.floor(d%3600/60),d%60);
           }
 
@@ -45,7 +46,8 @@ jQuery(function ($) {
           var tbl = statusSpans.closest('table');
 
           statusSpans.each(function(i, span){
-            var time = span.trackerInfo ? span.trackerInfo.last_point.time : null;
+//            var time = span.trackerInfo ? span.trackerInfo.last_point.time : null;
+			var time = span.trackerInfo.dt || null;
             keys.push({key: time, span:span});
           });
 
@@ -58,6 +60,10 @@ jQuery(function ($) {
           for (var i = 0; i < keys.length; i++) {
             tbl.prepend($(keys[i].span).closest('tr'));
           }
+
+		  statusSpans.each(function(i,span) {
+			  $(span).closest("tr").find("td.views-field-counter").text(i+1);
+		  });
         }
 
         setTimeout(run, 3000);
