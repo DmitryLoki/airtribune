@@ -88,7 +88,7 @@ function clients_at_core_entity_info() {
       'uri callback' => 'entity_class_uri',
       'access callback' => 'profile2_access',
       'module' => 'profile2',
-      'metadata controller class' => 'Profile2MetadataController',
+      'metadata controller class' => 'RemoteProfileMetadataController',
       'view modes' => array(
         'account' => array(
           'label' => t('User account'),
