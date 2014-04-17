@@ -9,6 +9,9 @@
  */
 class clients_connection_drupal_rest_at_core extends clients_connection_base {
 
+  function credentialsProperties() {
+    return array();
+  }
   // ============================================ Connection form UI.
 
   /**
@@ -189,7 +192,7 @@ class clients_connection_drupal_rest_at_core extends clients_connection_base {
    */
   function makeRequest($resource_path, $http_method, $data = array()) {
     if ($http_method != 'GET' && !isset($this->token)) {
-      $this->getAuthToken();
+//      $this->getAuthToken();
     }
 
     $data = drupal_json_encode($data);
