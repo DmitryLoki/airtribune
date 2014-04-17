@@ -178,6 +178,7 @@ function clients_at_core_entity_info_alter(&$entity_info) {
 
   // Change the controller class, base table, and other stuff.
   $entity_info['profile2']['controller class'] = 'RemoteEntityAPIDefaultController';
+  $entity_info['profile2']['metadata controller class'] = 'RemoteProfileMetadataController';
   $entity_info['profile2']['base table'] = 'profile_remote';
   $entity_info['profile2'] += $profile_remote_additional;
 
