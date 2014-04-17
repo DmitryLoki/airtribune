@@ -59,6 +59,17 @@ function at_alias_entity_delete($entity, $entity_type) {
  */
 function at_alias_node_presave($node) {
   module_load_include('inc', 'at_alias', 'at_alias.event');
+  // Remove event old alias.
+  if (!$node->is_new && $node->nid){
+    switch ($node->type) {
+      case AIRTRIBUNE_PG_CONTEST_TYPE :
+      case AIRTRIBUNE_HG_CONTEST_TYPE :
+        $query = db_delete('url_alias');
+        $query->condition('source', 'event/' . $node->nid);
+        $query->execute();
+        break;
+    }
+  }
   _at_alias_substitute_event_node_path($node);
 }
 
@@ -114,7 +125,7 @@ function at_alias_node_hook_implementation($op, $node) {
 
 /**
  * This function is called from with node module hooks (e.g. hook_insert()).
- * 
+ *
  * @todo: maybe move into presave hook
  */
 function at_alias_module_node_hook_implementation($op, $node) {
@@ -160,14 +171,14 @@ function _at_alias_clear_string($string) {
 
 /**
  * Implements hook_form_node_form_alter().
- * 
+ *
  * Substitute node path.
  * @see at_alias_node_presave()
  * @todo: comment
  */
 function at_alias_form_node_form_alter(&$form, $form_state, $form_id) {
   module_load_include('inc', 'at_alias', 'at_alias.event');
-  
+
   // Set default path alias values for node form.
   // TODO: Make sure that this is always fired after path_form_node_form_alter().
   // @todo: Add content type check
@@ -188,7 +199,7 @@ function at_alias_form_node_form_alter(&$form, $form_state, $form_id) {
 
 /**
  * Implements hook_module_implements_alter().
- * 
+ *
  * We need $form['path'] to be already added by path.module
  */
 function at_alias_module_implements_alter(&$implementations, $hook) {
