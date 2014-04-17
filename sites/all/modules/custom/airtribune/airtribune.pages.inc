@@ -127,10 +127,12 @@ function airtribune_event_settings_form_submit($form, &$form_state) {
   $event->field_registration_sw['und'][0]['value'] = $values['setting_registration'];
 
   /* Manage URL aliases */
-  $source = 'event/' . $event->nid;
-  path_delete(array('source' => $source));
-  $path = array('source' => $source, 'alias' => $values['alias']);
-  path_save($path);
+  //$source = 'event/' . $event->nid;
+  //path_delete(array('source' => $source));
+  //$path = array('source' => $source, 'alias' => $values['alias']);
+  //path_save($path);
+
+  $event->path['alias'] = $values['alias'];
 
   node_save($event);
 }
