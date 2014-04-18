@@ -78,6 +78,7 @@ class ATCoreInsertQuery extends RemoteEntityInsertQuery {
 
   function execute() {
     $entity_info = $this->entity_info;
+    $data = json_encode(get_object_vars($this->entity));
     $response = $this->connection->makeRequest($this->endpoint, 'POST', $data);
     $this->connection->debug(print_r($response));
     return $response;
@@ -96,6 +97,7 @@ class ATCoreUpdateQuery extends RemoteEntityUpdateQuery {
 
   function execute() {
     $entity_info = $this->entity_info;
+    $data = json_encode(get_object_vars($this->entity));
     $response = $this->connection->makeRequest($this->endpoint, 'PUT', $data);
     $this->connection->debug(print_r($response));
     return $response;

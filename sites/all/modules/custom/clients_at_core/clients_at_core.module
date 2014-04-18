@@ -27,13 +27,13 @@ function clients_at_core_clients_connection_type_info() {
  */
 function clients_at_core_clients_default_connections() {
   $items = array();
-  $items['connection'] = entity_import('clients_connection', '{
-    "name" : "sponsor_connection",
+  $items['at_core_connection'] = entity_import('clients_connection', '{
+    "name" : "at_core_connection",
     "endpoint" : "http://apidev.airtribune.com/v0.3/",
     "configuration" : {
       "debug" : 1
     },
-    "label" : "Sponsor Connections",
+    "label" : "AT Core Connection",
     "type" : "drupal_rest_at_core",
     "rdf_mapping" : []
   }');
@@ -47,11 +47,11 @@ function clients_at_core_clients_default_resources() {
   // Declare a remote entity resource for our entity type.
   // This identifies the entity type and the connection it uses.
   $items = array();
-  $items['sponsor_entity'] = entity_import('clients_resource', '{
-    "component" : "sponsor_entity",
-    "connection" : "sponsor_connection",
-    "name" : "sponsor_entity",
-    "label" : "Sponsor Entity",
+  $items['profile_remote'] = entity_import('clients_resource', '{
+    "component" : "profile2",
+    "connection" : "at_core_connection",
+    "name" : "profile_remote",
+    "label" : "Profile Remote",
     "type" : "remote_entity",
     "configuration" : null,
     "rdf_mapping" : []

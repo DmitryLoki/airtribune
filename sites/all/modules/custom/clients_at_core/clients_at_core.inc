@@ -82,7 +82,7 @@ class clients_connection_drupal_rest_at_core extends clients_connection_base {
 
     if ($action == 'insert') {
       $result = $query->execute();
-      return $result;
+      return $result->remote_id;
     }
     else {
       $this->endpoint .= '/' . $entity->remote_id;
@@ -337,7 +337,7 @@ class RemoteProfileMetadataController extends Profile2MetadataController {
     }
 
     $connection = $resource->getConnection();
-    $property_type_map = $connection->entity_property_type_map();
+//    $property_type_map = $connection->entity_property_type_map();
     if (method_exists($connection, 'entity_property_type_callbacks')) {
       $property_type_callbacks = $connection->entity_property_type_callbacks();
     }
