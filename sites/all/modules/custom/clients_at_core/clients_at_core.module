@@ -147,19 +147,19 @@ function clients_at_core_schema_alter(&$schema) {
     'default' => NULL,
   );
 
-  unset($schema['profile_remote']['fields']['eid']);
-  unset($schema['profile_remote']['primary key'][0]);
+  unset($schema['profile']['fields']['eid']);
+  unset($schema['profile']['primary key'][0]);
 
   $schema_profile = drupal_get_schema_unprocessed('profile2', 'profile');
 
   //$schema['profile_remote'] = array_merge_recursive($schema['profile_remote'], $schema_profile);
   // Function array_merge_recursive() merge not correct, so use this method.
-  $schema_profile['fields'] += $schema['profile_remote']['fields'];
-  $schema_profile['indexes'] += $schema['profile_remote']['indexes'];
-  $schema_profile['unique keys'] = $schema['profile_remote']['unique keys'];
+  $schema_profile['fields'] += $schema['profile']['fields'];
+  $schema_profile['indexes'] += $schema['profile']['indexes'];
+  $schema_profile['unique keys'] = $schema['profile']['unique keys'];
 
-  $schema['profile_remote'] = $schema_profile;
-  dpm($schema['profile_remote']);
+  $schema['profile'] = $schema_profile;
+  dpm($schema['profile']);
   return $schema;
 }
 
