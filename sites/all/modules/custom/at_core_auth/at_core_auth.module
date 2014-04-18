@@ -13,8 +13,10 @@ function at_core_auth_form_user_login_block_alter(&$form, &$form_state) {
  * Implements hook_form_FORM_ID_alter(). for user_login_form
  */
 function at_core_auth_form_user_login_alter(&$form, $form_state) {
+  // Disable Drupal auth
   $key = array_search('user_login_authenticate_validate', $form['#validate']);
   unset($form['#validate'][$key]);
+
   array_unshift($form['#validate'], 'at_core_auth_login_authenticate_validate');
   array_unshift($form['#validate'], 'at_core_auth_grab_password_validate');
   dpm($form);
