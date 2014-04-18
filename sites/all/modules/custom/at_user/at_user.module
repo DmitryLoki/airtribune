@@ -207,7 +207,6 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
         '#markup' => 'airtribune.com/' . drupal_get_path_alias('user/' . $user->uid),
       );
     }
-    $form['#submit'][] = 'at_user_core_api_fields_submit';
 
     // make upload & delete (user_picture / avatar imagefield) without form_submit
     // see #2764
@@ -248,9 +247,6 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     $form['inline_errors']['#weight'] = -10;
     $form['#validate'][] = 'at_user_login_error_msg';
     $form['#validate'][] = 'at_user_login_error_redirect_to_form';
-    // Get auth token for CoreAPI, using plain password from user_login submitted form.
-    // @see #4498
-    $form['#submit'][] = 'at_user_login_get_core_api_auth_token';
   }
 }
 
@@ -428,44 +424,6 @@ function at_user_login_error_redirect_to_form($form, &$form_state) {
     $form_state['rebuild'] = TRUE;
   }
 }
-
-/**
- * Get auth token for CoreAPI, using plain password from user_login submitted form.
- * @see #4498
- */
-function at_user_login_get_core_api_auth_token(&$form, &$form_state) {
-  $user = user_load($form_state['uid']);
-  $sync = _get_class_by_entity('user', $user);
-  $token = $sync->get_auth_token($user->mail, $form_state['values']['pass']);
-  user_cookie_save(array("auth_token_{$user->uid}" => $token));
-}
-
-function at_user_core_api_fields_submit(&$form, &$form_state) {
-  $sync = $form['#sync'];
-  $social = $form_state['values']['field_social_links']['und'];
-  $data = array(
-    'facebook_url' => $social[0]['url'],
-    'googleplus_url' => $social[1]['url'],
-    'youtube_url' => $social[2]['url'],
-    'vimeo_url' => $social[3]['url'],
-    'instagram_url' => $social[4]['url'],
-  );
-  $sync->write_user_fields($data);
-
-  // If posted file fid not equal already saved if user object, it's mean, what user upload new file.
-  $old_fid = !empty($sync->entity->field_header_image['und']) ? $sync->entity->field_header_image['und'][0]['fid'] : 0;
-  $posted_fid = $form_state['values']['field_header_image']['und'][0]['fid'];
-  if ($old_fid != $posted_fid) {
-    $file = file_load($posted_fid);
-    $path = drupal_realpath($file->uri);
-    $data = array(
-      'upload_file' => TRUE,
-      'header' => '@' . $path,
-    );
-    $sync->write_user_fields($data);
-  }
-}
-
 
 function at_user_process_panels_pane(&$vars, $hook) {
   $pane = $vars['pane'];
