@@ -6,33 +6,75 @@
  */
 
 /**
- * Implements hook_schema().
+ * Implements hook_schema_alter().
+ * Alter schema of profile2 module, add schema, related to remote entity.
  */
-function clients_at_core_schema() {
-  // Load the install file so we can use the schema helper.
+function clients_at_core_schema_alter(&$schema) {
   module_load_install('remote_entity');
+  $remote_entity = remote_entity_schema_table('remote_entity');
 
-  $schema['profile_remote'] = remote_entity_schema_table('profile_remote');
+  unset($remote_entity['fields']['eid']);
+  unset($remote_entity['primary key'][0]);
 
-  $schema['profile_remote']['fields']['parent_id'] = array(
-    'description' => 'The parent ID for remote entity. Usually specified in GUID-8, like pers-1234-12345678',
-    'type' => 'varchar',
-    'length' => 255,
-    'not null' => FALSE,
-    'default' => NULL,
-  );
-  unset($schema['profile_remote']['fields']['eid']);
-  unset($schema['profile_remote']['primary key'][0]);
-
-  $schema_profile = drupal_get_schema_unprocessed('profile2', 'profile');
-
-  //$schema['profile_remote'] = array_merge_recursive($schema['profile_remote'], $schema_profile);
   // Function array_merge_recursive() merge not correct, so use this method.
-  $schema_profile['fields'] += $schema['profile_remote']['fields'];
-  $schema_profile['indexes'] += $schema['profile_remote']['indexes'];
-  $schema_profile['unique keys'] = $schema['profile_remote']['unique keys'];
+  $remote_entity['fields'] += $schema['profile']['fields'];
+  $remote_entity['indexes'] += $schema['profile']['indexes'];
+  $remote_entity['unique keys'] = $schema['profile']['unique keys'];
 
-  $schema['profile_remote'] = $schema_profile;
+  $schema['profile'] = $remote_entity;
 
   return $schema;
+}
+
+/**
+ * Add remote_entity fields/columns to 'profile2' module table (profile).
+ */
+function clients_at_core_update_7001() {
+  $remote_entity_fields = array(
+    'remote_id' => array(
+      'description' => 'The remote entity ID. Not necessarily numeric',
+      'type' => 'varchar',
+      'length' => 255,
+      'not null' => FALSE,
+      'default' => NULL,
+    ),
+    'entity_data' => array(
+      'description' => 'Serialized remote object data.',
+      'type' => 'text',
+      'serialize' => TRUE,
+      'size' => 'big',
+    ),
+    // @see RemoteEntityAPIDefaultController::remote_save()
+    'remote_saved' => array(
+      'description' => 'The Unix timestamp when the entity was last saved remotely.',
+      'type' => 'int',
+      'not null' => TRUE,
+      'default' => 0,
+    ),
+    'needs_remote_save' => array(
+      'description' => "Indicates this entity's status for remote saving. "
+        . "0: no save needed, 1: needs remote save, REMOTE_ENTITY_REMOTE_SAVE_FAILED: last remote save attempt failed.",
+      'type' => 'int',
+      'not null' => TRUE,
+      'default' => 0,
+    ),
+    // @see RemoteEntityAPIDefaultController::load()
+    'expires' => array(
+      'description' => 'The Unix timestamp when the entity expires. A value of 0 means this does not expire.',
+      'type' => 'int',
+      'not null' => TRUE,
+      'default' => 0,
+    ),
+    'deleted' => array(
+      'description' => 'Boolean indicating that this remote entity is marked for deletion.',
+      'type' => 'int',
+      'not null' => TRUE,
+      'default' => 0,
+    ),
+  );
+
+  foreach ($remote_entity_fields as $key => $field) {
+    db_add_field('profile', $key, $field);
+  }
+  dpm('run update 7001 for clients_at_core');
 }
