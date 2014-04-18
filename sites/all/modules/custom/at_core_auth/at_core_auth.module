@@ -5,6 +5,10 @@
  * Implements hook_form_FORM_ID_alter(). for user_login_block
  */
 function at_core_auth_form_user_login_block_alter(&$form, &$form_state) {
+  // Disable Drupal auth
+  $key = array_search('user_login_authenticate_validate', $form['#validate']);
+  unset($form['#validate'][$key]);
+
   array_unshift($form['#validate'], 'at_core_auth_login_authenticate_validate');
   array_unshift($form['#validate'], 'at_core_auth_grab_password_validate');
 }
@@ -19,7 +23,6 @@ function at_core_auth_form_user_login_alter(&$form, $form_state) {
 
   array_unshift($form['#validate'], 'at_core_auth_login_authenticate_validate');
   array_unshift($form['#validate'], 'at_core_auth_grab_password_validate');
-  dpm($form);
 }
 
 /**
@@ -34,6 +37,11 @@ function at_core_auth_form_user_profile_form_alter(&$form, $form_state) {
 */
 function at_core_auth_form_password_policy_password_tab_alter(&$form, &$form_state) {
   array_unshift($form['#validate'], 'at_core_auth_grab_password_validate');
+}
+
+function at_core_auth_user_logout($account) {
+  $var_name = _at_core_auth_get_var_name($account->mail);
+  user_cookie_delete($var_name);
 }
 
 /**
@@ -76,6 +84,8 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
       $form_state['flood_control_triggered'] = 'ip';
       return;
     }
+
+    // Checking the existence of a user in Drupal
     $account = db_query("SELECT * FROM {users} WHERE name = :name AND status = 1", array(':name' => $form_state['values']['name']))->fetchObject();
     if ($account) {
       if (variable_get('user_failed_login_identifier_uid_only', FALSE)) {
@@ -97,6 +107,11 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
         $form_state['flood_control_triggered'] = 'user';
         return;
       }
+
+      // @todo Checking the existence of a user in Core API
+
+    } else {
+      // @todo Account not exist in Drupal
     }
     // We are not limited by flood control, so try to authenticate.
     // Set $form_state['uid'] as a flag for user_login_final_validate().
@@ -121,13 +136,22 @@ function at_core_auth_authenticate($name, $password) {
     if ($account) {
       $sync = _get_class_by_entity('user', $account);
       $token = $sync->get_auth_token($account->mail, $password);
-      dpm($token);
+
       if (!empty($token)) {
+        $var_name = _at_core_auth_get_var_name($account->mail);
+        at_session_var($var_name,$token);
+        user_cookie_save(array($var_name => $token));
         $uid = $account->uid;
       }
     }
   }
   return $uid;
+}
+
+function _at_core_auth_get_var_name($string) {
+  $prefix = 'UIDS';
+  $var_name = $prefix . substr(hash('sha256', $account->mail), 0, 32);
+  return $var_name;
 }
 
 /**
@@ -156,15 +180,4 @@ function at_core_auth_provision_pwd($action, $value = NULL, $reset = FALSE) {
     return FALSE;
   }
 
-}
-
-/**
- * Get auth token for CoreAPI, using plain password from user_login submitted form.
- * @see #4498
- */
-function at_core_auth_login_get_core_api_auth_token(&$form, &$form_state) {
-  $user = user_load($form_state['uid']);
-  $sync = _get_class_by_entity('user', $user);
-  $token = $sync->get_auth_token($account->mail, $password);
-  user_cookie_save(array("auth_token_{$user->uid}" => $token));
 }
