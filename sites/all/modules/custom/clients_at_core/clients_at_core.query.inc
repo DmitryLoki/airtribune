@@ -78,7 +78,7 @@ class ATCoreInsertQuery extends RemoteEntityInsertQuery {
 
   function execute() {
     $entity_info = $this->entity_info;
-    $data = json_encode(get_object_vars($this->entity));
+    $data = json_encode(_query_object_to_array($this->base_entity_type, $this->entity));
     $response = $this->connection->makeRequest($this->endpoint, 'POST', $data);
     $this->connection->debug(print_r($response));
     return $response;
@@ -97,7 +97,7 @@ class ATCoreUpdateQuery extends RemoteEntityUpdateQuery {
 
   function execute() {
     $entity_info = $this->entity_info;
-    $data = json_encode(get_object_vars($this->entity));
+    $data = json_encode(_query_object_to_array($this->base_entity_type, $this->entity));
     $response = $this->connection->makeRequest($this->endpoint, 'PUT', $data);
     $this->connection->debug(print_r($response));
     return $response;
@@ -115,3 +115,26 @@ class ATCoreDeleteQuery extends RemoteEntitySaveQuery {
   }
 }
 
+/**
+ * Helper function to get more clean array of entity values, without Drupal stuff,
+ * like [field_xxx][und][value] = 123
+ */
+function _query_object_to_array($entity_type, $entity) {
+  $a = array();
+  $wrapper = entity_metadata_wrapper($entity_type, $entity);
+  foreach ($entity as $key => $attr) {
+    // Processing of probleming fields.
+    if (in_array($key, array('field_person_phone', 'field_phone', 'field_address'))) {
+      $a[$key] = $attr['und']['0'];
+    }
+    // Other fields.
+    elseif ((strpos($key, 'field_') !== FALSE) && is_array($attr)) {
+      $a[$key] = $wrapper->{$key}->raw();
+    }
+    // Plain stuff.
+    else {
+      $a[$key] = $attr;
+    }
+  }
+  return $a;
+}
