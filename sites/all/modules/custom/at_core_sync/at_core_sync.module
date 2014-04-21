@@ -238,6 +238,15 @@ function at_core_sync_action_info() {
         'any' => TRUE,
       ),
     ),
+    'at_core_sync_copy_country_action' => array(
+      'type' => 'user',
+      'label' => t('Copy country'),
+      'configurable' => FALSE,
+      'aggregate' => FALSE,
+      'hooks' => array(
+        'any' => TRUE,
+      ),
+    ),
     'at_core_sync_contestants_action' => array(
       'type' => 'og_membership',
       'label' => t('[Core API] Sync contestants'),
@@ -438,6 +447,29 @@ function at_core_sync_contests_full_action(&$object, $context = array()) {
   foreach ($view->result as $result) {
     $membership = entity_load_single('og_membership', $result->id);
     at_core_sync_contestants_action($membership);
+  }
+}
+
+/**
+ * Implementation of a Drupal action
+ *
+ * @param object $object
+ * @param array $context
+ */
+function at_core_sync_copy_country_action(&$object, $context = array()) {
+  $profiles = profile2_load_by_user($object);
+  if (isset($profiles['main']) && isset($profiles['pilot'])) {
+    $pilot = $profiles['pilot'];
+    $main = $profiles['main'];
+    $pilot_wrapper = entity_metadata_wrapper('profile2', $pilot);
+    try {
+      $country = $pilot_wrapper->field_address->country->value();
+    }
+    catch (EntityMetadataWrapperException $e) {
+      return;
+    }
+    $main->field_country[LANGUAGE_NONE][0]['iso2'] = $country;
+    profile2_save($main);
   }
 }
 
