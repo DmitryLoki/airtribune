@@ -41,7 +41,9 @@ function at_core_auth_form_password_policy_password_tab_alter(&$form, &$form_sta
 
 function at_core_auth_user_logout($account) {
   $var_name = _at_core_auth_get_var_name($account->mail);
-  user_cookie_delete($var_name);
+  setcookie($var_name, '', time() - 3600, '/');
+  unset($_COOKIE[$var_name]);
+  //user_cookie_delete($var_name);
 }
 
 /**
@@ -73,6 +75,7 @@ function at_core_auth_grab_password_validate($form, &$form_state) {
  * is set to the matching user ID.
  */
 function at_core_auth_login_authenticate_validate($form, &$form_state) {
+  $uid = FALSE;
   $password = trim($form_state['values']['pass']);
   if (!empty($form_state['values']['name']) && !empty($password)) {
     // Do not allow any login from the current user's IP if the limit has been
@@ -109,13 +112,37 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
       }
 
       // @todo Checking the existence of a user in Core API
-
+      $uid = at_core_auth_authenticate($form_state['values']['name'], $password);
     } else {
-      // @todo Account not exist in Drupal
+      at_core_auth_authenticate($form_state['values']['name'], $password);
+      $var_name = _at_core_auth_get_var_name($form_state['values']['name']);
+      $token = at_session_var($var_name);
+      $user_raw_data = ATSyncUser::get_self($token);
+      if (!empty($token) && !empty($user_raw_data->id)) {
+        //set up the user fields
+        $fields = array(
+          'name' => $form_state['values']['name'],
+          'mail' => $form_state['values']['name'],
+          'pass' => $password,
+          'status' => 1,
+          'init' => 'email address',
+          'roles' => array(
+            DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+          ),
+        );
+
+        //the first parameter is left blank so a new user is created
+        $account = user_save('', $fields);
+
+        $wrapper = entity_metadata_wrapper('user', $account);
+        $wrapper->{AIRTRIBUNE_CORE_ID_FIELD}->set($user_raw_data->id);
+        $wrapper->save();
+        $uid = $account->uid;
+      }
     }
     // We are not limited by flood control, so try to authenticate.
     // Set $form_state['uid'] as a flag for user_login_final_validate().
-    $form_state['uid'] = at_core_auth_authenticate($form_state['values']['name'], $password);
+    $form_state['uid'] = $uid;
   }
 }
 
@@ -132,25 +159,24 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
 function at_core_auth_authenticate($name, $password) {
   $uid = FALSE;
   if (!empty($name) && !empty($password)) {
+    $token = ATSyncUser::get_auth_token($name, $password);
     $account = user_load_by_name($name);
-    if ($account) {
-      $sync = _get_class_by_entity('user', $account);
-      $token = $sync->get_auth_token($account->mail, $password);
+    if ($account && !empty($token)) {
+      $var_name = _at_core_auth_get_var_name($name);
+      at_session_var($var_name, $token);
+      $params = session_get_cookie_params();
+      $expire = $params['lifetime'] ? REQUEST_TIME + $params['lifetime'] : 0;
+      setcookie($var_name, $token, $expire, $params['path'], $params['domain'], FALSE, $params['httponly']);
+      //user_cookie_save(array($var_name => $token));
 
-      if (!empty($token)) {
-        $var_name = _at_core_auth_get_var_name($account->mail);
-        at_session_var($var_name,$token);
-        user_cookie_save(array($var_name => $token));
-        $uid = $account->uid;
-      }
+      $uid = $account->uid;
     }
   }
   return $uid;
 }
 
-function _at_core_auth_get_var_name($string) {
-  $prefix = 'UIDS';
-  $var_name = $prefix . substr(hash('sha256', $account->mail), 0, 32);
+function _at_core_auth_get_var_name($string, $prefix = 'UIDS') {
+  $var_name = $prefix . substr(hash('sha256', $string), 0, 32);
   return $var_name;
 }
 
