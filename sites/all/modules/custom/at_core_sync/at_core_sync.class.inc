@@ -442,6 +442,12 @@ class ATSyncUser extends ATSync {
     return $response;
   }
 
+  public static function check_exist($mail) {
+    $address = 'user?email='.$mail;
+    $response = ATSync::requestToCore($address, array(), "GET");
+    return isset($response[0]->id) ? $response[0]->id : FALSE;
+  }
+
   public function get_user_fields() {
     if (!empty($this->core_id)) {
       $this->address = 'user/' . $this->core_id;
