@@ -10,7 +10,7 @@ abstract class ATSync {
   public $address = FALSE;
   public $core_id = FALSE;
   public $address_contest = 'contest/';
-  private $token = FALSE;
+  protected $token = FALSE;
 
   public function __construct($entity_type, $entity) {
     $this->entity = $entity;
