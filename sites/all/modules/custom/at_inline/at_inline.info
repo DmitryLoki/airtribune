@@ -4,3 +4,5 @@ package = Airtribune
 core = 7.x
 
 dependencies[] = og
+
+files[] = views/views_handler_field_editable.inc

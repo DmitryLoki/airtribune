@@ -176,3 +176,23 @@ function generate_person_id() {
   // pers-YYMMDD-random, random = first 32bits from UUID4
   return 'pers-' . date('ymd') . '-' . sprintf('%d%d', mt_rand(0, 0xffff), mt_rand(0, 0xffff));
 }
+
+/**
+ * Save variables in session.
+ *
+ * @staticvar array $storage
+ * @param string $key
+ * @param string $value
+ * @return string
+ */
+function at_session_var($key, $value = NULL) {
+  static $storage;
+  if ($value) {
+    $storage[$key] = $value ;
+    $_SESSION[AT_SESSION_VAR_KEY][$key] = $value ;
+  }
+  else if (empty($storage[$key]) && isset($_SESSION[AT_SESSION_VAR_KEY][$key])) {
+    $storage[$key] = $_SESSION[AT_SESSION_VAR_KEY][$key];
+  }
+  return $storage[$key];
+}

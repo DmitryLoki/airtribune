@@ -7267,7 +7267,7 @@ day_number|[field_day_number]';
   );
   $handler->display->display_options['fields']['field_contest_photos']['delta_limit'] = '1';
   $handler->display->display_options['fields']['field_contest_photos']['delta_offset'] = '0';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -8741,9 +8741,9 @@ race_id|[id]'),
   $handler->display->display_options['fields']['field_full_name']['relationship'] = 'profile';
   $handler->display->display_options['fields']['field_full_name']['click_sort_column'] = 'title';
   $handler->display->display_options['fields']['field_full_name']['settings'] = array(
-    'format' => 'default',
+    'format' => 'short_full',
     'markup' => 0,
-    'output' => 'default',
+    'output' => 'plain',
     'multiple' => 'default',
     'multiple_delimiter' => ', ',
     'multiple_and' => 'text',
@@ -8846,10 +8846,11 @@ race_id|[id]'),
   );
   $handler->display->display_options['style_options']['columns'] = array(
     'field_contestant_number' => 'field_contestant_number',
+    'field_pg_contestant_status_1' => 'field_pg_contestant_status_1',
     'field_gender' => 'field_gender',
-    'counter' => 'counter',
     'field_full_name' => 'field_full_name',
     'field_address' => 'field_address',
+    'field_country' => 'field_country',
     'field_sponsors' => 'field_sponsors',
     'field_paraglider_model' => 'field_paraglider_model',
     'field_pg_contestant_status' => 'field_pg_contestant_status',
@@ -8863,14 +8864,16 @@ race_id|[id]'),
       'separator' => '',
       'empty_column' => 0,
     ),
-    'field_gender' => array(
+    'field_pg_contestant_status_1' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
-    'counter' => array(
+    'field_gender' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
@@ -8883,6 +8886,13 @@ race_id|[id]'),
       'empty_column' => 0,
     ),
     'field_address' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_country' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
@@ -8963,18 +8973,15 @@ race_id|[id]'),
     'multiple_el_al_min' => '3',
     'multiple_el_al_first' => '1',
   );
-  /* Field: Field: Address */
-  $handler->display->display_options['fields']['field_address']['id'] = 'field_address';
-  $handler->display->display_options['fields']['field_address']['table'] = 'field_data_field_address';
-  $handler->display->display_options['fields']['field_address']['field'] = 'field_address';
-  $handler->display->display_options['fields']['field_address']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_address']['label'] = 'Country';
-  $handler->display->display_options['fields']['field_address']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_address']['alter']['text'] = '[field_address-country]';
-  $handler->display->display_options['fields']['field_address']['click_sort_column'] = 'country';
-  $handler->display->display_options['fields']['field_address']['settings'] = array(
-    'use_widget_handlers' => 1,
-    'format_handlers' => array(),
+  /* Field: Field: Country */
+  $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
+  $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
+  $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
+  $handler->display->display_options['fields']['field_country']['relationship'] = 'profile';
+  $handler->display->display_options['fields']['field_country']['type'] = 'country_icon';
+  $handler->display->display_options['fields']['field_country']['settings'] = array(
+    'countryiconset' => 'sprite_shiny',
+    'property' => 'iso3',
   );
   /* Field: Profile: Sponsors */
   $handler->display->display_options['fields']['field_sponsors']['id'] = 'field_sponsors';
@@ -9070,16 +9077,17 @@ race_id|[id]'),
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['grouping'] = array(
     0 => array(
-      'field' => 'field_address',
+      'field' => 'field_country',
       'rendered' => 1,
       'rendered_strip' => 0,
     ),
   );
   $handler->display->display_options['style_options']['columns'] = array(
     'field_contestant_number' => 'field_contestant_number',
+    'field_pg_contestant_status_1' => 'field_pg_contestant_status_1',
     'field_address' => 'field_address',
+    'field_country' => 'field_country',
     'field_gender' => 'field_gender',
-    'counter' => 'counter',
     'field_full_name' => 'field_full_name',
     'field_sponsors' => 'field_sponsors',
     'field_paraglider_model' => 'field_paraglider_model',
@@ -9094,8 +9102,22 @@ race_id|[id]'),
       'separator' => '',
       'empty_column' => 0,
     ),
+    'field_pg_contestant_status_1' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
     'field_address' => array(
       'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_country' => array(
+      'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
@@ -9104,11 +9126,6 @@ race_id|[id]'),
     'field_gender' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'counter' => array(
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
@@ -9168,21 +9185,15 @@ race_id|[id]'),
   $handler->display->display_options['fields']['field_pg_contestant_status_1']['ui_name'] = 'Payment status (excluded)';
   $handler->display->display_options['fields']['field_pg_contestant_status_1']['exclude'] = TRUE;
   /* Field: Country (excluded) */
-  $handler->display->display_options['fields']['field_address']['id'] = 'field_address';
-  $handler->display->display_options['fields']['field_address']['table'] = 'field_data_field_address';
-  $handler->display->display_options['fields']['field_address']['field'] = 'field_address';
-  $handler->display->display_options['fields']['field_address']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_address']['ui_name'] = 'Country (excluded)';
-  $handler->display->display_options['fields']['field_address']['label'] = '';
-  $handler->display->display_options['fields']['field_address']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_address']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_address']['alter']['text'] = '[field_address-country]';
-  $handler->display->display_options['fields']['field_address']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_address']['click_sort_column'] = 'country';
-  $handler->display->display_options['fields']['field_address']['settings'] = array(
-    'use_widget_handlers' => 1,
-    'format_handlers' => array(),
-  );
+  $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
+  $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
+  $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
+  $handler->display->display_options['fields']['field_country']['relationship'] = 'profile';
+  $handler->display->display_options['fields']['field_country']['ui_name'] = 'Country (excluded)';
+  $handler->display->display_options['fields']['field_country']['label'] = '';
+  $handler->display->display_options['fields']['field_country']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_country']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_country']['type'] = 'country_alpha_2';
   /* Field: Gender (excluded) */
   $handler->display->display_options['fields']['field_gender']['id'] = 'field_gender';
   $handler->display->display_options['fields']['field_gender']['table'] = 'field_data_field_gender';
@@ -9569,19 +9580,13 @@ race_id|[id]'),
     'multiple_from' => '',
     'multiple_to' => '',
   );
-  /* Field: Field: Address */
-  $handler->display->display_options['fields']['field_address']['id'] = 'field_address';
-  $handler->display->display_options['fields']['field_address']['table'] = 'field_data_field_address';
-  $handler->display->display_options['fields']['field_address']['field'] = 'field_address';
-  $handler->display->display_options['fields']['field_address']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_address']['label'] = 'Nation';
-  $handler->display->display_options['fields']['field_address']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_address']['alter']['text'] = '[field_address-country]';
-  $handler->display->display_options['fields']['field_address']['click_sort_column'] = 'country';
-  $handler->display->display_options['fields']['field_address']['settings'] = array(
-    'use_widget_handlers' => 1,
-    'format_handlers' => array(),
-  );
+  /* Field: Field: Country */
+  $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
+  $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
+  $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
+  $handler->display->display_options['fields']['field_country']['relationship'] = 'profile';
+  $handler->display->display_options['fields']['field_country']['label'] = 'Nation';
+  $handler->display->display_options['fields']['field_country']['type'] = 'country_alpha_3';
   /* Field: Field: Address */
   $handler->display->display_options['fields']['field_address_1']['id'] = 'field_address_1';
   $handler->display->display_options['fields']['field_address_1']['table'] = 'field_data_field_address';
@@ -9919,34 +9924,28 @@ race_id|[id]'),
     'link_text' => 'Edit',
     'link_position' => '1',
   );
-  /* Field: Field: Address */
-  $handler->display->display_options['fields']['field_address']['id'] = 'field_address';
-  $handler->display->display_options['fields']['field_address']['table'] = 'field_data_field_address';
-  $handler->display->display_options['fields']['field_address']['field'] = 'field_address';
-  $handler->display->display_options['fields']['field_address']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_address']['label'] = 'Nation';
-  $handler->display->display_options['fields']['field_address']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_address']['alter']['text'] = '[field_address-country]';
-  $handler->display->display_options['fields']['field_address']['click_sort_column'] = 'country';
-  $handler->display->display_options['fields']['field_address']['settings'] = array(
-    'use_widget_handlers' => 1,
-    'format_handlers' => array(),
+  /* Field: Field: Country */
+  $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
+  $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
+  $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
+  $handler->display->display_options['fields']['field_country']['relationship'] = 'profile';
+  $handler->display->display_options['fields']['field_country']['label'] = 'Nation';
+  $handler->display->display_options['fields']['field_country']['type'] = 'country_icon';
+  $handler->display->display_options['fields']['field_country']['settings'] = array(
+    'countryiconset' => 'sprite_shiny',
+    'property' => 'iso3',
   );
-  /* Field: OG membership: Payment status */
-  $handler->display->display_options['fields']['field_pg_contestant_status']['id'] = 'field_pg_contestant_status';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = 'Status';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['alter']['text'] = '<span class="status-value">[field_pg_contestant_status]</span>';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['element_class'] = 'status-[field_pg_contestant_status_1]';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'editable';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['settings'] = array(
-    'click_to_edit' => 0,
-    'click_to_edit_style' => 'button',
-    'empty_text' => '',
-    'fallback_format' => 'list_default',
-  );
+  /* Field: OG membership: Custom editable field */
+  $handler->display->display_options['fields']['views_handler_field_editable']['id'] = 'views_handler_field_editable';
+  $handler->display->display_options['fields']['views_handler_field_editable']['table'] = 'views_entity_og_membership';
+  $handler->display->display_options['fields']['views_handler_field_editable']['field'] = 'views_handler_field_editable';
+  $handler->display->display_options['fields']['views_handler_field_editable']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['views_handler_field_editable']['label'] = 'Status';
+  $handler->display->display_options['fields']['views_handler_field_editable']['element_type'] = '0';
+  $handler->display->display_options['fields']['views_handler_field_editable']['element_label_type'] = '0';
+  $handler->display->display_options['fields']['views_handler_field_editable']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['views_handler_field_editable']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['views_handler_field_editable']['editable_field'] = 'field_pg_contestant_status';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Profile: Gender (field_gender) */
   $handler->display->display_options['sorts']['field_gender_value']['id'] = 'field_gender_value';
@@ -10178,9 +10177,9 @@ race_id|[id]'),
   $handler->display->display_options['fields']['field_full_name']['alter']['path'] = 'group-membership/[id]/edit';
   $handler->display->display_options['fields']['field_full_name']['click_sort_column'] = 'title';
   $handler->display->display_options['fields']['field_full_name']['settings'] = array(
-    'format' => 'default',
+    'format' => 'given',
     'markup' => 0,
-    'output' => 'default',
+    'output' => 'plain',
     'multiple' => 'default',
     'multiple_delimiter' => ', ',
     'multiple_and' => 'text',
@@ -10313,20 +10312,18 @@ race_id|[id]'),
   $handler->display->display_options['row_plugin'] = 'entityreference_fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Field: Address */
-  $handler->display->display_options['fields']['field_address']['id'] = 'field_address';
-  $handler->display->display_options['fields']['field_address']['table'] = 'field_data_field_address';
-  $handler->display->display_options['fields']['field_address']['field'] = 'field_address';
-  $handler->display->display_options['fields']['field_address']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_address']['label'] = '';
-  $handler->display->display_options['fields']['field_address']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_address']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_address']['alter']['text'] = '[field_address-country]';
-  $handler->display->display_options['fields']['field_address']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_address']['click_sort_column'] = 'country';
-  $handler->display->display_options['fields']['field_address']['settings'] = array(
-    'use_widget_handlers' => 1,
-    'format_handlers' => array(),
+  /* Field: Field: Country */
+  $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
+  $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
+  $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
+  $handler->display->display_options['fields']['field_country']['relationship'] = 'profile';
+  $handler->display->display_options['fields']['field_country']['label'] = '';
+  $handler->display->display_options['fields']['field_country']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_country']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_country']['type'] = 'country_icon';
+  $handler->display->display_options['fields']['field_country']['settings'] = array(
+    'countryiconset' => 'sprite_shiny',
+    'property' => 'iso3',
   );
   /* Field: Profile: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
@@ -10335,7 +10332,7 @@ race_id|[id]'),
   $handler->display->display_options['fields']['field_full_name']['relationship'] = 'profile';
   $handler->display->display_options['fields']['field_full_name']['label'] = '';
   $handler->display->display_options['fields']['field_full_name']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_full_name']['alter']['text'] = '[field_full_name] ([field_address])';
+  $handler->display->display_options['fields']['field_full_name']['alter']['text'] = '[field_full_name] ([field_country])';
   $handler->display->display_options['fields']['field_full_name']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_full_name']['click_sort_column'] = 'title';
   $handler->display->display_options['fields']['field_full_name']['settings'] = array(
@@ -10364,18 +10361,17 @@ race_id|[id]'),
   $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['gid']['validate']['type'] = 'og';
-  /* Contextual filter: Field: Address (field_address:country) */
-  $handler->display->display_options['arguments']['field_address_country']['id'] = 'field_address_country';
-  $handler->display->display_options['arguments']['field_address_country']['table'] = 'field_data_field_address';
-  $handler->display->display_options['arguments']['field_address_country']['field'] = 'field_address_country';
-  $handler->display->display_options['arguments']['field_address_country']['relationship'] = 'profile_1';
-  $handler->display->display_options['arguments']['field_address_country']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['field_address_country']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['field_address_country']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['field_address_country']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['field_address_country']['specify_validation'] = TRUE;
-  $handler->display->display_options['arguments']['field_address_country']['validate']['fail'] = 'ignore';
-  $handler->display->display_options['arguments']['field_address_country']['limit'] = '0';
+  /* Contextual filter: Field: Country (field_country) */
+  $handler->display->display_options['arguments']['field_country_iso2']['id'] = 'field_country_iso2';
+  $handler->display->display_options['arguments']['field_country_iso2']['table'] = 'field_data_field_country';
+  $handler->display->display_options['arguments']['field_country_iso2']['field'] = 'field_country_iso2';
+  $handler->display->display_options['arguments']['field_country_iso2']['relationship'] = 'profile';
+  $handler->display->display_options['arguments']['field_country_iso2']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['field_country_iso2']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_country_iso2']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_country_iso2']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['field_country_iso2']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['field_country_iso2']['limit'] = '0';
   /* Contextual filter: OG membership: Payment status (field_pg_contestant_status) */
   $handler->display->display_options['arguments']['field_pg_contestant_status_value']['id'] = 'field_pg_contestant_status_value';
   $handler->display->display_options['arguments']['field_pg_contestant_status_value']['table'] = 'field_data_field_pg_contestant_status';
@@ -10648,17 +10644,17 @@ race_id|[id]'),
   $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['gid']['validate']['type'] = 'og';
-  /* Contextual filter: Field: Address (field_address:country) */
-  $handler->display->display_options['arguments']['field_address_country']['id'] = 'field_address_country';
-  $handler->display->display_options['arguments']['field_address_country']['table'] = 'field_data_field_address';
-  $handler->display->display_options['arguments']['field_address_country']['field'] = 'field_address_country';
-  $handler->display->display_options['arguments']['field_address_country']['relationship'] = 'profile_1';
-  $handler->display->display_options['arguments']['field_address_country']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['field_address_country']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['field_address_country']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['field_address_country']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['field_address_country']['specify_validation'] = TRUE;
-  $handler->display->display_options['arguments']['field_address_country']['limit'] = '0';
+  /* Contextual filter: Field: Country (field_country) */
+  $handler->display->display_options['arguments']['field_country_iso2']['id'] = 'field_country_iso2';
+  $handler->display->display_options['arguments']['field_country_iso2']['table'] = 'field_data_field_country';
+  $handler->display->display_options['arguments']['field_country_iso2']['field'] = 'field_country_iso2';
+  $handler->display->display_options['arguments']['field_country_iso2']['relationship'] = 'profile';
+  $handler->display->display_options['arguments']['field_country_iso2']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['field_country_iso2']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_country_iso2']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_country_iso2']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['field_country_iso2']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['field_country_iso2']['limit'] = '0';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: User: Active */
@@ -10702,13 +10698,13 @@ race_id|[id]'),
       'fixed' => '',
       'label' => 'OG membership: Group ID',
     ),
-    'field_address_country' => array(
+    'field_country_iso2' => array(
       'type' => 'user',
       'context' => 'entity:ent_advert.og-membership--1',
       'context_optional' => 0,
       'panel' => '0',
       'fixed' => '',
-      'label' => 'Field: Address (field_address:country)',
+      'label' => 'Field: Country (field_country)',
     ),
   );
   $handler->display->display_options['inherit_panels_path'] = '0';
@@ -10783,7 +10779,7 @@ race_id|[id]'),
     t('<span class="tracker-status" id="[field_core_id]-time">No data</span>'),
     t('Manage event pilots (confirmed)'),
     t('All contestants (Entity Reference)'),
-    t('[field_full_name] ([field_address])'),
+    t('[field_full_name] ([field_country])'),
     t('Team card pilots'),
     t('Team referencing User from field_team_member'),
     t('FAI license №'),
@@ -11066,7 +11062,6 @@ race_id|[id]'),
   $handler->display->display_options['fields']['field_person_name']['table'] = 'field_data_field_person_name';
   $handler->display->display_options['fields']['field_person_name']['field'] = 'field_person_name';
   $handler->display->display_options['fields']['field_person_name']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_person_name']['label'] = 'Person to contact in case of emergency';
   $handler->display->display_options['fields']['field_person_name']['element_label_colon'] = FALSE;
   /* Field: Profile: Contact phone number in case of emergency */
   $handler->display->display_options['fields']['field_person_phone']['id'] = 'field_person_phone';
@@ -11674,7 +11669,7 @@ race_id|[id]'),
     t('Insurance company'),
     t('Insurance policy number'),
     t('Name in national alphabet'),
-    t('Person to contact in case of emergency'),
+    t('NAC contact person full name'),
     t('Contact phone number in case of emergency'),
     t('="[field_person_phone]"'),
     t('Blood type'),
@@ -11684,7 +11679,6 @@ race_id|[id]'),
     t('%1 members'),
     t('All pilots export (csv)'),
     t('Pilot card export (print)'),
-    t('NAC contact person full name'),
     t('Confirmed pilots export (csv)'),
     t('Model'),
     t('IMEI'),

@@ -78,6 +78,8 @@ jQuery(function ($) {
     $('.reg_choice .form_show').click(function () {
         $('#event_register').removeClass('event-register-form');
         $(this).parent().hide();
+        $(".anonymous-team-registration-pilot-caption").hide();
+        $(".anonymous-team-registration").hide();
         return false;
     });
 });

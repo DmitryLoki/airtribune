@@ -126,3 +126,5 @@ define('VIEWS_EVENTS_LIST_PAST', 'page_events_past');
 define('AT_VIEWS_TABS_CACHE_CID', 'at_views_tabs');
 
 define('PG_RACE_NO_TRACKS_TEXT',"We haven't got any data from pilots' live trackers yet. Please, try again later."); //
+
+define('AT_SESSION_VAR_KEY', 'airtribune');

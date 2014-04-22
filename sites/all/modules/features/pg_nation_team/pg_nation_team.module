@@ -115,13 +115,20 @@ function approve_team_leader_ajax_callback($form, &$form_state) {
   $team_leader_set = $form_state['complete form']['approve_team_leader']['#checked'];
   $team_country = $form_state['complete form']['approve_team_leader']['#attributes']['data-country'][0];
   $team_entity = $form_state['complete form']['team_entity']['#value'];
-  $contest = get_contest_for_entity($team_entity);
+  $contest = get_contest_for_entity(AIRTRIBUNE_TEAM_TYPE, $team_entity);
   if (!$team_leader_set) {
     // Set uid=1 as default empty value
     // @todo use another value by default
     $team_leader_uid = 1;
   } else {
     // Send mail
+
+    // Debug
+    if (empty($contest->title)) {
+      $debug = print_r(array('contest' => $contest, 'team' => $team_entity), TRUE);
+      watchdog('airtribune', 'Achtung! Variable ist leer! !debug', array('!debug' => '<pre>' . $debug . '</pre>'), WATCHDOG_DEBUG);
+    }
+
     $options['user'] = user_load($team_leader_uid);
     $fullname = get_full_name($options['user']);
     $country = country_load($team_country);

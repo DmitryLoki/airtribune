@@ -51,9 +51,10 @@ function main_field_group_info() {
     'label' => 'Personal',
     'weight' => '0',
     'children' => array(
-      0 => 'field_gender',
-      1 => 'field_full_name',
-      2 => 'field_birthdate',
+      0 => 'field_birthdate',
+      1 => 'field_country',
+      2 => 'field_full_name',
+      3 => 'field_gender',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

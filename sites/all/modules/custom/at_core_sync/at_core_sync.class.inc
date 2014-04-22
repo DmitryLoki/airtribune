@@ -10,6 +10,7 @@ abstract class ATSync {
   public $address = FALSE;
   public $core_id = FALSE;
   public $address_contest = 'contest/';
+  private $token = FALSE;
 
   public function __construct($entity_type, $entity) {
     $this->entity = $entity;
@@ -22,7 +23,7 @@ abstract class ATSync {
     }
   }
 
-  public static function requestToCore($address, $data = array(), $method = "POST") {
+  public static function requestToCore($address, $data = array(), $method = "POST", $token = FALSE) {
     $data_array = $data;
     $data = json_encode($data);
     $handle = curl_init();
@@ -52,15 +53,27 @@ abstract class ATSync {
         curl_setopt($handle, CURLOPT_CUSTOMREQUEST, 'DELETE');
         break;
     }
+
+    $token_header = NULL;
+    if (!empty($token)) {
+      // Authorization token
+      $token_header = 'Authorization: Token ' . $token;
+    }
+
     if (isset($data_array['upload_file'])) {
       // 'Content-Type: multipart/form-data' by default, if set CURLOPT_POSTFIELDS to php array
       curl_setopt($handle, CURLOPT_POSTFIELDS, $data_array);
+      curl_setopt($handle, CURLOPT_HTTPHEADER, array(
+        $token_header,
+      ));
     } else {
       curl_setopt($handle, CURLOPT_HTTPHEADER, array(
         'Expect:',
         'Content-Type: application/json',
+        $token_header,
       ));
     }
+
     $response = curl_exec($handle);
     $code = curl_getinfo($handle, CURLINFO_HTTP_CODE);
     $request_array = array(
@@ -150,25 +163,25 @@ abstract class ATSync {
   }
 
   public function get() {
-    return ATSync::requestToCore($this->address, array(), 'GET');
+    return ATSync::requestToCore($this->address, array(), 'GET', $this->token);
   }
 
   public function request($data, $method = 'POST') {
-    return ATSync::requestToCore($this->address, $data, $method);
+    return ATSync::requestToCore($this->address, $data, $method, $this->token);
   }
 
   public function patch($values = array()) {
     foreach ($values as $k => $v) {
-      $results[] = ATSync::requestToCore($this->address, array($k => $v), 'PATCH');
+      $results[] = ATSync::requestToCore($this->address, array($k => $v), 'PATCH', $this->token);
     }
     return $results;
   }
 
   public function delete() {
     if (!empty($this->core_id)) {
-      return ATSync::requestToCore($this->address . '/' . $this->core_id, array(), 'DELETE');
+      return ATSync::requestToCore($this->address . '/' . $this->core_id, array(), 'DELETE', $this->token);
     } else if (!empty($this->day_dmy)) {
-      return ATSync::requestToCore($this->address, array(), 'DELETE');
+      return ATSync::requestToCore($this->address, array(), 'DELETE', $this->token);
     }
   }
 
@@ -380,14 +393,10 @@ class ATSyncTrackedObject extends ATSyncNestedInContest {
  * Class for synchronization user
  */
 class ATSyncUser extends ATSync {
-  public $token = '';
-
   public function __construct($entity_type, $entity) {
     parent::__construct($entity_type, $entity);
-    $token_name = 'Drupal_visitor_auth_token_' . $entity->uid;
-    if (isset($_COOKIE[$token_name])) {
-      $this->token = $_COOKIE[$token_name];
-    }
+    $var_name = _at_core_auth_get_var_name($entity->mail);
+    $this->token = at_session_var($var_name);
     if (!$this->core_id) {
       return $this->synchronize();
     }
@@ -417,14 +426,26 @@ class ATSyncUser extends ATSync {
     }
   }
 
-  public function get_auth_token($username, $password) {
-    $this->address = 'user/auth';
+  public static function get_auth_token($username, $password) {
+    $address = 'user/auth';
     $data = array(
       'username' => $username,
       'password' => $password,
     );
-    $response = $this->request($data);
-    return $response->token ? $response->token : NULL;
+    $response = ATSync::requestToCore($address, $data);
+    return isset($response->token) ? $response->token : NULL;
+  }
+
+  public static function get_self($token) {
+    $address = 'user/profile';
+    $response = ATSync::requestToCore($address, array(), "GET", $token);
+    return $response;
+  }
+
+  public static function check_exist($mail) {
+    $address = 'user?email='.$mail;
+    $response = ATSync::requestToCore($address, array(), "GET");
+    return isset($response[0]->id) ? $response[0]->id : FALSE;
   }
 
   public function get_user_fields() {

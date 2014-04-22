@@ -1,0 +1,219 @@
+<?php
+
+
+/**
+ * Implements hook_form_FORM_ID_alter(). for user_login_block
+ */
+function at_core_auth_form_user_login_block_alter(&$form, &$form_state) {
+  // Disable Drupal auth
+  $key = array_search('user_login_authenticate_validate', $form['#validate']);
+  unset($form['#validate'][$key]);
+
+  array_unshift($form['#validate'], 'at_core_auth_login_authenticate_validate');
+  array_unshift($form['#validate'], 'at_core_auth_grab_password_validate');
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter(). for user_login_form
+ */
+function at_core_auth_form_user_login_alter(&$form, $form_state) {
+  // Disable Drupal auth
+  $key = array_search('user_login_authenticate_validate', $form['#validate']);
+  unset($form['#validate'][$key]);
+
+  array_unshift($form['#validate'], 'at_core_auth_login_authenticate_validate');
+  array_unshift($form['#validate'], 'at_core_auth_grab_password_validate');
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter(). for user_register_form
+ */
+function at_core_auth_form_user_profile_form_alter(&$form, $form_state) {
+  array_unshift($form['#submit'], 'at_core_auth_grab_password_validate');
+}
+
+/**
+* Implements hook_form_FORM_ID_alter(). for password_policy_password_tab
+*/
+function at_core_auth_form_password_policy_password_tab_alter(&$form, &$form_state) {
+  array_unshift($form['#validate'], 'at_core_auth_grab_password_validate');
+}
+
+function at_core_auth_user_logout($account) {
+  $var_name = _at_core_auth_get_var_name($account->mail);
+  setcookie($var_name, '', time() - 3600, '/');
+  unset($_COOKIE[$var_name]);
+  //user_cookie_delete($var_name);
+}
+
+/**
+ * store password from logon forms in ldap_user_ldap_provision_pwd static variable
+ * for use in provisioning to ldap
+ */
+function at_core_auth_grab_password_validate($form, &$form_state) {
+
+   // This is not a login form but profile form and user is inserting password to update email
+  if (!empty($form_state['values']['current_pass_required_values'])) {
+    if (!empty($form_state['values']['current_pass']) && empty($form_state['values']['pass'])) {
+      at_core_auth_provision_pwd('set', $form_state['values']['current_pass']);
+    }
+    // Or this is a profile form where the user is updating their own password
+    elseif (!empty($form_state['values']['pass'])) {
+        at_core_auth_provision_pwd('set', $form_state['values']['pass']);
+    }
+  }
+  // otherwise a logon form
+  elseif (!empty($form_state['values']['pass'])) {
+    at_core_auth_provision_pwd('set', $form_state['values']['pass']);
+  }
+
+}
+
+/**
+ * A validate handler on the login form. Check supplied username/password
+ * against local users table. If successful, $form_state['uid']
+ * is set to the matching user ID.
+ */
+function at_core_auth_login_authenticate_validate($form, &$form_state) {
+  $uid = FALSE;
+  $password = trim($form_state['values']['pass']);
+  if (!empty($form_state['values']['name']) && !empty($password)) {
+    // Checking the existence of a user in Drupal
+    $account = db_query("SELECT * FROM {users} WHERE name = :name AND status = 1", array(':name' => $form_state['values']['name']))->fetchObject();
+    $exist_in_core = ATSyncUser::check_exist($form_state['values']['name']);
+    if ($account) {
+      if ($exist_in_core) {
+        // Do not allow any login from the current user's IP if the limit has been
+        // reached. Default is 50 failed attempts allowed in one hour. This is
+        // independent of the per-user limit to catch attempts from one IP to log
+        // in to many different user accounts.  We have a reasonably high limit
+        // since there may be only one apparent IP for all users at an institution.
+        if (!flood_is_allowed('failed_login_attempt_ip', variable_get('user_failed_login_ip_limit', 50), variable_get('user_failed_login_ip_window', 3600))) {
+          $form_state['flood_control_triggered'] = 'ip';
+          return;
+        }
+
+        if (variable_get('user_failed_login_identifier_uid_only', FALSE)) {
+          // Register flood events based on the uid only, so they apply for any
+          // IP address. This is the most secure option.
+          $identifier = $account->uid;
+        }
+        else {
+          // The default identifier is a combination of uid and IP address. This
+          // is less secure but more resistant to denial-of-service attacks that
+          // could lock out all users with public user names.
+          $identifier = $account->uid . '-' . ip_address();
+        }
+        $form_state['flood_control_user_identifier'] = $identifier;
+
+        // Don't allow login if the limit for this user has been reached.
+        // Default is to allow 5 failed attempts every 6 hours.
+        if (!flood_is_allowed('failed_login_attempt_user', variable_get('user_failed_login_user_limit', 5), variable_get('user_failed_login_user_window', 21600), $identifier)) {
+          $form_state['flood_control_triggered'] = 'user';
+          return;
+        }
+        // Auth user through Core API
+        $uid = at_core_auth_authenticate($form_state['values']['name'], $password);
+      } else {
+        user_login_authenticate_validate($form, $form_state);
+
+        // @todo Creatre user in Core API
+
+      }
+    } else {
+      // Auth user through Core API
+      at_core_auth_authenticate($form_state['values']['name'], $password);
+      $var_name = _at_core_auth_get_var_name($form_state['values']['name']);
+      $token = at_session_var($var_name);
+      $user_raw_data = ATSyncUser::get_self($token);
+      if (!empty($token) && !empty($user_raw_data->id)) {
+        //set up the user fields
+        $fields = array(
+          'name' => $form_state['values']['name'],
+          'mail' => $form_state['values']['name'],
+          'pass' => $password,
+          'status' => 1,
+          'init' => 'email address',
+          'roles' => array(
+            DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+          ),
+        );
+
+        //the first parameter is left blank so a new user is created
+        $account = user_save('', $fields);
+
+        $wrapper = entity_metadata_wrapper('user', $account);
+        $wrapper->{AIRTRIBUNE_CORE_ID_FIELD}->set($user_raw_data->id);
+        $wrapper->save();
+        $uid = $account->uid;
+      }
+    }
+    // We are not limited by flood control, so try to authenticate.
+    // Set $form_state['uid'] as a flag for user_login_final_validate().
+    if (empty($form_state['uid'])) {
+      $form_state['uid'] = $uid;
+    }
+  }
+}
+
+/**
+ * Try to validate the user's login credentials through Core API.
+ *
+ * @param $name
+ *   User name to authenticate.
+ * @param $password
+ *   A plain-text password, such as trimmed text from form values.
+ * @return
+ *   The user's uid on success, or FALSE on failure to authenticate.
+ */
+function at_core_auth_authenticate($name, $password) {
+  $uid = FALSE;
+  if (!empty($name) && !empty($password)) {
+    $token = ATSyncUser::get_auth_token($name, $password);
+    $account = user_load_by_name($name);
+    if ($account && !empty($token)) {
+      $var_name = _at_core_auth_get_var_name($name);
+      at_session_var($var_name, $token);
+      $params = session_get_cookie_params();
+      $expire = $params['lifetime'] ? REQUEST_TIME + $params['lifetime'] : 0;
+      setcookie($var_name, $token, $expire, $params['path'], $params['domain'], FALSE, $params['httponly']);
+      //user_cookie_save(array($var_name => $token));
+
+      $uid = $account->uid;
+    }
+  }
+  return $uid;
+}
+
+function _at_core_auth_get_var_name($string, $prefix = 'UIDS') {
+  $var_name = $prefix . substr(hash('sha256', $string), 0, 32);
+  return $var_name;
+}
+
+/**
+ * function to:
+ *   -- store user entered password during pageload
+ *   and protect unencrypted user password from other modules
+ *
+ *   @param enum string $action 'get' | 'set'
+ *   @param string | FALE $value as user entered password
+ */
+function at_core_auth_provision_pwd($action, $value = NULL, $reset = FALSE) {
+
+  static $current_user_pass;
+
+  if ($reset) {
+    $current_user_pass = NULL;
+  }
+
+  if ($action == 'set') {
+    $current_user_pass = $value;
+  }
+  elseif ($action == 'get' && $current_user_pass) {
+    return $current_user_pass;
+  }
+  else {
+    return FALSE;
+  }
+
+}

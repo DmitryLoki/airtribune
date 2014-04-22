@@ -7649,139 +7649,6 @@ window.fbAsyncInit = function() {
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'page_nac_team_card_panel_context_2';
-  $handler->task = 'page';
-  $handler->subtask = 'nac_team_card';
-  $handler->handler = 'panel_context';
-  $handler->weight = 1;
-  $handler->conf = array(
-    'title' => 'Team card for organiser',
-    'no_blocks' => 0,
-    'pipeline' => 'standard',
-    'body_classes_to_remove' => '',
-    'body_classes_to_add' => 'page-user',
-    'css_id' => '',
-    'css' => '',
-    'contexts' => array(
-      0 => array(
-        'identifier' => 'User from team entity',
-        'keyword' => 'teamuser',
-        'name' => 'user_team',
-        'id' => 1,
-      ),
-    ),
-    'relationships' => array(),
-    'access' => array(
-      'logic' => 'and',
-      'plugins' => array(
-        0 => array(
-          'name' => 'og_perm',
-          'settings' => array(
-            'perm' => 'update group',
-          ),
-          'context' => array(
-            0 => 'logged-in-user',
-            1 => 'argument_entity_id:node_1',
-          ),
-          'not' => FALSE,
-        ),
-      ),
-    ),
-  );
-  $display = new panels_display();
-  $display->layout = 'onecol';
-  $display->layout_settings = array();
-  $display->panel_settings = array(
-    'style_settings' => array(
-      'default' => NULL,
-      'sidebar_first' => NULL,
-      'sidebar_second' => NULL,
-      'content' => NULL,
-      'highlighted' => NULL,
-      'content_aside' => NULL,
-      'secondary_content' => NULL,
-      'tertiary_content' => NULL,
-      'footer' => NULL,
-      'leaderboard' => NULL,
-      'header' => NULL,
-      'menu_bar' => NULL,
-      'help' => NULL,
-      'middle' => NULL,
-    ),
-  );
-  $display->cache = array();
-  $display->title = '';
-  $display->content = array();
-  $display->panels = array();
-    $pane = new stdClass();
-    $pane->pid = 'new-92';
-    $pane->panel = 'middle';
-    $pane->type = 'airtribune_teamcard_header';
-    $pane->subtype = 'airtribune_teamcard_header';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array();
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $display->content['new-92'] = $pane;
-    $display->panels['middle'][0] = 'new-92';
-    $pane = new stdClass();
-    $pane->pid = 'new-93';
-    $pane->panel = 'middle';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'paragliding_pilots_list-team_card';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'arguments' => array(
-        'field_address_country' => '%team:field_country',
-      ),
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $display->content['new-93'] = $pane;
-    $display->panels['middle'][1] = 'new-93';
-    $pane = new stdClass();
-    $pane->pid = 'new-94';
-    $pane->panel = 'middle';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'team_card_nac-team_card_for_org';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'arguments' => array(
-        'field_country_iso2' => '%team:field_country',
-      ),
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 2;
-    $pane->locks = array();
-    $display->content['new-94'] = $pane;
-    $display->panels['middle'][2] = 'new-94';
-  $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = '0';
-  $handler->conf['display'] = $display;
-  $page->default_handlers[$handler->name] = $handler;
-  $handler = new stdClass();
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
   $handler->name = 'page_nac_team_card_panel_context';
   $handler->task = 'page';
   $handler->subtask = 'nac_team_card';
@@ -7847,7 +7714,7 @@ window.fbAsyncInit = function() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-95';
+    $pane->pid = 'new-92';
     $pane->panel = 'middle';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -7871,10 +7738,10 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-95'] = $pane;
-    $display->panels['middle'][0] = 'new-95';
+    $display->content['new-92'] = $pane;
+    $display->panels['middle'][0] = 'new-92';
     $pane = new stdClass();
-    $pane->pid = 'new-96';
+    $pane->pid = 'new-93';
     $pane->panel = 'middle';
     $pane->type = 'airtribune_teamcard_header';
     $pane->subtype = 'airtribune_teamcard_header';
@@ -7889,10 +7756,10 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-96'] = $pane;
-    $display->panels['middle'][1] = 'new-96';
+    $display->content['new-93'] = $pane;
+    $display->panels['middle'][1] = 'new-93';
     $pane = new stdClass();
-    $pane->pid = 'new-97';
+    $pane->pid = 'new-94';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-team_card';
@@ -7900,7 +7767,7 @@ window.fbAsyncInit = function() {
     $pane->access = array();
     $pane->configuration = array(
       'arguments' => array(
-        'field_address_country' => '%team:field_country',
+        'field_country_iso2' => '%team:field_country',
       ),
     );
     $pane->cache = array();
@@ -7911,10 +7778,10 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-97'] = $pane;
-    $display->panels['middle'][2] = 'new-97';
+    $display->content['new-94'] = $pane;
+    $display->panels['middle'][2] = 'new-94';
     $pane = new stdClass();
-    $pane->pid = 'new-98';
+    $pane->pid = 'new-95';
     $pane->panel = 'middle';
     $pane->type = 'airtribune_teamcard_nac';
     $pane->subtype = 'airtribune_teamcard_nac';
@@ -7929,8 +7796,141 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
+    $display->content['new-95'] = $pane;
+    $display->panels['middle'][3] = 'new-95';
+  $display->hide_title = PANELS_TITLE_NONE;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_nac_team_card_panel_context_2';
+  $handler->task = 'page';
+  $handler->subtask = 'nac_team_card';
+  $handler->handler = 'panel_context';
+  $handler->weight = 1;
+  $handler->conf = array(
+    'title' => 'Team card for organiser',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => 'page-user',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(
+      0 => array(
+        'identifier' => 'User from team entity',
+        'keyword' => 'teamuser',
+        'name' => 'user_team',
+        'id' => 1,
+      ),
+    ),
+    'relationships' => array(),
+    'access' => array(
+      'logic' => 'and',
+      'plugins' => array(
+        0 => array(
+          'name' => 'og_perm',
+          'settings' => array(
+            'perm' => 'update group',
+          ),
+          'context' => array(
+            0 => 'logged-in-user',
+            1 => 'argument_entity_id:node_1',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+    ),
+  );
+  $display = new panels_display();
+  $display->layout = 'onecol';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'sidebar_first' => NULL,
+      'sidebar_second' => NULL,
+      'content' => NULL,
+      'highlighted' => NULL,
+      'content_aside' => NULL,
+      'secondary_content' => NULL,
+      'tertiary_content' => NULL,
+      'footer' => NULL,
+      'leaderboard' => NULL,
+      'header' => NULL,
+      'menu_bar' => NULL,
+      'help' => NULL,
+      'middle' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-96';
+    $pane->panel = 'middle';
+    $pane->type = 'airtribune_teamcard_header';
+    $pane->subtype = 'airtribune_teamcard_header';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-96'] = $pane;
+    $display->panels['middle'][0] = 'new-96';
+    $pane = new stdClass();
+    $pane->pid = 'new-97';
+    $pane->panel = 'middle';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'paragliding_pilots_list-team_card';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'arguments' => array(
+        'field_country_iso2' => '%team:field_country',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-97'] = $pane;
+    $display->panels['middle'][1] = 'new-97';
+    $pane = new stdClass();
+    $pane->pid = 'new-98';
+    $pane->panel = 'middle';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'team_card_nac-team_card_for_org';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'arguments' => array(
+        'field_country_iso2' => '%team:field_country',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
     $display->content['new-98'] = $pane;
-    $display->panels['middle'][3] = 'new-98';
+    $display->panels['middle'][2] = 'new-98';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

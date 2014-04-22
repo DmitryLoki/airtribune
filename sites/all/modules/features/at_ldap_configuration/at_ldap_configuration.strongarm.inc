@@ -17,6 +17,7 @@ function at_ldap_configuration_strongarm() {
   $strongarm->value = array(
     'sids' => array(
       'codecat' => 'codecat',
+      'airtribune' => 'airtribune',
     ),
     'authenticationMode' => 1,
     'loginUIUsernameTxt' => NULL,
