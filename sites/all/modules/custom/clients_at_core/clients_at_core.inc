@@ -51,8 +51,10 @@ class clients_connection_drupal_rest_at_core extends clients_connection_base {
    *  An entity object.
    */
   function remote_entity_load($entity_type, $id) {
-    $this->endpoint = $this->get_url_for_entity($entity_type);
-    $this->endpoint .= '/' . $id;
+    if (empty($id)) {
+      return FALSE;
+    }
+    $this->get_url_for_entity($entity_type, $id);
     $query = $this->getRemoteEntityQuery('select');
     $query->base($entity_type);
     $query->entityCondition('entity_id', $id);
@@ -72,7 +74,7 @@ class clients_connection_drupal_rest_at_core extends clients_connection_base {
    *  If the entity is being created remotely, the new remote GUID.
    */
   function remote_entity_save($entity_type, $entity, $remote_properties = array()) {
-    $this->endpoint = $this->get_url_for_entity($entity_type);
+    $this->get_url_for_entity($entity_type);
     // If entity not yet saved remotely - entity haven't remote ID property.
     // So use 'insert', otherwise - 'update'.
     $action = empty($entity->remote_id) ? 'insert' : 'update';
@@ -91,12 +93,11 @@ class clients_connection_drupal_rest_at_core extends clients_connection_base {
     }
   }
 
-  function get_url_for_entity($entity_type) {
+  function get_url_for_entity($entity_type, $id=null) {
     $url = at_core_sync_get_api_url();
-    if ($entity_type == 'sponsor_entity') {
-      $this->url = $url . '/user/' . $this->parent_id . '/sponsor';
+    if ($entity_type == 'profile2') {
+      $this->url = $url . '/user/' . $id;
     }
-    return $url;
   }
 
   function getRemoteEntityQuery($query_type = 'select') {
@@ -208,70 +209,12 @@ class clients_connection_drupal_rest_at_core extends clients_connection_base {
       'token'    => $this->token,
     );
 
-    $response = drupal_http_request($this->endpoint . '/' . $resource_path, $options);
+    $response = drupal_http_request($resource_path, $options);
 
     $this->handleRestError($response);
 
     $result = json_decode($response->data);
     return $result;
-  }
-
-  /**
-   * Get the auth token.
-   *
-   * @throws
-   *  An exception if the CoreAPI does not return a token.
-   */
-  function getAuthToken($username, $password) {
-    if (isset($this->token)) {
-      return $this->token;
-    }
-
-    $headers = array(
-      'Content-Type' => 'application/json',
-    );
-
-    $data = drupal_json_encode(array(
-      'username' => $username,
-      'password' => $password,
-    ));
-    $options = array(
-      'headers' => $headers,
-      'method'  => 'POST',
-      'data'    => $data,
-    );
-
-    $response = drupal_http_request(at_core_sync_get_api_url() . '/user/auth', $options);
-    if ($response->code == 200) {
-      $data = json_decode($response->data);
-      return $data->token;
-    }
-    else {
-      throw new Exception(t("Unable to get a auth token from the CoreAPI."));
-    }
-  }
-
-  function usersList() {
-    $headers = array(
-      'Content-Type' => 'application/json',
-    );
-
-    $options = array(
-      'headers' => $headers,
-      'method'  => 'GET',
-//      'data'    => $data,
-    );
-
-    $response = drupal_http_request($this->endpoint . '/user', $options);
-    $data = json_decode($response->data);
-
-    // Check if login was successful.
-    $this->handleRestError($response);
-
-    // Set our cookie for subsequent requests.
-    $this->cookie = $data->session_name . '=' . $data->sessid;
-
-    return $data;
   }
 
 }
