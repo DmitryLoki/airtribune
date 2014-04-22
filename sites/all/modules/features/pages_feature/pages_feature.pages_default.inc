@@ -783,7 +783,8 @@ viewers/*',
           'settings' => array(
             'visibility_setting' => '1',
             'paths' => 'user/*
-profile-pilot/*',
+profile-pilot/*
+user/*/person',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -793,6 +794,9 @@ profile-pilot/*',
     $pane->configuration = array(
       'override_title' => 1,
       'override_title_text' => '',
+      'context' => array(
+        0 => 'account',
+      ),
     );
     $pane->cache = array();
     $pane->style = array(

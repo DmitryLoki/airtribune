@@ -25,7 +25,33 @@ function at_user_menu() {
     'weight' => 10,
   );
 
+  $items['user/%user/person'] = array(
+    'title' => 'Person',
+    'page callback' => 'at_user_person_page',
+    'page arguments' => array(1),
+    'access callback' => 'at_user_person_page_access',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 5,
+    'file' => 'at_user.person.inc',
+  );
+
   return $items;
+}
+
+/**
+ * User "Person" page access callback.
+ *
+ * @todo
+ */
+function at_user_person_page_access($user_viewed) {
+  global $user;
+  if ($user_viewed->uid == $user->uid || $user->uid == 1) {
+    return TRUE;
+  }
+  else {
+    return FALSE;
+  }
 }
 
 function at_user_redirect_to_contestant($user) {
