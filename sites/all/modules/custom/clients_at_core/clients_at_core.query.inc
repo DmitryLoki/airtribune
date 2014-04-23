@@ -116,7 +116,7 @@ function _query_object_to_array($entity_type, $entity) {
   $wrapper = entity_metadata_wrapper($entity_type, $entity);
   foreach ($entity as $key => $attr) {
     // Processing of probleming fields.
-    if (in_array($key, array('field_person_phone', 'field_phone', 'field_address'))) {
+    if (in_array($key, array('field_person_phone', 'field_phone', 'field_address', 'field_country'))) {
       $a[$key] = $attr['und']['0'];
     }
     // Other fields.
@@ -130,5 +130,24 @@ function _query_object_to_array($entity_type, $entity) {
   }
   unset($a['original']);
   unset($a['rdf_mapping']);
-  return $a;
+  $data = _convert_drupal2core($entity_type, $a);
+  return $data;
+}
+
+function _convert_drupal2core($entity_type, $data) {
+  if ($entity_type == 'profile2') {
+    $user = user_load($data['uid']);
+    $gender = array(0 => 'M', 1 => 'F');
+    $core_data = array(
+      'first_name' => $data['field_full_name']['given'],
+      'last_name' => $data['field_full_name']['family'],
+      'birthdate' => date('Y-m-d', $data['field_birthdate']),
+      'gender' => $gender[$data['field_gender']],
+      'country' => array('code' => $data['field_country']['iso2']),
+      'uid' => $data['uid'],
+      'id' => $data['remote_id'],
+      'mail' => $user->mail,
+    );
+    return $core_data;
+  }
 }

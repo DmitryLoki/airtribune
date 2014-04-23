@@ -198,7 +198,8 @@ class clients_connection_drupal_rest_at_core extends clients_connection_base {
    */
   function makeRequest($resource_path, $http_method, $data = array()) {
     if ($http_method != 'GET' && !isset($this->token)) {
-//      $this->getAuthToken();
+      $var_name = _at_core_auth_get_var_name($data['mail']);
+      $token = at_session_var($var_name);
     }
 
     $data = drupal_json_encode($data);
