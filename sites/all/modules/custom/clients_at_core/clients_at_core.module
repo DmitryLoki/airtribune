@@ -4,6 +4,44 @@
  * Provides connection types for Clients module that connect to AirTribune CoreAPI.
  */
 
+function clients_at_core_entity_load(&$entities, $type) {
+  if ($type == 'profile2') {
+    foreach ($entities as $entity) {
+      if ($entity->type == 'main') {
+        if (empty($entity->remote_id)) {
+          $user = user_load($entity->uid);
+          $entity->remote_id = $user->field_core_id['und'][0]['value'];
+        }
+        if ($remote = remote_entity_load_remote($type, $entity->remote_id)) {
+//          $wrapper = entity_metadata_wrapper('profile2', $entity);
+//          foreach ($wrapper->getPropertyInfo() as $key => $val) {
+//            $current_value = $wrapper->$key->value();
+//            $remote_value = $remote->$key;
+//            if ($current_value != $remote_value) {
+//              $x=1;
+//            }
+//          }
+          $entity->field_country['und'][0]['value'] = (array) $remote->country;
+          $entity->field_full_name['und'][0]['given'] = $remote->first_name;
+          $entity->field_full_name['und'][0]['family'] = $remote->last_name;
+        }
+      }
+    }
+  }
+}
+
+function clients_at_core_entity_insert($entity, $type) {
+  clients_at_core_entity_update($entity, $type);
+}
+
+function clients_at_core_entity_update($entity, $type) {
+  if ($type == 'profile2') {
+//    if ($entity->type == 'main') {
+//      $remote = remote_entity_save($type, $entity);
+//    }
+  }
+}
+
 /**
  * Implements hook_clients_connection_type_info().
  */
@@ -30,9 +68,7 @@ function clients_at_core_clients_default_connections() {
   $items['at_core_connection'] = entity_import('clients_connection', '{
     "name" : "at_core_connection",
     "endpoint" : "http://apidev.airtribune.com/v0.3/",
-    "configuration" : {
-      "debug" : 1
-    },
+    "configuration" : {},
     "label" : "AT Core Connection",
     "type" : "drupal_rest_at_core",
     "rdf_mapping" : []

@@ -211,7 +211,7 @@ class clients_connection_drupal_rest_at_core extends clients_connection_base {
 
     $response = drupal_http_request($resource_path, $options);
 
-    $this->handleRestError($response);
+//    $this->handleRestError($response);
 
     $result = json_decode($response->data);
     return $result;
