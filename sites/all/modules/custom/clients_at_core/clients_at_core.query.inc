@@ -55,11 +55,7 @@ class ATCoreSelectQuery extends RemoteEntityQuery {
    */
   function execute() {
     $entity_info = $this->entity_info;
-
-    $response = $this->connection->makeRequest($this->connection->url , 'GET');
-    // Debug mode output.
-    //$this->connection->debug(print_r($response));
-
+    $response = $this->connection->makeRequest($this->connection->url, 'GET');
     return $response;
   }
 }
@@ -77,8 +73,7 @@ class ATCoreInsertQuery extends RemoteEntityInsertQuery {
   function execute() {
     $entity_info = $this->entity_info;
     $data = _query_object_to_array($this->base_entity_type, $this->entity);
-    $response = $this->connection->makeRequest($this->endpoint, 'POST', $data);
-    //$this->connection->debug(print_r($response));
+    $response = $this->connection->makeRequest($this->connection->url, 'POST', $data);
     return $response;
   }
 }
@@ -96,8 +91,7 @@ class ATCoreUpdateQuery extends RemoteEntityUpdateQuery {
   function execute() {
     $entity_info = $this->entity_info;
     $data = _query_object_to_array($this->base_entity_type, $this->entity);
-    $response = $this->connection->makeRequest($this->endpoint, 'PUT', $data);
-    //$this->connection->debug(print_r($response));
+    $response = $this->connection->makeRequest($this->connection->url, 'PATCH', $data);
     return $response;
   }
 }
@@ -107,7 +101,7 @@ class ATCoreDeleteQuery extends RemoteEntitySaveQuery {
 
   function execute() {
     $entity_info = $this->entity_info;
-    $response = $this->connection->makeRequest($this->endpoint, 'DELETE');
+    $response = $this->connection->makeRequest($this->connection->url, 'DELETE');
     //$this->connection->debug(print_r($response));
     return $response;
   }

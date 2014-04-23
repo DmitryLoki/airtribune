@@ -74,10 +74,10 @@ class clients_connection_drupal_rest_at_core extends clients_connection_base {
    *  If the entity is being created remotely, the new remote GUID.
    */
   function remote_entity_save($entity_type, $entity, $remote_properties = array()) {
-    $this->get_url_for_entity($entity_type);
     // If entity not yet saved remotely - entity haven't remote ID property.
     // So use 'insert', otherwise - 'update'.
     $action = empty($entity->remote_id) ? 'insert' : 'update';
+    $this->get_url_for_entity($entity_type, $entity->remote_id, $action);
 
     $query = $this->getRemoteEntityQuery($action);
     $query->setEntity($entity_type, $entity);
@@ -93,10 +93,15 @@ class clients_connection_drupal_rest_at_core extends clients_connection_base {
     }
   }
 
-  function get_url_for_entity($entity_type, $id=null) {
+  function get_url_for_entity($entity_type, $id=null, $action='') {
     $url = at_core_sync_get_api_url();
     if ($entity_type == 'profile2') {
-      $this->url = $url . '/user/' . $id;
+      if ($action == 'insert') {
+        $this->url = $url . '/user/register/site';
+      }
+      else {
+        $this->url = $url . '/user/' . $id;
+      }
     }
   }
 
@@ -197,20 +202,17 @@ class clients_connection_drupal_rest_at_core extends clients_connection_base {
     }
 
     $data = drupal_json_encode($data);
-
     $headers = array(
-      'Accept' => 'application/json',
+      'Content-Type' => 'application/json',
     );
-
     $options = array(
       'headers' => $headers,
       'method'  => $http_method,
       'data'    => $data,
-      'token'    => $this->token,
+      'token'    => $token,
     );
 
     $response = drupal_http_request($resource_path, $options);
-
 //    $this->handleRestError($response);
 
     $result = json_decode($response->data);
