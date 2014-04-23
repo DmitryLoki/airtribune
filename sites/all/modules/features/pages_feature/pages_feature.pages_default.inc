@@ -1094,7 +1094,8 @@ terms',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '0',
-            'paths' => 'events/*',
+            'paths' => 'events/*
+user/*/person',
           ),
           'context' => 'argument_string_1',
           'not' => FALSE,
@@ -1148,6 +1149,15 @@ viewers/*',
           'context' => 'logged-in-user',
           'not' => FALSE,
         ),
+        1 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'user/*/person',
+          ),
+          'context' => 'argument_string_1',
+          'not' => FALSE,
+        ),
       ),
     );
     $pane->configuration = array(
@@ -1187,6 +1197,15 @@ pilots/*
 viewers/*',
           ),
           'context' => 'alias',
+          'not' => FALSE,
+        ),
+        2 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'user/*/person',
+          ),
+          'context' => 'argument_string_1',
           'not' => FALSE,
         ),
       ),

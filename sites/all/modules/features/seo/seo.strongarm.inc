@@ -231,8 +231,11 @@ batch
   $strongarm->api_version = 1;
   $strongarm->name = 'path_alias_whitelist';
   $strongarm->value = array(
-    'event' => TRUE,
+    'file' => TRUE,
     'node' => TRUE,
+    'event' => TRUE,
+    'user' => TRUE,
+    'activity' => TRUE,
   );
   $export['path_alias_whitelist'] = $strongarm;
 
@@ -241,8 +244,11 @@ batch
   $strongarm->api_version = 1;
   $strongarm->name = 'path_alias_whitelist';
   $strongarm->value = array(
-    'event' => TRUE,
+    'file' => TRUE,
     'node' => TRUE,
+    'event' => TRUE,
+    'user' => TRUE,
+    'activity' => TRUE,
   );
   $export['path_alias_whitelist'] = $strongarm;
 
