@@ -403,26 +403,56 @@ class ATSyncUser extends ATSync {
   }
 
   public function synchronize() {
-    $profile = profile2_load_by_user($this->entity);
-    $user_wrapper = entity_metadata_wrapper('user', $this->entity);
+    $account =& $this->entity;
+    $profile = profile2_load_by_user($account);
+    $user_wrapper = entity_metadata_wrapper('user', $account);
+    $profile_wrapper = entity_metadata_wrapper('profile2', $profile);
+
     if (empty($profile['main'])) {
       ATSync::setMessage('Core API: User has no profiles.');
-      return FALSE;
+      $data = array(
+        'first_name' => 'null',
+        'last_name' => 'null',
+        'birthdate' => date('Y-m-d', time()),
+        'gender' => 'M',
+        'country' => array('code'=>'RU'),
+      );
+    } else {
+      module_load_include('inc', 'clients_at_core', 'clients_at_core.query');
+      $data = _query_object_to_array('profile2', $profile['main']);
     }
-    if ($this->core_id) {
-      return $this->core_id;
+    $data['email'] = $account->mail;
+
+    // User exist in Core.
+    if ($this->core_id = $this->check_exist($account->mail)) {
+      // User/profile was updated in drupal, save data to Core.
+      if ($account->original) {
+        $user_wrapper->field_core_id = $this->core_id;
+        $result = $this->write_user_fields($data);
+        return $result;
+      }
+      // Otherwise load from Core.
+      else {
+        $remote = $this->get_user_fields();
+        $profile->field_country['und'][0]['iso2'] = $remote->country->code;
+        $profile->field_full_name['und'][0]['given'] = $remote->first_name;
+        $profile->field_full_name['und'][0]['family'] = $remote->last_name;
+        $profile->field_birthdate['und'][0]['value'] = $remote->birthdate;
+        $profile->field_gender['und'][0]['value'] = ($remote->gender == 'M') ? 0 : 1;
+        $profile_wrapper->save();
+      }
     }
+    // User not exist in Core.
     else {
-      // Generate new person id, and save user.
-      // During saving user will be synced with LDAP.
-      $person_id = generate_person_id();
+      $data += array(
+        'email' => $account->mail,
+        'password' => $account->plain_password,
+      );
+      // Create user in Core, and get id.
+      $this->core_id = $this->create_user($data);
       // Save field values without saving user entity. This need to avoid recursion on hook_entity_update().
-      $this->entity->field_core_id[LANGUAGE_NONE][0]['value'] = $person_id;
-      field_attach_update('user', $this->entity);
-      // Save entity, this is needed to run syncing user with LDAP. Function ATSyncUser->sync will be called one
-      // more time, but in next time we already have core_id in entity, so no problems with recursion.
-      $user_wrapper->save();
-      return $person_id;
+      $this->entity->field_core_id[LANGUAGE_NONE][0]['value'] = $this->core_id;
+      field_attach_update('user', $account);
     }
   }
 
@@ -443,7 +473,7 @@ class ATSyncUser extends ATSync {
   }
 
   public static function check_exist($mail) {
-    $address = 'user?email='.$mail;
+    $address = 'user?email=' . $mail;
     $response = ATSync::requestToCore($address, array(), "GET");
     return isset($response[0]->id) ? $response[0]->id : FALSE;
   }
@@ -459,6 +489,11 @@ class ATSyncUser extends ATSync {
     $this->address = 'user/' . $this->core_id;
     $data['token'] = $this->token;
     return $this->request($data, 'PATCH');
+  }
+
+  public function create_user($data) {
+    $this->address = 'user/register';
+    return $this->request($data, 'POST');
   }
 
   public function get_user_sponsors() {
