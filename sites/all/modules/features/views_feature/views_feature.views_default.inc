@@ -7267,11 +7267,33 @@ day_number|[field_day_number]';
   );
   $handler->display->display_options['fields']['field_contest_photos']['delta_limit'] = '1';
   $handler->display->display_options['fields']['field_contest_photos']['delta_offset'] = '0';
+  /* Field: Row counter */
+  $handler->display->display_options['fields']['counter']['id'] = 'counter';
+  $handler->display->display_options['fields']['counter']['table'] = 'views';
+  $handler->display->display_options['fields']['counter']['field'] = 'counter';
+  $handler->display->display_options['fields']['counter']['ui_name'] = 'Row counter';
+  $handler->display->display_options['fields']['counter']['label'] = '';
+  $handler->display->display_options['fields']['counter']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['counter']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['counter']['counter_start'] = '1';
+  /* Field: Event image */
+  $handler->display->display_options['fields']['nothing_extended_2']['id'] = 'nothing_extended_2';
+  $handler->display->display_options['fields']['nothing_extended_2']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing_extended_2']['field'] = 'nothing_extended';
+  $handler->display->display_options['fields']['nothing_extended_2']['ui_name'] = 'Event image';
+  $handler->display->display_options['fields']['nothing_extended_2']['label'] = '';
+  $handler->display->display_options['fields']['nothing_extended_2']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nothing_extended_2']['alter']['text'] = 'counter|[counter]
+event_nid|[nid_1]';
+  $handler->display->display_options['fields']['nothing_extended_2']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['nothing_extended_2']['renderer_plugin'] = 'frontpage_live_event_photo';
   /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['label'] = '';
+  $handler->display->display_options['fields']['field_image']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_image']['alter']['text'] = '[nothing_extended_2]';
   $handler->display->display_options['fields']['field_image']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_image']['empty'] = '[field_contest_photos]';
   $handler->display->display_options['fields']['field_image']['hide_alter_empty'] = FALSE;
@@ -7471,6 +7493,9 @@ day_number|[field_day_number]'),
  <span class="contest_place">[field_country], [field_city]</span>
 </span>
 <span class="valign"></span>'),
+    t('counter|[counter]
+event_nid|[nid_1]'),
+    t('[nothing_extended_2]'),
     t('[field_contest_photos]'),
     t('[field_day_status_1-value]'),
     t('.'),

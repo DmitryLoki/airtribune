@@ -995,6 +995,14 @@ function airtribune_views_query_alter(&$view, &$query) {
   if ($view->name == 'day_results') {
     $view->query->where[0]['type'] = 'OR';
   }
+
+  if ($view->name == 'event_days') {
+    if (is_user_contest_org(node_load($view->args[0]))) {
+      $key = array_search('node_access',$query->tags);
+      unset($query->tags[$key]);
+      $view->query->options['disable_sql_rewrite'] = TRUE;
+    }
+  }
 }
 
 function airtribune_views_pre_view(&$view, &$display_id, &$args) {
