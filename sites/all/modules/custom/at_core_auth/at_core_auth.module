@@ -117,7 +117,20 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
       } else {
         user_login_authenticate_validate($form, $form_state);
 
-        // @todo Creatre user in Core API
+        if (!empty($form_state['uid'])) {
+          $account = user_load($account->uid);
+
+          $sync = _get_class_by_entity('user', $account);
+          $sync->synchronize();
+          at_core_auth_authenticate($account->mail, $password);
+          $var_name = _at_core_auth_get_var_name($account->mail);
+          $token = at_session_var($var_name);
+          if (!empty($token)) {
+            $uid = $account->uid;
+          } else {
+            $form_state['uid'] = NULL;
+          }
+        }
 
       }
     } else {
