@@ -429,7 +429,7 @@ class ATSyncUser extends ATSync {
   public static function get_auth_token($username, $password) {
     $address = 'user/auth';
     $data = array(
-      'username' => $username,
+      'email' => $username,
       'password' => $password,
     );
     $response = ATSync::requestToCore($address, $data);
