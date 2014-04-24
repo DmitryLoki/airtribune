@@ -10,6 +10,103 @@
 function user_feature_field_default_fields() {
   $fields = array();
 
+  // Exported field: 'user-user-field_account_tiny_path'.
+  $fields['user-user-field_account_tiny_path'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_account_tiny_path',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'max_length' => '255',
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'user',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 13,
+        ),
+      ),
+      'entity_type' => 'user',
+      'exclude_cv' => 0,
+      'field_name' => 'field_account_tiny_path',
+      'label' => 'Optional URL',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '0',
+        'user_register_form' => 0,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '44',
+      ),
+    ),
+  );
+
   // Exported field: 'user-user-field_header_image'.
   $fields['user-user-field_header_image'] = array(
     'field_config' => array(
@@ -424,7 +521,7 @@ Size: not less than 940x380.',
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => 0,
+        'weight' => '0',
       ),
     ),
   );
@@ -434,6 +531,7 @@ Size: not less than 940x380.',
   t('Header image');
   t('Jpeg, png, gif.<br/>
 Size: not less than 940x380.');
+  t('Optional URL');
   t('Social links');
   t('Your photo');
 
