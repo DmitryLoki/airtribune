@@ -37,7 +37,7 @@ print drupal_render($form['account']['mail_dummy']);
 
 // Main profile Name field
 if (!empty($form['profile_main'])) {
-  
+
   $lang = $form['profile_main']['field_full_name']['#language'];
   $form['profile_main']['field_full_name'][$lang][0]['given']['#prefix'] = '';
   $form['profile_main']['field_full_name'][$lang][0]['given']['#suffix'] = '';
@@ -60,6 +60,7 @@ if (!empty($form['profile_main'])) {
   $form['profile_main']['field_birthdate'][$lang][0]['value']['day']['#title'] = $form['profile_main']['field_birthdate'][$lang][0]['#title'];
   $form['profile_main']['field_birthdate'][$lang][0]['#title'] = '';
   print drupal_render($form['profile_main']['field_birthdate']);
+  print drupal_render($form['profile_main']['field_country']);
 }
 
 print "</div>"; // #name-gender-dob end
