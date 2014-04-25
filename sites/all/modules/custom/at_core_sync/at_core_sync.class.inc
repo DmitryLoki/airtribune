@@ -469,7 +469,6 @@ class ATSyncUser extends ATSync {
 
   public function write_user_fields($data) {
     $this->address = 'user/' . $this->core_id;
-    $data['token'] = $this->token;
     return $this->request($data, 'PATCH');
   }
 
@@ -521,7 +520,6 @@ class ATSyncUser extends ATSync {
   public function write_user_sponsors($data) {
     if (!empty($this->core_id)) {
       $this->address = 'user/' . $this->core_id . '/sponsor';
-      $data['token'] = $this->token;
       return $this->request($data);
     }
   }
