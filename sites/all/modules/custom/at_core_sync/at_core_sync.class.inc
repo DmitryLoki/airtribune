@@ -389,6 +389,16 @@ class ATSyncTrackedObject extends ATSyncNestedInContest {
   }
 }
 
+class ATSyncUserProfile extends ATSync {
+  public function __construct($entity_type, $entity) {
+    $account = user_load($entity->uid);
+    $sync = _get_class_by_entity('user', $account);
+    $data = _query_object_to_array('profile2', $entity);
+    $sync->update_user($data, TRUE);
+  }
+  public function synchronize() {}
+}
+
 /**
  * Class for synchronization user
  */
@@ -397,6 +407,7 @@ class ATSyncUser extends ATSync {
     parent::__construct($entity_type, $entity);
     $var_name = _at_core_auth_get_var_name($entity->mail);
     $this->token = at_session_var($var_name);
+    $this->profile = profile2_load_by_user($entity, 'main');
     if (!$this->core_id) {
       return $this->synchronize();
     }
@@ -404,7 +415,6 @@ class ATSyncUser extends ATSync {
 
   public function synchronize() {
     $account =& $this->entity;
-    $this->profile = profile2_load_by_user($account, 'main');
 
     if (empty($this->profile)) {
       ATSync::setMessage('Core API: User has no profiles.');
@@ -422,6 +432,10 @@ class ATSyncUser extends ATSync {
     else {
       $this->create_user($data);
     }
+
+    // Save field values without saving user entity. This need to avoid recursion on hook_entity_update().
+    $this->entity->field_core_id[LANGUAGE_NONE][0]['value'] = $this->core_id;
+    field_attach_update('user', $this->entity);
   }
 
   public static function get_auth_token($username, $password) {
@@ -467,14 +481,11 @@ class ATSyncUser extends ATSync {
     // Create user in Core, and get id.
     $this->address = 'user/register';
     $this->core_id = $this->request($data, 'POST');
-    // Save field values without saving user entity. This need to avoid recursion on hook_entity_update().
-    $this->entity->field_core_id[LANGUAGE_NONE][0]['value'] = $this->core_id;
-    field_attach_update('user', $this->entity);
   }
 
-  public function update_user($data) {
+  public function update_user($data, $is_profile_updated=FALSE) {
     // User/profile was updated in drupal, save data to Core.
-    if ($this->entity->original) {
+    if ($this->entity->original || $is_profile_updated) {
       $account_wrapper = entity_metadata_wrapper('user', $this->entity);
       $account_wrapper->field_core_id->set($this->core_id);
       $result = $this->write_user_fields($data);

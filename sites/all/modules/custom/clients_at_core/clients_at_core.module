@@ -35,6 +35,7 @@ function clients_at_core_entity_insert($entity, $type) {
 
 function clients_at_core_entity_update($entity, $type) {
   if ($type == 'profile2') {
+    return;
     if ($entity->type == 'main' && !$entity->already_saved) {
       check_core_and_remote_id($entity);
       $entity->already_saved = TRUE;
