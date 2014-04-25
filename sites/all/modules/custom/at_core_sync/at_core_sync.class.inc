@@ -419,7 +419,6 @@ class ATSyncUser extends ATSync {
         'country' => array('code'=>'RU'),
       );
     } else {
-      module_load_include('inc', 'clients_at_core', 'clients_at_core.query');
       $data = _query_object_to_array('profile2', $profile);
     }
     $data['email'] = $account->mail;
