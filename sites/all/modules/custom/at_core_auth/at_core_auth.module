@@ -126,7 +126,6 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
 
         if (!empty($form_state['uid'])) {
           $account = user_load($account->uid);
-          $account->plain_password = $password;
           $sync = _get_class_by_entity('user', $account);
           $sync->synchronize();
           at_core_auth_authenticate($account->mail, $password);
