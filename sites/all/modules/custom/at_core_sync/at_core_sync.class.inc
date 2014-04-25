@@ -503,6 +503,14 @@ class ATSyncUser extends ATSync {
     }
   }
 
+  public function change_password($pass) {
+    $data = array(
+      'password' => $pass,
+    );
+    $this->address = 'user/change_password';
+    $this->request($data, 'POST');
+  }
+
   public function get_user_sponsors() {
     if (!empty($this->core_id)) {
       $this->address = 'user/' . $this->core_id . '/sponsor';
