@@ -76,11 +76,18 @@ function at_core_auth_grab_password_validate($form, &$form_state) {
  */
 function at_core_auth_login_authenticate_validate($form, &$form_state) {
   $uid = FALSE;
+  $email = $form_state['values']['email'];
   $password = trim($form_state['values']['pass']);
-  if (!empty($form_state['values']['name']) && !empty($password)) {
+  $login_is_mail = valid_email_address($email);
+  if (!empty($email) && !empty($password)) {
     // Checking the existence of a user in Drupal
-    $account = db_query("SELECT * FROM {users} WHERE name = :name AND status = 1", array(':name' => $form_state['values']['name']))->fetchObject();
-    $exist_in_core = ATSyncUser::check_exist($form_state['values']['email']);
+    if ($login_is_mail) {
+      $account = db_query("SELECT * FROM {users} WHERE mail = :mail AND status = 1", array(':mail' => $email))->fetchObject();
+    } else {
+      $account = db_query("SELECT * FROM {users} WHERE name = :name AND status = 1", array(':name' => $form_state['values']['name']))->fetchObject();
+    }
+
+    $exist_in_core = ATSyncUser::check_exist($email);
     if ($account) {
       if ($exist_in_core) {
         // Do not allow any login from the current user's IP if the limit has been
@@ -113,7 +120,7 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
           return;
         }
         // Auth user through Core API
-        $uid = at_core_auth_authenticate($form_state['values']['name'], $password);
+        $uid = at_core_auth_authenticate($email, $password);
       } else {
         user_login_authenticate_validate($form, $form_state);
 
@@ -143,7 +150,7 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
         //set up the user fields
         $fields = array(
           'name' => $form_state['values']['name'],
-          'mail' => $form_state['values']['name'],
+          'mail' => $email,
           'pass' => $password,
           'status' => 1,
           'init' => 'email address',
@@ -181,8 +188,13 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
  */
 function at_core_auth_authenticate($name, $password) {
   $uid = FALSE;
+  $login_is_mail = valid_email_address($name);
   if (!empty($name) && !empty($password)) {
-    $account = user_load_by_name($name);
+    if ($login_is_mail) {
+      $account = user_load_by_mail($name);
+    } else {
+      $account = user_load_by_name($name);
+    }
     $token = ATSyncUser::get_auth_token($account->mail, $password);
     if ($account && !empty($token)) {
       $var_name = _at_core_auth_get_var_name($name);
