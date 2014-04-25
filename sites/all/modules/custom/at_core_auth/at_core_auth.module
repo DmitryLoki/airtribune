@@ -13,10 +13,6 @@ function at_core_auth_form_user_login_block_alter(&$form, &$form_state) {
   array_unshift($form['#validate'], 'at_core_auth_grab_password_validate');
 }
 
-function at_core_auth_form_alter(&$form, &$form_state, $form_id) {
-
-}
-
 /**
  * Implements hook_form_FORM_ID_alter(). for user_login_form
  */
