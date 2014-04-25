@@ -210,11 +210,6 @@ function at_core_auth_authenticate($name, $password) {
   return $uid;
 }
 
-function _at_core_auth_get_var_name($string, $prefix = 'UIDS') {
-  $var_name = $prefix . substr(hash('sha256', $string), 0, 32);
-  return $var_name;
-}
-
 /**
  * function to:
  *   -- store user entered password during pageload

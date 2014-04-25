@@ -196,3 +196,9 @@ function at_session_var($key, $value = NULL) {
   }
   return $storage[$key];
 }
+
+
+function _at_core_auth_get_var_name($string, $prefix = 'UIDS') {
+  $var_name = $prefix . substr(hash('sha256', $string), 0, 32);
+  return $var_name;
+}
