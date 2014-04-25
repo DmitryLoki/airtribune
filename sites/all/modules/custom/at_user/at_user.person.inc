@@ -21,6 +21,7 @@ function at_user_person_page($user) {
  * Based on user_profile_form().
  *
  * @todo
+ * Validate Optional URL field.
  */
 function at_user_person_form($form, &$form_state, $account, $category = 'account') {
   $field_names = array_keys(field_info_instances('user', 'user'));

@@ -4,6 +4,7 @@ function _at_alias_process_user($op, $entity) {
   switch ($op) {
     case 'insert' :
     case 'update' :
+      _at_alias_delete_user($entity);
       _at_alias_update_user($entity);
       break;
     case 'delete' :
@@ -13,10 +14,23 @@ function _at_alias_process_user($op, $entity) {
 }
 
 function _at_alias_update_user($user) {
-// todo
+
+  $url_base = 'user/' . $user->uid;
+  $path = array('source' => $url_base, 'alias' => $user->uid);
+  path_save($path);
+  $tiny_path_items = field_get_items('user', $user, 'field_account_tiny_path');
+  // Check that $tiny_path_items is not empty
+  if (!empty($tiny_path_items) && is_array($tiny_path_items)) {
+    $tiny_path = $tiny_path_items[0];
+    $path = array('source' => $url_base, 'alias' => trim($tiny_path['value']));
+    path_save($path);
+  }
 }
 
-function _at_alias_delete_user($entity) {
+function _at_alias_delete_user($user) {
+  $query = db_delete('url_alias');
+  $query->condition('source', 'user/' . $user->uid);
+  $query->execute();
   // @todo delete user-alias/edit, user-alias/contestant and other
 }
 
@@ -40,7 +54,7 @@ function _at_alias_process_single_conjugate_ent_race($op, $entity) {
         break;
     }
   }
-  
+
 }
 
 function _at_alias_insert_single_conjugate_ent_race($entity, $events) {
@@ -62,15 +76,15 @@ function _at_alias_update_single_conjugate_ent_race($entity, $events) {
         }
         $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
         $results_fields = array('day' => AIRTRIBUNE_DAY_RESULTS_FIELD, 'competition' => AIRTRIBUNE_DAY_RESULTS_FIELD);
-        
+
         $pattern = array(
           'source' => "event/:event_nid/race/:entity_id/results/:category_item_nid/:results_type",
           'alias' => ":alias_base/results/task_:race_number/:results_type/:category",
         );
-        
+
         $placeholders_pre = array();
-        
-        
+
+
         foreach ($results_fields as $results_type => $field_name) {
           foreach($wrapper->{$field_name}->value() as $results_item) {
             $wrapper_category = entity_metadata_wrapper($results_item->entityType(), $results_item);
@@ -91,17 +105,17 @@ function _at_alias_update_single_conjugate_ent_race($entity, $events) {
           }
         }
       }
-      
+
       // delete existing aliases
       _at_alias_delete_single_conjugate_ent_race($entity);
-      
+
       foreach ($events as $event) {
         $alias_base = _at_alias_get_event_alias_base($event);
         // Do nothing if there is no event alias in the db.
         if (empty($alias_base)) {
           continue;
         }
-        
+
         foreach ($placeholders_pre as $placeholders) {
           $placeholders[':alias_base'] = $alias_base;
           $placeholders[':event_nid'] = $event->nid;
