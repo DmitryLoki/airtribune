@@ -244,6 +244,15 @@ function _convert_drupal2core($entity_type, $data) {
       'id' => $data['remote_id'],
       'email' => $user->mail,
     );
-    return $core_data;
   }
+  elseif ($entity_type == 'user') {
+    $core_data = array(
+      'facebook_url' => $data['field_social_links'][0]['url'],
+      'googleplus_url' => $data['field_social_links'][1]['url'],
+      'youtube_url' => $data['field_social_links'][2]['url'],
+      'vimeo_url' => $data['field_social_links'][3]['url'],
+      'instagram_url' => $data['field_social_links'][4]['url'],
+    );
+  }
+  return $core_data;
 }

@@ -419,10 +419,10 @@ class ATSyncUser extends ATSync {
     if (empty($this->profile)) {
       ATSync::setMessage('Core API: User has no profiles.');
       return;
-    } else {
-      $data = _query_object_to_array('profile2', $this->profile);
     }
     $data['email'] = $account->mail;
+    $data += _query_object_to_array('user', $this->entity);
+    $data += _query_object_to_array('profile2', $this->profile);
 
     // User exist in Core.
     if ($this->core_id = $this->check_exist($account->mail)) {
