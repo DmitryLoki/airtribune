@@ -404,55 +404,23 @@ class ATSyncUser extends ATSync {
 
   public function synchronize() {
     $account =& $this->entity;
-    $profiles = profile2_load_by_user($account);
-    $profile = $profiles['main'];
-    $user_wrapper = entity_metadata_wrapper('user', $account);
-    $profile_wrapper = entity_metadata_wrapper('profile2', $profile);
+    $this->profile = profile2_load_by_user($account, 'main');
 
-    if (empty($profile)) {
+    if (empty($this->profile)) {
       ATSync::setMessage('Core API: User has no profiles.');
-      $data = array(
-        'first_name' => 'null',
-        'last_name' => 'null',
-        'birthdate' => date('Y-m-d', time()),
-        'gender' => 'M',
-        'country' => array('code'=>'RU'),
-      );
+      return;
     } else {
-      $data = _query_object_to_array('profile2', $profile);
+      $data = _query_object_to_array('profile2', $this->profile);
     }
     $data['email'] = $account->mail;
 
     // User exist in Core.
     if ($this->core_id = $this->check_exist($account->mail)) {
-      // User/profile was updated in drupal, save data to Core.
-      if ($account->original) {
-        $user_wrapper->field_core_id->set($this->core_id);
-        $result = $this->write_user_fields($data);
-        return $result;
-      }
-      // Otherwise load from Core.
-      else {
-        $remote = $this->get_user_fields();
-        $profile->field_country['und'][0]['iso2'] = $remote->country->code;
-        $profile->field_full_name['und'][0]['given'] = $remote->first_name;
-        $profile->field_full_name['und'][0]['family'] = $remote->last_name;
-        $profile->field_birthdate['und'][0]['value'] = $remote->birthdate;
-        $profile->field_gender['und'][0]['value'] = ($remote->gender == 'M') ? 0 : 1;
-        $profile_wrapper->save();
-      }
+      $this->update_user($data);
     }
     // User not exist in Core.
     else {
-      $data += array(
-        'email' => $account->mail,
-        'password' => $account->plain_password,
-      );
-      // Create user in Core, and get id.
-      $this->core_id = $this->create_user($data);
-      // Save field values without saving user entity. This need to avoid recursion on hook_entity_update().
-      $this->entity->field_core_id[LANGUAGE_NONE][0]['value'] = $this->core_id;
-      field_attach_update('user', $account);
+      $this->create_user($data);
     }
   }
 
@@ -492,8 +460,36 @@ class ATSyncUser extends ATSync {
   }
 
   public function create_user($data) {
+    $data += array(
+      'email' => $this->entity->mail,
+      'password' => at_core_auth_provision_pwd('get'),
+    );
+    // Create user in Core, and get id.
     $this->address = 'user/register';
-    return $this->request($data, 'POST');
+    $this->core_id = $this->request($data, 'POST');
+    // Save field values without saving user entity. This need to avoid recursion on hook_entity_update().
+    $this->entity->field_core_id[LANGUAGE_NONE][0]['value'] = $this->core_id;
+    field_attach_update('user', $this->entity);
+  }
+
+  public function update_user($data) {
+    // User/profile was updated in drupal, save data to Core.
+    if ($this->entity->original) {
+      $account_wrapper = entity_metadata_wrapper('user', $this->entity);
+      $account_wrapper->field_core_id->set($this->core_id);
+      $result = $this->write_user_fields($data);
+      return $result;
+    }
+    // Otherwise load from Core.
+    else {
+      $remote = $this->get_user_fields();
+      $this->profile->field_country['und'][0]['iso2'] = $remote->country->code;
+      $this->profile->field_full_name['und'][0]['given'] = $remote->first_name;
+      $this->profile->field_full_name['und'][0]['family'] = $remote->last_name;
+      $this->profile->field_birthdate['und'][0]['value'] = $remote->birthdate;
+      $this->profile->field_gender['und'][0]['value'] = ($remote->gender == 'M') ? 0 : 1;
+      field_attach_update('profile2', $this->profile);
+    }
   }
 
   public function get_user_sponsors() {
