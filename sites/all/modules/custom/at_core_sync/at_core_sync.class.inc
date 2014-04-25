@@ -404,11 +404,12 @@ class ATSyncUser extends ATSync {
 
   public function synchronize() {
     $account =& $this->entity;
-    $profile = profile2_load_by_user($account);
+    $profiles = profile2_load_by_user($account);
+    $profile = $profiles['main'];
     $user_wrapper = entity_metadata_wrapper('user', $account);
     $profile_wrapper = entity_metadata_wrapper('profile2', $profile);
 
-    if (empty($profile['main'])) {
+    if (empty($profile)) {
       ATSync::setMessage('Core API: User has no profiles.');
       $data = array(
         'first_name' => 'null',
@@ -419,7 +420,7 @@ class ATSyncUser extends ATSync {
       );
     } else {
       module_load_include('inc', 'clients_at_core', 'clients_at_core.query');
-      $data = _query_object_to_array('profile2', $profile['main']);
+      $data = _query_object_to_array('profile2', $profile);
     }
     $data['email'] = $account->mail;
 
@@ -427,7 +428,7 @@ class ATSyncUser extends ATSync {
     if ($this->core_id = $this->check_exist($account->mail)) {
       // User/profile was updated in drupal, save data to Core.
       if ($account->original) {
-        $user_wrapper->field_core_id = $this->core_id;
+        $user_wrapper->field_core_id->set($this->core_id);
         $result = $this->write_user_fields($data);
         return $result;
       }
