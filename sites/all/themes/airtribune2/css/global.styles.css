@@ -2762,7 +2762,7 @@ form #edit-field-social-links table tr { background: transparent;}
 form #edit-field-social-links table td { padding: 0; border: 0}
 form #edit-field-social-links .field-multiple-drag { position: absolute; z-index: 10;}
 form #edit-field-social-links table .form-item:last-child { margin: 0;}
-form #edit-field-social-links a.tabledrag-handle { margin: 0; padding: 0; height: auto;}
+form #edit-field-social-links a.tabledrag-handle { margin: 0; padding: 0; height: auto; display: none;}
 form #edit-field-social-links a.tabledrag-handle .handle { width: 30px; height: 30px; margin: 0; padding: 0; background: none;}
 form #edit-field-social-links td .form-type-link-field { padding-left: 30px; background: url(../images/socials_user.png) no-repeat 0 0;}
 form #edit-field-social-links td .form-item-field-social-links-und-0 { background-position: 0 0}
