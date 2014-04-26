@@ -7401,6 +7401,14 @@ race_id|[id]';
     'pg_contest' => 'pg_contest',
   );
   $handler->display->display_options['filters']['type_1']['group'] = 1;
+  /* Filter criterion: Content: Show in live events (field_show_in_live_events) */
+  $handler->display->display_options['filters']['field_show_in_live_events_value']['id'] = 'field_show_in_live_events_value';
+  $handler->display->display_options['filters']['field_show_in_live_events_value']['table'] = 'field_data_field_show_in_live_events';
+  $handler->display->display_options['filters']['field_show_in_live_events_value']['field'] = 'field_show_in_live_events_value';
+  $handler->display->display_options['filters']['field_show_in_live_events_value']['relationship'] = 'og_membership_related_node_group';
+  $handler->display->display_options['filters']['field_show_in_live_events_value']['value'] = array(
+    'yes' => 'yes',
+  );
 
   /* Display: Frontpage Live Events */
   $handler = $view->new_display('panel_pane', 'Frontpage Live Events', 'panel_pane_2');
