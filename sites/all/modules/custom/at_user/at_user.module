@@ -773,3 +773,33 @@ function at_user_get_contestant_number($uid, $event_nid) {
 
   return $contestant_number;
 }
+
+
+/**
+ * Implements hook_field_attach_form().
+ *
+ * Validate field "Optional URL" for user account.
+ */
+function at_user_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode) {
+  if ($entity_type == 'user' && isset($form[AIRTRIBUNE_ACCOUNT_TINY_PATH_FIELD])) {
+    $form[AIRTRIBUNE_ACCOUNT_TINY_PATH_FIELD]['und'][0]['value']['#element_validate'][] = '_at_user_account_tiny_path_validate';
+  }
+}
+
+
+/**
+ * Validation callback for "Optional URL" field.
+ */
+function _at_user_account_tiny_path_validate($element, &$form_state, $form) {
+  if (!empty($element['#value'])) {
+    $alias = trim($element['#value']);
+    $source = "user/{$element['#entity']->uid}";
+    $query = db_select('url_alias', 'url_alias')->fields('url_alias');
+    $query->condition('alias', $alias);
+    $query->condition('source', $source, '<>');
+    $result = $query->execute()->fetchAll();
+    if (!empty($result)) {
+      form_error($element, t('Optional URL is already in use.'));
+    }
+  }
+}

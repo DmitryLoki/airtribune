@@ -18,7 +18,7 @@ function _at_alias_update_user($user) {
   $url_base = 'user/' . $user->uid;
   $path = array('source' => $url_base, 'alias' => $user->uid);
   path_save($path);
-  $tiny_path_items = field_get_items('user', $user, 'field_account_tiny_path');
+  $tiny_path_items = field_get_items('user', $user, AIRTRIBUNE_ACCOUNT_TINY_PATH_FIELD);
   // Check that $tiny_path_items is not empty
   if (!empty($tiny_path_items) && is_array($tiny_path_items)) {
     $tiny_path = $tiny_path_items[0];
