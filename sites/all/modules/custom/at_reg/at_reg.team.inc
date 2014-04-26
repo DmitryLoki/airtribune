@@ -4,14 +4,14 @@
 
 /**
  * Team registration page callback.
- * 
+ *
  * @todo: Remove hardcode
  */
 function at_reg_team_page_callback($node) {
-  
+
   //~ module_load_include('inc', 'eck', 'eck.entity');
   //~ return eck__entity__add('ent_team', 'pg_nation_team');
-  
+
   if (!in_array($node->type, array(AIRTRIBUNE_PG_CONTEST_TYPE, AIRTRIBUNE_HG_CONTEST_TYPE))) {
     drupal_not_found();
     return;
@@ -26,20 +26,20 @@ function at_reg_team_form($form, $form_state) {
   if (!$user->uid) {
     return;
   }
-  
+
   $settings = field_info_instance(AIRTRIBUNE_TEAM_TYPE, AIRTRIBUNE_COUNTRY_FIELD, AIRTRIBUNE_PG_NATION_TEAM_TYPE);
   //~ dsm($settings);
   //~ dsm(countries_load_multiple());
   //~ dsm(field_info_field('field_country'));
-  
+
   // @todo: maybe filter countries by field settings? See countries.elements.inc
-  
+
   $form['caption'] = array(
     '#markup' => t('FAI Category 1 <br />Team Leader Registration'),
     '#prefix' => '<div class="at-reg-team-caption">',
     '#suffix' => '</div>',
   );
-  
+
   $user_full_name = _at_reg_team_user_name($user);
   $countries = countries_get_countries('name');
   $options = array('' => t('Select country'));
@@ -127,26 +127,26 @@ function _at_reg_team_get_team_entity($gid, $country_code, $confirm_letter_file=
   $query->condition("ogm.gid", $gid, "=");
   $query->condition("ogm.entity_type", AIRTRIBUNE_TEAM_TYPE, "=");
   $query->fields("ogm", array("entity_type", "etid"));
-  
+
   $query->join('field_data_' . AIRTRIBUNE_COUNTRY_FIELD, 'fc', 'ogm.etid = fc.entity_id');
   $query->condition('fc.entity_type', AIRTRIBUNE_TEAM_TYPE, '=');
   $query->condition('fc.' . AIRTRIBUNE_COUNTRY_ISO2_FIELD, $country_code, '=');
-  
+
   $result = $query->execute();
   $rows = $result->fetchAll();
-  
+
   $team_exists = !empty($rows);
-  
+
   // Check if team exists
   if ($team_exists) {
     $row = array_shift($rows);
     $entities = entity_load(AIRTRIBUNE_TEAM_TYPE, array($row->etid));
     $entity = array_shift($entities);
-    
+
     $wrapper = entity_metadata_wrapper(AIRTRIBUNE_TEAM_TYPE, $entity);
     //~ $value = $wrapper->{AIRTRIBUNE_TEAM_MEMBER_FIELD}->value();
     $value = $wrapper->{AIRTRIBUNE_USERS_REF_FIELD}->value();
-    
+
     $is_candidate = FALSE;
     foreach ($value as $candidate) {
       if ($candidate->uid == $user->uid) {
@@ -182,7 +182,7 @@ function _at_reg_team_get_team_entity($gid, $country_code, $confirm_letter_file=
     $wrapper->{AIRTRIBUNE_COUNTRY_FIELD}->set(array('iso2' => $country_code));
     //~ $wrapper->{AIRTRIBUNE_TEAM_MEMBER_FIELD}[0]->set($user);
     $wrapper->{AIRTRIBUNE_USERS_REF_FIELD}[0]->set($user);
-    
+
     $wrapper->save();
   }
   return $entity;
@@ -236,8 +236,8 @@ function _at_reg_team_leadership_pledged($gid, $uid, $type = 'pledged') {
   $query->fields("ogm", array("entity_type", "etid"));
 
   $query->join('eck_' . AIRTRIBUNE_TEAM_TYPE, 't', 'ogm.etid = t.id');
-  
-  
+
+
   // @todo
   if ($type == 'pledged') {
     //~ $query->join('field_data_' . AIRTRIBUNE_TEAM_MEMBER_FIELD, 'ftm', 't.id = ftm.entity_id');
@@ -245,7 +245,7 @@ function _at_reg_team_leadership_pledged($gid, $uid, $type = 'pledged') {
     $query->condition("ftm.entity_type", AIRTRIBUNE_TEAM_TYPE, "=");
     //~ $query->condition("ftm." . AIRTRIBUNE_TEAM_MEMBER_FIELD . "_target_id", $uid, "=");
     $query->condition("ftm." . AIRTRIBUNE_USERS_REF_FIELD . "_target_id", $uid, "=");
-    //~ 
+    //~
   }
   elseif ($type == 'approved') {
     $query->condition('t.uid', $uid, '=');
@@ -253,6 +253,6 @@ function _at_reg_team_leadership_pledged($gid, $uid, $type = 'pledged') {
 
   $result = $query->execute();
   $rows = $result->fetchAll();
-  
+
   return !empty($rows) ? $rows[0]->etid : FALSE;
 }
