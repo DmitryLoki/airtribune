@@ -1513,6 +1513,64 @@ function _full_name_pre_render($element) {
 }
 
 
+/**
+ * Implements hook_field_attach_form().
+ *
+ * Hide Nation field from event registration forms.
+ */
+function at_reg_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode) {
+  if (!empty($form_state['#multiform'])) {
+    switch ($form_state['#multiform_settings']['#multiform_id']) {
+      case 'contest_registration_authorized' :
+      case 'contest_registration_anonymous' :
+        if ($entity_type == 'profile2' && $entity->type == 'main') {
+          $form['field_country']['#access'] = FALSE;
+        }
+        break;
+    }
+  }
+}
+
+
+/**
+ * Implements hook_entity_insert().
+ */
+function at_reg_entity_insert($entity, $type) {
+  _at_reg_registration_set_user_nation($entity, $type, 'insert');
+}
+
+
+/**
+ * Implements hook_entity_update().
+ */
+function at_reg_entity_update($entity, $type) {
+  _at_reg_registration_set_user_nation($entity, $type, 'update');
+}
+
+
+/**
+ * Helper function to user user nation.
+ *
+ * NOTE: It is supposed that main profile always exists when pilot profile is created/updated.
+ * @todo
+ */
+function _at_reg_registration_set_user_nation($entity, $type, $hook = NULL) {
+  if ($type == 'profile2' && $entity->type == AIRTRIBUNE_USER_PILOT_PROFILE) {
+    $wrapper = entity_metadata_wrapper('profile2', $entity);
+    $address = $wrapper->{AIRTRIBUNE_ADDRESS_FIELD}->value();
+    $country_iso2 = $address['country'];
+
+    $account = user_load($entity->uid);
+    $profile_main = profile2_load_by_user($account, AIRTRIBUNE_USER_MAIN_PROFILE);
+    $wrapper = entity_metadata_wrapper('profile2', $profile_main);
+
+    // @todo: We can't use wrapper to get value because of a bug in countries module (see https://drupal.org/node/2198889).
+    $nation = field_get_items('profile2', $profile_main, AIRTRIBUNE_COUNTRY_FIELD);
+    $nation = $nation[0]['iso2'];
+    $wrapper->{AIRTRIBUNE_COUNTRY_FIELD}->get('iso2')->set($country_iso2);
+    $wrapper->save();
+  }
+}
 
 // =======================================================
 // Crossfields
