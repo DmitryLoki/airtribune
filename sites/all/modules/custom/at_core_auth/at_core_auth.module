@@ -139,19 +139,19 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
         }
       }
     } else {
+      $name = $form_state['values']['name'];
       // Auth user through Core API
-      list($uid, $error) = at_core_auth_authenticate($form_state['values']['name'], $password);
-      $var_name = _at_core_auth_get_var_name($form_state['values']['name']);
-      $token = at_session_var($var_name);
+      list($uid, $error) = at_core_auth_authenticate($name, $password);
+      $token = ATSyncUser::get_auth_token($name, $password)->token;
       $user_raw_data = ATSyncUser::get_self($token);
       if (!empty($token) && !empty($user_raw_data->id)) {
         //set up the user fields
         $fields = array(
-          'name' => $form_state['values']['name'],
+          'name' => $name,
           'mail' => $email,
           'pass' => $password,
           'status' => 1,
-          'init' => 'email address',
+          'init' => $email,
           'roles' => array(
             DRUPAL_AUTHENTICATED_RID => 'authenticated user',
           ),
