@@ -424,18 +424,22 @@ class ATSyncUser extends ATSync {
     $data += _query_object_to_array('user', $this->entity);
     $data += _query_object_to_array('profile2', $this->profile);
 
+    $response = FALSE;
     // User exist in Core.
     if ($this->core_id = $this->check_exist($account->mail)) {
-      $this->update_user($data);
+      $response = $this->update_user($data);
     }
     // User not exist in Core.
     else {
-      $this->create_user($data);
+      $response = $this->create_user($data);
     }
 
-    // Save field values without saving user entity. This need to avoid recursion on hook_entity_update().
-    $this->entity->field_core_id[LANGUAGE_NONE][0]['value'] = $this->core_id;
-    field_attach_update('user', $this->entity);
+    if (!empty($this->core_id)) {
+      // Save field values without saving user entity. This need to avoid recursion on hook_entity_update().
+      $this->entity->field_core_id[LANGUAGE_NONE][0]['value'] = $this->core_id;
+      field_attach_update('user', $this->entity);
+    }
+    return $response;
   }
 
   public static function get_auth_token($username, $password) {
@@ -479,7 +483,11 @@ class ATSyncUser extends ATSync {
     );
     // Create user in Core, and get id.
     $this->address = 'user/register';
-    $this->core_id = $this->request($data, 'POST');
+    $response = $this->request($data, 'POST');
+    if (isset($response->id)) {
+      $this->core_id = $response->id;
+    }
+    return $response;
   }
 
   public function update_user($data, $is_profile_updated=FALSE) {
