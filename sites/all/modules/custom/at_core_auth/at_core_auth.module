@@ -159,9 +159,10 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
       $token = ATSyncUser::get_auth_token($name, $password)->token;
       $user_raw_data = ATSyncUser::get_self($token);
       if (!empty($token) && !empty($user_raw_data->id)) {
+        $new_name = at_core_auth_unique_username(preg_replace('/@.*$/', '', $email));
         //set up the user fields
         $fields = array(
-          'name' => $name,
+          'name' => $new_name,
           'mail' => $email,
           'pass' => $password,
           'status' => 1,
@@ -273,4 +274,37 @@ function at_core_auth_provision_pwd($action, $value = NULL, $reset = FALSE) {
     return FALSE;
   }
 
+}
+
+/**
+ * Return a legal, unique Drupal username
+ *
+ * @param string Drupal user name
+ * @return A unique user name based on $name.
+ */
+function at_core_auth_unique_username($name) {
+  // Strip illegal characters.
+  $name = preg_replace('/[^\x{80}-\x{F7} a-zA-Z0-9@_.\'-]/', '', $name);
+
+  // Strip leading and trailing spaces.
+  $name = trim($name);
+
+  // Convert any other series of spaces to a single underscore.
+  $name = preg_replace('/ +/', '_', $name);
+
+  // If there's nothing left use a default.
+  $name = ('' === $name) ? t('user') : $name;
+
+  // Truncate to reasonable size.
+  $name = (drupal_strlen($name) > (USERNAME_MAX_LENGTH - 10)) ? drupal_substr($name, 0, USERNAME_MAX_LENGTH - 11) : $name;
+
+  // Iterate until we find a unique name.
+  $i = 0;
+  do {
+    $new_name = empty($i) ? $name : $name . '_' . $i;
+    $found = db_query_range("SELECT uid from {users} WHERE name LIKE :name", 0, 1, array(':name' => $new_name))->fetchAssoc();
+    $i++;
+  } while (!empty($found));
+
+  return $new_name;
 }
