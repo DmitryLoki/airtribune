@@ -7439,7 +7439,7 @@ race_id|[id]';
   $handler->display->display_options['relationships']['reverse_field_dayblog_ref_node']['table'] = 'node';
   $handler->display->display_options['relationships']['reverse_field_dayblog_ref_node']['field'] = 'reverse_field_dayblog_ref_node';
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Field: Awards description */
+  /* Field: Field: Description */
   $handler->display->display_options['fields']['field_plain_body']['id'] = 'field_plain_body';
   $handler->display->display_options['fields']['field_plain_body']['table'] = 'field_data_field_plain_body';
   $handler->display->display_options['fields']['field_plain_body']['field'] = 'field_plain_body';
@@ -12211,12 +12211,22 @@ race_id|[id]'),
   $handler->display->display_options['style_options']['views_slideshow_cycle']['cleartype'] = 0;
   $handler->display->display_options['style_options']['views_slideshow_cycle']['cleartypenobg'] = 0;
   $handler->display->display_options['row_plugin'] = 'fields';
+  /* Field: Global: View */
+  $handler->display->display_options['fields']['view']['id'] = 'view';
+  $handler->display->display_options['fields']['view']['table'] = 'views';
+  $handler->display->display_options['fields']['view']['field'] = 'view';
+  $handler->display->display_options['fields']['view']['label'] = '';
+  $handler->display->display_options['fields']['view']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['view']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['view']['view'] = 'header_slideshow';
+  $handler->display->display_options['fields']['view']['display'] = 'default_header';
   /* Field: Field: Image */
   $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
   $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
   $handler->display->display_options['fields']['field_header_image']['field'] = 'field_header_image';
   $handler->display->display_options['fields']['field_header_image']['label'] = '';
   $handler->display->display_options['fields']['field_header_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_header_image']['empty'] = '[view]';
   $handler->display->display_options['fields']['field_header_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_header_image']['settings'] = array(
     'image_style' => 'header',
@@ -12259,8 +12269,8 @@ race_id|[id]'),
   $handler->display->display_options['allow']['fields_override'] = 0;
   $handler->display->display_options['argument_input'] = array(
     'uid' => array(
-      'type' => 'fixed',
-      'context' => 'entity:ent_advert.og-membership--1',
+      'type' => 'context',
+      'context' => 'entity:user.uid',
       'context_optional' => 0,
       'panel' => '0',
       'fixed' => '1',
@@ -12276,6 +12286,7 @@ race_id|[id]'),
     t('Sort by'),
     t('Asc'),
     t('Desc'),
+    t('[view]'),
     t('All'),
     t('View panes'),
   );
