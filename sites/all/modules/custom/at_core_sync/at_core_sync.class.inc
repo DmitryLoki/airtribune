@@ -407,6 +407,7 @@ class ATSyncUser extends ATSync {
     parent::__construct($entity_type, $entity);
     $var_name = _at_core_auth_get_var_name($entity->mail);
     $this->token = at_session_var($var_name);
+    $this->entity->password = at_core_auth_provision_pwd('get');
     $this->profile = profile2_load_by_user($entity, 'main');
     if (!$this->core_id) {
       return $this->synchronize();
@@ -479,7 +480,7 @@ class ATSyncUser extends ATSync {
   public function create_user($data) {
     $data += array(
       'email' => $this->entity->mail,
-      'password' => at_core_auth_provision_pwd('get'),
+      'password' => $this->entity->password,
     );
     // Create user in Core, and get id.
     $this->address = 'user/register';
@@ -510,11 +511,12 @@ class ATSyncUser extends ATSync {
     }
   }
 
-  public function change_password($pass, $token = FALSE) {
+  public function change_password($new_password, $token = FALSE) {
     $token = $token ? $token : $this->token;
     if (!empty($this->core_id) && !empty($pass)) {
       $data = array(
-        'password' => $pass,
+        'email' => $this->entity->mail,
+        'password' => $new_password,
       );
       $this->address = '/user/change_password';
       $this->request($data, 'POST', $token);
@@ -523,7 +525,7 @@ class ATSyncUser extends ATSync {
 
   public function reset_password($pass) {
     $token = variable_get('at_core_sync_token_su', FALSE);
-    $this->change_password($data, $token);
+    $this->change_password($pass, $token);
   }
 }
 /**
