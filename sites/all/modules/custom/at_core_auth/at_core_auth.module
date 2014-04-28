@@ -177,7 +177,10 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
           $profile = profile_create(array('type' => 'main', 'uid' => $account->uid));
           $profile->bundle = 'main';
           $profile->already_saved = TRUE;
-          profile2_save($profile); // save profile
+          profile2_save($profile);
+          // This need to update data, when user exist in Core, and not exist in site.
+          // profile2_load_by_user() will update data, using 'clients' & 'remote_entity' modules.
+          // Variable $profile used for debug.
           $profile = profile2_load_by_user($account, 'main');
         }
       }
