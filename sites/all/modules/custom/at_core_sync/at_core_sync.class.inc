@@ -507,8 +507,8 @@ class ATSyncUser extends ATSync {
       $data = array(
         'password' => $pass,
       );
-      $this->address = 'user/' . $this->core_id;
-      $this->request($data, 'PATCH');
+      $this->address = '/user/change_password';
+      $this->request($data, 'POST');
     }
   }
 }

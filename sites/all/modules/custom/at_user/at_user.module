@@ -105,7 +105,6 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     $sync = _get_class_by_entity('user', $user);
     $form['#sync'] = $sync;
     $form['#core_user_fields']   = $sync->get_user_fields();
-    $form['#core_user_sponsors'] = $sync->get_user_sponsors();
 
     // Own header filename has pattern '%fid.extension' (12345.png / 10500.jpg)
     // If header filename from API has another name, different with fid from field
