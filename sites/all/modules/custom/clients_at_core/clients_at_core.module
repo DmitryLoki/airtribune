@@ -45,10 +45,8 @@ function clients_at_core_entity_update($entity, $type) {
 }
 
 function check_core_and_remote_id(Profile &$entity) {
-  if (empty($entity->remote_id)) {
-    $user = user_load($entity->uid);
-    $entity->remote_id = $user->field_core_id['und'][0]['value'];
-  }
+  $user = user_load($entity->uid);
+  $entity->remote_id = $user->field_core_id['und'][0]['value'];
 }
 /**
  * Implements hook_clients_connection_type_info().

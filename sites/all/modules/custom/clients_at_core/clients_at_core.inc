@@ -197,9 +197,9 @@ class clients_connection_drupal_rest_at_core extends clients_connection_base {
    *  The data from the request response.
    */
   function makeRequest($resource_path, $http_method, $data = array()) {
+    $token = FALSE;
     if ($http_method != 'GET' && !isset($this->token)) {
-      $var_name = _at_core_auth_get_var_name($data['mail']);
-      $token = at_session_var($var_name);
+      $token = at_core_auth_provision_token('get', $data['mail']);
     }
 
     $data = drupal_json_encode($data);
@@ -214,9 +214,14 @@ class clients_connection_drupal_rest_at_core extends clients_connection_base {
     );
 
     $response = drupal_http_request($resource_path, $options);
-//    $this->handleRestError($response);
 
-    $result = json_decode($response->data);
+    try {
+        $this->handleRestError($response);
+        $result = json_decode($response->data);
+    } catch (Exception $e) {
+        $result = FALSE;
+    }
+
     return $result;
   }
 
