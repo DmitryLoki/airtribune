@@ -411,7 +411,6 @@ class ATSyncUser extends ATSync {
     parent::__construct($entity_type, $entity);
     $var_name = _at_core_auth_get_var_name($entity->mail);
     $this->token = at_session_var($var_name);
-    $this->entity->password = at_core_auth_provision_pwd('get');
     $this->profile = profile2_load_by_user($entity, 'main');
     if (!$this->core_id) {
       return $this->synchronize();
@@ -484,7 +483,7 @@ class ATSyncUser extends ATSync {
   public function create_user($data) {
     $data += array(
       'email' => $this->entity->mail,
-      'password' => $this->entity->password,
+      'password' => at_core_auth_provision_pwd('get'),
     );
     // Create user in Core, and get id.
     $this->address = 'user/register';
@@ -506,11 +505,7 @@ class ATSyncUser extends ATSync {
     // Otherwise load from Core.
     else {
       $remote = $this->get_user_fields();
-      $this->profile->field_country['und'][0]['iso2'] = $remote->country->code;
-      $this->profile->field_full_name['und'][0]['given'] = $remote->first_name;
-      $this->profile->field_full_name['und'][0]['family'] = $remote->last_name;
-      $this->profile->field_birthdate['und'][0]['value'] = $remote->birthdate;
-      $this->profile->field_gender['und'][0]['value'] = ($remote->gender == 'M') ? 0 : 1;
+      $this->profile = profile2_load_by_user($this->entity, 'main');
       field_attach_update('profile2', $this->profile);
     }
   }
