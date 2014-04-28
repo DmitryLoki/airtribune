@@ -3654,6 +3654,34 @@ function seo_path_breadcrumbs_settings_info() {
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'user_person';
+  $path_breadcrumb->name = 'User Person';
+  $path_breadcrumb->path = 'user/%user/person';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Edit pilot profile',
+    ),
+    'paths' => array(
+      0 => 'user/%user:uid/person',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'user' => array(
+        'position' => 1,
+        'argument' => 'entity_id:user',
+        'settings' => array(
+          'identifier' => 'User: ID',
+        ),
+      ),
+    ),
+    'access' => array(),
+  );
+  $path_breadcrumb->weight = 0;
+  $export['user_person'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'user_pilot_edit';
   $path_breadcrumb->name = 'Contestant Edit';
   $path_breadcrumb->path = 'profile-pilot/%uid/edit';

@@ -231,8 +231,12 @@ batch
   $strongarm->api_version = 1;
   $strongarm->name = 'path_alias_whitelist';
   $strongarm->value = array(
-    'event' => TRUE,
+    'file' => TRUE,
     'node' => TRUE,
+    1 => TRUE,
+    'event' => TRUE,
+    'user' => TRUE,
+    'activity' => TRUE,
   );
   $export['path_alias_whitelist'] = $strongarm;
 
@@ -241,8 +245,12 @@ batch
   $strongarm->api_version = 1;
   $strongarm->name = 'path_alias_whitelist';
   $strongarm->value = array(
-    'event' => TRUE,
+    'file' => TRUE,
     'node' => TRUE,
+    1 => TRUE,
+    'event' => TRUE,
+    'user' => TRUE,
+    'activity' => TRUE,
   );
   $export['path_alias_whitelist'] = $strongarm;
 
@@ -684,7 +692,7 @@ batch
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_user_pattern';
-  $strongarm->value = '[user:uid]';
+  $strongarm->value = '';
   $export['pathauto_user_pattern'] = $strongarm;
 
   $strongarm = new stdClass();

@@ -447,6 +447,16 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'field_permissions',
   );
 
+  // Exported permission: create field_show_in_live_events.
+  $permissions['create field_show_in_live_events'] = array(
+    'name' => 'create field_show_in_live_events',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'editor',
+    ),
+    'module' => 'field_permissions',
+  );
+
   // Exported permission: create newsblog content.
   $permissions['create newsblog content'] = array(
     'name' => 'create newsblog content',
@@ -1315,6 +1325,16 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'field_permissions',
   );
 
+  // Exported permission: edit field_show_in_live_events.
+  $permissions['edit field_show_in_live_events'] = array(
+    'name' => 'edit field_show_in_live_events',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'editor',
+    ),
+    'module' => 'field_permissions',
+  );
+
   // Exported permission: edit field_tracker.
   $permissions['edit field_tracker'] = array(
     'name' => 'edit field_tracker',
@@ -1434,6 +1454,16 @@ function roles_and_permissions_user_default_permissions() {
     'name' => 'edit own field_race_number',
     'roles' => array(
       0 => 'administrator',
+    ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: edit own field_show_in_live_events.
+  $permissions['edit own field_show_in_live_events'] = array(
+    'name' => 'edit own field_show_in_live_events',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'editor',
     ),
     'module' => 'field_permissions',
   );
@@ -1946,6 +1976,16 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'field_permissions',
   );
 
+  // Exported permission: view field_show_in_live_events.
+  $permissions['view field_show_in_live_events'] = array(
+    'name' => 'view field_show_in_live_events',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'editor',
+    ),
+    'module' => 'field_permissions',
+  );
+
   // Exported permission: view field_tracker.
   $permissions['view field_tracker'] = array(
     'name' => 'view field_tracker',
@@ -2028,6 +2068,16 @@ function roles_and_permissions_user_default_permissions() {
     'name' => 'view own field_race_number',
     'roles' => array(
       0 => 'administrator',
+    ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: view own field_show_in_live_events.
+  $permissions['view own field_show_in_live_events'] = array(
+    'name' => 'view own field_show_in_live_events',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'editor',
     ),
     'module' => 'field_permissions',
   );

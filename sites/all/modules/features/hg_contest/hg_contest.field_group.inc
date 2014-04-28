@@ -23,8 +23,8 @@ function hg_contest_field_group_info() {
     'label' => 'Contacts',
     'weight' => '27',
     'children' => array(
-      0 => 'field_contacts_email',
-      1 => 'field_contacts_phone',
+      0 => 'field_contacts_phone',
+      1 => 'field_contacts_email',
       2 => 'field_position',
       3 => 'field_contacts_name',
     ),

@@ -1009,9 +1009,11 @@ function airtribune_views_pre_view(&$view, &$display_id, &$args) {
   // @see #4498
   // @todo remove at release2.13
   // temp fix for user / pilot profile page, load user:uid from to view argument from url.
+  /*
   if ($view->name == 'user_header') {
     $args = array(arg(1));
   }
+  */
 }
 
 /**
