@@ -501,6 +501,16 @@ class ATSyncUser extends ATSync {
       $account_wrapper = entity_metadata_wrapper('user', $this->entity);
       $account_wrapper->field_core_id->set($this->core_id);
       $result = $this->write_user_fields($data);
+
+      // Update user entered password
+      if ($password = at_core_auth_provision_pwd('get')) {
+        // Change password
+        $this->change_password($password);
+        // Get new access token
+        at_core_auth_authenticate($this->entity->mail, $password);
+        $this->token = at_core_auth_provision_token('get', $this->entity->mail);
+      }
+
       return $result;
     }
     // Otherwise load from Core.
@@ -519,6 +529,7 @@ class ATSyncUser extends ATSync {
       );
       $this->address = 'user/change_password';
       $this->request($data, 'POST');
+      // @todo Return error if password is not changed
     }
   }
 
