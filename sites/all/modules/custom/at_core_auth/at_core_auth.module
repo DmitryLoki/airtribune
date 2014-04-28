@@ -131,8 +131,13 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
         // Auth user through Core API
         list($uid, $error) = at_core_auth_authenticate($email, $password);
         if (isset($error->password_unknown) && $error->password_unknown === TRUE) {
-          $account_sync->reset_password($password);
-          list($uid, $error) = at_core_auth_authenticate($email, $password);
+          // If user have empty password then auth through Drupal
+          user_login_authenticate_validate($form, $form_state);
+          if (!empty($form_state['uid'])) {
+            // If user is authenticated through Drupal then set user entered password
+            $account_sync->reset_password($password);
+            list($uid, $error) = at_core_auth_authenticate($email, $password);
+          }
         }
       }
       else {
