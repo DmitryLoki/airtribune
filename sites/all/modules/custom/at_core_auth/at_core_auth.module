@@ -141,8 +141,7 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
         if (!empty($form_state['uid'])) {
           $account_sync->synchronize();
           list($uid, $error) = at_core_auth_authenticate($account->mail, $password);
-          $var_name = _at_core_auth_get_var_name($account->mail);
-          $token = at_session_var($var_name);
+          $token = at_core_auth_provision_token('get', $account->mail);
           if (!empty($token)) {
             $uid = $account->uid;
           }
@@ -174,6 +173,8 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
 
         //the first parameter is left blank so a new user is created
         $account = user_save('', $fields);
+
+        at_core_auth_provision_token('set', $name, $token);
 
         $wrapper = entity_metadata_wrapper('user', $account);
         $wrapper->{AIRTRIBUNE_CORE_ID_FIELD}->set($user_raw_data->id);
@@ -234,18 +235,50 @@ function at_core_auth_authenticate($name, $password) {
         $error = $response;
       }
       if (!empty($token)) {
-        $var_name = _at_core_auth_get_var_name($name);
-        at_session_var($var_name, $token);
-        $params = session_get_cookie_params();
-        $expire = $params['lifetime'] ? REQUEST_TIME + $params['lifetime'] : 0;
-        setcookie($var_name, $token, $expire, $params['path'], $params['domain'], FALSE, $params['httponly']);
-        //user_cookie_save(array($var_name => $token));
+        at_core_auth_provision_token('set', $name, $token);
 
         $uid = $account->uid;
       }
     }
   }
   return array($uid, $error);
+}
+
+/**
+ * function to:
+ *   -- store Core API access token
+ *   and protect unencrypted user password from other modules
+ *
+ * @param enum string $action 'get' | 'set'
+ * @param string | FALSE $value as Core API access token
+ */
+function at_core_auth_provision_token($action, $email, $value = NULL, $reset = FALSE) {
+
+  static $current_token;
+
+  if ($reset) {
+    $current_token = NULL;
+  }
+
+  if ($action == 'set') {
+    $var_name = _at_core_auth_get_var_name($email);
+    at_session_var($var_name, $value);
+    $params = session_get_cookie_params();
+    $expire = $params['lifetime'] ? REQUEST_TIME + $params['lifetime'] : 0;
+    setcookie($var_name, $value, $expire, $params['path'], $params['domain'], FALSE, $params['httponly']);
+    //user_cookie_save(array($var_name => $value));
+  }
+  elseif ($action == 'get' && $current_token) {
+    if (empty($current_token)) {
+      $var_name = _at_core_auth_get_var_name($email);
+      $current_token = at_session_var($var_name);
+    }
+    return $current_token;
+  }
+  else {
+    return FALSE;
+  }
+
 }
 
 /**

@@ -409,6 +409,7 @@ class ATSyncUserProfile extends ATSync {
 class ATSyncUser extends ATSync {
   public function __construct($entity_type, $entity) {
     parent::__construct($entity_type, $entity);
+    // @todo use at_core_auth_provision_token () to get the token
     $var_name = _at_core_auth_get_var_name($entity->mail);
     $this->token = at_session_var($var_name);
     $this->profile = profile2_load_by_user($entity, 'main');
