@@ -510,21 +510,22 @@ class ATSyncUser extends ATSync {
     }
   }
 
-  public function change_password($new_password, $token = FALSE) {
-    $token = $token ? $token : $this->token;
+  public function change_password($new_password) {
     if (!empty($this->core_id) && !empty($new_password)) {
       $data = array(
         'email' => $this->entity->mail,
         'password' => $new_password,
       );
       $this->address = 'user/change_password';
-      $this->request($data, 'POST', $token);
+      $this->request($data, 'POST');
     }
   }
 
   public function reset_password($new_password) {
-    $token = variable_get('at_core_sync_token_su', FALSE);
-    $this->change_password($new_password, $token);
+    $previous_token = $this->token;
+    $this->token = variable_get('at_core_sync_token_su', FALSE);
+    $this->change_password($new_password);
+    $this->token = $previous_token;
   }
 }
 
