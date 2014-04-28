@@ -66,7 +66,8 @@ abstract class ATSync {
       curl_setopt($handle, CURLOPT_HTTPHEADER, array(
         $token_header,
       ));
-    } else {
+    }
+    else {
       curl_setopt($handle, CURLOPT_HTTPHEADER, array(
         'Expect:',
         'Content-Type: application/json',
@@ -157,7 +158,7 @@ abstract class ATSync {
     }
     // Debug.
     $full_request = $method . ' ' . at_core_sync_get_api_url() . '/' . $address;
-    _asd($data, $full_request , $response);
+    _asd($data, $full_request, $response);
 
     return json_decode($response);
   }
@@ -180,7 +181,8 @@ abstract class ATSync {
   public function delete() {
     if (!empty($this->core_id)) {
       return ATSync::requestToCore($this->address . '/' . $this->core_id, array(), 'DELETE', $this->token);
-    } else if (!empty($this->day_dmy)) {
+    }
+    elseif (!empty($this->day_dmy)) {
       return ATSync::requestToCore($this->address, array(), 'DELETE', $this->token);
     }
   }
@@ -192,7 +194,7 @@ abstract class ATSync {
       $entity_type = $entity->entity_type;
       $entity = entity_load_single($entity->entity_type, $entity->etid);
     }
-        $entity->field_core_id = array(
+    $entity->field_core_id = array(
       LANGUAGE_NONE => array(
         array(
           'value' => $id,
@@ -396,7 +398,9 @@ class ATSyncUserProfile extends ATSync {
     $data = _query_object_to_array('profile2', $entity);
     $sync->update_user($data, TRUE);
   }
-  public function synchronize() {}
+
+  public function synchronize() {
+  }
 }
 
 /**
@@ -491,7 +495,7 @@ class ATSyncUser extends ATSync {
     return $response;
   }
 
-  public function update_user($data, $is_profile_updated=FALSE) {
+  public function update_user($data, $is_profile_updated = FALSE) {
     // User/profile was updated in drupal, save data to Core.
     if ($this->entity->original || $is_profile_updated) {
       $account_wrapper = entity_metadata_wrapper('user', $this->entity);
@@ -528,6 +532,7 @@ class ATSyncUser extends ATSync {
     $this->change_password($pass, $token);
   }
 }
+
 /**
  * Class for synchronization pilot
  */
@@ -554,7 +559,8 @@ abstract class ATSyncPilot extends ATSyncNestedInContest {
     if (!in_array(
       $this->pilot->field_pg_contestant_status->value(),
       array(AIRTRIBUNE_PG_CONTESTANT_CONFIRMED, AIRTRIBUNE_PILOT_STATUS_WINDDUMMY)
-    )) {
+    )
+    ) {
       return FALSE;
     }
     $entity_wrapper = entity_metadata_wrapper('og_membership', $this->entity);
@@ -674,7 +680,8 @@ class ATSyncRace extends ATSyncNestedInContest {
         $bearing = $racetype_wrapper->field_pg_race_azimuth->value();
         if (isset($bearing)) {
           $data['properties']['bearing'] = (int) $bearing;
-        } else {
+        }
+        else {
           $data['properties']['bearing'] = NULL;
         }
         break;
@@ -708,7 +715,8 @@ class ATSyncRace extends ATSyncNestedInContest {
       }
       if ($delta == 0) {
         $point_data['properties']['checkpoint_type'] = 'to';
-        $point_data['properties'] += array('open_time' => $data['properties']['window_open'],
+        $point_data['properties'] += array(
+          'open_time' => $data['properties']['window_open'],
           'close_time' => $data['properties']['window_close'],
         );
       }
@@ -759,7 +767,8 @@ class ATSyncRace extends ATSyncNestedInContest {
     $optdistance = floatval($response->optdistance);
     if (!empty($optdistance)) {
       $this->entity->field_optdistance[LANGUAGE_NONE][0]['value'] = $response->optdistance;
-    } else {
+    }
+    else {
       $this->entity->field_optdistance[LANGUAGE_NONE][0]['value'] = '';
     }
     field_attach_update($this->entity_type, $this->entity);
@@ -775,11 +784,13 @@ class ATSyncRace extends ATSyncNestedInContest {
         $file = $tracks->value();
         $data = array('url' => file_create_url($file['uri']));
         $response = $this->request($data);
-      } else {
+      }
+      else {
         ATSync::setMessage(t('Core API: Unable to send tracks. Race not synchronized yet.'));
         return FALSE;
       }
-    } else {
+    }
+    else {
       ATSync::setMessage(t('Core API: Unable to send tracks. No attached tracks file.'));
       return FALSE;
     }
@@ -801,6 +812,7 @@ class ATSyncTracker extends ATSync {
     $this->device_id = $wrapper->field_device_id->value();
     $this->device_type = $field_tracker_type->title;
   }
+
   public function synchronize() {
     $data = array(
       'device_id' => $this->device_id,

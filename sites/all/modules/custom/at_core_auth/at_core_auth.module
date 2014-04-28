@@ -40,8 +40,8 @@ function at_core_auth_form_user_register_form_alter(&$form, $form_state) {
 }
 
 /**
-* Implements hook_form_FORM_ID_alter(). for password_policy_password_tab
-*/
+ * Implements hook_form_FORM_ID_alter(). for password_policy_password_tab
+ */
 function at_core_auth_form_password_policy_password_tab_alter(&$form, &$form_state) {
   array_unshift($form['#validate'], 'at_core_auth_grab_password_validate');
 }
@@ -58,15 +58,14 @@ function at_core_auth_user_logout($account) {
  * for use in provisioning to ldap
  */
 function at_core_auth_grab_password_validate($form, &$form_state) {
-
-   // This is not a login form but profile form and user is inserting password to update email
+  // This is not a login form but profile form and user is inserting password to update email
   if (!empty($form_state['values']['current_pass_required_values'])) {
     if (!empty($form_state['values']['current_pass']) && empty($form_state['values']['pass'])) {
       at_core_auth_provision_pwd('set', $form_state['values']['current_pass']);
     }
     // Or this is a profile form where the user is updating their own password
     elseif (!empty($form_state['values']['pass'])) {
-        at_core_auth_provision_pwd('set', $form_state['values']['pass']);
+      at_core_auth_provision_pwd('set', $form_state['values']['pass']);
     }
   }
   // otherwise a logon form
@@ -90,7 +89,8 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
     // Checking the existence of a user in Drupal
     if ($login_is_mail) {
       $account = db_query("SELECT * FROM {users} WHERE mail = :mail AND status = 1", array(':mail' => $email))->fetchObject();
-    } else {
+    }
+    else {
       $account = db_query("SELECT * FROM {users} WHERE name = :name AND status = 1", array(':name' => $form_state['values']['name']))->fetchObject();
     }
 
@@ -130,7 +130,8 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
         }
         // Auth user through Core API
         list($uid, $error) = at_core_auth_authenticate($email, $password);
-      } else {
+      }
+      else {
         user_login_authenticate_validate($form, $form_state);
 
         if (!empty($form_state['uid'])) {
@@ -140,14 +141,16 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
           $token = at_session_var($var_name);
           if (!empty($token)) {
             $uid = $account->uid;
-          } else {
+          }
+          else {
             $form_state['uid'] = NULL;
           }
         }
       }
-    } else {
+    }
+    else {
       $name = $form_state['values']['name'];
-      // Auth user through Core API
+      // Auth us  er through Core API
       list($uid, $error) = at_core_auth_authenticate($name, $password);
       $token = ATSyncUser::get_auth_token($name, $password)->token;
       $user_raw_data = ATSyncUser::get_self($token);
@@ -213,14 +216,16 @@ function at_core_auth_authenticate($name, $password) {
   if (!empty($name) && !empty($password)) {
     if ($login_is_mail) {
       $account = user_load_by_mail($name);
-    } else {
+    }
+    else {
       $account = user_load_by_name($name);
     }
     if ($account) {
       $response = ATSyncUser::get_auth_token($account->mail, $password);
       if (isset($response->token)) {
         $token = $response->token;
-      } else {
+      }
+      else {
         $error = $response;
       }
       if (!empty($token)) {
@@ -243,8 +248,8 @@ function at_core_auth_authenticate($name, $password) {
  *   -- store user entered password during pageload
  *   and protect unencrypted user password from other modules
  *
- *   @param enum string $action 'get' | 'set'
- *   @param string | FALE $value as user entered password
+ * @param enum string $action 'get' | 'set'
+ * @param string | FALSE $value as user entered password
  */
 function at_core_auth_provision_pwd($action, $value = NULL, $reset = FALSE) {
 

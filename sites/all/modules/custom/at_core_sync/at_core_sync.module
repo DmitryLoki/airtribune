@@ -14,7 +14,8 @@ define('AIRTRIBUNE_CORE_ID_FIELD', 'field_core_id');
  */
 function at_core_sync_init() {
   // Add global variables for Core API access
-  drupal_add_js(array(
+  drupal_add_js(
+    array(
       'at_core_sync' => array(
         'apiVersion' => at_core_sync_get_api_version(),
         'apiDomain' => at_core_sync_get_api_domain(),
@@ -155,8 +156,7 @@ function at_core_sync_get_port() {
 function at_core_sync_get_api_url() {
   $version = at_core_sync_get_api_version();
 
-  $address =
-    $version ?
+  $address = $version ?
     at_core_sync_get_api_domain() . '/' . $version :
     at_core_sync_get_api_domain();
   return $address;
@@ -207,7 +207,7 @@ function _asd($var, $request = NULL, $response = NULL) {
     $message .= '<b>Data:</b> <pre>' . $var . '</pre>';
     ATSync::setMessage($message, 'warning');
     if (isset($response)) {
-      $message_response = '<b>Response:</b> <pre>' . print_r($response, TRUE)  . '</pre>';
+      $message_response = '<b>Response:</b> <pre>' . print_r($response, TRUE) . '</pre>';
       ATSync::setMessage($message_response, 'warning');
       $message .= '<br />' . $message_response;
     }
@@ -354,7 +354,7 @@ function at_core_sync_other_sync($entity_type, $entity) {
   return FALSE;
 }
 
-function at_core_sync_entity_sync($entity_type, $entity, $action='', $fields = array()) {
+function at_core_sync_entity_sync($entity_type, $entity, $action = '', $fields = array()) {
   // Exit, if synchronization disabled
   if (variable_get('at_core_sync_enabled', 0) == 0) {
     return FALSE;
@@ -367,7 +367,7 @@ function at_core_sync_entity_sync($entity_type, $entity, $action='', $fields = a
       case 'patch':
         if (!empty($fields) && is_array($fields)) {
           $data = array();
-          foreach($fields as $property => $field_name) {
+          foreach ($fields as $property => $field_name) {
             if (isset($entity->{$field_name}[LANGUAGE_NONE])) {
               // No use wrapper for at_tracker fields
               $data[$property] = $entity->{$field_name}[LANGUAGE_NONE][0]['value'];
@@ -392,6 +392,7 @@ function at_core_sync_entity_sync($entity_type, $entity, $action='', $fields = a
 function at_core_sync_contests_action(&$object, $context = array()) {
   at_core_sync_entity_sync('node', $object);
 }
+
 /**
  * Implementation of a Drupal action
  *
@@ -465,8 +466,7 @@ function at_core_sync_copy_country_action(&$object, $context = array()) {
     $pilot_wrapper = entity_metadata_wrapper('profile2', $pilot);
     try {
       $country = $pilot_wrapper->field_address->country->value();
-    }
-    catch (EntityMetadataWrapperException $e) {
+    } catch (EntityMetadataWrapperException $e) {
       return;
     }
     $main->field_country[LANGUAGE_NONE][0]['iso2'] = $country;
