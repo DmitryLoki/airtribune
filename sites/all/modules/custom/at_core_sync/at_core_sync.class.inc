@@ -445,7 +445,7 @@ class ATSyncUser extends ATSync {
       'password' => $password,
     );
     $response = ATSync::requestToCore($address, $data);
-    return isset($response->token) ? $response->token : NULL;
+    return $response;
   }
 
   public static function get_self($token) {
@@ -502,14 +502,20 @@ class ATSyncUser extends ATSync {
     }
   }
 
-  public function change_password($pass) {
+  public function change_password($pass, $token = FALSE) {
+    $token = $token ? $token : $this->token;
     if (!empty($this->core_id) && !empty($pass)) {
       $data = array(
         'password' => $pass,
       );
       $this->address = '/user/change_password';
-      $this->request($data, 'POST');
+      $this->request($data, 'POST', $token);
     }
+  }
+
+  public function reset_password($pass) {
+    $token = variable_get('at_core_sync_token_su', FALSE);
+    $this->change_password($data, $token);
   }
 }
 /**

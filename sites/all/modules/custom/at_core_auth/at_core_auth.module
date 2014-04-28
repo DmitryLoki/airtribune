@@ -171,16 +171,17 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
     // Set $form_state['uid'] as a flag for user_login_final_validate().
     if (empty($form_state['uid'])) {
       $form_state['uid'] = $uid;
-
-      // Get profile data from Core API
-      $account = user_load($account->uid);
-      $profile = profile2_load_by_user($account, 'main');
-      if (!$profile) {
-        $profile = profile_create(array('type' => 'main', 'uid' => $account->uid));
-        $profile->bundle = 'main';
-        $profile->already_saved = FALSE;
-        profile2_save($profile); // save profile
+      if (!empty($uid)) {
+        // Get profile data from Core API
+        $account = user_load($account->uid);
         $profile = profile2_load_by_user($account, 'main');
+        if (!$profile) {
+          $profile = profile_create(array('type' => 'main', 'uid' => $account->uid));
+          $profile->bundle = 'main';
+          $profile->already_saved = TRUE;
+          profile2_save($profile); // save profile
+          $profile = profile2_load_by_user($account, 'main');
+        }
       }
     }
   }
