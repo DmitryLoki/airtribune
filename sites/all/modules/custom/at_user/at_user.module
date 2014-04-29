@@ -79,6 +79,19 @@ function at_user_menu_alter(&$items) {
 }
 
 /**
+ * Implements hook_menu_alter().
+ */
+function at_user_boot() {
+  // While password reset cookie is set, and page is not user/edit.
+  if (isset($_COOKIE['Drupal_visitor_pass_reset']) &&
+      !(arg(0) == 'user' && arg(2) == 'edit')) {
+    $uid = $_COOKIE['Drupal_visitor_pass_reset'];
+    // Redirect. drupal_goto() not yet loaded, so use header().
+    header("Location: /user/$uid/edit");
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter() for the user edit form.
  */
 function at_user_form_user_profile_form_alter(&$form, &$form_state) {
@@ -256,7 +269,6 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     // if user initiate procedure of password reset, we hide main div with avatar, name, and birthday by jQuery
     // and show only password change form
     if (!empty($_COOKIE['Drupal_visitor_pass_reset'])) {
-      user_cookie_delete('pass_reset');
       drupal_add_js(drupal_get_path('module', 'at_user') . '/js/pass_reset.js');
     }
 
@@ -385,6 +397,7 @@ function at_user_notify_user_at_password_change(&$form, $form_state) {
     $password = $form_state['values']['pass'];
     $account_sync = _get_class_by_entity('user', $account);
     $account_sync->reset_password($password);
+    user_cookie_delete('pass_reset');
     _at_change_password_without_user_save($account, $password);
     at_core_auth_authenticate($account->mail, $password);
   }
@@ -541,6 +554,7 @@ function at_user_process_panels_pane(&$vars, $hook) {
  */
 function at_user_registrationpassword_confirm_account($form, &$form_state, $uid, $timestamp, $hashed_pass) {
   global $user;
+  $timestamp = (int) $timestamp;
   // When processing the one-time login link, we have to make sure that a user
   // isn't already logged in.
   if ($user->uid) {
@@ -573,9 +587,8 @@ function at_user_registrationpassword_confirm_account($form, &$form_state, $uid,
     // Time out, in seconds, until login URL expires. 24 hours = 86400 seconds.
     $timeout = 86400;
     $current = REQUEST_TIME;
-    // Some redundant checks for extra security ?
-    $users = user_load_multiple(array($uid), array('status' => '1'));
-    if ($timestamp <= $current && $account = reset($users)) {
+    $account = user_load($uid);
+    if ($timestamp <= $current && $account->status == '0') {
       // No time out for first time login.
       if ($account->login && $current - $timestamp > $timeout) {
         drupal_set_message(t('You have tried to use a one-time login link that has expired. Please request a new one using the form below.'));
@@ -599,6 +612,7 @@ function at_user_registrationpassword_confirm_account($form, &$form_state, $uid,
         // user, which invalidates further use of the one-time login link.
         user_login_finalize();
 */
+        drupal_set_message(t('You have just used your one-time login link. Your account is now active.'));
         // AIRTRIBUNE SECTION
         // we must know, at which event pilot registered
         $event_nid = db_select('og_membership', 'm')
@@ -643,7 +657,6 @@ function at_user_registrationpassword_confirm_account($form, &$form_state, $uid,
           drupal_goto('event/' . $event->nid . '/pilots');
         }
         else {
-          user_cookie_save(array('pass_reset'=>'1'));
           drupal_goto('user');
         }
         // AIRTRIBUNE SECTION END
@@ -652,6 +665,12 @@ function at_user_registrationpassword_confirm_account($form, &$form_state, $uid,
         drupal_set_message(t('You have tried to use a one-time login link that has either been used or is no longer valid. Please request a new one using the form below.'));
         drupal_goto('user/password');
       }
+    }
+    elseif ($timestamp <= $current && $account->status == '1') {
+      $user = $account;
+      user_login_finalize();
+      user_cookie_save(array('pass_reset' => $user->uid));
+      drupal_goto('user/' . $user->uid . '/edit');
     }
     else {
       // Deny access, no more clues.
