@@ -588,11 +588,17 @@ function at_user_registrationpassword_confirm_account($form, &$form_state, $uid,
         ));
         // Activate the user.
         $account = user_save($account, array('status' => 1));
+        // Temporary disable log-in user by one-time login link.
+        // We need login/pass to get auth-token from CoreApi, so user must login
+        // manually, by entering password to login form.
+        // @see #4622 comment 4
+/*
         // Set the new user.
         $user = $account;
         // user_login_finalize() also updates the login timestamp of the
         // user, which invalidates further use of the one-time login link.
         user_login_finalize();
+*/
         // AIRTRIBUNE SECTION
         // we must know, at which event pilot registered
         $event_nid = db_select('og_membership', 'm')
