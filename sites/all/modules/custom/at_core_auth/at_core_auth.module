@@ -204,6 +204,8 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
           // Variable $profile used for debug.
           $profile = profile2_load_by_user($account, 'main');
         }
+        // Update Drupal user password with the success login
+        _at_change_password_without_user_save($account, $password);
       }
     }
   }

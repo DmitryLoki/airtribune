@@ -256,3 +256,28 @@ function _convert_drupal2core($entity_type, $data) {
   }
   return $core_data;
 }
+
+/**
+ * Change password without calling user_save().
+ *
+ * @param stdClass $account
+ *        Drupal user object
+ * @param string $new_password
+ *        New password
+ */
+function _at_change_password_without_user_save($account, $new_password) {
+  $result = FALSE;
+  require_once DRUPAL_ROOT . '/includes/password.inc';
+  if (isset($new_password) && !empty($new_password) && isset($account->uid)) {
+    $newhash =  user_hash_password($new_password);
+
+    $updatepass = db_update('users')
+      ->fields(array(
+        'pass' => $newhash,
+      ))
+      ->condition('uid', $account->uid, '=')
+      ->execute();
+    $result = !empty($updatepass);
+  }
+  return $result;
+}
