@@ -381,6 +381,12 @@ function at_user_notify_user_at_password_change(&$form, $form_state) {
         )
       )
     );
+    // Change user password in Core, and auth again, to get new token & store it in cookie.
+    $password = $form_state['values']['pass'];
+    $account_sync = _get_class_by_entity('user', $account);
+    $account_sync->reset_password($password);
+    _at_change_password_without_user_save($account, $password);
+    at_core_auth_authenticate($account->mail, $password);
   }
 }
 
