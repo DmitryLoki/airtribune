@@ -366,18 +366,16 @@ function at_user_photo_ajax_upload(stdClass $file) {
 }
 
 function at_user_notify_user_at_password_change(&$form, $form_state) {
-  // load user by form, becose password can be changed by admin / editor
+  // Load user by form, because password can be changed by admin / editor,
   // so we need uid & mail for changed user
-  $user = $form_state['user'];
+  $account = $form_state['user'];
   // check for changes
   if (!empty($form_state['input']['pass']['pass1'])) {
-    $name = $form_state['profiles']['main']->field_full_name['und']['0']['safe'];
-    $fullname = $name['given'] . ' ' . $name['family'];
-    drupal_mail('system', 'mail', $user->mail, user_preferred_language($user),
+    drupal_mail('system', 'mail', $account->mail, user_preferred_language($account),
       array(
         'context' => array(
           'subject' => t(AT_MSG_EMAIL_SUBJ_USER_PASSWORD_CHANGE),
-          'message' => t(AT_MSG_EMAIL_BODY_USER_PASSWORD_CHANGE . AT_MSG_EMAIL_BODY_SIGNATURE, array('@fullname' => $fullname))
+          'message' => t(AT_MSG_EMAIL_BODY_USER_PASSWORD_CHANGE . AT_MSG_EMAIL_BODY_SIGNATURE, array('@fullname' => get_full_name($account)))
         )
       )
     );
