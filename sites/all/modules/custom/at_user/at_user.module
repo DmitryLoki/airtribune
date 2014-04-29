@@ -75,6 +75,7 @@ function at_user_menu_alter(&$items) {
     3,
     4
   );
+  $items['user/reset/%/%/%']['page arguments'] = array('at_user_registrationpassword_confirm_account', 2, 3, 4);
 }
 
 /**
@@ -254,7 +255,8 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
 
     // if user initiate procedure of password reset, we hide main div with avatar, name, and birthday by jQuery
     // and show only password change form
-    if (!empty($_GET['pass-reset-token'])) {
+    if (!empty($_COOKIE['Drupal_visitor_pass_reset'])) {
+      user_cookie_delete('pass_reset');
       drupal_add_js(drupal_get_path('module', 'at_user') . '/js/pass_reset.js');
     }
 
@@ -379,12 +381,6 @@ function at_user_notify_user_at_password_change(&$form, $form_state) {
         )
       )
     );
-  }
-  // manual redirect to user/edit page, to avoid '/edit?pass-reset-token=' in URI
-  // if this token exists in URI, we hide with jQuery all, except password fields
-  // see form_alter / user_profile_form
-  if (!empty($_GET['pass-reset-token'])) {
-    drupal_goto('user/' . $user->uid . '/edit');
   }
 }
 
@@ -572,7 +568,7 @@ function at_user_registrationpassword_confirm_account($form, &$form_state, $uid,
     $timeout = 86400;
     $current = REQUEST_TIME;
     // Some redundant checks for extra security ?
-    $users = user_load_multiple(array($uid), array('status' => '0'));
+    $users = user_load_multiple(array($uid), array('status' => '1'));
     if ($timestamp <= $current && $account = reset($users)) {
       // No time out for first time login.
       if ($account->login && $current - $timestamp > $timeout) {
@@ -591,7 +587,6 @@ function at_user_registrationpassword_confirm_account($form, &$form_state, $uid,
         // user_login_finalize() also updates the login timestamp of the
         // user, which invalidates further use of the one-time login link.
         user_login_finalize();
-        drupal_set_message(t('You have just used your one-time login link. Your account is now active.'));
         // AIRTRIBUNE SECTION
         // we must know, at which event pilot registered
         $event_nid = db_select('og_membership', 'm')
@@ -636,6 +631,7 @@ function at_user_registrationpassword_confirm_account($form, &$form_state, $uid,
           drupal_goto('event/' . $event->nid . '/pilots');
         }
         else {
+          user_cookie_save(array('pass_reset'=>'1'));
           drupal_goto('user');
         }
         // AIRTRIBUNE SECTION END
