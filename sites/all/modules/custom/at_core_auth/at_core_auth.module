@@ -342,9 +342,16 @@ function at_core_auth_unique_username($name, $uid = 0) {
   $i = 0;
   do {
     $new_name = empty($i) ? $name : $name . '_' . $i;
-    $found = (bool) db_select('users')->fields('users', array('uid'))->condition('uid', $uid, '<>')->condition('name', db_like($new_name), 'LIKE')->range(0, 1)->execute()->fetchField();
+    $found =
+      (bool) db_select('users')
+        ->fields('users', array('uid'))
+        ->condition('uid', $uid, '<>')
+        ->condition('name', db_like($new_name), 'LIKE')
+        ->range(0, 1)
+        ->execute()
+        ->fetchField();
     $i++;
-  } while (!$found);
+  } while ($found);
 
   return $new_name;
 }
