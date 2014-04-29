@@ -264,6 +264,8 @@ function _convert_drupal2core($entity_type, $data) {
  *        Drupal user object
  * @param string $new_password
  *        New password
+ * @return bool
+ *        Return TRUE if the password has changed with success
  */
 function _at_change_password_without_user_save($account, $new_password) {
   $result = FALSE;
