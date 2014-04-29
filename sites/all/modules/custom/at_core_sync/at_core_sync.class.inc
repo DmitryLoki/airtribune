@@ -478,6 +478,12 @@ class ATSyncUser extends ATSync {
     ATSync::requestToCore($address, array(), 'DELETE', $token);
   }
 
+  public function delete() {
+    if (!empty($this->core_id)) {
+      $this->delete($this->core_id);
+    }
+  }
+
   public function get_user_fields() {
     if (!empty($this->core_id)) {
       $this->address = 'user/' . $this->core_id;
