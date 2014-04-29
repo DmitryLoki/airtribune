@@ -480,7 +480,7 @@ class ATSyncUser extends ATSync {
 
   public function delete() {
     if (!empty($this->core_id)) {
-      $this->delete($this->core_id);
+      $this->delete_user($this->core_id);
     }
   }
 
@@ -531,8 +531,9 @@ class ATSyncUser extends ATSync {
     // Otherwise load from Core.
     else {
       $remote = $this->get_user_fields();
-      $this->profile = profile2_load_by_user($this->entity, 'main');
-      field_attach_update('profile2', $this->profile);
+      if ($this->profile = profile2_load_by_user($this->entity, 'main')) {
+        field_attach_update('profile2', $this->profile);
+      }
     }
   }
 

@@ -247,11 +247,11 @@ function _convert_drupal2core($entity_type, $data) {
   }
   elseif ($entity_type == 'user') {
     $core_data = array(
-      'facebook_url' => $data['field_social_links'][0]['url'],
-      'googleplus_url' => $data['field_social_links'][1]['url'],
-      'youtube_url' => $data['field_social_links'][2]['url'],
-      'vimeo_url' => $data['field_social_links'][3]['url'],
-      'instagram_url' => $data['field_social_links'][4]['url'],
+      'facebook_url'   => $data['field_social_links'][0]['url'] ? $data['field_social_links'][0]['url'] : NULL,
+      'googleplus_url' => $data['field_social_links'][1]['url'] ? $data['field_social_links'][1]['url'] : NULL,
+      'youtube_url'    => $data['field_social_links'][2]['url'] ? $data['field_social_links'][2]['url'] : NULL,
+      'vimeo_url'      => $data['field_social_links'][3]['url'] ? $data['field_social_links'][3]['url'] : NULL,
+      'instagram_url'  => $data['field_social_links'][4]['url'] ? $data['field_social_links'][4]['url'] : NULL,
     );
   }
   return $core_data;
