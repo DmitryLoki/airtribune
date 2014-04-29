@@ -469,6 +469,15 @@ class ATSyncUser extends ATSync {
     return isset($response[0]->id) ? $response[0]->id : FALSE;
   }
 
+  /**
+   * @param $id - user id in Core, not Drupal uid.
+   */
+  public static function delete_user($id) {
+    $token = variable_get('at_core_sync_token_su', FALSE);
+    $address = 'user/' . $id;
+    ATSync::requestToCore($address, array(), 'DELETE', $token);
+  }
+
   public function get_user_fields() {
     if (!empty($this->core_id)) {
       $this->address = 'user/' . $this->core_id;
