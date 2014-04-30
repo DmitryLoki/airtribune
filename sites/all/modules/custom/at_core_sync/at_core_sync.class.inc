@@ -502,6 +502,11 @@ class ATSyncUser extends ATSync {
     return $this->request($data, 'PATCH');
   }
 
+  public function upload_image($data) {
+    $data += array('upload_file' => TRUE);
+    return $this->write_user_fields($data);
+  }
+
   public function create_user($data) {
     $data += array(
       'email' => $this->entity->mail,

@@ -181,7 +181,7 @@ Size: not less than 940x380.',
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '[file:fid].[file:ffp-extension-original]',
+            'value' => '[file:fid].[file:extension]',
           ),
           'file_path' => array(
             'options' => array(
@@ -397,7 +397,7 @@ Size: not less than 940x380.',
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '[user:uid]-[user:name].[file:ffp-extension-original]',
+            'value' => '[file:fid].[file:extension]',
           ),
           'file_path' => array(
             'options' => array(

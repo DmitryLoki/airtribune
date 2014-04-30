@@ -144,36 +144,8 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
 
     $sync = _get_class_by_entity('user', $user);
     $form['#sync'] = $sync;
-    $form['#core_user_fields']   = $sync->get_user_fields();
-
-    // Own header filename has pattern '%fid.extension' (12345.png / 10500.jpg)
-    // If header filename from API has another name, different with fid from field
-    // its means, what user change header from mobile app.
-    if (!empty($form['#core_user_fields']->header)) {
-      $api_header = $form['#core_user_fields']->header;
-      $api_filename = substr(strrchr($api_header, "/"), 1);
-      $api_file_fid = strstr($api_filename, '.', true);
-      if ($api_file_fid != $user->field_header_image['und'][0]['fid']) {
-        // Get header from api.
-        $api_path = at_core_sync_get_api_domain() . '/media/' . $api_header;
-        $file_temp = file_get_contents($api_path);
-        $file_temp = file_save_data($file_temp, 'public://' . $api_filename, FILE_EXISTS_RENAME);
-        // Write new file to user object.
-        $wrapper = entity_metadata_wrapper('user', $user);
-        $wrapper->field_header_image->set( (array) $file_temp );
-        $zxc = $wrapper->save();
-        // Overload saved file to field in form, need to correct render image and preview.
-        $new_file_array = $user->field_header_image['und'][0];
-        $form['field_header_image']['und'][0]['#default_value'] = $new_file_array;
-        // Write to API with new name.
-        $path = drupal_realpath($new_file_array['uri']);
-        $data = array(
-          'upload_file' => TRUE,
-          'header' => '@' . $path,
-        );
-        $sync->write_user_fields($data);
-      }
-    }
+    $form['#core_user_fields'] = $sync->get_user_fields();
+    _sync_user_avatar_and_header($form, $form_state, $user, $sync);
 
     // From tpl, used in futher hook_process.
     $form['account']['mail']['#attached']['js'][] = drupal_get_path('module', 'at_user') . '/js/mail_change.js';
@@ -289,6 +261,57 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
   }
 }
 
+/**
+ * Helper for at_user_form_alter
+ */
+function _sync_user_avatar_and_header(&$form, &$form_state, &$user, AtSyncUser &$sync) {
+  $wrapper = entity_metadata_wrapper('user', $user);
+  $user_avatar = $wrapper->field_user_avatar->value();
+  // Own avatar/header filename has pattern '%fid.extension' (12345.png / 10500.jpg)
+  // If filename from Core has another name, different with fid from field,
+  // it's means, what user change avatar/header from mobile app.
+  if (!empty($form['#core_user_fields']->header)) {
+    $api_header = $form['#core_user_fields']->header;
+    $api_filename = substr(strrchr($api_header, "/"), 1);
+    $api_file_fid = strstr($api_filename, '.', true);
+    if ($api_file_fid != $user->field_header_image['und'][0]['fid']) {
+      // Get header from api.
+      $api_path = at_core_sync_get_api_domain() . '/media/' . $api_header;
+      $file_temp = file_get_contents($api_path);
+      $file_temp = file_save_data($file_temp, 'public://' . $api_filename, FILE_EXISTS_RENAME);
+      // Write new file to user object.
+      $wrapper->field_header_image->set( (array) $file_temp );
+      $header_result = $wrapper->save();
+      // Overload saved file to field in form, need to correct render image and preview.
+      $new_file_array = $user->field_header_image['und'][0];
+      $form['field_header_image']['und'][0]['#default_value'] = $new_file_array;
+      // Write to API with new name.
+      $path = drupal_realpath($new_file_array['uri']);
+      $sync->upload_image(array('header' => '@' . $path));
+    }
+  }
+  if (!empty($form['#core_user_fields']->avatar) && empty($form_state['values'])) {
+    $api_avatar = $form['#core_user_fields']->avatar;
+    $api_filename = substr(strrchr($api_avatar, "/"), 1);
+    $api_file_fid = strstr($api_filename, '.', true);
+    if ($api_file_fid != $user->field_user_avatar['und'][0]['fid']) {
+      // Get avatar from api.
+      $api_path = at_core_sync_get_api_domain() . '/media/' . $api_avatar;
+      $file_temp = file_get_contents($api_path);
+      $file_temp = file_save_data($file_temp, 'public://' . $api_filename, FILE_EXISTS_RENAME);
+      // Write new file to user object.
+      $wrapper->field_user_avatar->set( (array) $file_temp );
+      $avatar_result = $wrapper->save();
+      // Overload saved file to field in form, need to correct render image and preview.
+      $new_file_array = $user->field_user_avatar['und'][0];
+      $form['field_user_avatar']['und'][0]['#default_value'] = $new_file_array;
+      // Write to API with new name.
+      $path = drupal_realpath($new_file_array['uri']);
+      $sync->upload_image(array('avatar' => '@' . $path));
+    }
+  }
+}
+
 function at_user_password_title_change($element) {
   $element['pass1']['#title'] = t("New password");
   $element['pass2']['#title'] = t("Repeat new password");
@@ -372,7 +395,12 @@ function at_user_photo_ajax_upload(stdClass $file) {
       'filesize' => $res->filesize,
       'timestamp' => $res->timestamp,
     );
-    $saved_user = user_save($account, $edit);
+    user_save($account, $edit);
+    // Send new uploaded avatar to Core.
+    $saved_user = user_load($account->uid, TRUE);
+    $path = drupal_realpath($saved_user->field_user_avatar['und'][0]['uri']);
+    $sync = _get_class_by_entity('user', $account);
+    $sync->upload_image(array('avatar' => '@' . $path));
   }
 
   // it's form upload validator, so we need return empty array to avoid errors
