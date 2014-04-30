@@ -230,10 +230,10 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     if ($alias_count < 2) {
       $form['optional_url'] = array(
         '#title' => t('Optional URL'),
-        '#attributes' => array('placeholder' => t('yourname')),
+        '#attributes' => array('placeholder' => t('your_name')),
         '#type' => 'textfield',
         '#field_prefix' => 'airtribune.com/',
-        '#description' => t('You may set short URL, like <code>airtribune.com/yourname</code>. It only once and can’t change it.'),
+        '#description' => t('You may set short URL, like <code>airtribune.com/your_name</code>. It only once and can’t change it.'),
       );
 
       $form['#validate'][] = 'at_user_optional_url_validate';
@@ -241,7 +241,7 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     } else {
       $form['optional_url'] = array(
         '#title' => t('Optional URL'),
-        '#attributes' => array('placeholder' => t('yourname')),
+        '#attributes' => array('placeholder' => t('your_name')),
         '#type' => 'item',
         '#markup' => 'airtribune.com/' . drupal_get_path_alias('user/' . $user->uid),
       );
