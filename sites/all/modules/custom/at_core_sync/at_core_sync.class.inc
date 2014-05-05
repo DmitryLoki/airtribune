@@ -442,6 +442,7 @@ class ATSyncUser extends ATSync {
     if (!empty($account->original) && !$account->mail_not_yet_changed && ($account->mail != $account->original->mail)) {
       $this->core_id = $this->check_exist($account->original->mail);
       $this->token = at_core_auth_provision_token('get', $account->original->mail);
+      at_core_auth_provision_token('set', $account->mail, $this->token);
     }
     else {
       $this->core_id = $this->check_exist($account->mail);
