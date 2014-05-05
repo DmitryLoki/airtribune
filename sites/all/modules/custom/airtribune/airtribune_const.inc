@@ -103,6 +103,7 @@ define('AIRTRIBUNE_COUNTRY_ISO2_FIELD', 'field_country_iso2');
 define('AIRTRIBUNE_TEAM_MEMBER_FIELD', 'field_team_member');
 define('AIRTRIBUNE_USERS_REF_FIELD', 'field_users_ref');
 define('AIRTRIBUNE_ACCOUNT_TINY_PATH_FIELD', 'field_account_tiny_path');
+define('AIRTRIBUNE_HEADER_IMAGE_FIELD', 'field_header_image');
 
 define('AIRTRIBUNE_SINGLE_DOWNLOAD_FIELD', 'field_single_download');
 
