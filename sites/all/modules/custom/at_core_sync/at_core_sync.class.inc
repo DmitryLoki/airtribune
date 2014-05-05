@@ -437,8 +437,18 @@ class ATSyncUser extends ATSync {
     }
 
     $response = FALSE;
+
+    // User change mail?
+    if (!empty($account->original) && !$account->mail_not_yet_changed && ($account->mail != $account->original->mail)) {
+      $this->core_id = $this->check_exist($account->original->mail);
+      $this->token = at_core_auth_provision_token('get', $account->original->mail);
+    }
+    else {
+      $this->core_id = $this->check_exist($account->mail);
+    }
+
     // User exist in Core.
-    if ($this->core_id = $this->check_exist($account->mail)) {
+    if ($this->core_id) {
       $response = $this->update_user($data);
     }
     // User not exist in Core.

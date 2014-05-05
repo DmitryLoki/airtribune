@@ -275,7 +275,7 @@ function at_core_auth_provision_token($action, $email, $value = NULL, $reset = F
     setcookie($var_name, $value, $expire, $params['path'], $params['domain'], FALSE, $params['httponly']);
     //user_cookie_save(array($var_name => $value));
   }
-  elseif ($action == 'get' && $current_token) {
+  elseif ($action == 'get') {
     if (empty($current_token)) {
       $var_name = _at_core_auth_get_var_name($email);
       $current_token = at_session_var($var_name);
