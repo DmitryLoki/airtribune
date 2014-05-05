@@ -192,11 +192,13 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     // 'optional URL', validating & theming.
     // @see #4498
 
+    /*
     $form['basic_url'] = array(
       '#type' => 'item',
       '#title' => t('Basic URL'),
       '#markup' => 'airtribune.com/' . $user->uid,
     );
+    */
 
     $alias_count = at_alias_get_count_of_aliases('user/' . $user->uid);
     if ($alias_count < 2) {
@@ -251,6 +253,9 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     unset($form['account']['current_pass']);
     unset($form['account']['current_pass_required_values']);
     $form['#validate'] = array_diff($form['#validate'], array('user_validate_current_pass'));
+    $form[AIRTRIBUNE_ACCOUNT_TINY_PATH_FIELD]['#access'] = FALSE;
+    $form[AIRTRIBUNE_HEADER_IMAGE_FIELD]['#access'] = FALSE;
+
   }
   if ($form_id == 'user_login_block' || $form_id == 'user_login') {
     // see #2633
