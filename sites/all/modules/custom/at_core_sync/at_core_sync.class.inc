@@ -423,12 +423,13 @@ class ATSyncUser extends ATSync {
     $data['email'] = $account->mail;
     $data += _query_object_to_array('user', $this->entity);
     if (empty($this->profile)) {
+      $ha = !empty($account->data['hybridauth']['identifier']) ? $account->data['hybridauth'] : NULL;
       $data += array(
-        'first_name' => 'null',
-        'last_name' => 'null',
-        'birthdate' => date('Y-m-d', time()),
-        'gender' => 'M',
-        'country' => array('code'=>'RU'),
+        'first_name' => !empty($ha['firstName']) ? $ha['firstName'] : 'null',
+        'last_name'  => !empty($ha['lastName'])  ? $ha['lastName']  : 'null',
+        'birthdate'  => !empty($ha['birthYear']) ? $ha['birthYear'].'-'.$ha['birthMonth'].'-'.$ha['birthDay'] : date('Y-m-d', time()),
+        'gender'     => !empty($ha['gender'])    ? drupal_strtoupper($ha['gender']{0}) : 'M',
+        'country'    => !empty($ha['country'])   ? array('code'=>$ha['country']) : array('code'=>'RU'),
       );
     }
     else {
