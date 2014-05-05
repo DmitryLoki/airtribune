@@ -65,22 +65,6 @@ if (!empty($form['profile_main'])) {
 
 print "</div>"; // #name-gender-dob end
 
-// Personalisation.
-$socials = array('Facebook', 'GooglePlus', 'Youtube', 'Vimeo', 'Instagram');
-$soc_links = &$form['field_social_links']['und'];
-foreach (array_keys($soc_links) as $element) {
-  // [und][0], [und][1], ...
-  if (is_int($element)) {
-    // Add placeholder & class to social links field
-    $form['field_social_links']['und'][$element]['url']['#class'] = array($socials[$element]);
-    $form['field_social_links']['und'][$element]['url']['#attributes']['placeholder'] = $socials[$element];
-    // Override Drupal field value, to the value obtained from the CoreAPI.
-    if (isset($form['#core_user_fields']->facebook_url)) {
-      $soc_name = strtolower($socials[$element]) . '_url';
-      $form['field_social_links']['und'][$element]['url']['#value'] = $form['#core_user_fields']->$soc_name;
-    }
-  }
-}
 $form['field_header_image']['und'][0]['select']['#title'] = t('Add image');
 $form['field_header_image']['und'][0]['remove']['#title'] = t('Delete');
 
@@ -89,9 +73,7 @@ $form['personalisation']['optional_url'] = $form['optional_url'];
 $form['personalisation']['field_header_image'] = $form['field_header_image'];
 $form['personalisation']['field_social_links'] = $form['field_social_links'];
 unset($form['basic_url']);
-unset($form['optional_url']);
 unset($form['field_header_image']);
-unset($form['field_social_links']);
 
 
 $form['pass_fieldset']['current_pass'] = $form['account']['current_pass'];

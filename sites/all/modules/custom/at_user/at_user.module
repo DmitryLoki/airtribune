@@ -141,7 +141,7 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     unset($form['signature_settings']);
     unset($form['timezone']);
     unset($form['xmlsitemap']);
-
+    unset($form['field_social_links']);
     $sync = _get_class_by_entity('user', $user);
     $form['#sync'] = $sync;
     $form['#core_user_fields'] = $sync->get_user_fields();
@@ -169,15 +169,6 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
       '#prefix' => '<div id="mail-dummy">',
       '#suffix' => '<div id="mail-edit-pencil">✎</div></div>',
     );
-    $form['personalisation'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Personalisation'),
-      '#prefix' => '<div id="personalisation">',
-      '#suffix' => '</div>',
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
-      '#attributes' => array('class' => array('collapsible', 'collapsed')),
-    );
     $form['pass_fieldset'] = array(
       '#type' => 'fieldset',
       '#title' => t('Change password'),
@@ -199,27 +190,6 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
       '#markup' => 'airtribune.com/' . $user->uid,
     );
     */
-
-    $alias_count = at_alias_get_count_of_aliases('user/' . $user->uid);
-    if ($alias_count < 2) {
-      $form['optional_url'] = array(
-        '#title' => t('Optional URL'),
-        '#attributes' => array('placeholder' => t('your_name')),
-        '#type' => 'textfield',
-        '#field_prefix' => 'airtribune.com/',
-        '#description' => t('You may set short URL, like <code>airtribune.com/your_name</code>. It only once and can’t change it.'),
-      );
-
-      $form['#validate'][] = 'at_user_optional_url_validate';
-      $form['#submit'][]   = 'at_user_optional_url_submit';
-    } else {
-      $form['optional_url'] = array(
-        '#title' => t('Optional URL'),
-        '#attributes' => array('placeholder' => t('your_name')),
-        '#type' => 'item',
-        '#markup' => 'airtribune.com/' . drupal_get_path_alias('user/' . $user->uid),
-      );
-    }
 
     // make upload & delete (user_picture / avatar imagefield) without form_submit
     // see #2764
@@ -550,34 +520,7 @@ function at_user_process_panels_pane(&$vars, $hook) {
     $form['pass_fieldset']['current_pass'] = $form['account']['current_pass'];
     $form['pass_fieldset']['pass']         = $form['account']['pass'];
     hide($form['account']['pass']);
-
-    // Personalisation.
-    $socials = array('Facebook', 'GooglePlus', 'Youtube', 'Vimeo', 'Instagram');
-    $soc_links = &$form['field_social_links']['und'];
-    foreach (array_keys($soc_links) as $element) {
-      // [und][0], [und][1], ...
-      if (is_int($element)) {
-        // Add placeholder & class to social links field
-        $form['field_social_links']['und'][$element]['url']['#class'] = array($socials[$element]);
-        $form['field_social_links']['und'][$element]['url']['#attributes']['placeholder'] = $socials[$element];
-        // Override Drupal field value, to the value obtained from the CoreAPI.
-        if (isset($form['#core_user_fields']->facebook_url)) {
-          $soc_name = strtolower($socials[$element]) . '_url';
-          $form['field_social_links']['und'][$element]['url']['#value'] = $form['#core_user_fields']->$soc_name;
-        }
-      }
-    }
-    $form['field_header_image']['und'][0]['select']['#title'] = t('Add image');
-    $form['field_header_image']['und'][0]['remove']['#title'] = t('Delete');
-
-    $form['personalisation']['basic_url'] = $form['basic_url'];
-    $form['personalisation']['optional_url'] = $form['optional_url'];
-    $form['personalisation']['field_header_image'] = $form['field_header_image'];
-    $form['personalisation']['field_social_links'] = $form['field_social_links'];
-    unset($form['basic_url']);
-    unset($form['optional_url']);
-    unset($form['field_header_image']);
-    unset($form['field_social_links']);
+    hide($form['field_social_links']);
   }
 }
 
