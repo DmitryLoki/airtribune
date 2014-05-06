@@ -466,10 +466,20 @@ function at_reg_mail_validate($element, &$form_state) {
   if ($error = user_validate_mail($form_state['values']['mail'])) {
     form_set_error('mail', $error);
   }
-  elseif ((bool) db_select('users')->fields('users', array('uid'))->condition('uid', 0, '<>')
-    ->condition('mail', db_like($form_state['values']['mail']), 'LIKE')->range(0, 1)->execute()->fetchField()
-  ) {
-    form_set_error('mail', t('This email is already registered. <br />' . l('Forgot your password?', 'user/password')));
+  else {
+
+    $mail_exists = (bool) db_select('users')->fields('users', array('uid'))->condition('uid', 0, '<>')
+      ->condition('mail', db_like($form_state['values']['mail']), 'LIKE')->range(0, 1)->execute()->fetchField();
+    if (!$mail_exists) {
+      require_once drupal_get_path('module', 'at_core_sync') . '/at_core_sync.class.inc';
+      $response = ATSyncUser::check_exist($form_state['values']['mail']);
+      $mail_exists = isset($response[0]->id) ? TRUE : FALSE;
+    }
+    if ($mail_exists) {
+      form_set_error('mail', t('This email is already registered. <br />' . l('Forgot your password?', 'user/password')));
+    }
+
+
   }
 }
 

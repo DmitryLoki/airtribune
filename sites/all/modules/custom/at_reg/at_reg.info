@@ -8,5 +8,6 @@ dependencies[] = feaval
 
 dependencies[] = ent_team
 dependencies[] = pg_nation_team
+dependencies[] = at_core_sync
 
 files[] = tests/at_reg.test
