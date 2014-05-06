@@ -422,20 +422,8 @@ class ATSyncUser extends ATSync {
     $account =& $this->entity;
     $data['email'] = $account->mail;
     $data += _query_object_to_array('user', $this->entity);
-    if (empty($this->profile)) {
-      $ha = !empty($account->data['hybridauth']['identifier']) ? $account->data['hybridauth'] : NULL;
-      $data += array(
-        'first_name' => !empty($ha['firstName']) ? $ha['firstName'] : 'null',
-        'last_name'  => !empty($ha['lastName'])  ? $ha['lastName']  : 'null',
-        'birthdate'  => !empty($ha['birthYear']) ? $ha['birthYear'].'-'.$ha['birthMonth'].'-'.$ha['birthDay'] : date('Y-m-d', time()),
-        'gender'     => !empty($ha['gender'])    ? drupal_strtoupper($ha['gender']{0}) : 'M',
-        'country'    => !empty($ha['country'])   ? array('code'=>$ha['country']) : array('code'=>'RU'),
-      );
-    }
-    else {
-      $data += _query_object_to_array('profile2', $this->profile);
-    }
 
+    $ha = !empty($account->data['hybridauth']['identifier']) ? $account->data['hybridauth'] : NULL;
     $response = FALSE;
 
     // User change mail?
@@ -446,6 +434,22 @@ class ATSyncUser extends ATSync {
     }
     else {
       $this->core_id = $this->check_exist($account->mail);
+    }
+
+    if (empty($this->profile)) {
+      if (empty($this->core_id)) {
+        $x=1;
+      $data += array(
+        'first_name' => !empty($ha['firstName']) ? $ha['firstName'] : 'null',
+        'last_name'  => !empty($ha['lastName'])  ? $ha['lastName']  : 'null',
+        'birthdate'  => !empty($ha['birthYear']) ? $ha['birthYear'].'-'.$ha['birthMonth'].'-'.$ha['birthDay'] : date('Y-m-d', time()),
+        'gender'     => !empty($ha['gender'])    ? drupal_strtoupper($ha['gender']{0}) : 'M',
+        'country'    => !empty($ha['country'])   ? array('code'=>$ha['country']) : array('code'=>'RU'),
+      );
+      }
+    }
+    else {
+      $data += _query_object_to_array('profile2', $this->profile);
     }
 
     // User exist in Core.
