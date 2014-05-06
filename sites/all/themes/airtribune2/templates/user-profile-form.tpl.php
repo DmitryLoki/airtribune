@@ -29,8 +29,9 @@ $form['account']['mail_dummy'] = array(
   '#type' => 'item',
   '#title' => t('Email'),
   '#markup' => $form['account']['mail']['#value'],
-  '#prefix' => '<div id="mail-dummy">', // form api "item" haven't #attributes
-  '#suffix' => '<div id="mail-edit-pencil">✎</div></div>',
+  // temp hide mail changing fields
+  //'#prefix' => '<div id="mail-dummy">', // form api "item" haven't #attributes
+  //'#suffix' => '<div id="mail-edit-pencil">✎</div></div>',
 );
 
 print drupal_render($form['account']['mail_dummy']);
@@ -96,6 +97,11 @@ hide($form['mimemail']);
 
 hide($form['name_gender_dob']);
 hide($form['name_gender_dob']);
+
+// temp hide mail changing fields
+hide($form['account']['mail']);
+hide($form['account']['mail_dummy']);
+
 // Hide wrapping fieldsets.
 drupal_render($form['profile_main']);
 print drupal_render_children($form);
