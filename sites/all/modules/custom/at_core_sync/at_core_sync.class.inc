@@ -475,6 +475,13 @@ class ATSyncUser extends ATSync {
     return $response;
   }
 
+  public static function get_su_auth_token() {
+    $username = variable_get('at_core_sync_su_email', '');
+    $password = variable_get('at_core_sync_su_password', '');
+    $response = ATSyncUser::get_auth_token($username, $password);
+    return isset($response->token) ? $response->token : FALSE;
+  }
+
   public static function get_self($token) {
     $address = 'user/profile';
     $response = ATSync::requestToCore($address, array(), "GET", $token);
@@ -491,7 +498,7 @@ class ATSyncUser extends ATSync {
    * @param $id - user id in Core, not Drupal uid.
    */
   public static function delete_user($id) {
-    $token = variable_get('at_core_sync_token_su', FALSE);
+    $token = ATSyncUser::get_su_auth_token();
     $address = 'user/' . $id;
     ATSync::requestToCore($address, array(), 'DELETE', $token);
   }
@@ -574,7 +581,7 @@ class ATSyncUser extends ATSync {
 
   public function reset_password($new_password) {
     $previous_token = $this->token;
-    $this->token = variable_get('at_core_sync_token_su', FALSE);
+    $this->token = ATSyncUser::get_su_auth_token();
     $this->change_password($new_password);
     $this->token = $previous_token;
   }

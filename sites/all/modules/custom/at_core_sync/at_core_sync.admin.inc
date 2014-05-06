@@ -84,11 +84,17 @@ function at_core_sync_admin_settings() {
     '#description' => t('Switch to debug mode'),
   );
 
-  // @todo Think of a more secure storage of token
-  $form['at_core_sync_custom_settings']['at_core_sync_token_su'] = array(
+  $form['at_core_sync_custom_settings']['at_core_sync_su_email'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Superuser email'),
+    '#default_value' => variable_get('at_core_sync_su_email', ''),
+    '#size' => 30,
+  );
+
+  $form['at_core_sync_custom_settings']['at_core_sync_su_password'] = array(
     '#type' => 'password',
-    '#title' => t('Token of superuser'),
-    '#default_value' => variable_get('at_core_sync_token_su', ''),
+    '#title' => t('Superuser password'),
+    '#default_value' => variable_get('at_core_sync_su_password', ''),
     '#size' => 30,
   );
 
