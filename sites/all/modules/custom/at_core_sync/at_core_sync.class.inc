@@ -589,6 +589,13 @@ class ATSyncUser extends ATSync {
     $this->change_password($new_password);
     $this->token = $previous_token;
   }
+
+  public static function forgot_password($email) {
+    $token = ATSyncUser::get_su_auth_token();
+    $address = 'user/reset_password';
+    $data = array('email' => $email);
+    ATSync::requestToCore($address, $data, 'POST', $token);
+  }
 }
 
 /**
