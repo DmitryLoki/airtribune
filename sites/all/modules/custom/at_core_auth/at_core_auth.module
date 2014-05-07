@@ -6,7 +6,7 @@
 function at_core_auth_init() {
   global $user;
   $account = $user;
-  if (!empty($account->id)) {
+  if (!empty($account->uid)) {
     $var_name = _at_core_auth_get_var_name($account->mail);
     // Add global variables
     drupal_add_js(
