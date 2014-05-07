@@ -9,11 +9,12 @@
  */
 function at_user_person_page($user) {
   module_load_include('inc', 'user', 'user.pages');
+  $main_profile = profile2_load_by_user($user, AIRTRIBUNE_USER_MAIN_PROFILE);
+  $wrapper = entity_metadata_wrapper('profile2', $main_profile);
+  $full_name = $wrapper->{AIRTRIBUNE_USER_FULLNAME_FIELD}->value();
   drupal_set_title($user->name);
-  // dsm($user);
-  //~ return drupal_get_form('user_profile_form', $user);
+  drupal_set_title($full_name['given'] . ' ' . $full_name['family']);
   return drupal_get_form('at_user_person_form', $user);
-  //~ return t('Comming soon.');
 }
 
 
