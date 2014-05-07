@@ -422,8 +422,6 @@ class ATSyncUser extends ATSync {
     $account =& $this->entity;
     $data['email'] = $account->mail;
     $data += _query_object_to_array('user', $this->entity);
-
-    $ha = !empty($account->data['hybridauth']['identifier']) ? $account->data['hybridauth'] : NULL;
     $response = FALSE;
 
     // User change mail?
@@ -438,18 +436,40 @@ class ATSyncUser extends ATSync {
 
     if (empty($this->profile)) {
       if (empty($this->core_id)) {
-        $x=1;
-      $data += array(
-        'first_name' => !empty($ha['firstName']) ? $ha['firstName'] : 'null',
-        'last_name'  => !empty($ha['lastName'])  ? $ha['lastName']  : 'null',
-        'birthdate'  => !empty($ha['birthYear']) ? $ha['birthYear'].'-'.$ha['birthMonth'].'-'.$ha['birthDay'] : date('Y-m-d', time()),
-        'gender'     => !empty($ha['gender'])    ? drupal_strtoupper($ha['gender']{0}) : 'M',
-        'country'    => !empty($ha['country'])   ? array('code'=>$ha['country']) : array('code'=>'RU'),
-      );
+        $data += array(
+          'first_name' => 'null',
+          'last_name'  => 'null',
+          'birthdate'  => date('Y-m-d', time()),
+          'gender'     => 'M',
+          'country'    => array('code'=>'RU'),
+        );
       }
     }
     else {
       $data += _query_object_to_array('profile2', $this->profile);
+    }
+
+    $ha = !empty($account->data['hybridauth']['identifier']) ? $account->data['hybridauth'] : NULL;
+    // User login thru Facebook.
+    if ($ha) {
+      // Get FB token, using HybridAuth library.
+      $hybridauth = hybridauth_get_instance();
+      $adapter = $hybridauth->authenticate('Facebook');
+      $fb_token = $adapter->adapter->api->getAccessToken();
+      // Try to auth in Core, by using Facebook user access token.
+      // If user does not exist in Core, he will be created.
+      $this->token = ATSyncUser::get_auth_token_facebook($fb_token);
+      at_core_auth_provision_token('set', $account->mail, $this->token);
+      // First login thru FB.
+      if (!$this->core_id) {
+        // Try again to find user in Core.
+        // User already created by sending fb access token, see above.
+        $this->core_id = $this->check_exist($account->mail);
+        // Load all data from Core.
+        $data = ATSyncUser::get_self($this->token);
+        // TODO
+        // Create main profile & attach data.
+      }
     }
 
     // User exist in Core.
@@ -483,6 +503,17 @@ class ATSyncUser extends ATSync {
     $username = variable_get('at_core_sync_su_email', '');
     $password = variable_get('at_core_sync_su_password', '');
     $response = ATSyncUser::get_auth_token($username, $password);
+    return isset($response->token) ? $response->token : FALSE;
+  }
+
+  /**
+   * Get Core auth token, using Facebook user access token
+   * If user does not exist in Core, he will be created.
+   */
+  public static function get_auth_token_facebook($fb_token) {
+    $address = 'user/auth/facebook';
+    $data = array('token' => $fb_token);
+    $response = ATSync::requestToCore($address, $data);
     return isset($response->token) ? $response->token : FALSE;
   }
 
