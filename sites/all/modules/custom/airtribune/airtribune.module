@@ -1305,6 +1305,17 @@ function airtribune_init() {
     drupal_add_js(drupal_get_path('module', 'clientside_validation') . '/jquery-validate/jquery.validate.min.js');
     drupal_add_js(drupal_get_path('module', 'clientside_validation') . '/clientside_validation.js');
   }
+
+  if (arg(0) == 'user') {
+    global $base_url;
+    $html_element = '<script src="' . $base_url . '/sites/all/libraries/air-widgets/require-2.1.8.min.js" data-main="' . $base_url . '/sites/all/libraries/air-widgets/main.js" ></script>';
+    $element = array(
+        '#type' => 'markup',
+        '#markup' => $html_element,
+      );
+
+    drupal_add_html_head($element, 'air-widgets');
+  }
 }
 
 /**
