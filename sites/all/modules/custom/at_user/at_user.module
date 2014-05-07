@@ -243,6 +243,9 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     $form['#validate'] = array_diff($form['#validate'], array('user_validate_current_pass'));
     $form[AIRTRIBUNE_ACCOUNT_TINY_PATH_FIELD]['#access'] = FALSE;
     $form[AIRTRIBUNE_HEADER_IMAGE_FIELD]['#access'] = FALSE;
+    if (!empty($form[AIRTRIBUNE_USER_AVATAR_FIELD]['und'][0]['#description'])) {
+      $form[AIRTRIBUNE_USER_AVATAR_FIELD]['und'][0]['#description'] = str_replace('png gif jpg jpeg.', 'png, gif, jpg, jpeg. ', $form[AIRTRIBUNE_USER_AVATAR_FIELD]['und'][0]['#description']);
+    }
 
   }
   if ($form_id == 'user_login_block' || $form_id == 'user_login') {
