@@ -48,7 +48,7 @@ function user_feature_field_default_fields() {
       'bundle' => 'user',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => '',
+      'description' => 'You may set it only once and can\'t change it.',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -533,6 +533,7 @@ Size: not less than 940x380.',
 Size: not less than 940x380.');
   t('Optional URL');
   t('Social links');
+  t('You may set it only once and can\'t change it.');
   t('Your photo');
 
   return $fields;

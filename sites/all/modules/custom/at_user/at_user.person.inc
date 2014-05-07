@@ -81,6 +81,17 @@ function at_user_person_form($form, &$form_state, $account, $category = 'account
   $form['#submit'][] = 'user_profile_form_submit';
 
 
+  $form['field_account_tiny_path']['#weight'] = $form['field_header_image']['#weight'] - 1;
+  $form['field_account_tiny_path']['und'][0]['value']['#post_render'] = array('at_user_person_tiny_url_post_render');
+  if (!empty($account->field_account_tiny_path['und'][0]['value'])) {
+    $form['optional_url'] = array(
+      '#type' => 'item',
+      '#title' => t('Optional URL'),
+      '#markup' => 'airtribune.com/' . $account->field_account_tiny_path['und'][0]['value'],
+      '#weight' => $form['field_account_tiny_path']['#weight'],
+    );
+    $form['field_account_tiny_path']['#access'] = FALSE;
+  }
 
   return $form;
 }
@@ -91,4 +102,9 @@ function at_user_person_form($form, &$form_state, $account, $category = 'account
 function at_user_person_form_after_build($form, &$form_state) {
   $form['metatags']['#access'] = FALSE;
   return $form;
+}
+
+function at_user_person_tiny_url_post_render($content, $element) {
+  $content = str_replace('<input', '<span id="optional-url-prefix">airtribune.com/ </span><input', $content);
+  return $content;
 }
