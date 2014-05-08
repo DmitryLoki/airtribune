@@ -569,8 +569,9 @@ class ATSyncUser extends ATSync {
 
   public function update_user($data, $is_profile_updated = FALSE) {
     // User/profile was updated in drupal, save data to Core.
-    if ($this->entity->original) {
+    if (!empty($this->entity->original)) {
       $account_wrapper = entity_metadata_wrapper('user', $this->entity);
+      $old_account_wrapper = entity_metadata_wrapper('user', $this->entity->original);
       // Update user entered password
       if ($this->entity->pass != $this->entity->original->pass) {
         // Change password
@@ -582,17 +583,21 @@ class ATSyncUser extends ATSync {
       }
 
       // Updated avatar or header.
-      $avatar = $account_wrapper->field_user_avatar->value();
-      $old_ava_fid = $this->entity->original->field_user_avatar['und'][0]['fid'];
-      $new_ava_fid = $avatar['fid'];
-      if (!empty($avatar['fid']) && $avatar['fid'] != $this->entity->original->field_user_avatar['und'][0]['fid']) {
-        if ($path = drupal_realpath($avatar['uri'])) {
+      $new = $account_wrapper->field_user_avatar->value();
+      $old = $old_account_wrapper->field_user_avatar->value();
+      $new_fid = !empty($new['fid']) ? $new['fid'] : NULL;
+      $old_fid = !empty($old['fid']) ? $old['fid'] : NULL;
+      if ($new_fid != $old_fid) {
+        if ($path = drupal_realpath($new['uri'])) {
           $this->upload_image(array('avatar' => '@' . $path));
         }
       }
-      $header = $account_wrapper->field_header_image->value();
-      if (!empty($header['fid']) && $header['fid'] != $this->entity->original->field_header_image['und'][0]['fid']) {
-        if ($path = drupal_realpath($header['uri'])) {
+      $new = $account_wrapper->field_header_image->value();
+      $old = $old_account_wrapper->field_header_image->value();
+      $new_fid = !empty($new['fid']) ? $new['fid'] : NULL;
+      $old_fid = !empty($old['fid']) ? $old['fid'] : NULL;
+      if ($new_fid != $old_fid) {
+        if ($path = drupal_realpath($new['uri'])) {
           $this->upload_image(array('header' => '@' . $path));
         }
       }
