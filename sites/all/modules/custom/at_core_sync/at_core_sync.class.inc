@@ -569,11 +569,8 @@ class ATSyncUser extends ATSync {
 
   public function update_user($data, $is_profile_updated = FALSE) {
     // User/profile was updated in drupal, save data to Core.
-    if ($this->entity->original || $is_profile_updated) {
+    if ($this->entity->original) {
       $account_wrapper = entity_metadata_wrapper('user', $this->entity);
-      $account_wrapper->field_core_id->set($this->core_id);
-      $result = $this->write_user_fields($data);
-
       // Update user entered password
       if ($this->entity->pass != $this->entity->original->pass) {
         // Change password
@@ -599,8 +596,10 @@ class ATSyncUser extends ATSync {
           $this->upload_image(array('header' => '@' . $path));
         }
       }
-      return $result;
     }
+    // Profile was updated in drupal, save data to Core.
+    elseif ($is_profile_updated) {
+      $result = $this->write_user_fields($data);
       return $result;
     }
     // Otherwise load from Core.
