@@ -63,6 +63,10 @@ function at_user_person_form($form, &$form_state, $account, $category = 'account
     $form[$field_name]['#access'] = FALSE;
   }
 
+  $sync = _get_class_by_entity('user', $account);
+  $form['#sync'] = $sync;
+  $form['#core_user_fields'] = $sync->get_user_fields();
+  _sync_user_avatar_and_header($form, $form_state, $account, $sync);
 
   $form['actions'] = array('#type' => 'actions');
   $form['actions']['submit'] = array(

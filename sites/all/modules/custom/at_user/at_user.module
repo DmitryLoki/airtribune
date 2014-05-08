@@ -257,47 +257,46 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
  * Helper for at_user_form_alter
  */
 function _sync_user_avatar_and_header(&$form, &$form_state, &$user, AtSyncUser &$sync) {
-  $wrapper = entity_metadata_wrapper('user', $user);
-  $user_avatar = $wrapper->field_user_avatar->value();
-  // Own avatar/header filename has pattern '%fid.extension' (12345.png / 10500.jpg)
-  // If filename from Core has another name, different with fid from field,
+  // If filename from Core has another hash, different with drupal file,
   // it's means, what user change avatar/header from mobile app.
   if (!empty($form['#core_user_fields']->header)) {
-    $api_header = $form['#core_user_fields']->header;
-    $api_filename = substr(strrchr($api_header, "/"), 1);
-    $api_file_fid = strstr($api_filename, '.', true);
-    if ($api_file_fid != $user->field_header_image['und'][0]['fid'] && $api_filename != 'dummy.png') {
-      // Get header from api.
-      $api_path = at_core_sync_get_api_domain() . '/media/' . $api_header;
-      $file_temp = file_get_contents($api_path);
-      $file_temp = file_save_data($file_temp, 'public://' . $api_filename, FILE_EXISTS_RENAME);
+    $core_header = $form['#core_user_fields']->header;
+    $core_filename = substr(strrchr($core_header, "/"), 1);
+    // Get files from core & drupal.
+    $core_path = at_core_sync_get_api_domain() . '/media/' . $core_header;
+    $core_file = file_get_contents($core_path);
+    $drupal_file = file_get_contents(drupal_realpath($user->field_header_image['und'][0]['uri']));
+    // Check differ by hash, and ignore dummy file from Core.
+    if (@md5($core_file) != @md5($drupal_file) && $core_filename != 'dummy.png') {
+      $file_temp = file_save_data($core_file, 'public://' . $core_filename, FILE_EXISTS_RENAME);
       // Write new file to user object.
       $user->field_header_image['und'][0] = (array) $file_temp;
       field_attach_update('user', $user);
       // Overload saved file to field in form, need to correct render image and preview.
       $new_file_array = $user->field_header_image['und'][0];
       $form['field_header_image']['und'][0]['#default_value'] = $new_file_array;
-      // Write to API with new name.
+      // Write to Core with new name.
       $path = drupal_realpath($new_file_array['uri']);
       $sync->upload_image(array('header' => '@' . $path));
     }
   }
   if (!empty($form['#core_user_fields']->avatar) && empty($form_state['values'])) {
-    $api_avatar = $form['#core_user_fields']->avatar;
-    $api_filename = substr(strrchr($api_avatar, "/"), 1);
-    $api_file_fid = strstr($api_filename, '.', true);
-    if ($api_file_fid != $user->field_user_avatar['und'][0]['fid'] && $api_filename != 'dummy.png') {
-      // Get avatar from api.
-      $api_path = at_core_sync_get_api_domain() . '/media/' . $api_avatar;
-      $file_temp = file_get_contents($api_path);
-      $file_temp = file_save_data($file_temp, 'public://' . $api_filename, FILE_EXISTS_RENAME);
+    $core_avatar = $form['#core_user_fields']->avatar;
+    $core_filename = substr(strrchr($core_avatar, "/"), 1);
+    // Get files from core & drupal.
+    $core_path = at_core_sync_get_api_domain() . '/media/' . $core_header;
+    $core_file = file_get_contents($core_path);
+    $drupal_file = file_get_contents(drupal_realpath($user->field_header_image['und'][0]['uri']));
+    // Check differ by hash, and ignore dummy file from Core.
+    if (@md5($core_file) != @md5($drupal_file) && $core_filename != 'dummy.png') {
+      $file_temp = file_save_data($file_temp, 'public://' . $core_filename, FILE_EXISTS_RENAME);
       // Write new file to user object.
       $user->field_user_avatar['und'][0] = (array) $file_temp;
       field_attach_update('user', $user);
       // Overload saved file to field in form, need to correct render image and preview.
       $new_file_array = $user->field_user_avatar['und'][0];
       $form['field_user_avatar']['und'][0]['#default_value'] = $new_file_array;
-      // Write to API with new name.
+      // Write to Core with new name.
       $path = drupal_realpath($new_file_array['uri']);
       $sync->upload_image(array('avatar' => '@' . $path));
     }
