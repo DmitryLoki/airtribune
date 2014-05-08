@@ -8,13 +8,11 @@ function at_core_auth_init() {
   $account = $user;
   if (!empty($account->uid)) {
     $var_name = _at_core_auth_get_var_name($account->mail);
-    // Add global variables
-    drupal_add_js(
-      array(
-        'at_core_auth' => array(
-          'ck_name' => $var_name,
-        )
-      ), 'setting');
+    $core_id = get_core_id_from_entity('user', $account);
+    $data['at_core_auth']['ck_name'] = $var_name;
+    $data['at_core_auth']['pr_id'] = $core_id;
+    // Add user data to settings
+    drupal_add_js($data, 'setting');
   }
 }
 
