@@ -563,7 +563,6 @@ class ATSyncUser extends ATSync {
     $response = $this->request($data, 'POST');
     if (isset($response->id)) {
       $this->core_id = $response->id;
-      at_core_auth_provision_pwd('set', NULL, NULL);
     }
     return $response;
   }

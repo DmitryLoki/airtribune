@@ -266,7 +266,7 @@ function _sync_user_avatar_and_header(&$form, &$form_state, &$user, AtSyncUser &
     $api_header = $form['#core_user_fields']->header;
     $api_filename = substr(strrchr($api_header, "/"), 1);
     $api_file_fid = strstr($api_filename, '.', true);
-    if ($api_file_fid != $user->field_header_image['und'][0]['fid']) {
+    if ($api_file_fid != $user->field_header_image['und'][0]['fid'] && $api_filename != 'dummy.png') {
       // Get header from api.
       $api_path = at_core_sync_get_api_domain() . '/media/' . $api_header;
       $file_temp = file_get_contents($api_path);
@@ -286,7 +286,7 @@ function _sync_user_avatar_and_header(&$form, &$form_state, &$user, AtSyncUser &
     $api_avatar = $form['#core_user_fields']->avatar;
     $api_filename = substr(strrchr($api_avatar, "/"), 1);
     $api_file_fid = strstr($api_filename, '.', true);
-    if ($api_file_fid != $user->field_user_avatar['und'][0]['fid']) {
+    if ($api_file_fid != $user->field_user_avatar['und'][0]['fid'] && $api_filename != 'dummy.png') {
       // Get avatar from api.
       $api_path = at_core_sync_get_api_domain() . '/media/' . $api_avatar;
       $file_temp = file_get_contents($api_path);
