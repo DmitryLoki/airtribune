@@ -120,28 +120,28 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
         // in to many different user accounts.  We have a reasonably high limit
         // since there may be only one apparent IP for all users at an institution.
         if (!flood_is_allowed('failed_login_attempt_ip', variable_get('user_failed_login_ip_limit', 50), variable_get('user_failed_login_ip_window', 3600))) {
-          //$form_state['flood_control_triggered'] = 'ip';
-          //return;
+          $form_state['flood_control_triggered'] = 'ip';
+          return;
         }
 
         if (variable_get('user_failed_login_identifier_uid_only', FALSE)) {
           // Register flood events based on the uid only, so they apply for any
           // IP address. This is the most secure option.
-          //$identifier = $account->uid;
+          $identifier = $account->uid;
         }
         else {
           // The default identifier is a combination of uid and IP address. This
           // is less secure but more resistant to denial-of-service attacks that
           // could lock out all users with public user names.
-          //$identifier = $account->uid . '-' . ip_address();
+          $identifier = $account->uid . '-' . ip_address();
         }
-        //$form_state['flood_control_user_identifier'] = $identifier;
+       $form_state['flood_control_user_identifier'] = $identifier;
 
         // Don't allow login if the limit for this user has been reached.
         // Default is to allow 5 failed attempts every 6 hours.
         if (!flood_is_allowed('failed_login_attempt_user', variable_get('user_failed_login_user_limit', 5), variable_get('user_failed_login_user_window', 21600), $identifier)) {
-          //$form_state['flood_control_triggered'] = 'user';
-          //return;
+          $form_state['flood_control_triggered'] = 'user';
+          return;
         }
         // Auth user through Core API
         list($uid, $error) = at_core_auth_authenticate($email, $password);
