@@ -2751,7 +2751,8 @@ span.person-title-avatar-image { position: absolute; left: 20px; }
 .page-user .pane-page-content form .form-item-field-account-tiny-path-und-0-value input.form-text { width: 165px; position: relative; background: transparent; padding-left: 115px; }
 .page-user .pane-page-content form .form-item-field-account-tiny-path-und-0-value .description { width: 290px;}
 .page-user .form-item-field-header-image-und-0 .image-preview + .image-widget-data { display: none;}
-.page-user .pane-page-content form .field-type-image .form-item-field-header-image-und-0 .description { margin-left: 200px; }
+.page-user .pane-page-content form .field-type-image .form-item-field-user-avatar-und-0 .description,
+.page-user .pane-page-content form .field-type-image .form-item-field-header-image-und-0 .description { margin-left: 200px; margin-top: 10px; }
 #edit-field-social-links .tabledrag-toggle-weight-wrapper { display: none;}
 form #edit-field-social-links table { border: none; margin: -6px 0 0;}
 form #edit-field-social-links table input.form-text { border-left: 0; margin: 0 0 20px; width: 247px;
