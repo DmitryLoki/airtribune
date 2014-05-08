@@ -31,6 +31,7 @@ function at_user_person_form($form, &$form_state, $account, $category = 'account
 
 
 
+
   global $user;
 
 
@@ -83,7 +84,10 @@ function at_user_person_form($form, &$form_state, $account, $category = 'account
 
 
   $form['field_account_tiny_path']['#weight'] = $form['field_header_image']['#weight'] - 1;
-  $form['field_account_tiny_path']['und'][0]['value']['#post_render'] = array('at_user_person_tiny_url_post_render');
+  $optional_url =& $form['field_account_tiny_path']['und'][0]['value'];
+  $optional_url['#attributes']['placeholder'] = t('your_name');
+  $optional_url['#field_prefix'] = 'airtribune.com/';
+
   if (!empty($account->field_account_tiny_path['und'][0]['value'])) {
     $form['optional_url'] = array(
       '#type' => 'item',
@@ -93,6 +97,7 @@ function at_user_person_form($form, &$form_state, $account, $category = 'account
     );
     $form['field_account_tiny_path']['#access'] = FALSE;
   }
+  $form[AIRTRIBUNE_HEADER_IMAGE_FIELD]['und'][0]['#description'] = t('Jpeg, png, gif.<br/> Size: not less than 940x380.');
 
   return $form;
 }
@@ -105,7 +110,3 @@ function at_user_person_form_after_build($form, &$form_state) {
   return $form;
 }
 
-function at_user_person_tiny_url_post_render($content, $element) {
-  $content = str_replace('<input', '<span id="optional-url-prefix">airtribune.com/ </span><input', $content);
-  return $content;
-}

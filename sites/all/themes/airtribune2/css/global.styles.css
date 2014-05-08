@@ -2744,8 +2744,7 @@ form .form-type-item .inline-label { top: -10px;}
 .node-form .image-widget .form-submit { position: static; top: auto;}
 
 	/* personalization */
-#edit-basic-url, #edit-optional-url, #optional-url-prefix { color: #7a8b99; font-size: 16px;}
-span#optional-url-prefix { line-height: 30px; }
+#edit-basic-url, #edit-optional-url { color: #7a8b99; font-size: 16px;}
 span.person-title-avatar-image { position: absolute; left: 20px; }
 .form-item-optional-url { position: relative;}
 .form-item-optional-url .field-prefix { position: absolute; top: 3px; left: 210px; font-size: 16px; color: #b9c4c9;}

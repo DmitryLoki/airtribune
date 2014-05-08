@@ -148,8 +148,7 @@ function user_feature_field_default_fields() {
       'bundle' => 'user',
       'default_value' => array(),
       'deleted' => '0',
-      'description' => 'Jpeg, png, gif.<br/>
-Size: not less than 940x380.',
+      'description' => '',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -529,8 +528,6 @@ Size: not less than 940x380.',
   // Translatables
   // Included for use with string extractors like potx.
   t('Header image');
-  t('Jpeg, png, gif.<br/>
-Size: not less than 940x380.');
   t('Optional URL');
   t('Social links');
   t('You may set it only once and can\'t change it.');
