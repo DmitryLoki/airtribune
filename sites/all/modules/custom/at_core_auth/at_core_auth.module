@@ -195,10 +195,6 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
         $account = user_save('', $fields);
 
         at_core_auth_provision_token('set', $name, $token);
-
-        $wrapper = entity_metadata_wrapper('user', $account);
-        $wrapper->{AIRTRIBUNE_CORE_ID_FIELD}->set($user_raw_data->id);
-        $wrapper->save();
         $uid = $account->uid;
       }
     }
