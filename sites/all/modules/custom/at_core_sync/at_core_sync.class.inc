@@ -435,15 +435,7 @@ class ATSyncUser extends ATSync {
     }
 
     if (empty($this->profile)) {
-      if (empty($this->core_id)) {
-        $data += array(
-          'first_name' => 'null',
-          'last_name'  => 'null',
-          'birthdate'  => date('Y-m-d', time()),
-          'gender'     => 'M',
-          'country'    => array('code'=>'RU'),
-        );
-      }
+      return;
     }
     else {
       $data += _query_object_to_array('profile2', $this->profile);
@@ -584,13 +576,13 @@ class ATSyncUser extends ATSync {
       $result = $this->write_user_fields($data);
 
       // Update user entered password
-      if ($password = at_core_auth_provision_pwd('get')) {
+      if ($this->entity->pass != $this->entity->original->pass) {
         // Change password
+        $password = at_core_auth_provision_pwd('get');
         $this->change_password($password);
         // Get new access token
         at_core_auth_authenticate($this->entity->mail, $password);
         $this->token = at_core_auth_provision_token('get', $this->entity->mail);
-        at_core_auth_provision_pwd('set', NULL, NULL);
       }
 
       return $result;
