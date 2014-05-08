@@ -12229,7 +12229,7 @@ race_id|[id]'),
   $handler->display->display_options['fields']['field_header_image']['empty'] = '[view]';
   $handler->display->display_options['fields']['field_header_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_header_image']['settings'] = array(
-    'image_style' => 'header',
+    'image_style' => 'header_person',
     'image_link' => '',
   );
   /* Sort criterion: User: Created date */
