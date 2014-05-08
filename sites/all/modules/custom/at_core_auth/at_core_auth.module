@@ -111,6 +111,7 @@ function at_core_auth_login_authenticate_validate($form, &$form_state) {
     $exist_in_core = ATSyncUser::check_exist($email);
     if ($account) {
       $account = user_load($account->uid);
+      $email = $account->mail;
       $account_sync = _get_class_by_entity('user', $account);
       if ($exist_in_core) {
         // Do not allow any login from the current user's IP if the limit has been
