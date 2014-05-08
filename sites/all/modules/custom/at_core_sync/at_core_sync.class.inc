@@ -584,6 +584,23 @@ class ATSyncUser extends ATSync {
         $this->token = at_core_auth_provision_token('get', $this->entity->mail);
       }
 
+      // Updated avatar or header.
+      $avatar = $account_wrapper->field_user_avatar->value();
+      $old_ava_fid = $this->entity->original->field_user_avatar['und'][0]['fid'];
+      $new_ava_fid = $avatar['fid'];
+      if (!empty($avatar['fid']) && $avatar['fid'] != $this->entity->original->field_user_avatar['und'][0]['fid']) {
+        if ($path = drupal_realpath($avatar['uri'])) {
+          $this->upload_image(array('avatar' => '@' . $path));
+        }
+      }
+      $header = $account_wrapper->field_header_image->value();
+      if (!empty($header['fid']) && $header['fid'] != $this->entity->original->field_header_image['und'][0]['fid']) {
+        if ($path = drupal_realpath($header['uri'])) {
+          $this->upload_image(array('header' => '@' . $path));
+        }
+      }
+      return $result;
+    }
       return $result;
     }
     // Otherwise load from Core.
