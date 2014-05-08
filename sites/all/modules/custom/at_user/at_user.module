@@ -135,16 +135,6 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
   if ($form_id == 'user_profile_form') {
     // If form/form_state we have user object without attached fields, so we need to load full object.
     $user = user_load($form['#user']->uid);
-    // TODO maybe use hide() instead unset() to form elements?
-
-    // Hide LDAP_* fields.
-    $form_el = array_keys($form);
-    foreach ($form_el as $element) {
-      if (strpos($element, 'ldap') !== FALSE) {
-        unset($form[$element]);
-      }
-    }
-    unset($form_el);
 
     // Hide unnessecary elements.
     if (!user_access('bypass node access')) {

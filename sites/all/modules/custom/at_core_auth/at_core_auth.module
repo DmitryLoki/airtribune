@@ -69,8 +69,7 @@ function at_core_auth_user_logout($account) {
 }
 
 /**
- * store password from logon forms in ldap_user_ldap_provision_pwd static variable
- * for use in provisioning to ldap
+ * store password from logon forms in static variable for use in provisioning to Core sync
  */
 function at_core_auth_grab_password_validate($form, &$form_state) {
   // This is not a login form but profile form and user is inserting password to update email
