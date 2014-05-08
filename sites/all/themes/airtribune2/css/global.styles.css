@@ -2621,6 +2621,7 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 .page-user .pane-page-content form .form-item .form-type-select { padding-bottom: 5px;}
 .page-user .pane-page-content form .form-item .form-item:last-child { padding-bottom: 0; margin-bottom: -20px;}
 .page-user .pane-page-content form .form-wrapper { clear: both;}
+.page-user .pane-page-content form .field-name-field-country .select,
 .page-user .pane-page-content form .field-name-field-pg-contestant-status .select,
 .page-user .pane-page-content form .field-name-field-address .select,
 .page-user .pane-page-content form .form-type-phone-number .select,
