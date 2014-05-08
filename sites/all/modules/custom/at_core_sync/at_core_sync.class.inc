@@ -571,6 +571,7 @@ class ATSyncUser extends ATSync {
     $response = $this->request($data, 'POST');
     if (isset($response->id)) {
       $this->core_id = $response->id;
+      at_core_auth_provision_pwd('set', NULL, NULL);
     }
     return $response;
   }
@@ -589,6 +590,7 @@ class ATSyncUser extends ATSync {
         // Get new access token
         at_core_auth_authenticate($this->entity->mail, $password);
         $this->token = at_core_auth_provision_token('get', $this->entity->mail);
+        at_core_auth_provision_pwd('set', NULL, NULL);
       }
 
       return $result;
