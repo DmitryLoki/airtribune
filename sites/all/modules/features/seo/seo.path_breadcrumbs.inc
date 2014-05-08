@@ -3659,7 +3659,7 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->path = 'user/%user/person';
   $path_breadcrumb->data = array(
     'titles' => array(
-      0 => 'Edit pilot profile',
+      0 => 'Edit profile',
     ),
     'paths' => array(
       0 => 'user/%user:uid/person',
