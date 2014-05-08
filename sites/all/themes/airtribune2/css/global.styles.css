@@ -2746,10 +2746,10 @@ form .form-type-item .inline-label { top: -10px;}
 	/* personalization */
 #edit-basic-url, #edit-optional-url { color: #7a8b99; font-size: 16px;}
 span.person-title-avatar-image { position: absolute; left: 20px; }
-.form-item-optional-url { position: relative;}
-.form-item-optional-url .field-prefix { position: absolute; top: 3px; left: 210px; font-size: 16px; color: #b9c4c9;}
-.page-user .pane-page-content form .form-item-optional-url input.form-text { width: 165px; position: relative; background: transparent; padding-left: 115px; }
-.page-user .pane-page-content form .form-item-optional-url .description { width: 290px;}
+.form-item-field-account-tiny-path-und-0-value { position: relative;}
+.form-item-field-account-tiny-path-und-0-value .field-prefix { position: absolute; top: 3px; left: 210px; font-size: 16px; color: #b9c4c9;}
+.page-user .pane-page-content form .form-item-field-account-tiny-path-und-0-value input.form-text { width: 165px; position: relative; background: transparent; padding-left: 115px; }
+.page-user .pane-page-content form .form-item-field-account-tiny-path-und-0-value .description { width: 290px;}
 .page-user .form-item-field-header-image-und-0 .image-preview + .image-widget-data { display: none;}
 #edit-field-social-links .tabledrag-toggle-weight-wrapper { display: none;}
 form #edit-field-social-links table { border: none; margin: -6px 0 0;}
