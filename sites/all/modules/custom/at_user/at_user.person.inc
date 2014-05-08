@@ -98,6 +98,7 @@ function at_user_person_form($form, &$form_state, $account, $category = 'account
     $form['field_account_tiny_path']['#access'] = FALSE;
   }
   $form[AIRTRIBUNE_HEADER_IMAGE_FIELD]['und'][0]['#description'] = t('Jpeg, png, gif.<br/> Size: not less than 940x380.');
+  $form[AIRTRIBUNE_HEADER_IMAGE_FIELD]['#attached']['js'][] = drupal_get_path('module', 'at_user') . '/js/auto_upload.js';
 
   return $form;
 }
