@@ -18,11 +18,7 @@ function clients_at_core_entity_load(&$entities, $type) {
 //              $x=1;
 //            }
 //          }
-          $entity->field_country['und'][0]['iso2'] = $remote->country->code;
-          $entity->field_full_name['und'][0]['given'] = $remote->first_name;
-          $entity->field_full_name['und'][0]['family'] = $remote->last_name;
-          $entity->field_birthdate['und'][0]['value'] = $remote->birthdate;
-          $entity->field_gender['und'][0]['value'] = ($remote->gender == 'M') ? 0 : 1;
+          _remote_to_profile(json_encode(get_object_vars($remote)), $entity);
         }
       }
     }

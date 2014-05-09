@@ -264,8 +264,8 @@ function _sync_user_avatar_and_header(&$form, &$form_state, &$user, AtSyncUser &
     $core_filename = substr(strrchr($core_header, "/"), 1);
     // Get files from core & drupal.
     $core_path = at_core_sync_get_api_domain() . '/media/' . $core_header;
-    $core_file = file_get_contents($core_path);
-    $drupal_file = file_get_contents(drupal_realpath($user->field_header_image['und'][0]['uri']));
+    $core_file = @file_get_contents($core_path);
+    $drupal_file = @file_get_contents(drupal_realpath($user->field_header_image['und'][0]['uri']));
     // Check differ by hash, and ignore dummy file from Core.
     if (@md5($core_file) != @md5($drupal_file) && $core_filename != 'dummy.png') {
       $file_temp = file_save_data($core_file, 'public://' . $core_filename, FILE_EXISTS_RENAME);
@@ -284,9 +284,9 @@ function _sync_user_avatar_and_header(&$form, &$form_state, &$user, AtSyncUser &
     $core_avatar = $form['#core_user_fields']->avatar;
     $core_filename = substr(strrchr($core_avatar, "/"), 1);
     // Get files from core & drupal.
-    $core_path = at_core_sync_get_api_domain() . '/media/' . $core_header;
-    $core_file = file_get_contents($core_path);
-    $drupal_file = file_get_contents(drupal_realpath($user->field_header_image['und'][0]['uri']));
+    $core_path = at_core_sync_get_api_domain() . '/media/' . $core_avatar;
+    $core_file = @file_get_contents($core_path);
+    $drupal_file = @file_get_contents(drupal_realpath($user->field_user_avatar['und'][0]['uri']));
     // Check differ by hash, and ignore dummy file from Core.
     if (@md5($core_file) != @md5($drupal_file) && $core_filename != 'dummy.png') {
       $file_temp = file_save_data($file_temp, 'public://' . $core_filename, FILE_EXISTS_RENAME);

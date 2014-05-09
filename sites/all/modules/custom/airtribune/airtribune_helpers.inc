@@ -283,3 +283,13 @@ function _at_change_password_without_user_save($account, $new_password) {
   }
   return $result;
 }
+
+function _remote_to_profile($remote, Profile &$profile) {
+  $lang = LANGUAGE_NONE;
+  $profile->field_country[$lang][0]['iso2']     = $remote->country->code;
+  $profile->field_full_name[$lang][0]['given']  = $remote->first_name;
+  $profile->field_full_name[$lang][0]['family'] = $remote->last_name;
+  $profile->field_birthdate[$lang][0]['value']  = $remote->birthdate;
+  $profile->field_gender[$lang][0]['value']     = $remote->gender == 'M' ? 0 : 1;
+}
+
