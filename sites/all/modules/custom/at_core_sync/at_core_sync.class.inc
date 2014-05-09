@@ -434,13 +434,6 @@ class ATSyncUser extends ATSync {
       $this->core_id = $this->check_exist($account->mail);
     }
 
-    if (empty($this->profile)) {
-      return;
-    }
-    else {
-      $data += _query_object_to_array('profile2', $this->profile);
-    }
-
     $ha = !empty($account->data['hybridauth']['identifier']) ? $account->data['hybridauth'] : NULL;
     // User login thru Facebook.
     if ($ha) {
@@ -457,11 +450,23 @@ class ATSyncUser extends ATSync {
         // Try again to find user in Core.
         // User already created by sending fb access token, see above.
         $this->core_id = $this->check_exist($account->mail);
+        $this->entity->field_core_id[LANGUAGE_NONE][0]['value'] = $this->core_id;
+        field_attach_update('user', $this->entity);
         // Load all data from Core.
         $data = ATSyncUser::get_self($this->token);
-        // TODO
-        // Create main profile & attach data.
+        $profile = profile2_create(array('type' => 'main', 'uid' => $account->uid));
+        $profile->bundle = 'main';
+        _remote_to_profile($data, $profile);
+        profile2_save($profile);
+        return;
       }
+    }
+
+    if (empty($this->profile)) {
+      return;
+    }
+    else {
+      $data += _query_object_to_array('profile2', $this->profile);
     }
 
     // User exist in Core.
