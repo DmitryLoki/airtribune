@@ -445,8 +445,8 @@ class ATSyncUser extends ATSync {
       // If user does not exist in Core, he will be created.
       $this->token = ATSyncUser::get_auth_token_facebook($fb_token);
       at_core_auth_provision_token('set', $account->mail, $this->token);
-      // First login thru FB.
-      if (!$this->core_id) {
+      // First login thru FB, profile not yet created.
+      if (!$this->core_id || empty($this->profile)) {
         // Try again to find user in Core.
         // User already created by sending fb access token, see above.
         $this->core_id = $this->check_exist($account->mail);

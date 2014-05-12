@@ -18,7 +18,7 @@ function clients_at_core_entity_load(&$entities, $type) {
 //              $x=1;
 //            }
 //          }
-          _remote_to_profile(json_encode(get_object_vars($remote)), $entity);
+          _remote_to_profile($remote, $entity);
         }
       }
     }

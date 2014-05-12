@@ -92,7 +92,7 @@ function at_core_sync_admin_settings() {
   );
 
   $form['at_core_sync_custom_settings']['at_core_sync_su_password'] = array(
-    '#type' => 'password',
+    '#type' => 'textfield',
     '#title' => t('Superuser password'),
     '#default_value' => variable_get('at_core_sync_su_password', ''),
     '#size' => 30,

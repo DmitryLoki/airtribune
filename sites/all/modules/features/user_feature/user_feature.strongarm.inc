@@ -211,7 +211,7 @@ Airtribune team';
     'user_groups' => 0,
     'user_interests' => 0,
     'user_likes' => 0,
-    'user_location' => 0,
+    'user_location' => 1,
     'user_notes' => 0,
     'user_online_presence' => 0,
     'user_photos' => 0,

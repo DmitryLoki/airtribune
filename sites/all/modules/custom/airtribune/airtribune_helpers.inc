@@ -241,7 +241,7 @@ function _convert_drupal2core($entity_type, $data) {
       'gender' => $gender[$data['field_gender']],
       'country' => array('code' => $data['field_country']['iso2']),
       'uid' => $data['uid'],
-      'id' => $data['remote_id'],
+      'id' => !empty($data['remote_id']) ? $data['remote_id'] : NULL,
       'email' => $user->mail,
     );
   }
