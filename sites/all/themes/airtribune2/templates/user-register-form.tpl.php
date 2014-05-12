@@ -10,6 +10,7 @@ print drupal_render($form['profile_main']['field_full_name'][$lang][0]['family']
 drupal_render($form['profile_main']['field_full_name']);
 
 print drupal_render($form['profile_main']['field_gender']);
+print drupal_render($form['profile_main']['field_country']);
 
 // Print Birthdate
 _airtribune2_alter_birthdate_widget($form['profile_main']['field_birthdate']);

@@ -176,3 +176,120 @@ function generate_person_id() {
   // pers-YYMMDD-random, random = first 32bits from UUID4
   return 'pers-' . date('ymd') . '-' . sprintf('%d%d', mt_rand(0, 0xffff), mt_rand(0, 0xffff));
 }
+
+/**
+ * Save variables in session.
+ *
+ * @staticvar array $storage
+ * @param string $key
+ * @param string $value
+ * @return string
+ */
+function at_session_var($key, $value = NULL) {
+  static $storage;
+  if ($value) {
+    $storage[$key] = $value ;
+    $_SESSION[AT_SESSION_VAR_KEY][$key] = $value ;
+  }
+  else if (empty($storage[$key]) && isset($_SESSION[AT_SESSION_VAR_KEY][$key])) {
+    $storage[$key] = $_SESSION[AT_SESSION_VAR_KEY][$key];
+  }
+  return $storage[$key];
+}
+
+
+function _at_core_auth_get_var_name($string, $prefix = 'UIDS') {
+  $var_name = $prefix . substr(hash('sha256', $string), 0, 32);
+  return $var_name;
+}
+
+/**
+ * Helper function to get more clean array of entity values, without Drupal stuff,
+ * like [field_xxx][und][value] = 123
+ */
+function _query_object_to_array($entity_type, $entity) {
+  $a = array();
+  $wrapper = entity_metadata_wrapper($entity_type, $entity);
+  foreach ($entity as $key => $attr) {
+    // Processing of probleming fields.
+    if (in_array($key, array('field_person_phone', 'field_phone', 'field_address', 'field_country'))) {
+      $a[$key] = $attr['und']['0'];
+    }
+    // Other fields.
+    elseif ((strpos($key, 'field_') !== FALSE) && is_array($attr)) {
+      $a[$key] = $wrapper->{$key}->raw();
+    }
+    // Plain stuff.
+    else {
+      $a[$key] = $attr;
+    }
+  }
+  unset($a['original']);
+  unset($a['rdf_mapping']);
+  $data = _convert_drupal2core($entity_type, $a);
+  return $data;
+}
+
+function _convert_drupal2core($entity_type, $data) {
+  if ($entity_type == 'profile2') {
+    $user = user_load($data['uid']);
+    $gender = array(0 => 'M', 1 => 'F');
+    $core_data = array(
+      'first_name' => $data['field_full_name']['given'],
+      'last_name' => $data['field_full_name']['family'],
+      'birthdate' => date('Y-m-d', $data['field_birthdate']),
+      'gender' => $gender[$data['field_gender']],
+      'country' => array('code' => $data['field_country']['iso2']),
+      'uid' => $data['uid'],
+      'id' => !empty($data['remote_id']) ? $data['remote_id'] : NULL,
+      'email' => $user->mail,
+    );
+  }
+  elseif ($entity_type == 'user') {
+    $core_data = array(
+      'facebook_url'   => !empty($data['field_social_links'][0]['url']) ? $data['field_social_links'][0]['url'] : NULL,
+      'googleplus_url' => !empty($data['field_social_links'][1]['url']) ? $data['field_social_links'][1]['url'] : NULL,
+      'youtube_url'    => !empty($data['field_social_links'][2]['url']) ? $data['field_social_links'][2]['url'] : NULL,
+      'vimeo_url'      => !empty($data['field_social_links'][3]['url']) ? $data['field_social_links'][3]['url'] : NULL,
+      'instagram_url'  => !empty($data['field_social_links'][4]['url']) ? $data['field_social_links'][4]['url'] : NULL,
+    );
+  }
+  return $core_data;
+}
+
+/**
+ * Change password without calling user_save().
+ *
+ * @param stdClass $account
+ *        Drupal user object
+ * @param string $new_password
+ *        New password
+ * @return bool
+ *        Return TRUE if the password has changed with success
+ */
+function _at_change_password_without_user_save($account, $new_password) {
+  $result = FALSE;
+  require_once DRUPAL_ROOT . '/includes/password.inc';
+  if (isset($new_password) && !empty($new_password) && isset($account->uid)) {
+    $newhash =  user_hash_password($new_password);
+
+    $updatepass = db_update('users')
+      ->fields(array(
+        'pass' => $newhash,
+      ))
+      ->condition('uid', $account->uid, '=')
+      ->execute();
+    $result = !empty($updatepass);
+  }
+  return $result;
+}
+
+function _remote_to_profile($remote, Profile &$profile) {
+  $lang = LANGUAGE_NONE;
+  $profile->field_country[$lang][0]['iso2']     = $remote->country->code;
+  $profile->field_full_name[$lang][0]['given']  = $remote->first_name;
+  $profile->field_full_name[$lang][0]['family'] = $remote->last_name;
+  $profile->field_birthdate[$lang][0]['value']  = $remote->birthdate;
+  $profile->field_gender[$lang][0]['value']     = $remote->gender == 'M' ? 0 : 1;
+}
+

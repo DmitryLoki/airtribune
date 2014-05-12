@@ -10,6 +10,7 @@ abstract class ATSync {
   public $address = FALSE;
   public $core_id = FALSE;
   public $address_contest = 'contest/';
+  protected $token = FALSE;
 
   public function __construct($entity_type, $entity) {
     $this->entity = $entity;
@@ -22,7 +23,7 @@ abstract class ATSync {
     }
   }
 
-  public static function requestToCore($address, $data = array(), $method = "POST") {
+  public static function requestToCore($address, $data = array(), $method = "POST", $token = FALSE) {
     $data_array = $data;
     $data = json_encode($data);
     $handle = curl_init();
@@ -52,15 +53,28 @@ abstract class ATSync {
         curl_setopt($handle, CURLOPT_CUSTOMREQUEST, 'DELETE');
         break;
     }
+
+    $token_header = NULL;
+    if (!empty($token)) {
+      // Authorization token
+      $token_header = 'Authorization: Token ' . $token;
+    }
+
     if (isset($data_array['upload_file'])) {
       // 'Content-Type: multipart/form-data' by default, if set CURLOPT_POSTFIELDS to php array
       curl_setopt($handle, CURLOPT_POSTFIELDS, $data_array);
-    } else {
+      curl_setopt($handle, CURLOPT_HTTPHEADER, array(
+        $token_header,
+      ));
+    }
+    else {
       curl_setopt($handle, CURLOPT_HTTPHEADER, array(
         'Expect:',
         'Content-Type: application/json',
+        $token_header,
       ));
     }
+
     $response = curl_exec($handle);
     $code = curl_getinfo($handle, CURLINFO_HTTP_CODE);
     $request_array = array(
@@ -144,31 +158,32 @@ abstract class ATSync {
     }
     // Debug.
     $full_request = $method . ' ' . at_core_sync_get_api_url() . '/' . $address;
-    _asd($data, $full_request , $response);
+    _asd($data, $full_request, $response);
 
     return json_decode($response);
   }
 
   public function get() {
-    return ATSync::requestToCore($this->address, array(), 'GET');
+    return ATSync::requestToCore($this->address, array(), 'GET', $this->token);
   }
 
   public function request($data, $method = 'POST') {
-    return ATSync::requestToCore($this->address, $data, $method);
+    return ATSync::requestToCore($this->address, $data, $method, $this->token);
   }
 
   public function patch($values = array()) {
     foreach ($values as $k => $v) {
-      $results[] = ATSync::requestToCore($this->address, array($k => $v), 'PATCH');
+      $results[] = ATSync::requestToCore($this->address, array($k => $v), 'PATCH', $this->token);
     }
     return $results;
   }
 
   public function delete() {
     if (!empty($this->core_id)) {
-      return ATSync::requestToCore($this->address . '/' . $this->core_id, array(), 'DELETE');
-    } else if (!empty($this->day_dmy)) {
-      return ATSync::requestToCore($this->address, array(), 'DELETE');
+      return ATSync::requestToCore($this->address . '/' . $this->core_id, array(), 'DELETE', $this->token);
+    }
+    elseif (!empty($this->day_dmy)) {
+      return ATSync::requestToCore($this->address, array(), 'DELETE', $this->token);
     }
   }
 
@@ -179,7 +194,7 @@ abstract class ATSync {
       $entity_type = $entity->entity_type;
       $entity = entity_load_single($entity->entity_type, $entity->etid);
     }
-        $entity->field_core_id = array(
+    $entity->field_core_id = array(
       LANGUAGE_NONE => array(
         array(
           'value' => $id,
@@ -376,55 +391,154 @@ class ATSyncTrackedObject extends ATSyncNestedInContest {
   }
 }
 
+class ATSyncUserProfile extends ATSync {
+  public function __construct($entity_type, $entity) {
+    $account = user_load($entity->uid);
+    $sync = _get_class_by_entity('user', $account);
+    $data = _query_object_to_array('profile2', $entity);
+    $sync->update_user($data, TRUE);
+  }
+
+  public function synchronize() {
+  }
+}
+
 /**
  * Class for synchronization user
  */
 class ATSyncUser extends ATSync {
-  public $token = '';
-
   public function __construct($entity_type, $entity) {
     parent::__construct($entity_type, $entity);
-    $token_name = 'Drupal_visitor_auth_token_' . $entity->uid;
-    if (isset($_COOKIE[$token_name])) {
-      $this->token = $_COOKIE[$token_name];
-    }
+    // @todo use at_core_auth_provision_token () to get the token
+    $var_name = _at_core_auth_get_var_name($entity->mail);
+    $this->token = at_session_var($var_name);
+    $this->profile = profile2_load_by_user($entity, 'main');
     if (!$this->core_id) {
       return $this->synchronize();
     }
   }
 
   public function synchronize() {
-    $profile = profile2_load_by_user($this->entity);
-    $user_wrapper = entity_metadata_wrapper('user', $this->entity);
-    if (empty($profile['main'])) {
-      ATSync::setMessage('Core API: User has no profiles.');
-      return FALSE;
-    }
-    if ($this->core_id) {
-      return $this->core_id;
+    $account =& $this->entity;
+    $data['email'] = $account->mail;
+    $data += _query_object_to_array('user', $this->entity);
+    $response = FALSE;
+
+    // User change mail?
+    if (!empty($account->original) && ($account->mail != $account->original->mail)) {
+      $this->core_id = $this->check_exist($account->original->mail);
+      $this->token = at_core_auth_provision_token('get', $account->original->mail);
+      at_core_auth_provision_token('set', $account->mail, $this->token);
     }
     else {
-      // Generate new person id, and save user.
-      // During saving user will be synced with LDAP.
-      $person_id = generate_person_id();
-      // Save field values without saving user entity. This need to avoid recursion on hook_entity_update().
-      $this->entity->field_core_id[LANGUAGE_NONE][0]['value'] = $person_id;
-      field_attach_update('user', $this->entity);
-      // Save entity, this is needed to run syncing user with LDAP. Function ATSyncUser->sync will be called one
-      // more time, but in next time we already have core_id in entity, so no problems with recursion.
-      $user_wrapper->save();
-      return $person_id;
+      $this->core_id = $this->check_exist($account->mail);
     }
+
+    $ha = !empty($account->data['hybridauth']['identifier']) ? $account->data['hybridauth'] : NULL;
+    // User login thru Facebook.
+    if ($ha) {
+      // Get FB token, using HybridAuth library.
+      $hybridauth = hybridauth_get_instance();
+      $adapter = $hybridauth->authenticate('Facebook');
+      $fb_token = $adapter->adapter->api->getAccessToken();
+      // Try to auth in Core, by using Facebook user access token.
+      // If user does not exist in Core, he will be created.
+      $this->token = ATSyncUser::get_auth_token_facebook($fb_token);
+      at_core_auth_provision_token('set', $account->mail, $this->token);
+      // First login thru FB, profile not yet created.
+      if (!$this->core_id || empty($this->profile)) {
+        // Try again to find user in Core.
+        // User already created by sending fb access token, see above.
+        $this->core_id = $this->check_exist($account->mail);
+        $this->entity->field_core_id[LANGUAGE_NONE][0]['value'] = $this->core_id;
+        field_attach_update('user', $this->entity);
+        // Load all data from Core.
+        $data = ATSyncUser::get_self($this->token);
+        $profile = profile2_create(array('type' => 'main', 'uid' => $account->uid));
+        $profile->bundle = 'main';
+        _remote_to_profile($data, $profile);
+        profile2_save($profile);
+        return;
+      }
+    }
+
+    if (empty($this->profile)) {
+      return;
+    }
+    else {
+      $data += _query_object_to_array('profile2', $this->profile);
+    }
+
+    // User exist in Core.
+    if ($this->core_id) {
+      $response = $this->update_user($data);
+    }
+    // User not exist in Core.
+    else {
+      $response = $this->create_user($data);
+    }
+
+    if (!empty($this->core_id)) {
+      // Save field values without saving user entity. This need to avoid recursion on hook_entity_update().
+      $this->entity->field_core_id[LANGUAGE_NONE][0]['value'] = $this->core_id;
+      field_attach_update('user', $this->entity);
+    }
+    return $response;
   }
 
-  public function get_auth_token($username, $password) {
-    $this->address = 'user/auth';
+  public static function get_auth_token($username, $password) {
+    $address = 'user/auth';
     $data = array(
-      'username' => $username,
+      'email' => $username,
       'password' => $password,
     );
-    $response = $this->request($data);
-    return $response->token ? $response->token : NULL;
+    $response = ATSync::requestToCore($address, $data);
+    return $response;
+  }
+
+  public static function get_su_auth_token() {
+    $username = variable_get('at_core_sync_su_email', '');
+    $password = variable_get('at_core_sync_su_password', '');
+    $response = ATSyncUser::get_auth_token($username, $password);
+    return isset($response->token) ? $response->token : FALSE;
+  }
+
+  /**
+   * Get Core auth token, using Facebook user access token
+   * If user does not exist in Core, he will be created.
+   */
+  public static function get_auth_token_facebook($fb_token) {
+    $address = 'user/auth/facebook';
+    $data = array('token' => $fb_token);
+    $response = ATSync::requestToCore($address, $data);
+    return isset($response->token) ? $response->token : FALSE;
+  }
+
+  public static function get_self($token) {
+    $address = 'user/profile';
+    $response = ATSync::requestToCore($address, array(), "GET", $token);
+    return $response;
+  }
+
+  public static function check_exist($mail) {
+    $address = 'user?email=' . $mail;
+    $response = ATSync::requestToCore($address, array(), "GET");
+    return isset($response[0]->id) ? $response[0]->id : FALSE;
+  }
+
+  /**
+   * @param $id - user id in Core, not Drupal uid.
+   */
+  public static function delete_user($id) {
+    $token = ATSyncUser::get_su_auth_token();
+    $address = 'user/' . $id;
+    ATSync::requestToCore($address, array(), 'DELETE', $token);
+  }
+
+  public function delete() {
+    if (!empty($this->core_id)) {
+      $this->delete_user($this->core_id);
+    }
   }
 
   public function get_user_fields() {
@@ -436,25 +550,110 @@ class ATSyncUser extends ATSync {
 
   public function write_user_fields($data) {
     $this->address = 'user/' . $this->core_id;
-    $data['token'] = $this->token;
     return $this->request($data, 'PATCH');
   }
 
-  public function get_user_sponsors() {
-    if (!empty($this->core_id)) {
-      $this->address = 'user/' . $this->core_id . '/sponsor';
-      return $this->get();
+  public function upload_image($data) {
+    $data += array('upload_file' => TRUE);
+    return $this->write_user_fields($data);
+  }
+
+  public function create_user($data) {
+    $data += array(
+      'email' => $this->entity->mail,
+      'password' => at_core_auth_provision_pwd('get'),
+    );
+    // Create user in Core, and get id.
+    $this->address = 'user/register';
+    $response = $this->request($data, 'POST');
+    if (isset($response->id)) {
+      $this->core_id = $response->id;
+    }
+    return $response;
+  }
+
+  public function update_user($data, $is_profile_updated = FALSE) {
+    // User/profile was updated in drupal, save data to Core.
+    if (!empty($this->entity->original)) {
+      $account_wrapper = entity_metadata_wrapper('user', $this->entity);
+      $old_account_wrapper = entity_metadata_wrapper('user', $this->entity->original);
+      // Update user entered password
+      if ($this->entity->pass != $this->entity->original->pass) {
+        // Change password
+        $password = at_core_auth_provision_pwd('get');
+        $this->change_password($password);
+        // Get new access token
+        at_core_auth_authenticate($this->entity->mail, $password);
+        $this->token = at_core_auth_provision_token('get', $this->entity->mail);
+      }
+
+      // Updated avatar or header.
+      $new = $account_wrapper->field_user_avatar->value();
+      $old = $old_account_wrapper->field_user_avatar->value();
+      $new_fid = !empty($new['fid']) ? $new['fid'] : NULL;
+      $old_fid = !empty($old['fid']) ? $old['fid'] : NULL;
+      if ($new_fid != $old_fid) {
+        if ($path = drupal_realpath($new['uri'])) {
+          $result = $this->upload_image(array('avatar' => '@' . $path));
+          if (empty($result->id)) {
+            drupal_set_message($result->avatar[0]);
+          }
+        }
+      }
+      $new = $account_wrapper->field_header_image->value();
+      $old = $old_account_wrapper->field_header_image->value();
+      $new_fid = !empty($new['fid']) ? $new['fid'] : NULL;
+      $old_fid = !empty($old['fid']) ? $old['fid'] : NULL;
+      if ($new_fid != $old_fid) {
+        if ($path = drupal_realpath($new['uri'])) {
+          $result = $this->upload_image(array('header' => '@' . $path));
+          if (empty($result->id)) {
+            drupal_set_message($result->header[0]);
+          }
+        }
+      }
+    }
+    // Profile was updated in drupal, save data to Core.
+    elseif ($is_profile_updated) {
+      $result = $this->write_user_fields($data);
+      return $result;
+    }
+    // Otherwise load from Core.
+    else {
+      $remote = $this->get_user_fields();
+      if ($this->profile = profile2_load_by_user($this->entity, 'main')) {
+        field_attach_update('profile2', $this->profile);
+      }
     }
   }
 
-  public function write_user_sponsors($data) {
-    if (!empty($this->core_id)) {
-      $this->address = 'user/' . $this->core_id . '/sponsor';
-      $data['token'] = $this->token;
-      return $this->request($data);
+  public function change_password($new_password) {
+    if (!empty($this->core_id) && !empty($new_password)) {
+      $data = array(
+        'email' => $this->entity->mail,
+        'password' => $new_password,
+      );
+      $this->address = 'user/change_password';
+      $this->request($data, 'POST');
+      // @todo Return error if password is not changed
     }
   }
+
+  public function reset_password($new_password) {
+    $previous_token = $this->token;
+    $this->token = ATSyncUser::get_su_auth_token();
+    $this->change_password($new_password);
+    $this->token = $previous_token;
+  }
+
+  public static function forgot_password($email) {
+    $token = ATSyncUser::get_su_auth_token();
+    $address = 'user/reset_password';
+    $data = array('email' => $email);
+    ATSync::requestToCore($address, $data, 'POST', $token);
+  }
 }
+
 /**
  * Class for synchronization pilot
  */
@@ -481,7 +680,8 @@ abstract class ATSyncPilot extends ATSyncNestedInContest {
     if (!in_array(
       $this->pilot->field_pg_contestant_status->value(),
       array(AIRTRIBUNE_PG_CONTESTANT_CONFIRMED, AIRTRIBUNE_PILOT_STATUS_WINDDUMMY)
-    )) {
+    )
+    ) {
       return FALSE;
     }
     $entity_wrapper = entity_metadata_wrapper('og_membership', $this->entity);
@@ -601,7 +801,8 @@ class ATSyncRace extends ATSyncNestedInContest {
         $bearing = $racetype_wrapper->field_pg_race_azimuth->value();
         if (isset($bearing)) {
           $data['properties']['bearing'] = (int) $bearing;
-        } else {
+        }
+        else {
           $data['properties']['bearing'] = NULL;
         }
         break;
@@ -635,7 +836,8 @@ class ATSyncRace extends ATSyncNestedInContest {
       }
       if ($delta == 0) {
         $point_data['properties']['checkpoint_type'] = 'to';
-        $point_data['properties'] += array('open_time' => $data['properties']['window_open'],
+        $point_data['properties'] += array(
+          'open_time' => $data['properties']['window_open'],
           'close_time' => $data['properties']['window_close'],
         );
       }
@@ -686,7 +888,8 @@ class ATSyncRace extends ATSyncNestedInContest {
     $optdistance = floatval($response->optdistance);
     if (!empty($optdistance)) {
       $this->entity->field_optdistance[LANGUAGE_NONE][0]['value'] = $response->optdistance;
-    } else {
+    }
+    else {
       $this->entity->field_optdistance[LANGUAGE_NONE][0]['value'] = '';
     }
     field_attach_update($this->entity_type, $this->entity);
@@ -702,11 +905,13 @@ class ATSyncRace extends ATSyncNestedInContest {
         $file = $tracks->value();
         $data = array('url' => file_create_url($file['uri']));
         $response = $this->request($data);
-      } else {
+      }
+      else {
         ATSync::setMessage(t('Core API: Unable to send tracks. Race not synchronized yet.'));
         return FALSE;
       }
-    } else {
+    }
+    else {
       ATSync::setMessage(t('Core API: Unable to send tracks. No attached tracks file.'));
       return FALSE;
     }
@@ -728,6 +933,7 @@ class ATSyncTracker extends ATSync {
     $this->device_id = $wrapper->field_device_id->value();
     $this->device_type = $field_tracker_type->title;
   }
+
   public function synchronize() {
     $data = array(
       'device_id' => $this->device_id,

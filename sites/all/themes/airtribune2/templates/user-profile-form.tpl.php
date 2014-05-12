@@ -29,15 +29,16 @@ $form['account']['mail_dummy'] = array(
   '#type' => 'item',
   '#title' => t('Email'),
   '#markup' => $form['account']['mail']['#value'],
-  '#prefix' => '<div id="mail-dummy">', // form api "item" haven't #attributes
-  '#suffix' => '<div id="mail-edit-pencil">✎</div></div>',
+  // temp hide mail changing fields
+  //'#prefix' => '<div id="mail-dummy">', // form api "item" haven't #attributes
+  //'#suffix' => '<div id="mail-edit-pencil">✎</div></div>',
 );
 
 print drupal_render($form['account']['mail_dummy']);
 
 // Main profile Name field
 if (!empty($form['profile_main'])) {
-  
+
   $lang = $form['profile_main']['field_full_name']['#language'];
   $form['profile_main']['field_full_name'][$lang][0]['given']['#prefix'] = '';
   $form['profile_main']['field_full_name'][$lang][0]['given']['#suffix'] = '';
@@ -60,26 +61,11 @@ if (!empty($form['profile_main'])) {
   $form['profile_main']['field_birthdate'][$lang][0]['value']['day']['#title'] = $form['profile_main']['field_birthdate'][$lang][0]['#title'];
   $form['profile_main']['field_birthdate'][$lang][0]['#title'] = '';
   print drupal_render($form['profile_main']['field_birthdate']);
+  print drupal_render($form['profile_main']['field_country']);
 }
 
 print "</div>"; // #name-gender-dob end
 
-// Personalisation.
-$socials = array('Facebook', 'GooglePlus', 'Youtube', 'Vimeo', 'Instagram');
-$soc_links = &$form['field_social_links']['und'];
-foreach (array_keys($soc_links) as $element) {
-  // [und][0], [und][1], ...
-  if (is_int($element)) {
-    // Add placeholder & class to social links field
-    $form['field_social_links']['und'][$element]['url']['#class'] = array($socials[$element]);
-    $form['field_social_links']['und'][$element]['url']['#attributes']['placeholder'] = $socials[$element];
-    // Override Drupal field value, to the value obtained from the CoreAPI.
-    if (isset($form['#core_user_fields']->facebook_url)) {
-      $soc_name = strtolower($socials[$element]) . '_url';
-      $form['field_social_links']['und'][$element]['url']['#value'] = $form['#core_user_fields']->$soc_name;
-    }
-  }
-}
 $form['field_header_image']['und'][0]['select']['#title'] = t('Add image');
 $form['field_header_image']['und'][0]['remove']['#title'] = t('Delete');
 
@@ -88,9 +74,7 @@ $form['personalisation']['optional_url'] = $form['optional_url'];
 $form['personalisation']['field_header_image'] = $form['field_header_image'];
 $form['personalisation']['field_social_links'] = $form['field_social_links'];
 unset($form['basic_url']);
-unset($form['optional_url']);
 unset($form['field_header_image']);
-unset($form['field_social_links']);
 
 
 $form['pass_fieldset']['current_pass'] = $form['account']['current_pass'];
@@ -113,6 +97,11 @@ hide($form['mimemail']);
 
 hide($form['name_gender_dob']);
 hide($form['name_gender_dob']);
+
+// temp hide mail changing fields
+hide($form['account']['mail']);
+hide($form['account']['mail_dummy']);
+
 // Hide wrapping fieldsets.
 drupal_render($form['profile_main']);
 print drupal_render_children($form);

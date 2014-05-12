@@ -1,0 +1,8 @@
+name = Core API aurh
+description = Authentication through Core API
+core = 7.x
+package = Airtribune
+version = 7.x-1.x-dev
+#dependencies[] = 
+#files[] = 
+#configure = 

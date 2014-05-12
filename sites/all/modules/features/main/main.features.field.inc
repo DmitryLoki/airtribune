@@ -96,6 +96,70 @@ function main_field_default_fields() {
     ),
   );
 
+  // Exported field: 'profile2-main-field_country'.
+  $fields['profile2-main-field_country'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_country',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(
+        'iso2' => array(
+          0 => 'iso2',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'countries',
+      'settings' => array(
+        'continents' => array(),
+        'countries' => array(),
+        'enabled' => '1',
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => 0,
+        'size' => 5,
+      ),
+      'translatable' => '0',
+      'type' => 'country',
+    ),
+    'field_instance' => array(
+      'bundle' => 'main',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'countries',
+          'settings' => array(),
+          'type' => 'country_default',
+          'weight' => 7,
+        ),
+      ),
+      'entity_type' => 'profile2',
+      'exclude_cv' => 0,
+      'field_name' => 'field_country',
+      'label' => 'Country',
+      'required' => 1,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '44',
+      ),
+    ),
+  );
+
   // Exported field: 'profile2-main-field_full_name'.
   $fields['profile2-main-field_full_name'] = array(
     'field_config' => array(
@@ -349,6 +413,7 @@ Prof.',
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Country');
   t('Date of birth');
   t('Gender');
   t('Name');

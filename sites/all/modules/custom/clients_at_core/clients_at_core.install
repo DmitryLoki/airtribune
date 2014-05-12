@@ -1,0 +1,80 @@
+<?php
+
+/**
+ * @file clients_at_core.install
+ * Contains install hooks.
+ */
+
+/**
+ * Implements hook_schema_alter().
+ * Alter schema of profile2 module, add schema, related to remote entity.
+ */
+function clients_at_core_schema_alter(&$schema) {
+  module_load_install('remote_entity');
+  $remote_entity = remote_entity_schema_table('remote_entity');
+
+  unset($remote_entity['fields']['eid']);
+  unset($remote_entity['primary key'][0]);
+
+  // Function array_merge_recursive() merge not correct, so use this method.
+  $remote_entity['fields'] += $schema['profile']['fields'];
+  $remote_entity['indexes'] += $schema['profile']['indexes'];
+  $remote_entity['unique keys'] = $schema['profile']['unique keys'];
+
+  $schema['profile'] = $remote_entity;
+
+  return $schema;
+}
+
+/**
+ * Add remote_entity fields/columns to 'profile2' module table (profile).
+ */
+function clients_at_core_update_7001() {
+  $remote_entity_fields = array(
+    'remote_id' => array(
+      'description' => 'The remote entity ID. Not necessarily numeric',
+      'type' => 'varchar',
+      'length' => 255,
+      'not null' => FALSE,
+      'default' => NULL,
+    ),
+    'entity_data' => array(
+      'description' => 'Serialized remote object data.',
+      'type' => 'text',
+      'serialize' => TRUE,
+      'size' => 'big',
+    ),
+    // @see RemoteEntityAPIDefaultController::remote_save()
+    'remote_saved' => array(
+      'description' => 'The Unix timestamp when the entity was last saved remotely.',
+      'type' => 'int',
+      'not null' => TRUE,
+      'default' => 0,
+    ),
+    'needs_remote_save' => array(
+      'description' => "Indicates this entity's status for remote saving. "
+        . "0: no save needed, 1: needs remote save, REMOTE_ENTITY_REMOTE_SAVE_FAILED: last remote save attempt failed.",
+      'type' => 'int',
+      'not null' => TRUE,
+      'default' => 0,
+    ),
+    // @see RemoteEntityAPIDefaultController::load()
+    'expires' => array(
+      'description' => 'The Unix timestamp when the entity expires. A value of 0 means this does not expire.',
+      'type' => 'int',
+      'not null' => TRUE,
+      'default' => 0,
+    ),
+    'deleted' => array(
+      'description' => 'Boolean indicating that this remote entity is marked for deletion.',
+      'type' => 'int',
+      'not null' => TRUE,
+      'default' => 0,
+    ),
+  );
+
+  foreach ($remote_entity_fields as $key => $field) {
+    db_add_field('profile', $key, $field);
+  }
+  dpm('run update 7001 for clients_at_core');
+}

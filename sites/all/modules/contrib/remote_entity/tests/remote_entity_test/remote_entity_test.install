@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file remote_entity_test.install
+ * Contains install hooks.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function remote_entity_test_schema() {
+  // Load the install file so we can use the schema helper.
+  module_load_install('remote_entity');
+
+  $schema['test_remote_entity'] = remote_entity_schema_table('test_remote_entity');
+
+  return $schema;
+}

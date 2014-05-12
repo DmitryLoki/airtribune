@@ -74,7 +74,7 @@ function at_core_sync_admin_settings() {
     '#title' => t('Retrieve hosting URL'),
     '#default_value' => variable_get('at_core_retrieve_address', 'http://retrieve.airtribune.com'),
     '#size' => 30,
-    '#description' => t('For example: http://retrieve.irtribune.com'),
+    '#description' => t('For example: http://retrieve.airtribune.com'),
   );
 
   $form['at_core_sync_custom_settings']['at_core_sync_debug_mode'] = array(
@@ -82,6 +82,20 @@ function at_core_sync_admin_settings() {
     '#title' => t('Debug mode'),
     '#default_value' => variable_get('at_core_sync_debug_mode', 0),
     '#description' => t('Switch to debug mode'),
+  );
+
+  $form['at_core_sync_custom_settings']['at_core_sync_su_email'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Superuser email'),
+    '#default_value' => variable_get('at_core_sync_su_email', ''),
+    '#size' => 30,
+  );
+
+  $form['at_core_sync_custom_settings']['at_core_sync_su_password'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Superuser password'),
+    '#default_value' => variable_get('at_core_sync_su_password', ''),
+    '#size' => 30,
   );
 
   return system_settings_form($form);

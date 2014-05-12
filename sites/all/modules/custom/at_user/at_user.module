@@ -75,7 +75,25 @@ function at_user_menu_alter(&$items) {
     3,
     4
   );
+  $items['user/reset/%/%/%']['page arguments'] = array('at_user_registrationpassword_confirm_account', 2, 3, 4);
 }
+
+/**
+ * Implements hook_menu_alter().
+ */
+/*
+ * temp disable, @see #4622 comment #7
+function at_user_boot() {
+  return;
+  // While password reset cookie is set, and page is not user/edit.
+  if (isset($_COOKIE['Drupal_visitor_pass_reset']) &&
+      !(arg(0) == 'user' && arg(2) == 'edit')) {
+    $uid = $_COOKIE['Drupal_visitor_pass_reset'];
+    // Redirect. drupal_goto() not yet loaded, so use header().
+    header("Location: /user/$uid/edit");
+  }
+}
+*/
 
 /**
  * Implements hook_form_FORM_ID_alter() for the user edit form.
@@ -95,6 +113,24 @@ function at_user_form_user_profile_form_alter(&$form, &$form_state) {
   }
 }
 
+function at_user_form_user_pass_alter(&$form,&$form_state) {
+  $form['#submit'][0] = 'at_user_form_user_pass_submit';
+}
+
+// Don't send mail after user try to recovery password thru 'forgot password'.
+// Send request to Core, and Core must take all work with password changing and
+// mailing user about this.
+function at_user_form_user_pass_submit(&$form,&$form_state) {
+  $account = $form_state['values']['account'];
+  // Send password reset to Core.
+  ATSyncUser::forgot_password($account->mail);
+  // Drupal stuff.
+  watchdog('user', 'Password reset instructions mailed to %name at %email.', array('%name' => $account->name, '%email' => $account->mail));
+  drupal_set_message(t('Further instructions have been sent to your e-mail address.'));
+  $form_state['redirect'] = 'user';
+  return;
+}
+
 /*
  * Implements hook_form_alter for user create/login/pass-reset
  */
@@ -103,16 +139,6 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
   if ($form_id == 'user_profile_form') {
     // If form/form_state we have user object without attached fields, so we need to load full object.
     $user = user_load($form['#user']->uid);
-    // TODO maybe use hide() instead unset() to form elements?
-
-    // Hide LDAP_* fields.
-    $form_el = array_keys($form);
-    foreach ($form_el as $element) {
-      if (strpos($element, 'ldap') !== FALSE) {
-        unset($form[$element]);
-      }
-    }
-    unset($form_el);
 
     // Hide unnessecary elements.
     if (!user_access('bypass node access')) {
@@ -127,40 +153,11 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     unset($form['signature_settings']);
     unset($form['timezone']);
     unset($form['xmlsitemap']);
-
+    unset($form['field_social_links']);
     $sync = _get_class_by_entity('user', $user);
     $form['#sync'] = $sync;
-    $form['#core_user_fields']   = $sync->get_user_fields();
-    $form['#core_user_sponsors'] = $sync->get_user_sponsors();
-
-    // Own header filename has pattern '%fid.extension' (12345.png / 10500.jpg)
-    // If header filename from API has another name, different with fid from field
-    // its means, what user change header from mobile app.
-    if (!empty($form['#core_user_fields']->header)) {
-      $api_header = $form['#core_user_fields']->header;
-      $api_filename = substr(strrchr($api_header, "/"), 1);
-      $api_file_fid = strstr($api_filename, '.', true);
-      if ($api_file_fid != $user->field_header_image['und'][0]['fid']) {
-        // Get header from api.
-        $api_path = at_core_sync_get_api_domain() . '/media/' . $api_header;
-        $file_temp = file_get_contents($api_path);
-        $file_temp = file_save_data($file_temp, 'public://' . $api_filename, FILE_EXISTS_RENAME);
-        // Write new file to user object.
-        $wrapper = entity_metadata_wrapper('user', $user);
-        $wrapper->field_header_image->set( (array) $file_temp );
-        $zxc = $wrapper->save();
-        // Overload saved file to field in form, need to correct render image and preview.
-        $new_file_array = $user->field_header_image['und'][0];
-        $form['field_header_image']['und'][0]['#default_value'] = $new_file_array;
-        // Write to API with new name.
-        $path = drupal_realpath($new_file_array['uri']);
-        $data = array(
-          'upload_file' => TRUE,
-          'header' => '@' . $path,
-        );
-        $sync->write_user_fields($data);
-      }
-    }
+    $form['#core_user_fields'] = $sync->get_user_fields();
+    _sync_user_avatar_and_header($form, $form_state, $user, $sync);
 
     // From tpl, used in futher hook_process.
     $form['account']['mail']['#attached']['js'][] = drupal_get_path('module', 'at_user') . '/js/mail_change.js';
@@ -184,15 +181,6 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
       '#prefix' => '<div id="mail-dummy">',
       '#suffix' => '<div id="mail-edit-pencil">✎</div></div>',
     );
-    $form['personalisation'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Personalisation'),
-      '#prefix' => '<div id="personalisation">',
-      '#suffix' => '</div>',
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
-      '#attributes' => array('class' => array('collapsible', 'collapsed')),
-    );
     $form['pass_fieldset'] = array(
       '#type' => 'fieldset',
       '#title' => t('Change password'),
@@ -207,33 +195,13 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     // 'optional URL', validating & theming.
     // @see #4498
 
+    /*
     $form['basic_url'] = array(
       '#type' => 'item',
       '#title' => t('Basic URL'),
       '#markup' => 'airtribune.com/' . $user->uid,
     );
-
-    $alias_count = at_alias_get_count_of_aliases('user/' . $user->uid);
-    if ($alias_count < 2) {
-      $form['optional_url'] = array(
-        '#title' => t('Optional URL'),
-        '#attributes' => array('placeholder' => t('yourname')),
-        '#type' => 'textfield',
-        '#field_prefix' => 'airtribune.com/',
-        '#description' => t('You may set short URL, like <code>airtribune.com/yourname</code>. It only once and can’t change it.'),
-      );
-
-      $form['#validate'][] = 'at_user_optional_url_validate';
-      $form['#submit'][]   = 'at_user_optional_url_submit';
-    } else {
-      $form['optional_url'] = array(
-        '#title' => t('Optional URL'),
-        '#attributes' => array('placeholder' => t('yourname')),
-        '#type' => 'item',
-        '#markup' => 'airtribune.com/' . drupal_get_path_alias('user/' . $user->uid),
-      );
-    }
-    $form['#submit'][] = 'at_user_core_api_fields_submit';
+    */
 
     // make upload & delete (user_picture / avatar imagefield) without form_submit
     // see #2764
@@ -254,11 +222,13 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     $form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_size'] = array(0 => (1024 * 1024));
     $form['field_user_avatar'][$lang][0]['#upload_validators']['at_user_photo_ajax_upload'] = array();
 
+    /* temp disable, @see #4622 comment #7
     // if user initiate procedure of password reset, we hide main div with avatar, name, and birthday by jQuery
     // and show only password change form
-    if (!empty($_GET['pass-reset-token'])) {
+    if (!empty($_COOKIE['Drupal_visitor_pass_reset'])) {
       drupal_add_js(drupal_get_path('module', 'at_user') . '/js/pass_reset.js');
     }
+    */
 
     // see #2817
     // send mail to user on password change
@@ -267,6 +237,12 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     unset($form['account']['current_pass']);
     unset($form['account']['current_pass_required_values']);
     $form['#validate'] = array_diff($form['#validate'], array('user_validate_current_pass'));
+    $form[AIRTRIBUNE_ACCOUNT_TINY_PATH_FIELD]['#access'] = FALSE;
+    $form[AIRTRIBUNE_HEADER_IMAGE_FIELD]['#access'] = FALSE;
+    if (!empty($form[AIRTRIBUNE_USER_AVATAR_FIELD]['und'][0]['#description'])) {
+      $form[AIRTRIBUNE_USER_AVATAR_FIELD]['und'][0]['#description'] = str_replace('png gif jpg jpeg.', 'png, gif, jpg, jpeg. ', $form[AIRTRIBUNE_USER_AVATAR_FIELD]['und'][0]['#description']);
+    }
+
   }
   if ($form_id == 'user_login_block' || $form_id == 'user_login') {
     // see #2633
@@ -274,9 +250,56 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     $form['inline_errors']['#weight'] = -10;
     $form['#validate'][] = 'at_user_login_error_msg';
     $form['#validate'][] = 'at_user_login_error_redirect_to_form';
-    // Get auth token for CoreAPI, using plain password from user_login submitted form.
-    // @see #4498
-    $form['#submit'][] = 'at_user_login_get_core_api_auth_token';
+  }
+}
+
+/**
+ * Helper for at_user_form_alter
+ */
+function _sync_user_avatar_and_header(&$form, &$form_state, &$user, AtSyncUser &$sync) {
+  // If filename from Core has another hash, different with drupal file,
+  // it's means, what user change avatar/header from mobile app.
+  if (!empty($form['#core_user_fields']->header)) {
+    $core_header = $form['#core_user_fields']->header;
+    $core_filename = substr(strrchr($core_header, "/"), 1);
+    // Get files from core & drupal.
+    $core_path = at_core_sync_get_api_domain() . '/media/' . $core_header;
+    $core_file = @file_get_contents($core_path);
+    $drupal_file = @file_get_contents(drupal_realpath($user->field_header_image['und'][0]['uri']));
+    // Check differ by hash, and ignore dummy file from Core.
+    if (@md5($core_file) != @md5($drupal_file) && $core_filename != 'dummy.png') {
+      $file_temp = file_save_data($core_file, 'public://' . $core_filename, FILE_EXISTS_RENAME);
+      // Write new file to user object.
+      $user->field_header_image['und'][0] = (array) $file_temp;
+      field_attach_update('user', $user);
+      // Overload saved file to field in form, need to correct render image and preview.
+      $new_file_array = $user->field_header_image['und'][0];
+      $form['field_header_image']['und'][0]['#default_value'] = $new_file_array;
+      // Write to Core with new name.
+      $path = drupal_realpath($new_file_array['uri']);
+      $sync->upload_image(array('header' => '@' . $path));
+    }
+  }
+  if (!empty($form['#core_user_fields']->avatar) && empty($form_state['values'])) {
+    $core_avatar = $form['#core_user_fields']->avatar;
+    $core_filename = substr(strrchr($core_avatar, "/"), 1);
+    // Get files from core & drupal.
+    $core_path = at_core_sync_get_api_domain() . '/media/' . $core_avatar;
+    $core_file = @file_get_contents($core_path);
+    $drupal_file = @file_get_contents(drupal_realpath($user->field_user_avatar['und'][0]['uri']));
+    // Check differ by hash, and ignore dummy file from Core.
+    if (@md5($core_file) != @md5($drupal_file) && $core_filename != 'dummy.png') {
+      $file_temp = file_save_data($core_file, 'public://' . $core_filename, FILE_EXISTS_RENAME);
+      // Write new file to user object.
+      $user->field_user_avatar['und'][0] = (array) $file_temp;
+      field_attach_update('user', $user);
+      // Overload saved file to field in form, need to correct render image and preview.
+      $new_file_array = $user->field_user_avatar['und'][0];
+      $form['field_user_avatar']['und'][0]['#default_value'] = $new_file_array;
+      // Write to Core with new name.
+      $path = drupal_realpath($new_file_array['uri']);
+      $sync->upload_image(array('avatar' => '@' . $path));
+    }
   }
 }
 
@@ -303,6 +326,9 @@ function at_user_photo_ajax_remove(&$form, $form_state, $form_id) {
     // empty fields & save user data
     $edit['picture'] = NULL;
     $edit['field_user_avatar'] = NULL;
+
+    // Load full user entity to prevent removal of header image when avatar is deleted (see #4498#note-29).
+    $user = user_load($user->uid);
     $saved_user = user_save($user, $edit);
   }
 }
@@ -363,7 +389,7 @@ function at_user_photo_ajax_upload(stdClass $file) {
       'filesize' => $res->filesize,
       'timestamp' => $res->timestamp,
     );
-    $saved_user = user_save($account, $edit);
+    user_save($account, $edit);
   }
 
   // it's form upload validator, so we need return empty array to avoid errors
@@ -371,27 +397,26 @@ function at_user_photo_ajax_upload(stdClass $file) {
 }
 
 function at_user_notify_user_at_password_change(&$form, $form_state) {
-  // load user by form, becose password can be changed by admin / editor
+  // Load user by form, because password can be changed by admin / editor,
   // so we need uid & mail for changed user
-  $user = $form_state['user'];
+  $account = $form_state['user'];
   // check for changes
   if (!empty($form_state['input']['pass']['pass1'])) {
-    $name = $form_state['profiles']['main']->field_full_name['und']['0']['safe'];
-    $fullname = $name['given'] . ' ' . $name['family'];
-    drupal_mail('system', 'mail', $user->mail, user_preferred_language($user),
+    drupal_mail('system', 'mail', $account->mail, user_preferred_language($account),
       array(
         'context' => array(
           'subject' => t(AT_MSG_EMAIL_SUBJ_USER_PASSWORD_CHANGE),
-          'message' => t(AT_MSG_EMAIL_BODY_USER_PASSWORD_CHANGE . AT_MSG_EMAIL_BODY_SIGNATURE, array('@fullname' => $fullname))
+          'message' => t(AT_MSG_EMAIL_BODY_USER_PASSWORD_CHANGE . AT_MSG_EMAIL_BODY_SIGNATURE, array('@fullname' => get_full_name($account)))
         )
       )
     );
-  }
-  // manual redirect to user/edit page, to avoid '/edit?pass-reset-token=' in URI
-  // if this token exists in URI, we hide with jQuery all, except password fields
-  // see form_alter / user_profile_form
-  if (!empty($_GET['pass-reset-token'])) {
-    drupal_goto('user/' . $user->uid . '/edit');
+    // Change user password in Core, and auth again, to get new token & store it in cookie.
+    $password = $form_state['values']['pass'];
+    $account_sync = _get_class_by_entity('user', $account);
+    $account_sync->reset_password($password);
+    user_cookie_delete('pass_reset');
+    _at_change_password_without_user_save($account, $password);
+    at_core_auth_authenticate($account->mail, $password);
   }
 }
 
@@ -455,44 +480,6 @@ function at_user_login_error_redirect_to_form($form, &$form_state) {
   }
 }
 
-/**
- * Get auth token for CoreAPI, using plain password from user_login submitted form.
- * @see #4498
- */
-function at_user_login_get_core_api_auth_token(&$form, &$form_state) {
-  $user = user_load($form_state['uid']);
-  $sync = _get_class_by_entity('user', $user);
-  $token = $sync->get_auth_token($user->mail, $form_state['values']['pass']);
-  user_cookie_save(array("auth_token_{$user->uid}" => $token));
-}
-
-function at_user_core_api_fields_submit(&$form, &$form_state) {
-  $sync = $form['#sync'];
-  $social = $form_state['values']['field_social_links']['und'];
-  $data = array(
-    'facebook_url' => $social[0]['url'],
-    'googleplus_url' => $social[1]['url'],
-    'youtube_url' => $social[2]['url'],
-    'vimeo_url' => $social[3]['url'],
-    'instagram_url' => $social[4]['url'],
-  );
-  $sync->write_user_fields($data);
-
-  // If posted file fid not equal already saved if user object, it's mean, what user upload new file.
-  $old_fid = !empty($sync->entity->field_header_image['und']) ? $sync->entity->field_header_image['und'][0]['fid'] : 0;
-  $posted_fid = $form_state['values']['field_header_image']['und'][0]['fid'];
-  if ($old_fid != $posted_fid) {
-    $file = file_load($posted_fid);
-    $path = drupal_realpath($file->uri);
-    $data = array(
-      'upload_file' => TRUE,
-      'header' => '@' . $path,
-    );
-    $sync->write_user_fields($data);
-  }
-}
-
-
 function at_user_process_panels_pane(&$vars, $hook) {
   $pane = $vars['pane'];
   if ($pane->subtype == 'form' && $pane->css['template_suggestion'] == 'user-edit-form') {
@@ -547,34 +534,7 @@ function at_user_process_panels_pane(&$vars, $hook) {
     $form['pass_fieldset']['current_pass'] = $form['account']['current_pass'];
     $form['pass_fieldset']['pass']         = $form['account']['pass'];
     hide($form['account']['pass']);
-
-    // Personalisation.
-    $socials = array('Facebook', 'GooglePlus', 'Youtube', 'Vimeo', 'Instagram');
-    $soc_links = &$form['field_social_links']['und'];
-    foreach (array_keys($soc_links) as $element) {
-      // [und][0], [und][1], ...
-      if (is_int($element)) {
-        // Add placeholder & class to social links field
-        $form['field_social_links']['und'][$element]['url']['#class'] = array($socials[$element]);
-        $form['field_social_links']['und'][$element]['url']['#attributes']['placeholder'] = $socials[$element];
-        // Override Drupal field value, to the value obtained from the CoreAPI.
-        if (isset($form['#core_user_fields']->facebook_url)) {
-          $soc_name = strtolower($socials[$element]) . '_url';
-          $form['field_social_links']['und'][$element]['url']['#value'] = $form['#core_user_fields']->$soc_name;
-        }
-      }
-    }
-    $form['field_header_image']['und'][0]['select']['#title'] = t('Add image');
-    $form['field_header_image']['und'][0]['remove']['#title'] = t('Delete');
-
-    $form['personalisation']['basic_url'] = $form['basic_url'];
-    $form['personalisation']['optional_url'] = $form['optional_url'];
-    $form['personalisation']['field_header_image'] = $form['field_header_image'];
-    $form['personalisation']['field_social_links'] = $form['field_social_links'];
-    unset($form['basic_url']);
-    unset($form['optional_url']);
-    unset($form['field_header_image']);
-    unset($form['field_social_links']);
+    hide($form['field_social_links']);
   }
 }
 
@@ -584,6 +544,7 @@ function at_user_process_panels_pane(&$vars, $hook) {
  */
 function at_user_registrationpassword_confirm_account($form, &$form_state, $uid, $timestamp, $hashed_pass) {
   global $user;
+  $timestamp = (int) $timestamp;
   // When processing the one-time login link, we have to make sure that a user
   // isn't already logged in.
   if ($user->uid) {
@@ -616,9 +577,8 @@ function at_user_registrationpassword_confirm_account($form, &$form_state, $uid,
     // Time out, in seconds, until login URL expires. 24 hours = 86400 seconds.
     $timeout = 86400;
     $current = REQUEST_TIME;
-    // Some redundant checks for extra security ?
-    $users = user_load_multiple(array($uid), array('status' => '0'));
-    if ($timestamp <= $current && $account = reset($users)) {
+    $account = user_load($uid);
+    if ($timestamp <= $current && $account->status == '0') {
       // No time out for first time login.
       if ($account->login && $current - $timestamp > $timeout) {
         drupal_set_message(t('You have tried to use a one-time login link that has expired. Please request a new one using the form below.'));
@@ -631,11 +591,17 @@ function at_user_registrationpassword_confirm_account($form, &$form_state, $uid,
         ));
         // Activate the user.
         $account = user_save($account, array('status' => 1));
+        // Temporary disable log-in user by one-time login link.
+        // We need login/pass to get auth-token from CoreApi, so user must login
+        // manually, by entering password to login form.
+        // @see #4622 comment 4
+/*
         // Set the new user.
         $user = $account;
         // user_login_finalize() also updates the login timestamp of the
         // user, which invalidates further use of the one-time login link.
         user_login_finalize();
+*/
         drupal_set_message(t('You have just used your one-time login link. Your account is now active.'));
         // AIRTRIBUNE SECTION
         // we must know, at which event pilot registered
@@ -689,6 +655,12 @@ function at_user_registrationpassword_confirm_account($form, &$form_state, $uid,
         drupal_set_message(t('You have tried to use a one-time login link that has either been used or is no longer valid. Please request a new one using the form below.'));
         drupal_goto('user/password');
       }
+    }
+    elseif ($timestamp <= $current && $account->status == '1') {
+      $user = $account;
+      user_login_finalize();
+      user_cookie_save(array('pass_reset' => $user->uid));
+      drupal_goto('user/' . $user->uid . '/edit');
     }
     else {
       // Deny access, no more clues.

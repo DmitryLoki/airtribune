@@ -1,0 +1,123 @@
+<?php
+/**
+ * @file clients_at_core.module
+ * Provides connection types for Clients module that connect to AirTribune CoreAPI.
+ */
+
+function clients_at_core_entity_load(&$entities, $type) {
+  if ($type == 'profile2') {
+    foreach ($entities as $entity) {
+      if ($entity->type == 'main') {
+        check_core_and_remote_id($entity);
+        if ($remote = remote_entity_load_remote($type, $entity->remote_id)) {
+//          $wrapper = entity_metadata_wrapper('profile2', $entity);
+//          foreach ($wrapper->getPropertyInfo() as $key => $val) {
+//            $current_value = $wrapper->$key->value();
+//            $remote_value = $remote->$key;
+//            if ($current_value != $remote_value) {
+//              $x=1;
+//            }
+//          }
+          _remote_to_profile($remote, $entity);
+        }
+      }
+    }
+  }
+}
+
+function clients_at_core_entity_insert($entity, $type) {
+  clients_at_core_entity_update($entity, $type);
+}
+
+function clients_at_core_entity_update($entity, $type) {
+  if ($type == 'profile2') {
+    return;
+    if ($entity->type == 'main' && !$entity->already_saved) {
+      check_core_and_remote_id($entity);
+      $entity->already_saved = TRUE;
+      remote_entity_save($type, $entity);
+    }
+  }
+}
+
+function check_core_and_remote_id(Profile &$entity) {
+  $user = user_load($entity->uid);
+  $entity->remote_id = get_core_id_from_entity('user', $user);
+}
+/**
+ * Implements hook_clients_connection_type_info().
+ */
+function clients_at_core_clients_connection_type_info() {
+  return array(
+    'drupal_rest_at_core' => array(
+      'label'  => t('Drupal AT Core API'),
+      'description' => t('Connects to AirTribune Core API with REST endpoints.'),
+      'tests' => array(
+        'user_retrieve' => 'ClientsConnectionCoreGetUser',
+        'users_retrieve' => 'ClientsConnectionCoreGetAllUsers',
+        'user_token' => 'ClientsConnectionCoreGetUserToken',
+        'sponsor_create' => 'ClientsConnectionATCoreCreateSponsor',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_clients_default_connections().
+ */
+function clients_at_core_clients_default_connections() {
+  $items = array();
+  $items['at_core_connection'] = entity_import('clients_connection', '{
+    "name" : "at_core_connection",
+    "endpoint" : "http://apidev.airtribune.com/v0.3/",
+    "configuration" : {},
+    "label" : "AT Core Connection",
+    "type" : "drupal_rest_at_core",
+    "rdf_mapping" : []
+  }');
+  return $items;
+}
+
+/**
+ * Implements hook_clients_default_resources().
+ */
+function clients_at_core_clients_default_resources() {
+  // Declare a remote entity resource for our entity type.
+  // This identifies the entity type and the connection it uses.
+  $items = array();
+  $items['profile_remote'] = entity_import('clients_resource', '{
+    "component" : "profile2",
+    "connection" : "at_core_connection",
+    "name" : "profile_remote",
+    "label" : "Profile Remote",
+    "type" : "remote_entity",
+    "configuration" : null,
+    "rdf_mapping" : []
+  }');
+  return $items;
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ *
+ * Alter profile2 entity, add stuff, related to Remote Entity.
+ */
+function clients_at_core_entity_info_alter(&$entity_info) {
+  $profile_remote_additional = array(
+    // Remote Entity API properties.
+    'remote base table' => 'profile',
+    'property map' => array(),
+    'remote entity keys' => array(
+      // Map the key on the local entity to properties on the remote entity
+      // which will be saved into the entity blob when saved to the local
+      // database.
+      'remote id' => 'remote_id',
+    ),
+    // 'remote entity unpack callback' => 'clients_at_core_unpack_callback',
+  );
+
+  // Change the controller class, base table, and other stuff.
+  $entity_info['profile2']['controller class'] = 'RemoteEntityAPIDefaultController';
+  $entity_info['profile2']['metadata controller class'] = 'RemoteProfileMetadataController';
+  $entity_info['profile2'] += $profile_remote_additional;
+}

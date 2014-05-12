@@ -103,6 +103,8 @@ define('AIRTRIBUNE_COUNTRY_ISO2_FIELD', 'field_country_iso2');
 define('AIRTRIBUNE_TEAM_MEMBER_FIELD', 'field_team_member');
 define('AIRTRIBUNE_USERS_REF_FIELD', 'field_users_ref');
 define('AIRTRIBUNE_ACCOUNT_TINY_PATH_FIELD', 'field_account_tiny_path');
+define('AIRTRIBUNE_HEADER_IMAGE_FIELD', 'field_header_image');
+define('AIRTRIBUNE_USER_AVATAR_FIELD', 'field_user_avatar');
 
 define('AIRTRIBUNE_SINGLE_DOWNLOAD_FIELD', 'field_single_download');
 
@@ -127,3 +129,5 @@ define('VIEWS_EVENTS_LIST_PAST', 'page_events_past');
 define('AT_VIEWS_TABS_CACHE_CID', 'at_views_tabs');
 
 define('PG_RACE_NO_TRACKS_TEXT',"We haven't got any data from pilots' live trackers yet. Please, try again later."); //
+
+define('AT_SESSION_VAR_KEY', 'airtribune');

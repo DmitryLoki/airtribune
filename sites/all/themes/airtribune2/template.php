@@ -640,7 +640,7 @@ function airtribune2_menu_tree__menu_service_rules(&$vars) {
  * Implements hook_form_alter().
  */
 function airtribune2_form_alter(&$form, $form_state, $form_id) {
-  $form_id_ar = array('og_ui_confirm_subscribe', 'user_register_form', 'user_login', 'user_pass', 'user_profile_form', 'profile2_edit_pilot_form', 'airtribune_event_settings_form', 'at_reg_team_form', /*'views_form_paragliding_pilots_list_manage'*/);
+  $form_id_ar = array('og_ui_confirm_subscribe', 'user_register_form', 'user_login', 'user_pass', 'user_profile_form', 'profile2_edit_pilot_form', 'airtribune_event_settings_form', 'at_reg_team_form', 'at_user_person_form', /*'views_form_paragliding_pilots_list_manage'*/);
   if (in_array($form_id, $form_id_ar)) {
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.mousewheel.min.js';
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.jscrollpane.min.js';
@@ -650,9 +650,9 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
     case 'user_login_block':
 
-      $form['name']['#attributes']['rel'] = t('Enter your e-mail');
+      $form['name']['#attributes']['rel'] = t('Email');
       unset($form['name']['#title']);
-      $form['pass']['#attributes']['rel'] = t('Enter your password');
+      $form['pass']['#attributes']['rel'] = t('Password');
       unset($form['pass']['#title']);
       $form['actions']['submit']['#value'] = t('Go');
       $form['actions']['#weight'] = 89;

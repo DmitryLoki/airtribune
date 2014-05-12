@@ -48,7 +48,7 @@ function user_feature_field_default_fields() {
       'bundle' => 'user',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => '',
+      'description' => 'You may set it only once and can\'t change it.',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -148,8 +148,7 @@ function user_feature_field_default_fields() {
       'bundle' => 'user',
       'default_value' => array(),
       'deleted' => '0',
-      'description' => 'Jpeg, png, gif.<br/>
-Size: not less than 940x380.',
+      'description' => '',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -175,13 +174,13 @@ Size: not less than 940x380.',
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'filefield_paths' => array(
-          'active_updating' => 0,
+          'active_updating' => 1,
           'file_name' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '[file:fid].[file:ffp-extension-original]',
+            'value' => '[file:fid].[file:extension]',
           ),
           'file_path' => array(
             'options' => array(
@@ -397,7 +396,7 @@ Size: not less than 940x380.',
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '[user:uid]-[user:name].[file:ffp-extension-original]',
+            'value' => '[file:fid].[file:extension]',
           ),
           'file_path' => array(
             'options' => array(
@@ -529,10 +528,9 @@ Size: not less than 940x380.',
   // Translatables
   // Included for use with string extractors like potx.
   t('Header image');
-  t('Jpeg, png, gif.<br/>
-Size: not less than 940x380.');
   t('Optional URL');
   t('Social links');
+  t('You may set it only once and can\'t change it.');
   t('Your photo');
 
   return $fields;
