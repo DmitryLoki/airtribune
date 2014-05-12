@@ -326,6 +326,9 @@ function at_user_photo_ajax_remove(&$form, $form_state, $form_id) {
     // empty fields & save user data
     $edit['picture'] = NULL;
     $edit['field_user_avatar'] = NULL;
+
+    // Load full user entity to prevent removal of header image when avatar is deleted (see #4498#note-29).
+    $user = user_load($user->uid);
     $saved_user = user_save($user, $edit);
   }
 }
