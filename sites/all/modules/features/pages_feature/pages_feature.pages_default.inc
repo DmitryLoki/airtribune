@@ -835,7 +835,8 @@ user/*/person',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '0',
-            'paths' => 'user/*/person',
+            'paths' => 'user/*/person
+user/*/edit',
           ),
           'context' => 'argument_string_1',
           'not' => FALSE,
@@ -871,7 +872,8 @@ user/*/person',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '1',
-            'paths' => 'user/*/person',
+            'paths' => 'user/*/person
+user/*/edit',
           ),
           'context' => 'argument_string_1',
           'not' => FALSE,
