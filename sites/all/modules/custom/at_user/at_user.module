@@ -289,7 +289,7 @@ function _sync_user_avatar_and_header(&$form, &$form_state, &$user, AtSyncUser &
     $drupal_file = @file_get_contents(drupal_realpath($user->field_user_avatar['und'][0]['uri']));
     // Check differ by hash, and ignore dummy file from Core.
     if (@md5($core_file) != @md5($drupal_file) && $core_filename != 'dummy.png') {
-      $file_temp = file_save_data($file_temp, 'public://' . $core_filename, FILE_EXISTS_RENAME);
+      $file_temp = file_save_data($core_file, 'public://' . $core_filename, FILE_EXISTS_RENAME);
       // Write new file to user object.
       $user->field_user_avatar['und'][0] = (array) $file_temp;
       field_attach_update('user', $user);
