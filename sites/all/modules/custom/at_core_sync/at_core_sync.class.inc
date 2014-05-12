@@ -594,7 +594,10 @@ class ATSyncUser extends ATSync {
       $old_fid = !empty($old['fid']) ? $old['fid'] : NULL;
       if ($new_fid != $old_fid) {
         if ($path = drupal_realpath($new['uri'])) {
-          $this->upload_image(array('avatar' => '@' . $path));
+          $result = $this->upload_image(array('avatar' => '@' . $path));
+          if (empty($result->id)) {
+            drupal_set_message($result->avatar[0]);
+          }
         }
       }
       $new = $account_wrapper->field_header_image->value();
@@ -603,7 +606,10 @@ class ATSyncUser extends ATSync {
       $old_fid = !empty($old['fid']) ? $old['fid'] : NULL;
       if ($new_fid != $old_fid) {
         if ($path = drupal_realpath($new['uri'])) {
-          $this->upload_image(array('header' => '@' . $path));
+          $result = $this->upload_image(array('header' => '@' . $path));
+          if (empty($result->id)) {
+            drupal_set_message($result->header[0]);
+          }
         }
       }
     }
