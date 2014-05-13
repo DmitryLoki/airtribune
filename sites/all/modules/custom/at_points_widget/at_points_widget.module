@@ -283,7 +283,8 @@ function at_points_widget_create_files($nid) {
       ->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', $nid)
       ->execute();
   $points = array_keys($result['ent_contest_point']);
-  $contest_wrapper = entity_metadata_wrapper('node', $nid); 
+  $node = node_load($nid);
+  $contest_wrapper = entity_metadata_wrapper('node', $node);
   $contest_files = $contest_wrapper->field_points_file->value();
   $format_classes = array();
   foreach ($contest_files as $contest_file) {
@@ -355,5 +356,6 @@ function at_points_widget_create_files($nid) {
     }
     $contest_wrapper->field_points_file->set($array);
   }
+  $node->path['alias'] = drupal_get_path_alias('event/' . $node->nid);
   $contest_wrapper->save();
 }
