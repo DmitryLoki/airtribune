@@ -1263,6 +1263,10 @@ function airtribune2_theme() {
       'render element' => 'form',
       'template' => 'templates/contest-registration-authorized',
     ),
+    'at_user_person_form' => array(
+      'render element' => 'form',
+      'template' => 'templates/at-user-person-form',
+    ),
   );
 }
 
