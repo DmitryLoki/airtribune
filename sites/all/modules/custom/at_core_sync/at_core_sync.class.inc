@@ -393,10 +393,15 @@ class ATSyncTrackedObject extends ATSyncNestedInContest {
 
 class ATSyncUserProfile extends ATSync {
   public function __construct($entity_type, $entity) {
-    $account = user_load($entity->uid);
+    $account = user_load($entity->uid, TRUE);
     $sync = _get_class_by_entity('user', $account);
     $data = _query_object_to_array('profile2', $entity);
-    $sync->update_user($data, TRUE);
+    if ($core_id = $sync->check_exist($account->mail)) {
+      return $sync->update_user($data, TRUE);
+    }
+    else {
+      return $sync->create_user($data);
+    }
   }
 
   public function synchronize() {
